@@ -1,0 +1,53 @@
+@layer base {
+  :root {
+    --color-background-50: #F7F9FC;
+    --color-background-100: #EBEFF5;
+    --color-background-200: #C1CAD7;
+    --color-background-300: linear-gradient(314deg, #EBEFF5 2.19%, #F0F4F7 100%);
+
+    --color-typography-50: rgba(131, 150, 177, 1);
+    --color-typography-100: rgba(94, 118, 153, 1);
+    --color-typography-200: rgba(8, 45, 99, 1);
+
+    --color-primary-50: rgba(40, 104, 225, 1);
+    --color-primary-100: rgba(36, 93, 199, 1);
+    --color-primary-200: rgba(31, 81, 173, 1);
+
+    --color-danger-50: rgba(228, 41, 41, 0.15);
+    --color-danger-100: rgba(228, 41, 41, 1);
+
+    --color-success-50: rgba(80, 227, 165, 0.15);
+    --color-success-100: rgba(26, 177, 113, 1);
+
+    --color-warning-50: rgba(255, 215, 130, 0.4);
+    --color-warning-100: rgba(255, 185, 34, 1);
+
+    --color-brand-accent: rgba(255, 86, 46, 1);
+
+    &:not([class~="light"]) {
+      @media (prefers-color-scheme: dark) {
+        --color-background-50: rgba(20, 34, 55, 1);
+        --color-background-100: rgba(43, 56, 75, 1);
+        --color-background-200: rgba(7, 22, 44, 1);
+
+        --color-typography-200: rgba(255, 255, 255, 1);
+
+        --color-primary-50: rgba(255, 86, 46, 1);
+        --color-primary-100: rgba(223, 76, 41, 1);
+        --color-primary-200: rgba(185, 68, 40, 1);
+      }
+    }
+  }
+
+  :root[class~="dark"], {
+    --color-background-50: rgba(20, 34, 55, 1);
+    --color-background-100: rgba(43, 56, 75, 1);
+    --color-background-200: rgba(7, 22, 44, 1);
+
+    --color-typography-200: rgba(255, 255, 255, 1);
+
+    --color-primary-50: rgba(255, 86, 46, 1);
+    --color-primary-100: rgba(223, 76, 41, 1);
+    --color-primary-200: rgba(185, 68, 40, 1);
+  }
+}

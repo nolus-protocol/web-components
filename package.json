@@ -2,9 +2,21 @@
   "name": "web-components",
   "version": "0.0.0",
   "private": true,
+  "files": [
+    "dist",
+    "src"
+  ],
   "type": "module",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": "./dist/index.js",
+    "./package.json": "./package.json"
+  },
   "scripts": {
     "dev": "vite",
+    "rollup": "rollup -c",
     "build": "run-p type-check \"build-only {@}\" --",
     "preview": "vite preview",
     "build-only": "vite build",
@@ -12,26 +24,35 @@
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
     "format": "prettier --write src/",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "storybook-docs": "storybook --docs --no-manager-cache",
+    "build-storybook": "storybook build -o ./dist",
+    "build-storybook-docs": "storybook build --docs"
   },
   "dependencies": {
+    "sass": "^1.70.0",
     "vue": "^3.4.15",
-    "vue-router": "^4.2.5",
-    "sass": "^1.70.0"
+    "vue-router": "^4.2.5"
   },
   "devDependencies": {
+    "@rollup/plugin-commonjs": "^25.0.7",
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "@rollup/plugin-typescript": "^11.1.6",
     "@rushstack/eslint-patch": "^1.3.3",
     "@storybook/addon-essentials": "^7.6.17",
     "@storybook/addon-interactions": "^7.6.17",
     "@storybook/addon-links": "^7.6.17",
+    "@storybook/addon-postcss": "^2.0.0",
     "@storybook/addon-styling": "^2.0.0",
+    "@storybook/addon-themes": "^7.6.17",
     "@storybook/blocks": "^7.6.17",
+    "@storybook/manager-api": "^7.6.17",
     "@storybook/test": "^7.6.17",
     "@storybook/vue3": "^7.6.17",
     "@storybook/vue3-vite": "^7.6.17",
     "@tsconfig/node20": "^20.1.2",
     "@types/node": "^20.11.10",
     "@vitejs/plugin-vue": "^5.0.3",
+    "@vitejs/plugin-vue-jsx": "^3.1.0",
     "@vue/eslint-config-prettier": "^8.0.0",
     "@vue/eslint-config-typescript": "^12.0.0",
     "@vue/tsconfig": "^0.5.1",
@@ -44,6 +65,10 @@
     "prettier": "^3.0.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "rollup": "^4.12.0",
+    "rollup-plugin-dts": "^6.1.0",
+    "rollup-plugin-postcss": "^4.0.2",
+    "rollup-plugin-vue": "^6.0.0",
     "storybook": "^7.6.17",
     "tailwindcss": "^3.4.1",
     "typescript": "~5.3.0",
