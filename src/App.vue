@@ -1,10 +1,10 @@
-<script setup lang="ts">
-import Button from './components/atoms/test-button/Button.vue';
-</script>
-
 <template>
-  <Button label="test"/>
+  <Button label="test" />
 </template>
+
+<script lang="ts" setup>
+import Button from './components/atoms/button/Button.vue'
+</script>
 
 <style scoped>
 </style>

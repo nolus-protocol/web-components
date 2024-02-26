@@ -1,5 +1,5 @@
 <template>
-  <button :class="classes" :style="style" class="text-primary-50" type="button" @click="onClick">{{ label }} </button>
+  <button :class="classes" :style="style" class="bg-primary-50 text-white" type="button" @click="onClick">{{ label }} </button>
 </template>
 
 <script lang="ts" setup>
