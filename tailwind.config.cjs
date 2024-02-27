@@ -5,7 +5,6 @@ export default {
     './src/**/*.{js,ts,jsx,tsx,vue}'
   ],
   darkMode: ['selector'],
-  // ]],
   theme: {
     extend: {
       colors: {
@@ -136,7 +135,17 @@ export default {
       '6xl': ['3.75rem', { lineHeight: '1' }],
       '7xl': ['4.5rem', { lineHeight: '1' }],
       '8xl': ['6rem', { lineHeight: '1' }],
-      '9xl': ['8rem', { lineHeight: '1' }]
+      '9xl': ['8rem', { lineHeight: '1' }],
+      10: ["10px", "14px"],
+      12: ["12px", "normal"],
+      14: ["14px", "20px"],
+      16: ["16px", "23px"],
+      18: ["18px", "26px"],
+      20: ["20px", "29px"],
+      28: ["28px", "46px"],
+      32: ["32px", "46px"],
+      40: ["40px", "58px"],
+      48: ["48px", "70px"]
     },
     backgroundImage: {
       'white-noise': 'url(\'../assets/images/white-noise.png\')'

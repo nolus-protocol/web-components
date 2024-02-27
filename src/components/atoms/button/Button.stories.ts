@@ -7,6 +7,7 @@ const meta = {
   component: Button,
   argTypes: {
     size: { control: "select", options: ["small", "medium", "large"] },
+    iconPosition: { control: "select", options: ["left", "right"] },
     onClick: { action: "clicked" },
   },
   args: {
@@ -27,16 +28,17 @@ export const Primary: Story = {
   },
 };
 
-export const Secondary: Story = {
+export const Outlined: Story = {
   args: {
     label: "Button",
+    outlined: true,
   },
 };
 
-export const Large: Story = {
+export const Medium: Story = {
   args: {
     label: "Button",
-    size: "large",
+    size: "medium",
   },
 };
 
@@ -44,5 +46,13 @@ export const Small: Story = {
   args: {
     label: "Button",
     size: "small",
+  },
+};
+
+export const WithIcon: Story = {
+  args: {
+    label: "Button",
+    icon: "icon-hub",
+    iconPosition: "left",
   },
 };
