@@ -101,6 +101,7 @@ export default {
         },
         primary: {
           50: 'var(--color-primary-50)',
+          "50/10": "#2868e11a",
           100: 'var(--color-primary-100)',
           200: 'var(--color-primary-200)'
         },
@@ -116,7 +117,8 @@ export default {
           50: 'var(--color-warning-50)',
           100: 'var(--color-warning-100)'
         },
-        accent: "var(--color-brand-accent)"
+        accent: "var(--color-brand-accent)",
+        "border-color": "var(--border-color)",
       }
     },
     fontFamily: {

@@ -5,41 +5,47 @@
     --color-background-200: #C1CAD7;
     --color-background-300: linear-gradient(314deg, #EBEFF5 2.19%, #F0F4F7 100%);
 
-    --color-typography-50: rgba(131, 150, 177, 1);
-    --color-typography-100: rgba(94, 118, 153, 1);
-    --color-typography-200: rgba(8, 45, 99, 1);
+    --color-typography-50: #8396B1;
+    --color-typography-100: #5E7699;
+    --color-typography-200: #082D63;
 
-    --color-primary-50: rgba(40, 104, 225, 1);
-    --color-primary-100: rgba(36, 93, 199, 1);
-    --color-primary-200: rgba(31, 81, 173, 1);
+    --color-primary-50: #2868E1;
+    --color-primary-100: #245DC7;
+    --color-primary-200: #1F51AD;
 
-    --color-danger-50: rgba(228, 41, 41, 0.15);
-    --color-danger-100: rgba(228, 41, 41, 1);
+    --color-danger-50: #E4292926;
+    --color-danger-100: #E42929;
 
-    --color-success-50: rgba(80, 227, 165, 0.15);
-    --color-success-100: rgba(26, 177, 113, 1);
+    --color-success-50: #50E3A526;
+    --color-success-100: #1AB171;
 
-    --color-warning-50: rgba(255, 215, 130, 0.4);
-    --color-warning-100: rgba(255, 185, 34, 1);
+    --color-warning-50: #FFD78266;
+    --color-warning-100: #FFB922;
 
-    --color-brand-accent: rgba(255, 86, 46, 1);
+    --color-brand-accent: #FF562E;
 
-    &:not([class~="light"]) {
-      @media (prefers-color-scheme: dark) {
-        --color-background-50: rgba(20, 34, 55, 1);
-        --color-background-100: rgba(43, 56, 75, 1);
-        --color-background-200: rgba(7, 22, 44, 1);
+    --border-color: #C1CAD7;
+  }
 
-        //--color-typography-200: rgba(255, 255, 255, 1);
-      }
+  :root[class~="sync"] {
+    @media (prefers-color-scheme: dark) {
+      --color-background-50: #142237;
+      --color-background-100: #2B384B;
+      --color-background-200: #07162C;
+
+      --color-typography-200: #FFFFFF;
+
+      --border-color: #2B384B;
     }
   }
 
   :root[class~="dark"], {
-    --color-background-50: rgba(20, 34, 55, 1);
-    --color-background-100: rgba(43, 56, 75, 1);
-    --color-background-200: rgba(7, 22, 44, 1);
+    --color-background-50: #142237;
+    --color-background-100: #2B384B;
+    --color-background-200: #07162C;
 
-    //--color-typography-200: rgba(255, 255, 255, 1);
+    --color-typography-200: #FFFFFF;
+
+    --border-color: #2B384B;
   }
 }

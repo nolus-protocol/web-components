@@ -4,8 +4,10 @@ import Button from './Button.vue'
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories
 const meta = {
+  title: "Components/Atoms/Button",
   component: Button,
   argTypes: {
+    severity: { control: "select", options: ["primary", "secondary"] },
     size: { control: "select", options: ["small", "medium", "large"] },
     iconPosition: { control: "select", options: ["left", "right"] },
     onClick: { action: "clicked" },
@@ -24,35 +26,47 @@ type Story = StoryObj<typeof meta>;
  */
 export const Primary: Story = {
   args: {
-    label: "Button",
+    severity: "primary",
   },
 };
 
-export const Outlined: Story = {
+export const Secondary: Story = {
   args: {
-    label: "Button",
-    outlined: true,
+    severity: "secondary",
   },
 };
 
 export const Medium: Story = {
   args: {
-    label: "Button",
     size: "medium",
   },
 };
 
 export const Small: Story = {
   args: {
-    label: "Button",
     size: "small",
   },
 };
 
 export const WithIcon: Story = {
   args: {
-    label: "Button",
+    ...Primary.args,
     icon: "icon-hub",
     iconPosition: "left",
   },
+};
+
+export const Loading: Story = {
+  args: {
+    ...Primary.args,
+    severity: "primary",
+    loading: true,
+  }
+};
+
+export const Disabled: Story = {
+  args: {
+    ...Primary.args,
+    disabled: true,
+  }
 };

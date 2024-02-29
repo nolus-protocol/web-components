@@ -1,29 +1,19 @@
 <template>
-  <button :class="classes" :style="style" class="" type="button" @click="onClick">
-    <template v-if="loading">
-      <span class="spinner" />
-    </template>
-    <template v-else>
-      <span v-if="icon && iconPosition === 'left'" :class="[icon]" class="icon" />
-      {{label}}
-      <span v-if="icon && iconPosition === 'right'" :class="[icon]" class="icon" />
-    </template>
+  <button :class="classes" :disabled="disabled" :style="style"
+          type="button" @click="onClick">
+    <span v-if="icon && iconPosition === 'left'" :class="[icon]" class="icon" />
+    {{ label }}
+    <span v-if="icon && iconPosition === 'right'" :class="[icon]" class="icon" />
+    <span v-if="loading" class="absolute mx-auto my-0">
+        <Spinner :severity="severity" />
+      </span>
   </button>
 </template>
 
 <script lang="ts" setup>
 import { computed } from 'vue'
-
-enum Size {
-  small = 'small',
-  medium = 'medium',
-  large = 'large',
-}
-
-enum Type {
-  primary = 'primary',
-  secondary = 'secondary'
-}
+import Spinner from '../spinner/Spinner.vue'
+import { Size, Type } from '@/utils/types'
 
 export type ButtonSize = keyof typeof Size;
 export type ButtonType = keyof typeof Type;
@@ -36,34 +26,35 @@ export interface ButtonProps {
   icon?: string;
   iconPosition?: 'left' | 'right';
   loading?: boolean;
+  disabled?: boolean;
 }
 
 const props = withDefaults(defineProps<ButtonProps>(), {
   label: 'Button',
   size: Size.large,
-  severity: Type.primary,
-});
+  severity: Type.primary
+})
 
 const emit = defineEmits<{
   (e: 'click', id: number): void;
-}>();
+}>()
 
 const classes = computed(() => ({
-  'bg-primary-50 text-white hover:bg-primary-100 active:bg-primary-200': props.severity === Type.primary,
+  'button button-primary': props.severity === Type.primary,
+  'button button-secondary': props.severity === Type.secondary,
 
   'px-3 py-1 rounded text-12': props.size === Size.small,
   'px-3 py-2 rounded-md text-14': props.size === Size.medium,
   'px-6 py-3 rounded-lg text-14': props.size === Size.large,
 
-  'bg-white border-[1px] border-neutral-200 !text-neutral-typography-200 hover:!bg-neutral-50 hover:!border-neutral-400': props.outlined,
-  '': props.loading,
-}));
+  'button-primary-loading': props.severity === Type.primary && props.loading,
+  'button-secondary-loading': props.severity === Type.secondary && props.loading
+}))
 
-const style = computed(() => ({
-}));
+const style = computed(() => ({}))
 
 const onClick = () => {
-  emit("click", 1)
-};
+  emit('click', 1)
+}
 
 </script>
