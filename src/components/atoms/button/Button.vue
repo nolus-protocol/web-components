@@ -1,5 +1,5 @@
 <template>
-  <button :class="classes" :disabled="disabled" :style="style"
+  <button :class="['font-medium', classes]" :disabled="disabled" :style="style"
           type="button" @click="onClick">
     <span v-if="icon && iconPosition === 'left'" :class="[icon]" class="icon" />
     {{ label }}

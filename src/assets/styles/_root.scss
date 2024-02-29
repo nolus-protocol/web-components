@@ -25,6 +25,9 @@
     --color-brand-accent: #FF562E;
 
     --border-color: #C1CAD7;
+
+    --spinner-color: #2868E1;
+    --spinner-border-color: #C1CAD7;
   }
 
   :root[class~="sync"] {
@@ -36,6 +39,9 @@
       --color-typography-200: #FFFFFF;
 
       --border-color: #2B384B;
+
+      --spinner-color: #2868E1;
+      --spinner-border-color: #2B384B;
     }
   }
 
@@ -47,5 +53,8 @@
     --color-typography-200: #FFFFFF;
 
     --border-color: #2B384B;
+
+    --spinner-color: #2868E1;
+    --spinner-border-color: #2B384B;
   }
 }

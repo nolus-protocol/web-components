@@ -119,6 +119,10 @@ export default {
         },
         accent: "var(--color-brand-accent)",
         "border-color": "var(--border-color)",
+        spinner: {
+          color: "var(--spinner-color)",
+          "border-color": "var(--spinner-border-color)"
+        }
       }
     },
     fontFamily: {
