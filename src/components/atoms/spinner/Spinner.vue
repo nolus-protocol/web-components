@@ -19,7 +19,6 @@ import { Type } from '@/utils/types'
 export interface SpinnerProps {
   width?: string
   height?: string
-  color?: string
   severity?: keyof typeof Type
 }
 

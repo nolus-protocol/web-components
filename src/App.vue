@@ -4,8 +4,7 @@
 </template>
 
 <script lang="ts" setup>
-import Button from './components/atoms/button/Button.vue'
-import NotificationButton from '@/components/atoms/notification-button/NotificationButton.vue'
+import { Button, NotificationButton } from './index'
 </script>
 
 <style scoped>

@@ -6,8 +6,7 @@ import Spinner from './Spinner.vue'
 const meta = {
   title: "Components/Atoms/Spinner",
   component: Spinner,
-  argTypes: {
-  },
+  argTypes: {},
   args: {} // default value
 } satisfies Meta<typeof Spinner>
 

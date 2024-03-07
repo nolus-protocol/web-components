@@ -1,7 +1,9 @@
 import Button from '@/components/atoms/button/Button.vue'
-import TestButton from '@/components/atoms/test-button/Button.vue'
+import NotificationButton from '@/components/atoms/notification-button/NotificationButton.vue'
+import Spinner from '@/components/atoms/spinner/Spinner.vue'
 
 export {
   Button,
-  TestButton
+  NotificationButton,
+  Spinner
 }
