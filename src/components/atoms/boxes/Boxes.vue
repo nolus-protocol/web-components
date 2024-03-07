@@ -13,8 +13,8 @@ export interface WalletProps {
 }
 
 const props = withDefaults(defineProps<WalletProps>(), {
-  label: 'Connect Wallet'
-
+  label: 'Connect Wallet',
+  icon: 'icon-google'
 });
 
 const emit = defineEmits<{
