@@ -9,7 +9,7 @@
       <i :class="{ 'rotate-180': isOpen }" class="icon icon-picker text-[20px] leading-1 transform transition duration-300 ease-in-out text-neutral-400" />
     </button>
     <Transition name="fade">
-      <div v-if="isOpen" class="absolute z-10 top-full mt-1 w-full border-[1px] border-border-color text-neutral-typography-200 bg-neutral-bg-50 dark:hover:border-neutral-typography-100 shadow-lg rounded-md">
+      <div v-if="isOpen" class="absolute z-10 top-full mt-1 w-full border-[1px] border-border-color text-neutral-typography-200 bg-neutral-bg-50 dark:hover:border-neutral-typography-100 shadow-lg rounded-md shadow-field-heavy">
         <ul class="p-2 max-h-[160px] overflow-y-auto">
           <li v-for="option in options" :key="option.value" :class="{ 'bg-neutral-bg-100': selectedOption?.value === option.value }" class="flex items-center cursor-pointer mb-1 px-1 py-2 hover:bg-neutral-bg-100 rounded-md" @click="selectOption(option)">
             <img v-if="option.icon" :alt="option.label" :src="option.icon" class="mr-1 w-4 h-4" /> {{ option.label }} </li>
