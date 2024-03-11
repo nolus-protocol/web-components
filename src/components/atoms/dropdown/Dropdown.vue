@@ -1,7 +1,7 @@
 <template>
-  <div :id="[`dropdown-${props.id}`]" class="relative flex flex-col item-center font-medium text-14">
-    <label v-if="label" :for="[`dropdown-btn-${props.id}`]" class="cursor-pointer text-neutral-typography-200">{{ label }}</label>
-    <button :id="[`dropdown-btn-${props.id}`]" :class="{ 'border-primary-50': isOpen }" class="flex rounded-md p-3 border-[1px] border-border-color text-neutral-typography-200 bg-neutral-bg-50 dark:hover:border-neutral-typography-100 items-center" type="button" @click="toggleDropdown">
+  <div :id="[`dropdown-${id}`]" class="relative flex flex-col item-center font-medium text-14">
+    <label v-if="label" :for="[`dropdown-btn-${id}`]" class="cursor-pointer text-neutral-typography-200">{{ label }}</label>
+    <button :id="[`dropdown-btn-${id}`]" :class="{ 'border-primary-50': isOpen }" class="flex rounded-md p-3 border-[1px] border-border-color text-neutral-typography-200 bg-neutral-bg-50 dark:hover:border-neutral-typography-100 items-center" type="button" @click="toggleDropdown">
       <span class="flex flex-1 items-center">
         <img v-if="selectedOption && selectedOption.icon" :alt="selectedOption.label" :src="selectedOption.icon" class="mr-1 w-4 h-4" />
         {{ selectedOption ? selectedOption.label : placeholder }}
@@ -39,16 +39,10 @@ const isOpen = ref(false)
 const selectedOption = ref<DropdownOption | null>(null);
 
 const props = withDefaults(defineProps<DropdownProps>(), {
+  id: '1',
   label: 'Some Label',
   placeholder: 'Select an option',
-  options: [
-    { value: 'apple', label: 'Apple', icon: 'https://nolus.io/currencies/osmosis-osmo.svg' },
-    { value: 'banana', label: 'Banana' },
-    { value: 'orange', label: 'Orange' },
-    { value: 'grape', label: 'Grape' },
-    { value: 'strawberry', label: 'Strawberry' },
-    { value: 'watermelon', label: 'Watermelon' },
-  ]
+  options: []
 });
 
 const emit = defineEmits<{

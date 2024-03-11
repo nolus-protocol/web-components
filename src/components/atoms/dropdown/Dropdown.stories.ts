@@ -18,5 +18,15 @@ type Story = StoryObj<typeof meta>;
  * to learn how to use render functions.
  */
 export const Primary: Story = {
-  args: {},
+  args: {
+    id: '1',
+    options: [
+      { value: 'apple', label: 'Apple', icon: 'https://nolus.io/currencies/osmosis-osmo.svg' },
+      { value: 'banana', label: 'Banana' },
+      { value: 'orange', label: 'Orange' },
+      { value: 'grape', label: 'Grape' },
+      { value: 'strawberry', label: 'Strawberry' },
+      { value: 'watermelon', label: 'Watermelon' },
+    ]
+  },
 };
