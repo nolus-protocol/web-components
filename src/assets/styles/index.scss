@@ -13,7 +13,12 @@ body {
 }
 
 html {
-  background: var(--color-background-50);
+  background: var(--color-background-300);
+
+  &.dark,
+  &.sync {
+      background: var(--color-background-50);
+  }
 }
 
 .button {
@@ -28,7 +33,7 @@ html {
   }
 
   &-secondary {
-    @apply border-[1px] border-border-color text-neutral-typography-200 bg-neutral-bg-50 dark:hover:border-neutral-typography-100 dark:active:bg-neutral-bg-50 hover:bg-neutral-bg-100 hover:border-neutral-typography-50 active:text-primary-50 active:border-primary-50 dark:active:border-primary-50 active:bg-primary-50/10 disabled:bg-neutral-100 disabled:border-neutral-100 disabled:text-neutral-typography-50 dark:disabled:bg-neutral-bg-50 dark:disabled:text-neutral-typography-50 dark:disabled:border-border-color;
+    @apply border-[1px] border-border-color text-neutral-typography-200 bg-neutral-bg-50 dark:hover:border-neutral-typography-100 dark:active:bg-neutral-bg-50 hover:bg-hover-btn hover:border-neutral-typography-50 active:text-primary-50 active:border-primary-50 dark:active:border-primary-50 active:bg-primary-50/10 disabled:bg-neutral-100 disabled:border-neutral-100 disabled:text-neutral-typography-50 dark:disabled:bg-neutral-bg-50 dark:disabled:text-neutral-typography-50 dark:disabled:border-border-color;
 
     &-loading {
       @apply pointer-events-none bg-neutral-100 text-neutral-100 border-neutral-100 dark:bg-neutral-bg-50 dark:text-neutral-bg-50 dark:border-border-color #{!important};

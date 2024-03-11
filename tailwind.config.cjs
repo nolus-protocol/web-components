@@ -122,6 +122,9 @@ export default {
         spinner: {
           color: "var(--spinner-color)",
           "border-color": "var(--spinner-border-color)"
+        },
+        hover: {
+          btn: "var(--color-hover)"
         }
       }
     },
