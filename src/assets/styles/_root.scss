@@ -1,65 +1,65 @@
 @layer base {
   :root {
-    --color-background-50: #FFFFFF;
-    --color-background-100: #EBEFF5;
-    --color-background-200: #C1CAD7;
-    --color-background-300: linear-gradient(314deg, #EBEFF5 2.19%, #F0F4F7 100%);
+    --color-background-50: #ffffff;
+    --color-background-100: #ebeff5;
+    --color-background-200: #c1cad7;
+    --color-background-300: linear-gradient(314deg, #ebeff5 2.19%, #f0f4f7 100%);
 
-    --color-typography-50: #8396B1;
-    --color-typography-100: #5E7699;
-    --color-typography-200: #082D63;
+    --color-typography-50: #8396b1;
+    --color-typography-100: #5e7699;
+    --color-typography-200: #082d63;
 
-    --color-primary-50: #2868E1;
-    --color-primary-100: #245DC7;
-    --color-primary-200: #1F51AD;
+    --color-primary-50: #2868e1;
+    --color-primary-100: #245dc7;
+    --color-primary-200: #1f51ad;
 
-    --color-danger-50: #E4292926;
-    --color-danger-100: #E42929;
+    --color-danger-50: #e4292926;
+    --color-danger-100: #e42929;
 
-    --color-success-50: #50E3A526;
-    --color-success-100: #1AB171;
+    --color-success-50: #50e3a526;
+    --color-success-100: #1ab171;
 
-    --color-warning-50: #FFD78266;
-    --color-warning-100: #FFB922;
+    --color-warning-50: #ffd78266;
+    --color-warning-100: #ffb922;
 
-    --color-brand-accent: #FF562E;
+    --color-brand-accent: #ff562e;
 
-    --border-color: #C1CAD7;
+    --border-color: #c1cad7;
 
-    --spinner-color: #2868E1;
-    --spinner-border-color: #C1CAD7;
+    --spinner-color: #2868e1;
+    --spinner-border-color: #c1cad7;
 
-    --color-hover: #F7F9FC;
+    --color-hover: #f7f9fc;
   }
 
   :root[class~="sync"] {
     @media (prefers-color-scheme: dark) {
       --color-background-50: #142237;
-      --color-background-100: #2B384B;
-      --color-background-200: #07162C;
+      --color-background-100: #2b384b;
+      --color-background-200: #07162c;
 
-      --color-typography-200: #FFFFFF;
+      --color-typography-200: #ffffff;
 
-      --border-color: #2B384B;
+      --border-color: #2b384b;
 
-      --spinner-color: #2868E1;
-      --spinner-border-color: #2B384B;
+      --spinner-color: #2868e1;
+      --spinner-border-color: #2b384b;
 
       --color-hover: #142237;
     }
   }
 
-  :root[class~="dark"], {
+  :root[class~="dark"] {
     --color-background-50: #142237;
-    --color-background-100: #2B384B;
-    --color-background-200: #07162C;
+    --color-background-100: #2b384b;
+    --color-background-200: #07162c;
 
-    --color-typography-200: #FFFFFF;
+    --color-typography-200: #ffffff;
 
-    --border-color: #2B384B;
+    --border-color: #2b384b;
 
-    --spinner-color: #2868E1;
-    --spinner-border-color: #2B384B;
+    --spinner-color: #2868e1;
+    --spinner-border-color: #2b384b;
 
     --color-hover: #142237;
   }
