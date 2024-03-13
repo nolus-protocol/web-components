@@ -102,7 +102,7 @@ const selectOption = (option: DropdownOption) => {
 
 // Close dropdown when clicking outside
 const handleClickOutside = (event: MouseEvent) => {
-  if (!event?.target?.closest(`#dropdown-${props.id}`)) {
+  if (dropdownRef.value && !dropdownRef.value.contains(event.target as Node)) {
     isOpen.value = false;
   }
 };
