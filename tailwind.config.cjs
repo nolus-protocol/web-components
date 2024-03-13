@@ -1,4 +1,6 @@
 /** @type {import('tailwindcss').Config} */
+const plugin = require('tailwindcss/plugin')
+
 export default {
   content: [
     './index.html',
@@ -118,7 +120,10 @@ export default {
           100: 'var(--color-warning-100)'
         },
         accent: "var(--color-brand-accent)",
-        "border-color": "var(--border-color)",
+        border: {
+          "color": "var(--border-color)",
+          "hover-color": "var(--border-hover-color)"
+        },
         spinner: {
           color: "var(--spinner-color)",
           "border-color": "var(--spinner-border-color)"
@@ -166,7 +171,21 @@ export default {
       'plastic-hard': '0 -1px 1px inset rgba(0, 0, 0, 0.4), 0 2px 0px inset rgba(255, 255, 255, 0.8), 0 16px 20px rgba(0,0,0,0.05)',
       'plastic-soft': '0 -1px 1px inset rgba(0, 0, 0, 0.4), 0 2px 0px inset rgba(255, 255, 255, 0.3), 0 16px 20px rgba(0,0,0,0.05)',
       'field-heavy': '0px 8px 48px 0px rgba(7, 45, 99, 0.15)'
+    },
+    textShadow: {
+      password: '0 0 0 var(--color-typography-200)'
     }
   },
-  plugins: [],
+  plugins: [
+    plugin(function ({ matchUtilities, theme }) {
+      matchUtilities(
+        {
+          'text-shadow': (value) => ({
+            textShadow: value,
+          }),
+        },
+        { values: theme('textShadow') }
+      )
+    }),
+  ],
 }

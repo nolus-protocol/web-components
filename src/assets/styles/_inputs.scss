@@ -1,0 +1,22 @@
+.field {
+  &-wrapper {
+    @apply relative flex flex-col text-14 font-medium;
+  }
+
+  &-label {
+      @apply cursor-pointer text-neutral-typography-200 dark:text-neutral-typography-50;
+  }
+
+  &-input,
+  &-dropdown {
+      @apply flex items-center rounded-md border-[1px] border-border-color hover:border-border-hover-color bg-neutral-bg-50 px-3 text-neutral-typography-200 outline-none active:border-primary-50 focus:border-primary-50 disabled:hover:border-border-color disabled:bg-neutral-bg-100 dark:disabled:bg-neutral-bg-50 disabled:text-neutral-typography-50;
+    transition: 0.3s;
+    height: 44px;
+  }
+
+  &-input {
+    &.password {
+      @apply text-32 text-transparent text-shadow-password;
+    }
+  }
+}

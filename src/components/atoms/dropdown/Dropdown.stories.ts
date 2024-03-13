@@ -1,13 +1,13 @@
-import type { Meta, StoryObj } from '@storybook/vue3'
+import type { Meta, StoryObj } from "@storybook/vue3";
 
-import Dropdown from './Dropdown.vue'
+import Dropdown from "./Dropdown.vue";
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories
 const meta = {
   title: "Components/Atoms/Dropdown",
   component: Dropdown,
   argTypes: {},
-  args: {}, // default value
+  args: {} // default value
 } satisfies Meta<typeof Dropdown>;
 
 export default meta;
@@ -19,14 +19,13 @@ type Story = StoryObj<typeof meta>;
  */
 export const Primary: Story = {
   args: {
-    id: '1',
     options: [
-      { value: 'apple', label: 'Apple', icon: 'https://nolus.io/currencies/osmosis-osmo.svg' },
-      { value: 'banana', label: 'Banana' },
-      { value: 'orange', label: 'Orange' },
-      { value: 'grape', label: 'Grape' },
-      { value: 'strawberry', label: 'Strawberry' },
-      { value: 'watermelon', label: 'Watermelon' },
+      { value: "apple", label: "Apple", icon: "https://nolus.io/currencies/osmosis-osmo.svg" },
+      { value: "banana", label: "Banana" },
+      { value: "orange", label: "Orange" },
+      { value: "grape", label: "Grape" },
+      { value: "strawberry", label: "Strawberry" },
+      { value: "watermelon", label: "Watermelon" }
     ]
-  },
+  }
 };

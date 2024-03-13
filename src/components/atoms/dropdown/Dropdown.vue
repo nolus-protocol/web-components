@@ -2,18 +2,18 @@
   <div
     :id="`dropdown-${id}`"
     ref="dropdownRef"
-    class="item-center relative flex flex-col text-14 font-medium"
+    class="field-wrapper"
   >
     <label
       v-if="label"
       :for="`dropdown-btn-${id}`"
-      class="cursor-pointer text-neutral-typography-200"
+      class="field-label"
       >{{ label }}</label
     >
     <button
       :id="`dropdown-btn-${id}`"
-      :class="{ 'border-primary-50': isOpen, 'border-danger-100': error }"
-      class="flex items-center rounded-md border-[1px] border-border-color bg-neutral-bg-50 p-3 text-neutral-typography-200 dark:hover:border-neutral-typography-100"
+      :class="['field-dropdown', classes]"
+      :disabled="disabled"
       type="button"
       @click="toggleDropdown"
     >
@@ -59,7 +59,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, Transition } from "vue";
+import { computed, ref, Transition } from "vue";
 
 export interface DropdownOption {
   value: string | number;
@@ -68,11 +68,13 @@ export interface DropdownOption {
 }
 
 export interface DropdownProps {
-  id: string;
+  id?: string;
   label?: string;
   placeholder?: string;
   options: DropdownOption[];
-  error?: string | boolean | number;
+  error?: boolean;
+  disabled?: boolean;
+  onSelect?: (option: DropdownOption) => void;
 }
 
 const dropdownRef = ref<HTMLElement | null>(null);
@@ -87,6 +89,11 @@ const props = withDefaults(defineProps<DropdownProps>(), {
   error: false
 });
 
+const classes = computed(() => ({
+  "border-primary-50": isOpen,
+  "!border-danger-100": props.error
+}));
+
 const emit = defineEmits<{
   (e: "unmounted", func: () => void): void;
 }>();
@@ -97,6 +104,11 @@ const toggleDropdown = () => {
 
 const selectOption = (option: DropdownOption) => {
   selectedOption.value = option;
+
+  if (props.onSelect) {
+    props.onSelect(option);
+  }
+
   isOpen.value = false;
 };
 
