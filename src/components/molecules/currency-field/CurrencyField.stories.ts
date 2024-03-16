@@ -1,27 +1,34 @@
 import type { Meta, StoryObj } from "@storybook/vue3";
 
-import Dropdown from "./Dropdown.vue";
+import CurrencyField from "./CurrencyField.vue";
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories
 const meta = {
-  title: "Components/Atoms/Dropdown",
-  component: Dropdown,
+  title: "Components/Molecules/CurrencyField",
+  component: CurrencyField,
   argTypes: {},
+  parameters: {
+    layout: "centered"
+  },
   args: {
     id: "1",
-    label: "Some Label",
-    placeholder: "Select an option",
-    error: false,
-    options: [
+    label: "Amount",
+    placeholder: "0",
+    balance: {
+      label: "Balance",
+      value: "0"
+    },
+    currencyOptions: [
       { value: "apple", label: "Apple", icon: "https://nolus.io/currencies/osmosis-osmo.svg" },
       { value: "banana", label: "Banana" },
       { value: "orange", label: "Orange", icon: "https://nolus.io/currencies/osmosis-osmo.svg" },
       { value: "grape", label: "Grape" },
       { value: "strawberry", label: "Strawberry", icon: "https://nolus.io/currencies/osmosis-osmo.svg" },
       { value: "watermelon", label: "Watermelon" }
-    ]
+    ],
+    tooltip: "Some tooltip text"
   } // default value
-} satisfies Meta<typeof Dropdown>;
+} satisfies Meta<typeof CurrencyField>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;

@@ -59,7 +59,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref, Transition } from "vue";
+import { computed, ref, Transition, watch } from "vue";
 
 export interface DropdownOption {
   value: string | number;
@@ -72,6 +72,7 @@ export interface DropdownProps {
   label?: string;
   placeholder?: string;
   options: DropdownOption[];
+  selected?: DropdownOption;
   error?: boolean;
   disabled?: boolean;
   onSelect?: (option: DropdownOption) => void;
@@ -81,13 +82,7 @@ const dropdownRef = ref<HTMLElement | null>(null);
 const isOpen = ref(false);
 const selectedOption = ref<DropdownOption | null>(null);
 
-const props = withDefaults(defineProps<DropdownProps>(), {
-  id: "1",
-  label: "Some Label",
-  placeholder: "Select an option",
-  options: undefined,
-  error: false
-});
+const props = withDefaults(defineProps<DropdownProps>(), {});
 
 const classes = computed(() => ({
   "border-primary-50": isOpen,
@@ -111,6 +106,21 @@ const selectOption = (option: DropdownOption) => {
 
   isOpen.value = false;
 };
+
+// Watch for changes in selectedValue prop and update selectedOption accordingly
+watch(
+  () => props.selected,
+  (newVal) => {
+    if (!newVal) return (selectedOption.value = props.options[0]);
+
+    const option = props.options.find((option) => option.value === newVal.value);
+
+    if (option) {
+      selectedOption.value = option;
+    }
+  },
+  { immediate: true }
+);
 
 // Close dropdown when clicking outside
 const handleClickOutside = (event: MouseEvent) => {

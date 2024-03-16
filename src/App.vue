@@ -30,8 +30,9 @@
 
 <script lang="ts" setup>
 import { Button, Close, Dropdown, Input, NotificationButton } from "./index";
+import type { DropdownOption } from "@/components";
 
-const options = [
+const options: DropdownOption[] = [
   { value: "apple", label: "Apple", icon: "https://nolus.io/currencies/osmosis-osmo.svg" },
   { value: "banana", label: "Banana", icon: "https://nolus.io/currencies/osmosis-osmo.svg" },
   { value: "orange", label: "Orange", icon: "https://nolus.io/currencies/osmosis-osmo.svg" },

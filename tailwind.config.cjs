@@ -152,7 +152,7 @@ export default {
       '9xl': ['8rem', { lineHeight: '1' }],
       10: ["10px", "14px"],
       12: ["12px", "normal"],
-      14: ["14px", "20px"],
+      14: ["14px", "normal"],
       16: ["16px", "23px"],
       18: ["18px", "26px"],
       20: ["20px", "29px"],
