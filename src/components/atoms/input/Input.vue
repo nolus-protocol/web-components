@@ -24,7 +24,7 @@
 import { computed } from "vue";
 
 export interface InputProps {
-  id?: string;
+  id: string;
   label?: string;
   type: "text" | "password" | "email";
   value?: string | number;
@@ -33,13 +33,7 @@ export interface InputProps {
   onChange?: (event: Event) => void;
 }
 
-const props = withDefaults(defineProps<InputProps>(), {
-  id: "1",
-  label: "Some Label",
-  type: "text",
-  value: "",
-  error: false
-});
+const props = defineProps<InputProps>();
 
 const classes = computed(() => ({
   "!border-danger-100": props.error,

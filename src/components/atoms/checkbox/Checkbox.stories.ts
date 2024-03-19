@@ -1,13 +1,16 @@
-import type { Meta, StoryObj } from '@storybook/vue3'
+import type { Meta, StoryObj } from "@storybook/vue3";
 
-import Checkbox from './Checkbox.vue'
+import Checkbox from "./Checkbox.vue";
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories
 const meta = {
   title: "Components/Atoms/Checkbox",
   component: Checkbox,
   argTypes: {},
-  args: {}, // default value
+  args: {
+    id: "checkbox-1",
+    label: "Connect Wallet"
+  } // default value
 } satisfies Meta<typeof Checkbox>;
 
 export default meta;
@@ -19,7 +22,7 @@ type Story = StoryObj<typeof meta>;
  */
 export const Primary: Story = {
   args: {
-    id: 'checkbox-1',
-    label: 'Checkbox',
-  },
+    id: "checkbox-1",
+    label: "Checkbox"
+  }
 };

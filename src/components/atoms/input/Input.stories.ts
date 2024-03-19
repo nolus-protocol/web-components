@@ -7,7 +7,13 @@ const meta = {
   title: "Components/Atoms/Input",
   component: Input,
   argTypes: {},
-  args: {} // default value
+  args: {
+    id: "1",
+    label: "Some Label",
+    type: "text",
+    value: "",
+    error: false
+  } // default value
 } satisfies Meta<typeof Input>;
 
 export default meta;
