@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col gap-1">
+  <div class="field-currency-wrapper">
     <div class="flex items-center justify-between">
       <label
         :for="id"
@@ -7,7 +7,7 @@
       >
         {{ label }}
         <Tooltip
-          v-if="tooltip?.length > 0"
+          v-if="tooltip && tooltip.length > 0"
           :content="tooltip"
         />
       </label>
@@ -16,20 +16,18 @@
         class="field-currency-balance"
         @click="setBalance"
       >
-        {{ balance.label }} {{ balance.value }}
+        {{ balance.label }} {{ balance.value }} {{ balance.ticker }}
       </div>
     </div>
 
-    <div
-      :class="{ error: isError }"
-      class="field-currency"
-    >
+    <div :class="['field-currency', classes]">
       <div class="flex items-center justify-between">
         <Dropdown
           :disabled="disabledCurrencyPicker"
+          :is-loading="isLoadingPicker"
           :on-select="onUpdateCurrency"
           :options="currencyOptions"
-          :selected="option"
+          :selected="selectedCurrencyOption"
           class="min-w-[135px]"
         />
         <div class="flex flex-col">
@@ -44,52 +42,60 @@
             @keydown="inputValue"
             @keyup="setValue"
             @paste="onPaste"
-            @keypress.space.prevent
           />
           <span class="nls-font-400 text-light-blue block text-right text-14">
-            {{ calculateInputBalance?.() || "$0" }}
+            {{ calculatedBalance }}
           </span>
         </div>
       </div>
     </div>
 
-    <div class="repayment items-start justify-between">
+    <div class="field-currency-error items-start justify-between">
       <span class="msg error"> &nbsp;{{ errorMsg }} </span>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref, watch } from "vue";
+import { computed, onMounted, ref, watch } from "vue";
 import { Dropdown, Tooltip } from "@/index";
 import type { DropdownOption } from "@/components";
 
+export interface CurrencyFieldBalance {
+  label: string;
+  value: string;
+  ticker: string;
+}
+
+interface CurrencyFieldOption extends DropdownOption {
+  price?: string;
+}
+
 export interface CurrencyFieldProps {
-  id?: string;
+  id: string;
   value?: string;
   label?: string;
-  placeholder?: string;
-  balance?: {
-    label: string;
-    value: string;
-  };
+  balance?: CurrencyFieldBalance;
+  calculatedBalance?: string;
   tooltip?: string;
-  option?: DropdownOption;
+  selectedCurrencyOption?: CurrencyFieldOption;
+  currencyOptions: CurrencyFieldOption[];
   disabledCurrencyPicker?: boolean;
-  currencyOptions: DropdownOption[];
   disabledInputField?: boolean;
   name?: string;
   errorMsg?: string;
   isError?: boolean;
   numberValue?: string;
   onPaste?: (e: ClipboardEvent) => void;
-  onUpdateCurrency?: (option: DropdownOption) => void;
-  // setBalance?: () => void;
-  calculateInputBalance?: () => string;
   positive?: boolean;
+  placeholder: string;
+  isLoadingPicker?: boolean;
 }
 
-const emit = defineEmits(["update-currency", "update:modelValue", "input"]);
+const emit = defineEmits<{
+  (e: "on-selected-currency", value: CurrencyFieldOption): void;
+  (e: "input", value: string): void;
+}>();
 
 const dot = ".";
 const minus = "-";
@@ -100,7 +106,6 @@ const numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 const props = defineProps<CurrencyFieldProps>();
 
 const numberValue = ref(props.value);
-let numberRealValue = Number(props.value);
 
 onMounted(() => {
   setValue();
@@ -110,10 +115,13 @@ watch(
   () => props.value,
   () => {
     numberValue.value = props.value;
-    numberRealValue = Number(props.value);
     setValue();
   }
 );
+
+const classes = computed(() => ({
+  "!border-danger-100": props.isError
+}));
 
 const setValue = () => {
   let value = removeComma(numberValue.value ?? "");
@@ -125,22 +133,15 @@ const setValue = () => {
     return false;
   }
 
-  numberRealValue = Number(value);
-
   emit("input", value);
-  emit("update:modelValue", value);
 };
 
 const setBalance = () => {
-  // if (props.total) {
-  // const currency: ExternalCurrency | any = props.option?.ticker
-  //   ? wallet.getCurrencyByTicker(props.option?.ticker)
-  //   : wallet.getCurrencyInfo(props.total.denom);
-  // const decimals = Number(currency.decimal_digits ?? currency.coinDecimals);
-  // const value = new Dec(props.total.amount, decimals);
-  // emit("input", value.toString(decimals));
-  // emit("update:modelValue", value.toString(decimals));
-  // }
+  numberValue.value = commify(props.balance?.value || "");
+};
+
+const onUpdateCurrency = (value: DropdownOption) => {
+  emit("on-selected-currency", value);
 };
 
 const inputValue = (event: KeyboardEvent) => {

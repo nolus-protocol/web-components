@@ -26,6 +26,7 @@
         />
         {{ selectedOption ? selectedOption.label : placeholder }}
       </span>
+      <Spinner v-if="isLoading" />
       <i
         :class="{ 'rotate-180': isOpen }"
         class="icon icon-picker leading-1 transform text-[20px] text-neutral-400 transition duration-300 ease-in-out"
@@ -60,6 +61,7 @@
 
 <script lang="ts" setup>
 import { computed, ref, Transition, watch } from "vue";
+import { Spinner } from "@/index";
 
 export interface DropdownOption {
   value: string | number;
@@ -76,13 +78,14 @@ export interface DropdownProps {
   error?: boolean;
   disabled?: boolean;
   onSelect?: (option: DropdownOption) => void;
+  isLoading?: boolean;
 }
 
 const dropdownRef = ref<HTMLElement | null>(null);
 const isOpen = ref(false);
 const selectedOption = ref<DropdownOption | null>(null);
 
-const props = withDefaults(defineProps<DropdownProps>(), {});
+const props = defineProps<DropdownProps>();
 
 const classes = computed(() => ({
   "border-primary-50": isOpen,

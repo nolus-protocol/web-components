@@ -25,15 +25,34 @@
       "
       type="text"
     />
+
+    <CurrencyField
+      id="test"
+      :balance="{ label: 'Test', value: '3123123', ticker: 'USDT' }"
+      :calculated-balance="'$0'"
+      :currency-options="options"
+      label="Test1"
+      placeholder="0"
+      @input="
+        (value) => {
+          console.info(value);
+        }
+      "
+      @on-selected-currency="
+        (option) => {
+          console.info(option);
+        }
+      "
+    />
   </div>
 </template>
 
 <script lang="ts" setup>
 import { Button, Close, Dropdown, Input, NotificationButton } from "./index";
-import type { DropdownOption } from "@/components";
+import CurrencyField from "@/components/molecules/currency-field/CurrencyField.vue";
 
-const options: DropdownOption[] = [
-  { value: "apple", label: "Apple", icon: "https://nolus.io/currencies/osmosis-osmo.svg" },
+const options = [
+  { value: "apple", label: "Apple", icon: "https://nolus.io/currencies/osmosis-osmo.svg", price: "31231312" },
   { value: "banana", label: "Banana", icon: "https://nolus.io/currencies/osmosis-osmo.svg" },
   { value: "orange", label: "Orange", icon: "https://nolus.io/currencies/osmosis-osmo.svg" },
   { value: "grape", label: "Grape", icon: "https://nolus.io/currencies/osmosis-osmo.svg" },

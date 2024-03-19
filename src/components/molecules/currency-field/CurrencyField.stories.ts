@@ -11,13 +11,15 @@ const meta = {
     layout: "centered"
   },
   args: {
-    id: "1",
+    id: "currency-1",
     label: "Amount",
     placeholder: "0",
     balance: {
       label: "Balance",
-      value: "0"
+      value: "312,312,231",
+      ticker: "USDT"
     },
+    calculatedBalance: "$0",
     currencyOptions: [
       { value: "apple", label: "Apple", icon: "https://nolus.io/currencies/osmosis-osmo.svg" },
       { value: "banana", label: "Banana" },
@@ -39,4 +41,11 @@ type Story = StoryObj<typeof meta>;
  */
 export const Primary: Story = {
   args: {}
+};
+
+export const WithError: Story = {
+  args: {
+    isError: true,
+    errorMsg: "Some error text"
+  }
 };
