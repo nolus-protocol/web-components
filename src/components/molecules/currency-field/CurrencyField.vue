@@ -137,7 +137,10 @@ const setValue = () => {
 };
 
 const setBalance = () => {
-  numberValue.value = commify(props.balance?.value || "");
+  const value = props.balance?.value || "";
+
+  numberValue.value = commify(value);
+  emit("input", removeComma(value));
 };
 
 const onUpdateCurrency = (value: DropdownOption) => {
