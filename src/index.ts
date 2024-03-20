@@ -9,6 +9,7 @@ import Input from "@/components/atoms/input/Input.vue";
 import Tooltip from "@/components/atoms/tooltip/Tooltip.vue";
 
 import CurrencyField from "@/components/molecules/currency-field/CurrencyField.vue";
+import MultilineCurrencyField from "@/components/molecules/multiline-currency-field/MultilineCurrencyField.vue";
 
 export {
   // atoms
@@ -23,7 +24,8 @@ export {
   Tooltip,
 
   // molecules
-  CurrencyField
+  CurrencyField,
+  MultilineCurrencyField
 
   // organisms
 };

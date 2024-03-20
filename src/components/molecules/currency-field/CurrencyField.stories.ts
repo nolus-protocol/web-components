@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/vue3";
 
 import CurrencyField from "./CurrencyField.vue";
+import {iconsExternalUrl} from "@/utils/types";
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories
 const meta = {
@@ -21,11 +22,11 @@ const meta = {
     },
     calculatedBalance: "$0",
     currencyOptions: [
-      { value: "apple", label: "Apple", icon: "https://nolus.io/currencies/osmosis-osmo.svg" },
+      { value: "apple", label: "Apple", icon: `${iconsExternalUrl}/osmosis-usdc.svg` },
       { value: "banana", label: "Banana" },
-      { value: "orange", label: "Orange", icon: "https://nolus.io/currencies/osmosis-osmo.svg" },
+      { value: "orange", label: "Orange", icon: `${iconsExternalUrl}/osmosis-usdc.svg` },
       { value: "grape", label: "Grape" },
-      { value: "strawberry", label: "Strawberry", icon: "https://nolus.io/currencies/osmosis-osmo.svg" },
+      { value: "strawberry", label: "Strawberry", icon: `${iconsExternalUrl}/osmosis-usdc.svg` },
       { value: "watermelon", label: "Watermelon" }
     ],
     tooltip: "Some tooltip text"

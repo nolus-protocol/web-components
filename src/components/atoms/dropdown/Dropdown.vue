@@ -62,24 +62,7 @@
 <script lang="ts" setup>
 import { computed, ref, Transition, watch } from "vue";
 import { Spinner } from "@/index";
-
-export interface DropdownOption {
-  value: string | number;
-  label: string;
-  icon?: string;
-}
-
-export interface DropdownProps {
-  id?: string;
-  label?: string;
-  placeholder?: string;
-  options: DropdownOption[];
-  selected?: DropdownOption;
-  error?: boolean;
-  disabled?: boolean;
-  onSelect?: (option: DropdownOption) => void;
-  isLoading?: boolean;
-}
+import type { DropdownOption, DropdownProps } from "@/components/atoms/dropdown/types";
 
 const dropdownRef = ref<HTMLElement | null>(null);
 const isOpen = ref(false);
@@ -114,7 +97,15 @@ const selectOption = (option: DropdownOption) => {
 watch(
   () => props.selected,
   (newVal) => {
-    if (!newVal) return (selectedOption.value = props.options[0]);
+    if (!newVal) {
+      selectedOption.value = props.options[0];
+
+      if (props.onSelect) {
+        props.onSelect(props.options[0]);
+      }
+
+      return;
+    }
 
     const option = props.options.find((option) => option.value === newVal.value);
 

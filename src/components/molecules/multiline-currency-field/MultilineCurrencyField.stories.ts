@@ -1,28 +1,37 @@
 import type { Meta, StoryObj } from "@storybook/vue3";
 
-import Dropdown from "./Dropdown.vue";
+import MultilineCurrencyField from "./MultilineCurrencyField.vue";
 import {iconsExternalUrl} from "@/utils/types";
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories
 const meta = {
-  title: "Components/Atoms/Dropdown",
-  component: Dropdown,
+  title: "Components/Molecules/MultilineCurrencyField",
+  component: MultilineCurrencyField,
   argTypes: {},
+  parameters: {
+    layout: "centered"
+  },
   args: {
-    id: "1",
-    label: "Some Label",
-    placeholder: "Select an option",
-    error: false,
-    options: [
+    id: "currency-1",
+    label: "Amount",
+    placeholder: "0",
+    balance: {
+      label: "Balance",
+      value: "312,312,231",
+      ticker: "USDT"
+    },
+    calculatedBalance: "$0",
+    currencyOptions: [
       { value: "apple", label: "Apple", icon: `${iconsExternalUrl}/osmosis-usdc.svg` },
       { value: "banana", label: "Banana" },
       { value: "orange", label: "Orange", icon: `${iconsExternalUrl}/osmosis-usdc.svg` },
       { value: "grape", label: "Grape" },
       { value: "strawberry", label: "Strawberry", icon: `${iconsExternalUrl}/osmosis-usdc.svg` },
       { value: "watermelon", label: "Watermelon" }
-    ]
+    ],
+    tooltip: "Some tooltip text"
   } // default value
-} satisfies Meta<typeof Dropdown>;
+} satisfies Meta<typeof MultilineCurrencyField>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
@@ -33,4 +42,11 @@ type Story = StoryObj<typeof meta>;
  */
 export const Primary: Story = {
   args: {}
+};
+
+export const WithError: Story = {
+  args: {
+    isError: true,
+    errorMsg: "Some error text"
+  }
 };
