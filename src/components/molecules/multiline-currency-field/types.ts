@@ -1,4 +1,4 @@
-import type { DropdownOption } from "@/components";
+import type { DropdownOption } from "@/components/types";
 
 export interface CurrencyFieldBalance {
   label: string;
@@ -16,7 +16,8 @@ export interface CurrencyFieldProps {
   secondInputValue?: string;
   label?: string;
   balance?: CurrencyFieldBalance;
-  calculatedBalance?: string;
+  firstCalculatedBalance?: string;
+  secondCalculatedBalance?: string;
   tooltip?: string;
   selectedFirstCurrencyOption?: CurrencyFieldOption;
   selectedSecondCurrencyOption?: CurrencyFieldOption;
@@ -27,6 +28,7 @@ export interface CurrencyFieldProps {
   errorMsg?: string;
   isError?: boolean;
   onPaste?: (e: ClipboardEvent) => void;
+  onSwap?: (e: Event) => void;
   positive?: boolean;
   placeholder: string;
   isLoadingPicker?: boolean;
@@ -38,8 +40,6 @@ interface OnSelectionChange {
 }
 
 export interface CurrencyFieldEmits {
-  (e: "on-selected-currency", value: CurrencyFieldOption): void;
-  (e: "input", data: { value: string; input: number }): void;
   (e: "on-first-change", data: OnSelectionChange): void;
   (e: "on-second-change", data: OnSelectionChange): void;
 }

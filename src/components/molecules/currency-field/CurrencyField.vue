@@ -59,7 +59,7 @@
 <script lang="ts" setup>
 import { computed, onMounted, ref, watch } from "vue";
 import { Dropdown, Tooltip } from "@/index";
-import type { DropdownOption } from "@/components";
+import type { DropdownOption } from "@/components/types";
 
 export interface CurrencyFieldBalance {
   label: string;

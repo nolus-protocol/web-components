@@ -57,17 +57,12 @@
       id="multiline"
       :balance="{ label: 'Test', value: '3123123', ticker: 'USDT' }"
       :currency-options="options"
+      :on-swap="
+        (e) => {
+          console.info('swap', e);
+        }
+      "
       placeholder="0"
-      @input="
-        (value) => {
-          // console.info(value);
-        }
-      "
-      @on-selected-currency="
-        (option) => {
-          // console.info(option);
-        }
-      "
       @on-first-change="
         (value) => {
           console.info(value);
@@ -83,9 +78,7 @@
 </template>
 
 <script lang="ts" setup>
-import { Button, Close, Dropdown, Input, NotificationButton } from "./index";
-import CurrencyField from "@/components/molecules/currency-field/CurrencyField.vue";
-import MultilineCurrencyField from "@/components/molecules/multiline-currency-field/MultilineCurrencyField.vue";
+import { Button, Close, CurrencyField, Dropdown, Input, MultilineCurrencyField, NotificationButton } from "./index";
 
 const options = [
   {

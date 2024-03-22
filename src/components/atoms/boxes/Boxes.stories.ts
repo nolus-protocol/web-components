@@ -1,6 +1,6 @@
-import type { Meta, StoryObj } from '@storybook/vue3'
+import type { Meta, StoryObj } from "@storybook/vue3";
 
-import Boxes from './Boxes.vue'
+import Boxes from "./Boxes.vue";
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories
 const meta = {
@@ -10,8 +10,9 @@ const meta = {
     onClick: { action: "clicked" }
   },
   args: {
-
-  }, // default value
+    label: "Connect Wallet",
+    icon: "icon-google"
+  } // default value
 } satisfies Meta<typeof Boxes>;
 
 export default meta;
@@ -22,5 +23,5 @@ type Story = StoryObj<typeof meta>;
  * to learn how to use render functions.
  */
 export const Primary: Story = {
-  args: {},
+  args: {}
 };

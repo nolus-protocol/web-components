@@ -1,28 +1,28 @@
 <template>
-  <button class="button button-secondary rounded-lg px-6 py-4 font-medium text-14 flex gap-3"
-          type="button" @click="onClick">
-    <span v-if="icon" :class="[icon]" class="icon text-[32px]" />
+  <button
+    class="button button-secondary flex gap-3 rounded-lg px-6 py-4 text-14 font-medium"
+    type="button"
+    @click="onClick"
+  >
+    <span
+      v-if="icon"
+      :class="[icon]"
+      class="icon text-[32px]"
+    />
     {{ label }}
   </button>
 </template>
 
 <script lang="ts" setup>
-export interface WalletProps {
-  label?: string;
-  icon?: string;
-}
+import type { WalletProps } from "@/components/atoms/boxes/types";
 
-const props = withDefaults(defineProps<WalletProps>(), {
-  label: 'Connect Wallet',
-  icon: 'icon-google'
-});
+const props = defineProps<WalletProps>();
 
 const emit = defineEmits<{
-  (e: 'click', id: number): void;
-}>()
+  (e: "click", id: number): void;
+}>();
 
 const onClick = () => {
-  emit('click', 1)
-}
-
+  emit("click", 1);
+};
 </script>

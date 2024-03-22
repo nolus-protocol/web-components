@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/vue3";
 
 import MultilineCurrencyField from "./MultilineCurrencyField.vue";
-import {iconsExternalUrl} from "@/utils/types";
+import { iconsExternalUrl } from "@/utils/types";
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories
 const meta = {
@@ -20,7 +20,8 @@ const meta = {
       value: "312,312,231",
       ticker: "USDT"
     },
-    calculatedBalance: "$0",
+    firstCalculatedBalance: "$0",
+    secondCalculatedBalance: "$0",
     currencyOptions: [
       { value: "apple", label: "Apple", icon: `${iconsExternalUrl}/osmosis-usdc.svg` },
       { value: "banana", label: "Banana" },

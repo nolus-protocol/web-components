@@ -45,11 +45,31 @@
             @paste="onPaste"
           />
           <span class="nls-font-400 text-light-blue block text-right text-14">
-            {{ calculatedBalance }}
+            {{ firstCalculatedBalance }}
           </span>
         </div>
       </div>
-      <hr class="border-border-color" />
+      <div class="relative">
+        <hr class="border-border-color" />
+        <button
+          :class="[{ '-top-5': swapSvg }]"
+          class="button-secondary transform-all ease-bounce ease-bounce absolute -top-[18px] left-1/2 h-9 w-9 -translate-x-1/2 cursor-pointer rounded-md px-2 duration-300 hover:h-10 hover:w-10"
+          @click="onSwap"
+          @mouseleave="swapSvg = false"
+          @mouseover="swapSvg = true"
+        >
+          <div class="relative flex h-full w-full items-center justify-center">
+            <Swap
+              :class="[{ 'rotate-180 opacity-100': swapSvg }]"
+              class="ease-bounce transform-all absolute stroke-neutral-typography-200 opacity-0 duration-300"
+            />
+            <DownArrow
+              :class="[{ 'rotate-180 opacity-0': swapSvg }]"
+              class="ease-bounce transform-all absolute stroke-neutral-typography-200 duration-300"
+            />
+          </div>
+        </button>
+      </div>
       <div class="flex items-center justify-between">
         <Dropdown
           :id="`${id}-2`"
@@ -74,7 +94,7 @@
             @paste="onPaste"
           />
           <span class="nls-font-400 text-light-blue block text-right text-14">
-            {{ calculatedBalance }}
+            {{ secondCalculatedBalance }}
           </span>
         </div>
       </div>
@@ -89,11 +109,9 @@
 <script lang="ts" setup>
 import { computed, ref, watch } from "vue";
 import { Dropdown, Tooltip } from "@/index";
-import type {
-  CurrencyFieldEmits,
-  CurrencyFieldOption,
-  CurrencyFieldProps
-} from "@/components/molecules/multiline-currency-field/types";
+import type { CurrencyFieldEmits, CurrencyFieldOption, CurrencyFieldProps } from "./types";
+import DownArrow from "@/shared/components/down-arrow.vue";
+import Swap from "@/shared/components/swap.vue";
 
 const emit = defineEmits<CurrencyFieldEmits>();
 
@@ -109,6 +127,7 @@ const firstValue = ref(props.firstInputValue);
 const secondValue = ref(props.secondInputValue);
 const firstCurrencyOption = ref(props.selectedFirstCurrencyOption);
 const secondCurrencyOption = ref(props.selectedSecondCurrencyOption);
+const swapSvg = ref(false);
 
 watch(
   () => props.firstInputValue,
@@ -132,8 +151,6 @@ const classes = computed(() => ({
 
 const emitOnChange = (value: string, input: number) => {
   const cleanedValue = removeComma(value);
-
-  emit("input", { value: cleanedValue, input });
 
   if (input === 1) {
     emit("on-first-change", { currency: firstCurrencyOption.value, input: { value: cleanedValue, order: input } });
@@ -176,7 +193,6 @@ const onUpdateCurrency = (currency: CurrencyFieldOption, input: number) => {
     secondCurrencyOption.value = currency;
   }
 
-  emit("on-selected-currency", currency);
   emitOnChange(inputValue, input);
 };
 
