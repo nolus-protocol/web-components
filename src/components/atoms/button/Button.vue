@@ -29,7 +29,7 @@
 <script lang="ts" setup>
 import { computed } from "vue";
 import Spinner from "../spinner/Spinner.vue";
-import { Size, Type } from "@/utils/types";
+import { Size, Type } from "@/shared/utils/types";
 
 export type ButtonSize = keyof typeof Size;
 export type ButtonType = keyof typeof Type;

@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/vue3";
 
 import MultilineCurrencyField from "./MultilineCurrencyField.vue";
-import { iconsExternalUrl } from "@/utils/types";
+import { iconsExternalUrl } from "@/shared/utils/types";
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories
 const meta = {
