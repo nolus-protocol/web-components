@@ -1,17 +1,15 @@
-import type { Meta, StoryObj } from '@storybook/vue3'
+import type { Meta, StoryObj } from "@storybook/vue3";
 
-import NotificationButton from './NotificationButton.vue'
+import NotificationButton from "./NotificationButton.vue";
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories
 const meta = {
-  title: "Components/Atoms/Notification",
+  title: "Components/Atoms/NotificationButton",
   component: NotificationButton,
   argTypes: {
-    onClick: { action: "clicked" },
+    onClick: { action: "clicked" }
   },
-  args: {
-
-  }, // default value
+  args: {} // default value
 } satisfies Meta<typeof NotificationButton>;
 
 export default meta;
@@ -22,6 +20,5 @@ type Story = StoryObj<typeof meta>;
  * to learn how to use render functions.
  */
 export const Primary: Story = {
-  args: {
-  },
+  args: {}
 };

@@ -4,6 +4,7 @@ export * from "@/components/atoms/boxes/types";
 // export * from "@/components/atoms/close/Close.vue";
 // export * from "@/components/atoms/dropdown/types";
 // export * from "@/components/atoms/notification-button/NotificationButton.vue";
+export * from "@/components/atoms/notification-box/types";
 // export * from "@/components/atoms/spinner/Spinner.vue";
 // export * from "@/components/atoms/radio/Radio.vue";
 export * from "@/components/atoms/dropdown/types";

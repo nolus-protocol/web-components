@@ -4,6 +4,7 @@ import Checkbox from "@/components/atoms/checkbox/Checkbox.vue";
 import Close from "@/components/atoms/close/Close.vue";
 import Dropdown from "@/components/atoms/dropdown/Dropdown.vue";
 import Input from "@/components/atoms/input/Input.vue";
+import NotificationBox from "@/components/atoms/notification-box/NotificationBox.vue";
 import NotificationButton from "@/components/atoms/notification-button/NotificationButton.vue";
 import Radio from "@/components/atoms/radio/Radio.vue";
 import Spinner from "@/components/atoms/spinner/Spinner.vue";
@@ -21,6 +22,7 @@ export {
   Close,
   Dropdown,
   Input,
+  NotificationBox,
   NotificationButton,
   Radio,
   Spinner,
