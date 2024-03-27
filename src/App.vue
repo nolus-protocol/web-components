@@ -74,11 +74,39 @@
         }
       "
     />
+    <Proposal
+      id="12"
+      :status="ProposalStatus.PROPOSAL_STATUS_VOTING_PERIOD"
+      :tally="{ yes_count: '100', abstain_count: '50', no_count: '25', no_with_veto_count: '10' }"
+      :voted="false"
+      quorum="60%"
+      read-more-button-text="Read more"
+      summary="This proposal aims to introduce several new assets to the Oracle swap tree of the Neutron axlUSDC protocol. Neutron axlUSDC protocol. Neutron axlUSDC protoc..."
+      title="Test"
+      turnout="75%"
+      voteButtonText="Vote now"
+      voting_end_time="24-05-2024"
+      @vote="
+        (e) => {
+          console.info(e);
+        }
+      "
+    />
   </div>
 </template>
 
 <script lang="ts" setup>
-import { Button, Close, CurrencyField, Dropdown, Input, MultilineCurrencyField, NotificationButton } from "./index";
+import {
+  Button,
+  Close,
+  CurrencyField,
+  Dropdown,
+  Input,
+  MultilineCurrencyField,
+  NotificationButton,
+  Proposal,
+  ProposalStatus
+} from "./index";
 
 const options = [
   {

@@ -2,7 +2,7 @@
   @apply flex items-center justify-center;
 
   &-primary {
-    @apply bg-primary-50 text-white hover:bg-primary-100 active:bg-primary-200 disabled:bg-neutral-100 disabled:bg-neutral-100 disabled:text-neutral-typography-50 disabled:border-neutral-100;
+    @apply bg-primary-50 text-white hover:bg-primary-100 active:bg-primary-200 disabled:bg-neutral-100 disabled:text-neutral-typography-50 disabled:border-neutral-100;
 
     &-loading {
       @apply pointer-events-none bg-neutral-100 text-neutral-100 #{!important};

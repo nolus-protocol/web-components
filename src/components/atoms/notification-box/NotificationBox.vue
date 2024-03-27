@@ -23,9 +23,9 @@
 
 <script lang="ts" setup>
 import { computed } from "vue";
-import { NotificationBox, NotificationBoxType } from "./types";
+import { INotificationBox, NotificationBoxType } from "./types";
 
-const props = defineProps<NotificationBox>();
+const props = defineProps<INotificationBox>();
 
 const classes = computed(() => ({
   "bg-warning-50": props.type === NotificationBoxType.warning,

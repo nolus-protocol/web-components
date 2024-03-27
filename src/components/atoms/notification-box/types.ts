@@ -3,6 +3,6 @@ export enum NotificationBoxType {
   error = "error"
 }
 
-export interface NotificationBox {
+export interface INotificationBox {
   type: NotificationBoxType;
 }

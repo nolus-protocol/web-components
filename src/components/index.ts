@@ -13,6 +13,7 @@ import Wallet from "@/components/atoms/wallet/Wallet.vue";
 
 import CurrencyField from "@/components/molecules/currency-field/CurrencyField.vue";
 import MultilineCurrencyField from "@/components/molecules/multiline-currency-field/MultilineCurrencyField.vue";
+import Proposal from "@/components/molecules/proposal/Proposal.vue";
 
 export {
   // atoms
@@ -31,7 +32,8 @@ export {
 
   // molecules
   CurrencyField,
-  MultilineCurrencyField
+  MultilineCurrencyField,
+  Proposal
 
   // organisms
 };

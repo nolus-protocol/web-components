@@ -13,3 +13,4 @@ export * from "@/components/atoms/dropdown/types";
 
 // export * from "@/components/molecules/currency-field/CurrencyField.vue";
 export * from "@/components/molecules/multiline-currency-field/types";
+export * from "@/components/molecules/proposal/types";
