@@ -168,8 +168,7 @@ export default {
       '50%': '15%'
     },
     boxShadow: {
-      'plastic-hard': '0 -1px 1px inset rgba(0, 0, 0, 0.4), 0 2px 0px inset rgba(255, 255, 255, 0.8), 0 16px 20px rgba(0,0,0,0.05)',
-      'plastic-soft': '0 -1px 1px inset rgba(0, 0, 0, 0.4), 0 2px 0px inset rgba(255, 255, 255, 0.3), 0 16px 20px rgba(0,0,0,0.05)',
+      'dialog': '0 8px 48px #072d6326',
       'field-heavy': '0px 8px 48px 0px rgba(7, 45, 99, 0.15)'
     },
     textShadow: {
