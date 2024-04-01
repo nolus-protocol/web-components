@@ -72,5 +72,8 @@
     "vite-plugin-dts": "^3.7.3",
     "vite-svg-loader": "^5.1.0",
     "vue-tsc": "^1.8.27"
+  },
+  "dependencies": {
+    "storybook-addon-vue-slots": "^0.9.29"
   }
 }

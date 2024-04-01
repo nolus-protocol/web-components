@@ -14,7 +14,7 @@
 </template>
 
 <script lang="ts" setup>
-import type { WalletProps } from "@/components/atoms/boxes/types";
+import type { WalletProps } from "./types";
 
 const props = defineProps<WalletProps>();
 

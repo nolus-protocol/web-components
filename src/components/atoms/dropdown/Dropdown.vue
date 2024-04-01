@@ -62,7 +62,7 @@
 <script lang="ts" setup>
 import { computed, ref, Transition, watch } from "vue";
 import { Spinner } from "@/index";
-import type { DropdownOption, DropdownProps } from "@/components/atoms/dropdown/types";
+import type { DropdownOption, DropdownProps } from "./types";
 
 const dropdownRef = ref<HTMLElement | null>(null);
 const isOpen = ref(false);

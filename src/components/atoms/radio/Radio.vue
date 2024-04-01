@@ -1,12 +1,22 @@
 <template>
-  <div class="flex items-center gap-2 font-normal text-[13px] text-neutral-typography-200">
-    <input :id="id" :class="[inputClass]" :name="[name]" class="w-4 h-4 border-[1px] appearance-none border-border-color hover:border-neutral-typography-50 rounded-full cursor-pointer bg-neutral-bg-50 checked:border-4 checked:border-primary-50 checked:hover:border-primary-50 dark:checked:bg-neutral-bg-50" type="radio" />
-    <label :class="[labelClass]" :for="id" class="cursor-pointer">Checked state</label>
+  <div class="flex items-center gap-2 text-[13px] font-normal text-neutral-typography-200">
+    <input
+      :id="id"
+      :class="[inputClass]"
+      :name="name"
+      class="h-4 w-4 cursor-pointer appearance-none rounded-full border-[1px] border-border-color bg-neutral-bg-50 checked:border-4 checked:border-primary-50 hover:border-neutral-typography-50 checked:hover:border-primary-50 dark:checked:bg-neutral-bg-50"
+      type="radio"
+    />
+    <label
+      :class="[labelClass]"
+      :for="id"
+      class="cursor-pointer"
+      >Checked state</label
+    >
   </div>
 </template>
 
 <script lang="ts" setup>
-
 export interface CheckboxProps {
   id: string;
   label: string;
@@ -16,17 +26,9 @@ export interface CheckboxProps {
 }
 
 const props = withDefaults(defineProps<CheckboxProps>(), {
-  label: 'Connect Wallet',
-  id: 'checkbox-1'
+  label: "Connect Wallet",
+  id: "checkbox-1"
 });
-
-
 </script>
 
-<style lang="scss" scoped>
-input[type="checkbox"] {
-  //appearance: none;
-  //-webkit-appearance: none;
-  //-moz-appearance: none;
-}
-</style>
+<style lang="scss" scoped></style>

@@ -10,13 +10,13 @@
         @click="close"
       />
 
-      <slot name="header"></slot>
       <div
-        class="shadow-dialog mb-0 mt-0 h-full w-full max-w-3xl overflow-hidden bg-neutral-bg-50 md:rounded-xl lg:mb-12 lg:mt-12 lg:h-[85vh]"
+        class="mb-0 mt-0 max-h-[calc(100%-80px)] w-full max-w-[516px] overflow-hidden bg-neutral-bg-50 shadow-dialog md:rounded-xl lg:mb-12 lg:mt-12"
       >
+        <slot name="header"></slot>
         <slot name="body"></slot>
+        <slot name="footer"></slot>
       </div>
-      <slot name="footer"></slot>
     </div>
   </Teleport>
 </template>

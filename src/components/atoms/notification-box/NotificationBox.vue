@@ -23,7 +23,7 @@
 
 <script lang="ts" setup>
 import { computed } from "vue";
-import { INotificationBox, NotificationBoxType } from "./types";
+import { type INotificationBox, NotificationBoxType } from "./types";
 
 const props = defineProps<INotificationBox>();
 

@@ -9,8 +9,21 @@ const meta = {
   argTypes: {
     "onClose-modal": { action: "close" }
   },
+  parameters: {
+    slots: {
+      header: {
+        template: `<p class="text-neutral-typography-200 py-[20px] px-[40px]">Header</p>`
+      },
+      body: {
+        template: `<p class="text-neutral-typography-200 py-[20px] px-[40px]">Dialog body</p>`
+      },
+      footer: {
+        template: `<p class="text-neutral-typography-200 py-[20px] px-[40px]">Footer</p>`
+      }
+    }
+  },
   args: {} // default value
-} satisfies Meta<typeof Range>;
+} satisfies Meta<typeof Dialog>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;

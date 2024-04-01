@@ -26,10 +26,4 @@ export interface CheckboxProps {
 const props = defineProps<CheckboxProps>();
 </script>
 
-<style lang="scss" scoped>
-input[type="checkbox"] {
-  //appearance: none;
-  //-webkit-appearance: none;
-  //-moz-appearance: none;
-}
-</style>
+<style lang="scss" scoped></style>
