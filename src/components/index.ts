@@ -2,6 +2,7 @@ import Boxes from "@/components/atoms/boxes/Boxes.vue";
 import Button from "@/components/atoms/button/Button.vue";
 import Checkbox from "@/components/atoms/checkbox/Checkbox.vue";
 import Close from "@/components/atoms/close/Close.vue";
+import Dialog from "@/components/atoms/dialog/Dialog.vue";
 import Dropdown from "@/components/atoms/dropdown/Dropdown.vue";
 import Input from "@/components/atoms/input/Input.vue";
 import NotificationBox from "@/components/atoms/notification-box/NotificationBox.vue";
@@ -15,7 +16,8 @@ import CurrencyField from "@/components/molecules/currency-field/CurrencyField.v
 import MultilineCurrencyField from "@/components/molecules/multiline-currency-field/MultilineCurrencyField.vue";
 import Proposal from "@/components/molecules/proposal/Proposal.vue";
 import HistoryTableRow from "@/components/molecules/table-rows/HistoryTableRow.vue";
-import EarningAssetsTableRow from "@/components/molecules/table-rows/AssetsTableRow.vue";
+import AssetsTableRow from "@/components/molecules/table-rows/AssetsTableRow.vue";
+import EarningAssetsTableRow from "@/components/molecules/table-rows/EarningAssetsTableRow.vue";
 
 import Table from "@/components/organisms/table/Table.vue";
 
@@ -25,6 +27,7 @@ export {
   Button,
   Checkbox,
   Close,
+  Dialog,
   Dropdown,
   Input,
   NotificationBox,
@@ -39,6 +42,7 @@ export {
   MultilineCurrencyField,
   Proposal,
   HistoryTableRow,
+  AssetsTableRow,
   EarningAssetsTableRow,
 
   // organisms
