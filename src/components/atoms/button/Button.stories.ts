@@ -1,6 +1,7 @@
-import type { Meta, StoryObj } from '@storybook/vue3'
+import type { Meta, StoryObj } from "@storybook/vue3";
 
-import Button from './Button.vue'
+import Button from "./Button.vue";
+import { Size, Type } from "@/shared/utils/types";
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories
 const meta = {
@@ -10,11 +11,13 @@ const meta = {
     severity: { control: "select", options: ["primary", "secondary"] },
     size: { control: "select", options: ["small", "medium", "large"] },
     iconPosition: { control: "select", options: ["left", "right"] },
-    onClick: { action: "clicked" },
+    onClick: { action: "clicked" }
   },
   args: {
-
-  }, // default value
+    label: "Button",
+    size: Size.large,
+    severity: Type.primary
+  } // default value
 } satisfies Meta<typeof Button>;
 
 export default meta;
@@ -26,47 +29,47 @@ type Story = StoryObj<typeof meta>;
  */
 export const Primary: Story = {
   args: {
-    severity: "primary",
-  },
+    severity: "primary"
+  }
 };
 
 export const Secondary: Story = {
   args: {
-    severity: "secondary",
-  },
+    severity: "secondary"
+  }
 };
 
 export const Medium: Story = {
   args: {
-    size: "medium",
-  },
+    size: "medium"
+  }
 };
 
 export const Small: Story = {
   args: {
-    size: "small",
-  },
+    size: "small"
+  }
 };
 
 export const WithIcon: Story = {
   args: {
     ...Primary.args,
     icon: "icon-hub",
-    iconPosition: "left",
-  },
+    iconPosition: "left"
+  }
 };
 
 export const Loading: Story = {
   args: {
     ...Primary.args,
     severity: "primary",
-    loading: true,
+    loading: true
   }
 };
 
 export const Disabled: Story = {
   args: {
     ...Primary.args,
-    disabled: true,
+    disabled: true
   }
 };

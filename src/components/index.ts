@@ -14,6 +14,10 @@ import Wallet from "@/components/atoms/wallet/Wallet.vue";
 import CurrencyField from "@/components/molecules/currency-field/CurrencyField.vue";
 import MultilineCurrencyField from "@/components/molecules/multiline-currency-field/MultilineCurrencyField.vue";
 import Proposal from "@/components/molecules/proposal/Proposal.vue";
+import HistoryTableRow from "@/components/molecules/table-rows/HistoryTableRow.vue";
+import EarningAssetsTableRow from "@/components/molecules/table-rows/AssetsTableRow.vue";
+
+import Table from "@/components/organisms/table/Table.vue";
 
 export {
   // atoms
@@ -33,7 +37,10 @@ export {
   // molecules
   CurrencyField,
   MultilineCurrencyField,
-  Proposal
+  Proposal,
+  HistoryTableRow,
+  EarningAssetsTableRow,
 
   // organisms
+  Table
 };

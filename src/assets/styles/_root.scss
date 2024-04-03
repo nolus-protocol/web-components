@@ -31,6 +31,12 @@
     --spinner-border-color: #c1cad7;
 
     --color-hover: #f7f9fc;
+
+    --media-query-sm: 576px;
+    --media-query-md: 768px;
+    --media-query-lg: 1024px;
+    --media-query-xl: 1200px;
+    --media-query-xxl: 1400px;
   }
 
   :root[class~="sync"] {

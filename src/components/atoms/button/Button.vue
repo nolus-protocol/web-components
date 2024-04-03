@@ -18,6 +18,11 @@
       class="icon"
     />
     <span
+      v-if="icon && !iconPosition"
+      :class="[icon]"
+      class="icon"
+    />
+    <span
       v-if="loading"
       class="absolute mx-auto my-0"
     >
@@ -30,26 +35,9 @@
 import { computed } from "vue";
 import Spinner from "../spinner/Spinner.vue";
 import { Size, Type } from "@/shared/utils/types";
+import type { ButtonProps } from "@/components/atoms/button/types";
 
-export type ButtonSize = keyof typeof Size;
-export type ButtonType = keyof typeof Type;
-
-export interface ButtonProps {
-  label?: string;
-  size?: ButtonSize;
-  severity?: ButtonType;
-  outlined?: boolean;
-  icon?: string;
-  iconPosition?: "left" | "right";
-  loading?: boolean;
-  disabled?: boolean;
-}
-
-const props = withDefaults(defineProps<ButtonProps>(), {
-  label: "Button",
-  size: Size.large,
-  severity: Type.primary
-});
+const props = defineProps<ButtonProps>();
 
 const emit = defineEmits<{
   (e: "click", id: number): void;

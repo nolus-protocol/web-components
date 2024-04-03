@@ -1,9 +1,9 @@
 <template>
   <Teleport to="body">
     <div
-      class="fixed bottom-0 left-0 right-0 top-0 z-[999999999] flex items-start items-center justify-center bg-neutral-600/10 backdrop-blur-[2px]"
-      @keydown.esc="close"
       ref="dialog"
+      class="fixed bottom-0 left-0 right-0 top-0 z-[999999999] flex items-center justify-center bg-neutral-600/10 backdrop-blur-[2px]"
+      @keydown.esc="close"
     >
       <Close
         class="fixed right-5 top-5 z-[5]"

@@ -1,7 +1,9 @@
 <template>
-  <div class="m-auto mt-20 flex h-full max-w-[400px] flex-col gap-4">
+  <div class="m-auto mt-20 flex h-full max-w-[1000px] flex-col gap-4 pb-20">
     <Button
       label="test"
+      severity="primary"
+      size="large"
       @click="
         () => {
           console.info('dsadsadasdadsada');
@@ -22,7 +24,11 @@
       "
       :options="options"
     />
-    <Button severity="secondary" />
+    <Button
+      label="Secondary button"
+      severity="secondary"
+      size="large"
+    />
 
     <Input
       id="test-input"
@@ -92,6 +98,55 @@
         }
       "
     />
+
+    <Table
+      :columns="columns"
+      class="p-4 md:p-6"
+      columnsClasses="hidden md:flex"
+      title="History"
+    >
+      <template v-slot:body>
+        <HistoryTableRow
+          v-for="(row, index) in historyData"
+          :key="index"
+          :items="row.items"
+        />
+      </template>
+    </Table>
+
+    <Table
+      :columns="assetsColumns"
+      class="p-4 md:p-6"
+      footerClasses="flex justify-center"
+      title="Assets"
+    >
+      <template v-slot:header>Search or button</template>
+      <template v-slot:body>
+        <EarningAssetsTableRow
+          v-for="(row, index) in assetsData"
+          :id="row.id"
+          :key="index"
+          :items="row.items"
+          @button-click="
+            (data) => {
+              console.info(data);
+            }
+          "
+        />
+      </template>
+
+      <template v-slot:footer
+        ><Button
+          label="Show Small Balances"
+          severity="secondary"
+          size="medium"
+          @click="
+            () => {
+              console.info('dsadsadasdadsada');
+            }
+          "
+      /></template>
+    </Table>
   </div>
 </template>
 
@@ -101,12 +156,59 @@ import {
   Close,
   CurrencyField,
   Dropdown,
+  type EarningAssetsTableRowItemProps,
+  type HistoryTableRowItemProps,
   Input,
   MultilineCurrencyField,
   NotificationButton,
   Proposal,
   ProposalStatus
 } from "./index";
+import { EarningAssetsTableRow, HistoryTableRow, Table } from "@/components";
+
+const columns = [
+  { label: "Tx hash" },
+  { label: "Action", tooltip: "Action tooltip" },
+  { label: "Fee" },
+  { label: "Time" }
+];
+
+const assetsColumns = [
+  { label: "Asset" },
+  { label: "balance" },
+  { label: "yield", tooltip: "Yield tooltip", class: "hidden md:flex" },
+  { label: "lease up to", tooltip: "Lease up to tooltip", class: "hidden md:flex" },
+  { label: "receive/send" }
+];
+
+const historyData: HistoryTableRowItemProps[] = [
+  {
+    items: [
+      { value: "0x123", url: "https://google.com" },
+      { value: "Swap", bold: true },
+      { value: "0.0001" },
+      { value: "12:00" }
+    ]
+  }
+];
+
+const assetsData: EarningAssetsTableRowItemProps[] = [
+  {
+    id: 1,
+    items: [
+      {
+        value: "BTC",
+        subValue: "$29,836.42",
+        image:
+          "https://raw.githubusercontent.com/nolus-protocol/webapp/main/src/config/currencies/icons/neutron-usdc.svg"
+      },
+      { value: "32,430.22", subValue: "$222,000.00" },
+      { value: "-", class: "hidden md:flex" },
+      { value: "32,430.22", class: "hidden md:flex" },
+      { value: "", button: true }
+    ]
+  }
+];
 
 const options = [
   {
