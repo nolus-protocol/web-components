@@ -2,7 +2,7 @@
   <div class="shadow-lg flex w-full flex-col justify-between gap-y-5 overflow-clip rounded-xl bg-neutral-bg-50">
     <div class="flex items-start justify-between p-5 pb-0">
       <div
-        class="basis-4/5 overflow-hidden break-words text-xl font-medium tracking-tight text-neutral-900 md:text-2xl"
+        class="basis-4/5 overflow-hidden break-words text-xl font-medium tracking-tight text-neutral-900 md:text-2xl dark:text-white"
       >
         &#35;{{ id }} {{ title }}
       </div>
@@ -26,13 +26,13 @@
       v-if="isVotingPeriod"
       class="flex flex-col gap-y-4 border-b border-t px-5 py-4"
     >
-      <div class="flex flex-col items-center justify-between gap-2 md:flex-row md:gap-0">
+      <div class="flex flex-col items-center justify-between gap-2 md:flex-row md:gap-0 dark:text-white">
         <div class="flex gap-4">
           <div>
-            <span class="block text-sm">Turnout:</span> <span class="text-base font-medium">{{ turnout }}%</span>
+            <span class="block text-sm">Turnout:</span> <span class="text-base font-medium">{{ turnout }}</span>
           </div>
           <div>
-            <span class="block text-sm">Quorum:</span> <span class="text-base font-medium">{{ quorum }}%</span>
+            <span class="block text-sm">Quorum:</span> <span class="text-base font-medium">{{ quorum }}</span>
           </div>
           <div>
             <span class="block text-sm">Voting ends:</span>
@@ -48,7 +48,7 @@
     </div>
     <div
       v-if="summary"
-      class="px-5 text-neutral-900"
+      class="px-5 text-neutral-900 dark:text-white"
     >
       <div
         class="prose prose-h1:mb-2 prose-h1:text-lg prose-h1:font-medium prose-h2:my-1 prose-h2:text-lg prose-h2:font-medium"

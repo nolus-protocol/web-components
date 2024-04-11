@@ -1,0 +1,63 @@
+import type { Meta, StoryObj } from "@storybook/vue3";
+
+import Lease from "./Lease.vue";
+import { LeasePnlStatus, LeaseStatus } from "@/components/organisms/lease/types";
+
+const meta = {
+  title: "Components/Organisms/Lease",
+  component: Lease,
+  argTypes: {},
+  parameters: {},
+  args: {
+    title: "Buy position",
+    pnl: {
+      value: "$00.00",
+      status: LeasePnlStatus.NEUTRAL
+    },
+    share: {
+      label: "Share Position"
+    },
+    tabs: [
+      { button: { icon: "icon-assets" }, content: "Some content 1" },
+      { button: { icon: "icon-assets" }, content: "Some content 2" },
+      { button: { icon: "icon-assets" }, content: "Some content 3" }
+    ],
+    actionButtons: {
+      repay: { label: "Repay" },
+      close: { label: "Close" },
+      collect: { label: "Collect" }
+    },
+    progressBarTitle: "Opening",
+    progressDateTitle: "Opened on",
+    progressDate: "Opening..."
+  } // default value
+} satisfies Meta<typeof Lease>;
+
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+export const Opening: Story = {
+  args: {
+    status: LeaseStatus.OPENING
+  }
+};
+export const Opened: Story = {
+  args: {
+    status: LeaseStatus.OPENED,
+    progressDate: "FEB. 8, 2024",
+    pnl: {
+      value: "+$20.00",
+      status: LeasePnlStatus.POSITIVE
+    }
+  }
+};
+export const Collect: Story = {
+  args: {
+    status: LeaseStatus.COLLECT,
+    progressDate: "FEB. 8, 2024",
+    pnl: {
+      value: "-$20.00",
+      status: LeasePnlStatus.NEGATIVE
+    }
+  }
+};

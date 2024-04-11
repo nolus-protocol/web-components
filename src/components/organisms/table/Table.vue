@@ -1,5 +1,7 @@
 <template>
-  <div class="flex w-full flex-col gap-6 rounded-xl border-[1px] border-border-color bg-neutral-bg-50 p-6">
+  <div
+    class="flex w-full flex-col gap-6 rounded-xl border-neutral-100 bg-neutral-bg-50 p-6 p-6 dark:border-border-color"
+  >
     <div
       v-if="title || $slots.header"
       :class="[{ 'justify-between': $slots.header && title, 'justify-end': $slots.header && !title }]"

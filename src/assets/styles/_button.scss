@@ -1,5 +1,5 @@
 .button {
-  @apply flex items-center justify-center;
+  @apply flex items-center justify-center gap-1;
 
   &-primary {
     @apply bg-primary-50 text-white hover:bg-primary-100 active:bg-primary-200 disabled:bg-neutral-100 disabled:text-neutral-typography-50 disabled:border-neutral-100;
@@ -15,5 +15,9 @@
     &-loading {
       @apply pointer-events-none bg-neutral-100 text-neutral-100 border-neutral-100 dark:bg-neutral-bg-50 dark:text-neutral-bg-50 dark:border-border-color #{!important};
     }
+  }
+
+  &-active {
+    @apply dark:bg-neutral-bg-50 dark:border-primary-50 text-primary-50 border-primary-50  bg-primary-50/10;
   }
 }
