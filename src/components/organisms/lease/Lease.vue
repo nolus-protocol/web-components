@@ -52,7 +52,12 @@
         </div>
         <div class="flex flex-col gap-1">
           <div class="text-12 font-medium text-neutral-400">{{ progressDateTitle }}</div>
-          <div class="text-16 font-medium text-neutral-typography-200">{{ progressDate }}</div>
+          <div
+            :class="[{ pulse: status === LeaseStatus.OPENING }]"
+            class="text-16 font-medium text-neutral-typography-200"
+          >
+            {{ progressDate }}
+          </div>
         </div>
       </div>
       <div class="order-2 h-[1px] w-full bg-neutral-100 lg:order-3 lg:h-full lg:w-[1px] dark:bg-border-color" />
@@ -114,4 +119,20 @@ defineProps<LeaseProps>();
 const selectedTab = ref(0);
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.pulse {
+  animation: pulse 1s infinite;
+}
+</style>
