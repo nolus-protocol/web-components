@@ -6,7 +6,9 @@ import { LeasePnlStatus, LeaseStatus } from "@/components/organisms/lease/types"
 const meta = {
   title: "Components/Organisms/Lease",
   component: Lease,
-  argTypes: {},
+  argTypes: {
+    "on-collect": { action: "on-collect" }
+  },
   parameters: {},
   args: {
     title: "Buy position",
@@ -29,7 +31,21 @@ const meta = {
     },
     progressBarTitle: "Opening",
     progressDateTitle: "Opened on",
-    progressDate: "Opening..."
+    progressDate: "Opening...",
+    debt: {
+      title: "Debt",
+      value: "$00.00",
+      class: "bg-neutral-100 rounded-md text-transparent"
+    },
+    interest: {
+      title: "Interest",
+      value: "2.02%"
+    },
+    interestDue: {
+      title: "Due",
+      value: "$00.00",
+      class: "text-warning-100"
+    }
   } // default value
 } satisfies Meta<typeof Lease>;
 
@@ -38,13 +54,30 @@ type Story = StoryObj<typeof meta>;
 
 export const Opening: Story = {
   args: {
-    status: LeaseStatus.OPENING
+    status: LeaseStatus.OPENING,
+    debt: {
+      title: "Debt",
+      value: "$00.00",
+      class: "bg-neutral-100 rounded-md text-transparent"
+    },
+    interest: {
+      title: "Interest",
+      value: "2.02%",
+      class: "line-through"
+    },
+    interestDue: {
+      title: "Due",
+      value: "$00.00",
+      class: "bg-neutral-100 rounded-md text-transparent"
+    }
   }
 };
 export const Opened: Story = {
   args: {
     status: LeaseStatus.OPENED,
+    progressBarTitle: "Health",
     progressDate: "FEB. 8, 2024",
+    margin: 81,
     pnl: {
       value: "+$20.00",
       status: LeasePnlStatus.POSITIVE
@@ -54,10 +87,12 @@ export const Opened: Story = {
 export const Collect: Story = {
   args: {
     status: LeaseStatus.COLLECT,
+    progressBarTitle: "Health",
     progressDate: "FEB. 8, 2024",
+    margin: 66,
     pnl: {
       value: "-$20.00",
-      status: LeasePnlStatus.NEGATIVE
+      status: LeasePnlStatus.POSITIVE
     }
   }
 };

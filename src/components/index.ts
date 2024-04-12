@@ -19,6 +19,7 @@ import HistoryTableRow from "@/components/molecules/table-rows/HistoryTableRow.v
 import AssetsTableRow from "@/components/molecules/table-rows/AssetsTableRow.vue";
 import EarningAssetsTableRow from "@/components/molecules/table-rows/EarningAssetsTableRow.vue";
 
+import Lease from "@/components/organisms/lease/Lease.vue";
 import Table from "@/components/organisms/table/Table.vue";
 
 export {
@@ -46,5 +47,6 @@ export {
   EarningAssetsTableRow,
 
   // organisms
+  Lease,
   Table
 };

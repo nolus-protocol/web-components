@@ -3,7 +3,7 @@ import type { ButtonProps } from "@/components/atoms/button/types";
 
 export interface LeaseTabProps {
   button: ButtonProps;
-  content: Component | DefineComponent;
+  content: string | Component | DefineComponent;
 }
 
 export enum LeaseStatus {
@@ -12,24 +12,11 @@ export enum LeaseStatus {
   COLLECT = "COLLECT"
 }
 
-export interface LeaseDebtProps {
+export interface LeaseCurrencyProps {
   title: string;
   value: string;
   tooltip?: string;
-}
-
-export interface LeaseInterestProps {
-  title: string;
-  value: string;
-  tooltip?: string;
-  classes?: string;
-}
-
-export interface LeaseInterestDueProps {
-  title: string;
-  value: string;
-  tooltip?: string;
-  classes?: string;
+  class?: string;
 }
 
 export enum LeasePnlStatus {
@@ -47,15 +34,23 @@ export interface LeaseProps {
     value: string;
     status: LeasePnlStatus;
   };
+  margin?: number;
   progressBarTitle: string;
   progressDateTitle: string;
   progressDate: string;
-  debt?: LeaseDebtProps;
-  interest?: LeaseInterestProps;
-  interestDue?: LeaseInterestDueProps;
+  debt?: LeaseCurrencyProps;
+  interest?: LeaseCurrencyProps;
+  interestDue?: LeaseCurrencyProps;
   actionButtons: {
     repay: ButtonProps;
     close: ButtonProps;
     collect: ButtonProps;
   };
 }
+
+export type LeaseEmits = {
+  (e: "on-share", data: LeaseProps): void;
+  (e: "on-collect", data: LeaseProps): void;
+  (e: "on-repay", data: LeaseProps): void;
+  (e: "on-close", data: LeaseProps): void;
+};
