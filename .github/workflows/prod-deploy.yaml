@@ -8,7 +8,7 @@ on:
       - v*.*.*
 
 env:
-  BUCKET_NAME: storybook-nolus.s3.eu-west-1.amazonaws.com
+  BUCKET_NAME: storybook-nolus
   CLOUDFRONT_ID: E213OV9IDTDHKX
   AWS_REGION: eu-west-1
 
