@@ -147,6 +147,15 @@
           "
       /></template>
     </Table>
+
+    <Lease
+      v-bind="leaseProps"
+      @on-collect="
+        (data) => {
+          console.info(data);
+        }
+      "
+    />
   </div>
 </template>
 
@@ -159,6 +168,10 @@ import {
   type EarningAssetsTableRowItemProps,
   type HistoryTableRowItemProps,
   Input,
+  Lease,
+  LeasePnlStatus,
+  type LeaseProps,
+  LeaseStatus,
   MultilineCurrencyField,
   NotificationButton,
   Proposal,
@@ -242,6 +255,32 @@ const options = [
 
 const onSelect = (option: any) => {
   console.info(option);
+};
+
+const leaseProps: LeaseProps = {
+  title: "Buy position",
+  share: {
+    label: "Share Position"
+  },
+  status: LeaseStatus.COLLECT,
+  tabs: [
+    { button: { icon: "icon-assets" }, content: "Some content 1" },
+    { button: { icon: "icon-assets" }, content: "Some content 2" },
+    { button: { icon: "icon-assets" }, content: "Some content 3" }
+  ],
+  actionButtons: {
+    repay: { label: "Repay" },
+    close: { label: "Close" },
+    collect: { label: "Collect" }
+  },
+  progressBarTitle: "Health",
+  progressDateTitle: "Opened on",
+  progressDate: "FEB. 8, 2024",
+  margin: 66,
+  pnl: {
+    value: "-$20.00",
+    status: LeasePnlStatus.POSITIVE
+  }
 };
 </script>
 
