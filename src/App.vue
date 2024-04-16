@@ -165,19 +165,21 @@ import {
   Close,
   CurrencyField,
   Dropdown,
-  type EarningAssetsTableRowItemProps,
-  type HistoryTableRowItemProps,
   Input,
   Lease,
-  LeasePnlStatus,
-  type LeaseProps,
-  LeaseStatus,
   MultilineCurrencyField,
   NotificationButton,
-  Proposal,
-  ProposalStatus
-} from "./index";
+  Proposal
+} from "@/components";
 import { EarningAssetsTableRow, HistoryTableRow, Table } from "@/components";
+import {
+  LeasePnlStatus,
+  type EarningAssetsTableRowItemProps,
+  type HistoryTableRowItemProps,
+  type LeaseProps,
+  LeaseStatus,
+  ProposalStatus
+} from "./components/types";
 
 const columns = [
   { label: "Tx hash" },
