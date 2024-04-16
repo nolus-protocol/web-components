@@ -34,7 +34,7 @@ export interface CurrencyFieldProps {
   isLoadingPicker?: boolean;
 }
 
-interface OnSelectionChange {
+export interface OnSelectionChange {
   currency: CurrencyFieldOption | undefined;
   input: { value: string; order: number };
 }

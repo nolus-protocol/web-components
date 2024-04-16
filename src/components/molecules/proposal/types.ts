@@ -15,7 +15,7 @@ interface ProposalBase {
   readMoreButtonText: string;
 }
 
-interface ProposalNotVoted extends ProposalBase {
+export interface ProposalNotVoted extends ProposalBase {
   status: Exclude<ProposalStatus, ProposalStatus.PROPOSAL_STATUS_VOTING_PERIOD>;
   tally?: FinalTallyResult;
   voting_end_time?: string;
@@ -24,7 +24,7 @@ interface ProposalNotVoted extends ProposalBase {
   voteButtonText?: string;
 }
 
-interface ProposalVoted extends ProposalBase {
+export interface ProposalVoted extends ProposalBase {
   status: ProposalStatus.PROPOSAL_STATUS_VOTING_PERIOD;
   tally: FinalTallyResult;
   voting_end_time: string;

@@ -6,15 +6,11 @@ const config: StorybookConfig = {
     "@storybook/addon-links",
     "@storybook/addon-essentials",
     "@storybook/addon-interactions",
-    "@storybook/addon-themes",
-    "storybook-addon-vue-slots"
+    "@storybook/addon-themes"
   ],
   framework: {
     name: "@storybook/vue3-vite",
     options: {}
-  },
-  features: {
-    storyStoreV7: true
   },
   docs: {
     autodocs: "tag"

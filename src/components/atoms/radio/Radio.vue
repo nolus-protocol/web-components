@@ -25,7 +25,7 @@ export interface CheckboxProps {
   inputClass?: string;
 }
 
-const props = withDefaults(defineProps<CheckboxProps>(), {
+withDefaults(defineProps<CheckboxProps>(), {
   label: "Connect Wallet",
   id: "checkbox-1"
 });

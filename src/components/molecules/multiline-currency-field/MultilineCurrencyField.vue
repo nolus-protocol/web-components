@@ -108,7 +108,7 @@
 
 <script lang="ts" setup>
 import { computed, ref, watch } from "vue";
-import { Dropdown, Tooltip } from "@/index";
+import { Dropdown, Tooltip } from "@/components";
 import type { CurrencyFieldEmits, CurrencyFieldOption, CurrencyFieldProps } from "./types";
 import DownArrow from "@/shared/components/down-arrow.vue";
 import Swap from "@/shared/components/swap.vue";

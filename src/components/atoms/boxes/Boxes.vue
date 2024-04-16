@@ -16,7 +16,7 @@
 <script lang="ts" setup>
 import type { WalletProps } from "./types";
 
-const props = defineProps<WalletProps>();
+defineProps<WalletProps>();
 
 const emit = defineEmits<{
   (e: "click", id: number): void;

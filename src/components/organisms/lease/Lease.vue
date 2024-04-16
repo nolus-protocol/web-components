@@ -7,7 +7,7 @@
       <Button
         v-if="share"
         v-bind="{
-          ...share,
+          ...(share ?? {}),
           severity: 'secondary',
           size: 'small',
           icon: 'icon-share',
@@ -183,7 +183,7 @@
 
 <script lang="ts" setup>
 import { defineProps, ref } from "vue";
-import { Button, Tooltip } from "@/index";
+import { Button, Tooltip } from "@/components";
 import ArrowUp from "@/shared/components/arrow-up.vue";
 import ArrowDown from "@/shared/components/arrow-down.vue";
 

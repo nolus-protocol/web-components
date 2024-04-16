@@ -63,10 +63,10 @@
         @click="$emit('read-more', { title, summary })"
       >
         {{ readMoreButtonText }}
-        <ChevronRightSmallIcon
+        <!-- <ChevronRightSmallIcon
           aria-hidden="true"
           class="h-5 w-5"
-        />
+        /> -->
       </button>
       <button
         v-if="isVotingPeriod"

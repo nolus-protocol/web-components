@@ -8,7 +8,7 @@
         v-if="type === NotificationBoxType.error"
         class="icon icon-close text-[22px] leading-none text-danger-100"
       ></i>
-      <WarningIcon v-if="type === NotificationBoxType.warning" />
+      <!-- <WarningIcon v-if="type === NotificationBoxType.warning" /> -->
     </div>
     <div class="text-left text-14 font-normal text-neutral-typography-200">
       <slot name="content"></slot>
@@ -19,7 +19,7 @@
 <script lang="ts" setup>
 import { computed } from "vue";
 import { type INotificationBox, NotificationBoxType } from "./types";
-import WarningIcon from "@/assets/icons/information-circle.svg";
+// import WarningIcon from "../../../assets/icons/chevron-right-small.svg";
 
 const props = defineProps<INotificationBox>();
 
