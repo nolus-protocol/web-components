@@ -6,9 +6,7 @@ import { LeasePnlStatus, LeaseStatus } from "@/components/organisms/lease/types"
 const meta = {
   title: "Components/Organisms/Lease",
   component: Lease,
-  argTypes: {
-    "on-collect": { action: "on-collect" }
-  },
+  argTypes: {},
   parameters: {},
   args: {
     title: "Buy position",

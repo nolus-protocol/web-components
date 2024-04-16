@@ -9,19 +9,6 @@ const meta = {
   argTypes: {
     "onClose-modal": { action: "close" }
   },
-  parameters: {
-    slots: {
-      header: {
-        template: `<p class="text-neutral-typography-200 py-[20px] px-[40px]">Header</p>`
-      },
-      body: {
-        template: `<p class="text-neutral-typography-200 py-[20px] px-[40px]">Dialog body</p>`
-      },
-      footer: {
-        template: `<p class="text-neutral-typography-200 py-[20px] px-[40px]">Footer</p>`
-      }
-    }
-  },
   args: {} // default value
 } satisfies Meta<typeof Dialog>;
 
@@ -33,5 +20,21 @@ type Story = StoryObj<typeof meta>;
  * to learn how to use render functions.
  */
 export const Primary: Story = {
+  render: () => ({
+    components: { Dialog },
+    template: `
+      <Dialog>
+        <template v-slot:header>
+          <p class="text-neutral-typography-200 py-[20px] px-[40px]">Header</p>
+        </template>
+        <template v-slot:body>
+          <p class="text-neutral-typography-200 py-[20px] px-[40px]">Dialog body</p>
+        </template>
+        <template v-slot:footer>
+          <p class="text-neutral-typography-200 py-[20px] px-[40px]">Footer</p>
+        </template>
+      </Dialog>
+    `
+  }),
   args: {}
 };
