@@ -205,7 +205,7 @@ const assetsData: EarningAssetsTableRowItemProps[] = [
       { value: "32,430.22", subValue: "$222,000.00" },
       { value: "-", class: "hidden md:flex" },
       { value: "32,430.22", class: "hidden md:flex" },
-      { value: "", button: true }
+      { value: "" }
     ]
   }
 ];

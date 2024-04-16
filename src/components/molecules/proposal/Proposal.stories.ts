@@ -41,6 +41,11 @@ export const Voting: Story = {
 
 export const Passed: Story = {
   args: {
-    status: ProposalStatus.PROPOSAL_STATUS_PASSED
+    status: ProposalStatus.PROPOSAL_STATUS_PASSED,
+    id: "1",
+    title: "Title",
+    summary: "summary",
+    voted: false,
+    readMoreButtonText: "read"
   }
 };

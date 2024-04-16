@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/vue3";
 
 import NotificationBox from "./NotificationBox.vue";
+import { NotificationBoxType } from "./types";
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories
 const meta = {
@@ -28,7 +29,9 @@ export const Warning: Story = {
       </NotificationBox>
     `
   }),
-  args: {}
+  args: {
+    type: NotificationBoxType.warning
+  }
 };
 
 export const Error: Story = {
@@ -42,5 +45,7 @@ export const Error: Story = {
       </NotificationBox>
     `
   }),
-  args: {}
+  args: {
+    type: NotificationBoxType.error
+  }
 };

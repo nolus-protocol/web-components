@@ -10,9 +10,6 @@ import Button from "../../atoms/button/Button.vue";
 const meta = {
   title: "Components/Organisms/Table",
   component: Table,
-  argTypes: {
-    "onClose-modal": { action: "close" }
-  },
   parameters: {},
   args: {
     title: "Table title",
@@ -31,6 +28,7 @@ type Story = StoryObj<typeof meta>;
  * See https://storybook.js.org/docs/api/csf
  * to learn how to use render functions.
  */
+
 export const History: Story = {
   render: (args) => ({
     data() {
@@ -69,6 +67,15 @@ export const History: Story = {
     })),
     class: "p-4 md:p-6",
     columnsClasses: "hidden md:flex"
+  } as {
+    title?: string;
+    columns: {
+      label: string;
+      class?: string;
+      tooltip?: string;
+    }[];
+    columnsClasses?: string;
+    footerClasses?: string;
   }
 };
 
@@ -137,6 +144,15 @@ export const Asset: Story = {
     class: "p-4 md:p-6",
     footerClasses: "flex justify-center",
     title: "Assets"
+  } as {
+    title?: string;
+    columns: {
+      label: string;
+      class?: string;
+      tooltip?: string;
+    }[];
+    columnsClasses?: string;
+    footerClasses?: string;
   }
 };
 
@@ -200,5 +216,14 @@ export const EarningAssets: Story = {
     class: "p-4 md:p-6",
     footerClasses: "flex justify-center",
     title: "Assets"
+  } as {
+    title?: string;
+    columns: {
+      label: string;
+      class?: string;
+      tooltip?: string;
+    }[];
+    columnsClasses?: string;
+    footerClasses?: string;
   }
 };

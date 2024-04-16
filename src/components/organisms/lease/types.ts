@@ -3,7 +3,7 @@ import type { ButtonProps } from "@/components/atoms/button/types";
 
 export interface LeaseTabProps {
   button: ButtonProps;
-  content: Component | DefineComponent;
+  content: Component | DefineComponent | string;
 }
 
 export enum LeaseStatus {
