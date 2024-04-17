@@ -60,4 +60,6 @@ const style = computed(() => ({}));
 const onClick = () => {
   emit("click", 1);
 };
+
+console.log("test2");
 </script>

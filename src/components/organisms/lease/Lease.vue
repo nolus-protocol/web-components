@@ -183,7 +183,9 @@
 
 <script lang="ts" setup>
 import { defineProps, ref } from "vue";
-import { Button, Tooltip } from "@/components";
+import Tooltip from "../../atoms/tooltip/Tooltip.vue";
+import Button from "../../atoms/button/Button.vue";
+
 import ArrowUp from "@/shared/components/arrow-up.vue";
 import ArrowDown from "@/shared/components/arrow-down.vue";
 

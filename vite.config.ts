@@ -3,45 +3,14 @@ import { fileURLToPath } from "url";
 
 import vue from "@vitejs/plugin-vue";
 import dts from "vite-plugin-dts";
-// import ts from "typescript";
+import svgLoader from "vite-svg-loader";
 
-// const ignore = [".stories.ts", "components/index.ts", "components/types.ts"];
-
-// const input = Object.fromEntries(
-//   glob
-//     .sync("src/**/*.{ts,vue}")
-//     .filter((file) => {
-//       console.log(file);
-
-//       for (const i of ignore) {
-//         if (file.includes(i)) {
-//           return false;
-//         }
-//       }
-//       if (file.includes("src/components")) {
-//         return true;
-//       }
-//       return false;
-//     })
-//     .map((file) => {
-//       return [
-//         relative("src/components", file.slice(0, file.length - extname(file).length)),
-//         fileURLToPath(new URL(file, import.meta.url))
-//       ];
-//     })
-// );
-
-// const include = [];
-
-// for (const key in input) {
-//   include.push(input[key]);
-// }
-// console.log(input);
 export default defineConfig({
   plugins: [
     vue(),
+    svgLoader(),
     dts({
-      tsconfigPath: "./tsconfig.app.json"
+      tsconfigPath: "./tsconfig.vite.json"
     })
   ],
   resolve: {
@@ -50,23 +19,21 @@ export default defineConfig({
     }
   },
   build: {
-    cssCodeSplit: true,
-    minify: true,
-    modulePreload: false,
     lib: {
-      entry: "src/index.ts",
+      entry: "lib/main.ts",
       name: "web-components",
-      formats: ["es", "cjs"],
-      fileName: (format, name) => `${name}.${format === "es" ? "js" : "cjs"}`
+      formats: ["es"]
     },
     rollupOptions: {
+      external: ["vue"],
       output: {
         preserveModules: true,
+        assetFileNames: "assets/[name][extname]",
+        entryFileNames: "[name].js",
         globals: {
           vue: "Vue"
         }
-      },
-      external: ["vue"]
+      }
     }
   }
 });
