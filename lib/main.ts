@@ -1,3 +1,5 @@
+import "../src/assets/styles/index.scss";
+
 import Boxes from "../src/components/atoms/boxes/Boxes.vue";
 import Button from "../src/components/atoms/button/Button.vue";
 import Checkbox from "../src/components/atoms/checkbox/Checkbox.vue";
