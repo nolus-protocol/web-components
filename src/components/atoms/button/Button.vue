@@ -1,6 +1,6 @@
 <template>
   <button
-    :class="['font-medium', classes]"
+    :class="['font-semibold', classes]"
     :disabled="disabled"
     :style="style"
     type="button"
@@ -60,6 +60,4 @@ const style = computed(() => ({}));
 const onClick = () => {
   emit("click", 1);
 };
-
-console.log("test2");
 </script>

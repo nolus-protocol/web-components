@@ -1,6 +1,8 @@
 <template>
-  <div class="shadow-lg flex w-full flex-col justify-between gap-y-5 overflow-clip rounded-xl bg-neutral-bg-50">
-    <div class="flex items-start justify-between p-5 pb-0">
+  <div
+    class="shadow-lg flex w-full flex-col overflow-clip rounded-xl bg-neutral-bg-50 dark:border-[1px] dark:border-border-color"
+  >
+    <div class="mb-5 flex items-start justify-between p-5 pb-0">
       <div
         class="basis-4/5 overflow-hidden break-words text-xl font-medium tracking-tight text-neutral-900 md:text-2xl dark:text-white"
       >
@@ -18,13 +20,13 @@
           :class="{ [color.text]: color }"
           class="text-sm font-medium"
         >
-          {{ ProposalStatus[status].split("_")[2] }}
+          {{ ProposalStatus[status]?.split("_")[2] }}
         </div>
       </div>
     </div>
     <div
       v-if="isVotingPeriod"
-      class="flex flex-col gap-y-4 border-b border-t px-5 py-4"
+      class="mb- mb-5 flex flex-col gap-y-4 border-b border-t px-5 py-4"
     >
       <div class="flex flex-col items-center justify-between gap-2 md:flex-row md:gap-0 dark:text-white">
         <div class="flex gap-4">
@@ -48,7 +50,7 @@
     </div>
     <div
       v-if="summary"
-      class="px-5 text-neutral-900 dark:text-white"
+      class="flex-1 px-5 text-neutral-900 dark:text-white"
     >
       <div
         class="prose prose-h1:mb-2 prose-h1:text-lg prose-h1:font-medium prose-h2:my-1 prose-h2:text-lg prose-h2:font-medium"
@@ -56,7 +58,11 @@
         {{ summary }}
       </div>
     </div>
-    <div class="border-t">
+    <div
+      v-if="summary || isVotingPeriod"
+      :class="[{ 'border-t': summary && summary.length > 156 }]"
+      class="mt-5"
+    >
       <button
         v-if="summary && summary.length > 156"
         class="flex w-full items-center justify-center bg-neutral-50 p-3 text-sm font-medium transition-colors hover:bg-neutral-100 hover:text-neutral-800"
