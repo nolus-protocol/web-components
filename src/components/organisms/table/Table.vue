@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex w-full flex-col gap-6 rounded-xl border-neutral-100 bg-neutral-bg-50 p-6 p-6 dark:border-border-color"
+    class="shadow-field-normal flex w-full flex-col gap-6 rounded-xl border-[1px] border-neutral-100 bg-neutral-bg-50 p-6 dark:border-border-color"
   >
     <div
       v-if="title || $slots.header"
@@ -13,13 +13,16 @@
         <slot name="header"></slot>
       </div>
     </div>
-    <div class="flex flex-col">
+    <div class="flex flex-col [&>*:last-child]:border-none">
       <div :class="['flex border-b-[1px] border-border-color pb-2.5', columnsClasses]">
         <div
-          v-for="column in columns"
+          v-for="(column, index) in columns"
           :key="column.label"
-          :class="[column.class]"
-          class="flex flex-1 items-center gap-0.5 text-12 font-medium uppercase text-neutral-400 [&:not(:first-child)]:justify-end"
+          :class="[
+            'flex flex-1 items-center gap-0.5 text-12 font-medium uppercase text-neutral-400',
+            { 'md:justify-end': index >= columns.length - 2 },
+            column.class
+          ]"
         >
           {{ column.label }}
           <Tooltip
