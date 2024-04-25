@@ -2,7 +2,7 @@
   <div
     class="shadow-lg flex w-full flex-col overflow-clip rounded-xl bg-neutral-bg-50 dark:border-[1px] dark:border-border-color"
   >
-    <div class="mb-5 flex items-start justify-between p-5 pb-0">
+    <div class="mb-5 flex items-start justify-between gap-2.5 p-5 pb-0">
       <div
         class="basis-4/5 overflow-hidden break-words text-xl font-medium tracking-tight text-neutral-900 md:text-2xl dark:text-white"
       >
