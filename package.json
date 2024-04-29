@@ -1,6 +1,6 @@
 {
   "name": "web-components",
-  "version": "1.1.5",
+  "version": "1.1.6",
   "private": false,
   "sideEffects": [
     "*.vue",
@@ -11,13 +11,8 @@
     "dist",
     "dist/src"
   ],
-  "main": "./dist/lib/main.js",
+  "main": "./dist/main.js",
   "types": "./dist/lib/main.d.ts",
-  "exports": {
-    "tailwind": {
-      "require": "./tailwind.config.cjs"
-    }
-  },
   "scripts": {
     "dev": "vite",
     "rollup": "rollup -c",
