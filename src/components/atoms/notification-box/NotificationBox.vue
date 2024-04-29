@@ -19,7 +19,7 @@
 <script lang="ts" setup>
 import { computed } from "vue";
 import { type INotificationBox, NotificationBoxType } from "./types";
-import WarningIcon from "../../../assets/icons/chevron-right-small.svg";
+import WarningIcon from "../../../assets/icons/information-circle.svg";
 
 const props = defineProps<INotificationBox>();
 
