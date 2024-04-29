@@ -20,7 +20,10 @@ export default defineConfig({
   },
   build: {
     lib: {
-      entry: ["lib/main.ts", "tailwind.config.cjs"],
+      entry: {
+        main: "lib/main.ts",
+        "tailwind.config": "tailwind.config.cjs"
+      },
       name: "web-components",
       formats: ["es"]
     },
