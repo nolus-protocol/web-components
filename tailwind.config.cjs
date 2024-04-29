@@ -170,7 +170,7 @@ export default {
     boxShadow: {
       'dialog': '0 8px 48px #072d6326',
       'field-heavy': '0px 8px 48px 0px rgba(7, 45, 99, 0.15)',
-      'field-normal': 'box-shadow: 0px 12px 32px 0px rgba(7, 45, 99, 0.06);'
+      'field-normal': '0px 12px 32px 0px rgba(7, 45, 99, 0.06)'
     },
     textShadow: {
       password: '0 0 0 var(--color-typography-200)'
