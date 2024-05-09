@@ -3,7 +3,6 @@ import type { ButtonProps } from "../../atoms/button/types";
 export interface HistoryTableItem {
   value: string;
   url?: string;
-  icon?: string;
   bold?: boolean;
   class?: string;
 }

@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-wrap border-b-[1px] border-border-color py-2.5">
+  <div class="flex flex-wrap border-b-[1px] border-border-color py-3">
     <template
       v-for="(item, index) in items"
       :key="index"

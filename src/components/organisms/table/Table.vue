@@ -1,11 +1,11 @@
 <template>
   <div
-    class="shadow-field-normal flex w-full flex-col gap-6 rounded-xl border-[1px] border-neutral-100 bg-neutral-bg-50 p-6 dark:border-border-color"
+    class="flex w-full flex-col gap-6 border-[1px] border-neutral-100 bg-neutral-bg-50 p-6 shadow-field-normal lg:rounded-xl dark:border-border-color"
   >
     <div
       v-if="title || $slots.header"
       :class="[{ 'justify-between': $slots.header && title, 'justify-end': $slots.header && !title }]"
-      class="flex text-neutral-typography-200"
+      class="flex text-16 font-medium leading-none text-neutral-typography-200"
     >
       {{ title }}
 
