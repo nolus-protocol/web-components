@@ -22,6 +22,7 @@
 
 <script lang="ts" setup>
 import { computed } from "vue";
+import { debounce } from "@/shared/helpers";
 
 export interface InputProps {
   id: string;
@@ -44,14 +45,14 @@ const emit = defineEmits<{
   (e: "input", value: string | number): void;
 }>();
 
-const updateInputValue = (event: Event) => {
+const updateInputValue = debounce((event: Event) => {
   const inputValue = (event.target as HTMLInputElement).value;
   emit("input", inputValue);
 
   if (props.onChange) {
     props.onChange(event);
   }
-};
+}, 300);
 </script>
 
 <style lang="scss" scoped>
