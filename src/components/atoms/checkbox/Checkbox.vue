@@ -10,7 +10,7 @@
       :class="[labelClass]"
       :for="id"
       class="cursor-pointer"
-      >Checked state</label
+      >{{ label }}</label
     >
   </div>
 </template>
