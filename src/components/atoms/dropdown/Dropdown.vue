@@ -19,9 +19,9 @@
     >
       <span class="flex flex-1 items-center">
         <img
-          v-if="(selectedOption && selectedOption.icon) || searchInput.value === 0"
-          :alt="selectedOption.label"
-          :src="selectedOption.icon"
+          v-if="selectedOption && selectedOption.icon"
+          :alt="selectedOption?.label"
+          :src="selectedOption?.icon"
           class="mr-1 h-4 w-4"
         />
         <span class="relative w-full">
@@ -29,7 +29,7 @@
             id="search-input"
             ref="searchInputRef"
             v-model="searchInput"
-            :placeholder="selectedOption ? selectedOption.label : placeholder"
+            :placeholder="selectedOption ? selectedOption?.label : placeholder"
             class="w-full cursor-pointer border-none bg-transparent placeholder-neutral-typography-200 outline-none"
             type="text"
             @focusout="focusOut"
