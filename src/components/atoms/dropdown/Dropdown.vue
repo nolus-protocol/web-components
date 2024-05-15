@@ -24,13 +24,13 @@
           :src="selectedOption.icon"
           class="mr-1 h-4 w-4"
         />
-        <span class="relative">
+        <span class="relative w-full">
           <input
             id="search-input"
             ref="searchInputRef"
             v-model="searchInput"
             :placeholder="selectedOption ? selectedOption.label : placeholder"
-            class="w-full border-none bg-transparent placeholder-neutral-typography-200 outline-none"
+            class="w-full cursor-pointer border-none bg-transparent placeholder-neutral-typography-200 outline-none"
             type="text"
             @focusout="focusOut"
           />
@@ -93,6 +93,7 @@ const emit = defineEmits<{
 }>();
 
 const toggleDropdown = () => {
+  searchInputRef.value?.focus();
   isOpen.value = !isOpen.value;
 };
 
