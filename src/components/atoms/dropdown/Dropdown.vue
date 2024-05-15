@@ -19,12 +19,22 @@
     >
       <span class="flex flex-1 items-center">
         <img
-          v-if="selectedOption && selectedOption.icon"
+          v-if="(selectedOption && selectedOption.icon) || searchInput.value === 0"
           :alt="selectedOption.label"
           :src="selectedOption.icon"
           class="mr-1 h-4 w-4"
         />
-        {{ selectedOption ? selectedOption.label : placeholder }}
+        <span class="relative">
+          <input
+            id="search-input"
+            ref="searchInputRef"
+            v-model="searchInput"
+            :placeholder="selectedOption ? selectedOption.label : placeholder"
+            class="w-full border-none bg-transparent placeholder-neutral-typography-200 outline-none"
+            type="text"
+            @focusout="focusOut"
+          />
+        </span>
       </span>
       <Spinner v-if="isLoading" />
       <i
@@ -36,10 +46,11 @@
       <div
         v-if="isOpen"
         class="shadow-lg absolute top-full z-10 mt-1 w-full rounded-md border-[1px] border-border-color bg-neutral-bg-50 text-neutral-typography-200 shadow-field-heavy dark:hover:border-neutral-typography-100"
+        @focus="searchInputRef?.focus()"
       >
         <ul class="max-h-[160px] overflow-y-auto p-2">
           <li
-            v-for="option in options"
+            v-for="option in filteredOptions"
             :key="option.value"
             :class="{ 'bg-neutral-bg-100': selectedOption?.value === option.value }"
             class="mb-1 flex cursor-pointer items-center rounded-md px-1 py-2 hover:bg-neutral-bg-100"
@@ -67,9 +78,11 @@ import Spinner from "../spinner/Spinner.vue";
 const dropdownRef = ref<HTMLElement | null>(null);
 const isOpen = ref(false);
 const selectedOption = ref<DropdownOption | null>(null);
+const searchInputRef = ref<HTMLInputElement>();
 
 const props = defineProps<DropdownProps>();
 
+const searchInput = ref("");
 const classes = computed(() => ({
   "border-primary-50": isOpen,
   "!border-danger-100": props.error
@@ -84,6 +97,7 @@ const toggleDropdown = () => {
 };
 
 const selectOption = (option: DropdownOption) => {
+  searchInput.value = "";
   selectedOption.value = option;
 
   if (props.onSelect) {
@@ -116,12 +130,34 @@ watch(
   { immediate: true }
 );
 
+watch(
+  () => searchInput.value,
+  (newVal) => {
+    if (newVal) {
+      selectedOption.value = null;
+    }
+  }
+);
+
+const filteredOptions = computed(() => {
+  if (searchInput.value) {
+    return props.options.filter((option) => option.label.toLowerCase().includes(searchInput.value.toLowerCase()));
+  }
+  return props.options;
+});
+
 // Close dropdown when clicking outside
 const handleClickOutside = (event: MouseEvent) => {
   if (dropdownRef.value && !dropdownRef.value.contains(event.target as Node)) {
     isOpen.value = false;
   }
 };
+
+function focusOut() {
+  setTimeout(() => {
+    searchInput.value = "";
+  }, 200);
+}
 
 // Listen for clicks outside the dropdown
 window.addEventListener("click", handleClickOutside);

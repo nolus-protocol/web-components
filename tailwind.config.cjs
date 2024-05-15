@@ -176,6 +176,11 @@ export default {
       password: '0 0 0 var(--color-typography-200)'
     }
   },
+  variants: {
+    extend: {
+      textColor: ['placeholder'],
+    },
+  },
   plugins: [
     plugin(function ({ matchUtilities, theme }) {
       matchUtilities(
