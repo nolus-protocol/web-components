@@ -22,10 +22,21 @@
         <img
           v-if="item.image"
           :alt="item.value"
+          :class="item.imageClass"
           :src="item.image"
         />
         <div class="flex flex-col">
-          <div class="text-neutral-typography-200">{{ item.value }}</div>
+          <div class="text-neutral-typography-200">
+            {{ item.value }}
+            <slot
+              v-if="item.type === CURRENCY_VIEW_TYPES.TOKEN"
+              name="token"
+            />
+            <slot
+              v-if="item.type === CURRENCY_VIEW_TYPES.CURRENCY"
+              name="currency"
+            />
+          </div>
           <div
             v-if="item.subValue"
             class="flex-1 text-12"
@@ -41,7 +52,7 @@
 <script lang="ts" setup>
 import { defineProps } from "vue";
 import { Button } from "@/components";
-import type { AssetsTableRowItem, AssetsTableRowItemProps } from "./types";
+import { type AssetsTableRowItem, type AssetsTableRowItemProps, CURRENCY_VIEW_TYPES } from "./types";
 
 defineProps<AssetsTableRowItemProps>();
 

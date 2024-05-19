@@ -172,6 +172,7 @@ export const EarningAssets: Story = {
           :id="row.id"
           :key="index"
           :items="row.items"
+          :rowButton="row.rowButton"
           @button-click="
             (data) => {
               console.info(data);
@@ -211,7 +212,8 @@ export const EarningAssets: Story = {
         },
         { value: "32,430.22", subValue: "$222,000.00", class: "hidden md:flex" },
         { value: "16.24%", subValue: "+15.00% NLS", class: "text-success-100", button: { label: "Supply / Withdraw" } }
-      ]
+      ],
+      rowButton: { label: "Supply / Withdraw" }
     })),
     class: "p-4 md:p-6",
     footerClasses: "flex justify-center",

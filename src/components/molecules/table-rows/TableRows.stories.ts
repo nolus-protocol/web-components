@@ -89,6 +89,7 @@ export const Earning: Story = {
             :id="row.id"
             :key="index"
             :items="row.items"
+            :rowButton="row.rowButton"
             @button-click="
               (data) => {
                 console.info(data);
@@ -106,8 +107,9 @@ export const Earning: Story = {
             "https://raw.githubusercontent.com/nolus-protocol/webapp/main/src/config/currencies/icons/neutron-usdc.svg"
         },
         { value: "32,430.22", subValue: "$222,000.00", class: "hidden md:flex" },
-        { value: "16.24%", subValue: "+15.00% NLS", class: "text-success-100", button: { label: "Supply / Withdraw" } }
-      ]
+        { value: "16.24%", subValue: "+15.00% NLS", class: "text-success-100" }
+      ],
+      rowButton: { label: "Supply / Withdraw" }
     }))
   }
 };

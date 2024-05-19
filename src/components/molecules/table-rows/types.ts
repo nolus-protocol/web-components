@@ -13,9 +13,11 @@ export interface HistoryTableRowItemProps {
 }
 
 export interface AssetsTableRowItem {
-  value: string;
+  type?: CURRENCY_VIEW_TYPES;
+  value?: string;
   subValue?: string;
   image?: string;
+  imageClass?: string;
   button?: boolean;
   class?: string;
 }
@@ -26,15 +28,24 @@ export interface AssetsTableRowItemProps {
 }
 
 export interface EarningAssetsTableRowItem {
-  value: string;
+  type?: CURRENCY_VIEW_TYPES;
+  value?: string;
   valueInfo?: string;
   subValue?: string;
   image?: string;
+  imageClass?: string;
   button?: ButtonProps;
+  buttonOnly?: boolean;
   class?: string;
 }
 
 export interface EarningAssetsTableRowItemProps {
-  id: number;
+  id: any;
   items: EarningAssetsTableRowItem[];
+  rowButton?: ButtonProps;
+}
+
+export enum CURRENCY_VIEW_TYPES {
+  TOKEN = "TOKEN",
+  CURRENCY = "CURRENCY"
 }

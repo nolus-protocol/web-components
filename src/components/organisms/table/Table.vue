@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex w-full flex-col gap-6 border-[1px] border-neutral-100 bg-neutral-bg-50 p-6 shadow-field-normal lg:rounded-xl dark:border-border-color"
+    class="flex w-full flex-col gap-6 border-[1px] border-neutral-100 bg-neutral-bg-50 p-6 shadow-field-normal md:rounded-xl dark:border-border-color"
   >
     <div
       v-if="title || $slots.header"
@@ -20,7 +20,7 @@
           :key="column.label"
           :class="[
             'flex flex-1 items-center gap-0.5 text-12 font-medium uppercase text-neutral-400',
-            { 'md:justify-end': index >= columns.length - 2 },
+            { 'justify-end': columns && index > 0 },
             column.class
           ]"
         >
@@ -48,7 +48,7 @@ import { Tooltip } from "@/components";
 
 const props = defineProps<{
   title?: string;
-  columns: {
+  columns?: {
     label: string;
     class?: string;
     tooltip?: string;

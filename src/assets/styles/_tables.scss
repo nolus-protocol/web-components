@@ -1,16 +1,16 @@
 @import 'variables';
 
-.nls-btn-show {
-  display: none;
-  transition: 0.2s;
-  position: absolute;
-  top: 50%;
-  right: 0;
-  z-index: 2;
-  transform: translateY(-50%);
-}
-
 @media (min-width: 768px) {
+  .nls-btn-show {
+    display: none;
+    transition: 0.2s;
+    position: absolute;
+    top: 50%;
+    right: 0;
+    z-index: 2;
+    transform: translateY(-50%);
+  }
+
   .row-actions:hover .nls-btn-show {
     transition: 0.2s;
 
@@ -29,7 +29,7 @@
     transition: 0.2s opacity;
   }
 
-  .row-actions:hover .info-show {
+  .row-actions:hover > div:last-of-type {
     opacity: 0;
   }
 }

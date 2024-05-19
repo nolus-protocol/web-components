@@ -127,6 +127,7 @@
           :id="row.id"
           :key="index"
           :items="row.items"
+          :rowButton="row.rowButton"
           @button-click="
             (data) => {
               console.info(data);
@@ -165,17 +166,19 @@ import {
   Close,
   CurrencyField,
   Dropdown,
+  EarningAssetsTableRow,
+  HistoryTableRow,
   Input,
   Lease,
   MultilineCurrencyField,
   NotificationButton,
-  Proposal
+  Proposal,
+  Table
 } from "@/components";
-import { EarningAssetsTableRow, HistoryTableRow, Table } from "@/components";
 import {
-  LeasePnlStatus,
   type EarningAssetsTableRowItemProps,
   type HistoryTableRowItemProps,
+  LeasePnlStatus,
   type LeaseProps,
   LeaseStatus,
   ProposalStatus
@@ -221,7 +224,8 @@ const assetsData: EarningAssetsTableRowItemProps[] = [
       { value: "-", class: "hidden md:flex" },
       { value: "32,430.22", class: "hidden md:flex" },
       { value: "" }
-    ]
+    ],
+    rowButton: { label: "Deposit" }
   }
 ];
 
