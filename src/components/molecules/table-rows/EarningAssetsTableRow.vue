@@ -1,6 +1,6 @@
 <template>
   <div
-    :class="[{ 'row-actions relative': rowButton }]"
+    :class="[{ 'earn-row-actions relative': rowButton }]"
     class="flex flex-wrap border-b-[1px] border-border-color py-3"
   >
     <template
