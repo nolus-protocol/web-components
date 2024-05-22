@@ -4,7 +4,7 @@
   >
     <div
       v-if="title || $slots.header"
-      :class="[{ 'justify-between': $slots.header && title, 'justify-end': $slots.header && !title }]"
+      :class="[{ 'items-center justify-between': $slots.header && title, 'justify-end': $slots.header && !title }]"
       class="flex text-16 font-medium leading-none text-neutral-typography-200"
     >
       {{ title }}

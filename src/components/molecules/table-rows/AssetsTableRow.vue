@@ -1,5 +1,8 @@
 <template>
-  <div class="flex border-b-[1px] border-border-color py-3">
+  <div
+    :class="[{ 'earn-row-actions relative': rowButton }]"
+    class="flex border-b-[1px] border-border-color py-3"
+  >
     <div
       v-for="(item, index) in items"
       :key="index"
@@ -25,8 +28,14 @@
           :class="item.imageClass"
           :src="item.image"
         />
-        <div class="flex flex-col">
-          <div class="text-neutral-typography-200">
+        <div
+          :class="[{ 'justify-center': !item.subValue }]"
+          class="flex flex-col"
+        >
+          <div
+            :class="[{ 'text-right': index > 0 }]"
+            class="text-neutral-typography-200"
+          >
             {{ item.value }}
             <slot
               v-if="item.type === CURRENCY_VIEW_TYPES.TOKEN"
@@ -36,9 +45,14 @@
               v-if="item.type === CURRENCY_VIEW_TYPES.CURRENCY"
               name="currency"
             />
+            <slot
+              v-if="item.type === CURRENCY_VIEW_TYPES.COMPLEX"
+              name="complex"
+            />
           </div>
           <div
             v-if="item.subValue"
+            :class="[{ 'text-right': index > 0 }]"
             class="flex-1 text-12"
           >
             {{ item.subValue }}
@@ -46,6 +60,15 @@
         </div>
       </div>
     </div>
+    <Button
+      v-if="rowButton"
+      class="nls-btn-show mt-6 w-full text-[14px] md:mt-0 md:w-auto"
+      severity="secondary"
+      size="medium"
+      v-bind="rowButton"
+      @click="$emit('button-click', { items, index: id })"
+    />
+    <slot name="rowFooter"></slot>
   </div>
 </template>
 

@@ -25,6 +25,7 @@ export interface AssetsTableRowItem {
 export interface AssetsTableRowItemProps {
   id: number;
   items: AssetsTableRowItem[];
+  rowButton?: ButtonProps;
 }
 
 export interface EarningAssetsTableRowItem {
@@ -47,5 +48,6 @@ export interface EarningAssetsTableRowItemProps {
 
 export enum CURRENCY_VIEW_TYPES {
   TOKEN = "TOKEN",
-  CURRENCY = "CURRENCY"
+  CURRENCY = "CURRENCY",
+  COMPLEX = "COMPLEX"
 }
