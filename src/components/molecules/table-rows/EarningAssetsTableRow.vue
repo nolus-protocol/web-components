@@ -61,7 +61,7 @@
           severity="secondary"
           size="medium"
           v-bind="item.button"
-          @click="$emit('button-click', { items, index: id })"
+          @click="$emit('button-click', { items })"
         />
       </template>
     </div>
@@ -71,7 +71,7 @@
       severity="secondary"
       size="medium"
       v-bind="rowButton"
-      @click="$emit('button-click', { items, index: id })"
+      @click="$emit('button-click', { items })"
     />
   </div>
 </template>
@@ -84,7 +84,7 @@ import { CURRENCY_VIEW_TYPES, type EarningAssetsTableRowItem, type EarningAssets
 defineProps<EarningAssetsTableRowItemProps>();
 
 const emit = defineEmits<{
-  (e: "button-click", data: { items: EarningAssetsTableRowItem[]; index: any }): void;
+  (e: "button-click", data: { items: EarningAssetsTableRowItem[] }): void;
 }>();
 </script>
 

@@ -51,7 +51,6 @@ export const Assets: Story = {
     },
     components: { AssetsTableRowComponent },
     template: `<AssetsTableRowComponent v-for="(row, index) in args.assetsData"
-            :id="row.id"
             :key="index"
             :items="row.items"
             @button-click="
@@ -62,7 +61,6 @@ export const Assets: Story = {
   }),
   args: {
     assetsData: Array.from({ length: 1 }).map((n, i) => ({
-      id: i,
       items: [
         {
           value: "BTC",
@@ -86,7 +84,6 @@ export const Earning: Story = {
     components: { EarningAssetsTableRowComponent },
     template: `
         <EarningAssetsTableRowComponent v-for="(row, index) in args.assetsData"
-            :id="row.id"
             :key="index"
             :items="row.items"
             :rowButton="row.rowButton"
@@ -98,7 +95,6 @@ export const Earning: Story = {
   }),
   args: {
     assetsData: Array.from({ length: 1 }).map((n, i) => ({
-      id: i,
       items: [
         {
           value: "BTC",

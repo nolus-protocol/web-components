@@ -23,7 +23,6 @@ export interface AssetsTableRowItem {
 }
 
 export interface AssetsTableRowItemProps {
-  id: any;
   items: AssetsTableRowItem[];
   rowButton?: ButtonProps | null | undefined;
 }
@@ -41,7 +40,6 @@ export interface EarningAssetsTableRowItem {
 }
 
 export interface EarningAssetsTableRowItemProps {
-  id: any;
   items: EarningAssetsTableRowItem[];
   rowButton?: ButtonProps | null | undefined;
 }

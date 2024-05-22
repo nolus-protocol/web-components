@@ -16,7 +16,7 @@
         icon-position="left"
         severity="secondary"
         size="medium"
-        @click="$emit('button-click', { items, index: id })"
+        @click="$emit('button-click', { items })"
       />
       <div
         v-if="!item.button"
@@ -66,7 +66,7 @@
       severity="secondary"
       size="medium"
       v-bind="rowButton"
-      @click="$emit('button-click', { items, index: id })"
+      @click="$emit('button-click', { items })"
     />
     <slot name="rowFooter"></slot>
   </div>
@@ -80,7 +80,7 @@ import { type AssetsTableRowItem, type AssetsTableRowItemProps, CURRENCY_VIEW_TY
 defineProps<AssetsTableRowItemProps>();
 
 const emit = defineEmits<{
-  (e: "button-click", data: { items: AssetsTableRowItem[]; index: any }): void;
+  (e: "button-click", data: { items: AssetsTableRowItem[] }): void;
 }>();
 </script>
 

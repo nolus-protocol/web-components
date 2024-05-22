@@ -124,7 +124,6 @@
       <template v-slot:body>
         <EarningAssetsTableRow
           v-for="(row, index) in assetsData"
-          :id="row.id"
           :key="index"
           :items="row.items"
           :rowButton="row.rowButton"
@@ -212,7 +211,6 @@ const historyData: HistoryTableRowItemProps[] = [
 
 const assetsData: EarningAssetsTableRowItemProps[] = [
   {
-    id: 1,
     items: [
       {
         value: "BTC",
