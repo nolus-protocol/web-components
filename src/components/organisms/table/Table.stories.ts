@@ -93,7 +93,6 @@ export const Asset: Story = {
       <template v-slot:body>
         <AssetsTableRow
           v-for="(row, index) in args.assetsData"
-          :id="row.id"
           :key="index"
           :items="row.items"
           @button-click="
@@ -127,7 +126,6 @@ export const Asset: Story = {
       { label: "receive/send" }
     ],
     assetsData: Array.from({ length: 10 }).map((n, i) => ({
-      id: i,
       items: [
         {
           value: "BTC",
@@ -169,7 +167,6 @@ export const EarningAssets: Story = {
       <template v-slot:body>
         <EarningAssetsTableRow
           v-for="(row, index) in args.assetsData"
-          :id="row.id"
           :key="index"
           :items="row.items"
           :rowButton="row.rowButton"
@@ -202,7 +199,6 @@ export const EarningAssets: Story = {
       { label: "yield" }
     ],
     assetsData: Array.from({ length: 10 }).map((n, i) => ({
-      id: i,
       items: [
         {
           value: "BTC",
