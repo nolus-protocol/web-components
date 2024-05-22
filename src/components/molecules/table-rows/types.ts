@@ -23,7 +23,7 @@ export interface AssetsTableRowItem {
 }
 
 export interface AssetsTableRowItemProps {
-  id: number;
+  id: any;
   items: AssetsTableRowItem[];
   rowButton?: ButtonProps | null | undefined;
 }
