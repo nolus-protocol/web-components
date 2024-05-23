@@ -1,7 +1,11 @@
 @import 'variables';
 
+.row-btn-show {
+  @apply static flex transform-none;
+}
+
 @media (min-width: 768px) {
-  .nls-btn-show {
+  .row-btn-show {
     display: none;
     transition: 0.2s;
     position: absolute;
@@ -11,7 +15,7 @@
     transform: translateY(-50%);
   }
 
-  .earn-row-actions:hover .nls-btn-show {
+  .table-row-actions:hover .row-btn-show {
     transition: 0.2s;
 
     display: flex;
@@ -29,7 +33,7 @@
     transition: 0.2s opacity;
   }
 
-  .earn-row-actions:hover > div:last-of-type {
+  .table-row-actions:hover > div:last-of-type {
     opacity: 0;
   }
 }

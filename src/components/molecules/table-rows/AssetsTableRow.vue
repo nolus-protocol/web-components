@@ -1,6 +1,6 @@
 <template>
   <div
-    :class="[{ 'earn-row-actions relative': rowButton }]"
+    :class="[{ 'table-row-actions relative': rowButton }]"
     class="flex border-b-[1px] border-border-color py-3"
   >
     <div
@@ -62,7 +62,7 @@
     </div>
     <Button
       v-if="rowButton"
-      class="nls-btn-show mt-6 w-full text-[14px] md:mt-0 md:w-auto"
+      class="row-btn-show mt-6 w-full text-[14px] md:mt-0 md:w-auto"
       severity="secondary"
       size="medium"
       v-bind="rowButton"

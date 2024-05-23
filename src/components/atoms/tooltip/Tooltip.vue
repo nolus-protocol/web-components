@@ -58,10 +58,16 @@ function mouseover(event: MouseEvent) {
     const rect = parent.getBoundingClientRect();
     const elementRect = element.getBoundingClientRect();
 
-    const left = rect.left + window.scrollX - elementRect.width / 2 + rect.width / 2;
+    let left = rect.left + window.scrollX - elementRect.width / 2 + rect.width / 2;
     const top = rect.top + window.scrollY - elementRect.height - 10;
 
     const maxWidth = window.innerWidth;
+
+    // Adjust the tooltip's position based on the viewport's width
+    if (window.innerWidth < 768) {
+      // Adjust this value as needed
+      left = rect.left + window.scrollX - elementRect.width / 2;
+    }
 
     element.style.left = `${left}px`;
     element.style.top = `${top}px`;
