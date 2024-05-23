@@ -13,6 +13,6 @@ export interface ButtonProps {
   loading?: boolean;
   disabled?: boolean;
   class?: string;
-  id?: string;
-  key?: string;
+  id?: any;
+  key?: any;
 }
