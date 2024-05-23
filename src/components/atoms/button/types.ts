@@ -12,4 +12,7 @@ export interface ButtonProps {
   iconPosition?: "left" | "right";
   loading?: boolean;
   disabled?: boolean;
+  class?: string;
+  id?: string;
+  key?: string;
 }
