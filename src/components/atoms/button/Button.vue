@@ -1,6 +1,6 @@
 <template>
   <button
-    :class="['font-semibold', classes]"
+    :class="['font-semibold', classes, props.class]"
     :disabled="disabled"
     :style="style"
     type="button"
