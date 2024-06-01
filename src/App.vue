@@ -192,10 +192,10 @@ const columns = [
 
 const assetsColumns = [
   { label: "Asset" },
-  { label: "balance" },
-  { label: "yield", tooltip: "Yield tooltip", class: "hidden md:flex" },
-  { label: "lease up to", tooltip: "Lease up to tooltip", class: "hidden md:flex" },
-  { label: "receive/send" }
+  { label: "balance", class: "hidden md:flex" },
+  { label: "yield", tooltip: "Yield tooltip" },
+  { label: "lease up to", tooltip: "Lease up to tooltip" },
+  { label: "receive/send", class: "hidden md:flex" }
 ];
 
 const historyData: HistoryTableRowItemProps[] = [
@@ -218,9 +218,9 @@ const assetsData: EarningAssetsTableRowItemProps[] = [
         image:
           "https://raw.githubusercontent.com/nolus-protocol/webapp/main/src/config/currencies/icons/neutron-usdc.svg"
       },
-      { value: "32,430.22", subValue: "$222,000.00" },
-      { value: "-", class: "hidden md:flex" },
-      { value: "32,430.22", class: "hidden md:flex" },
+      { value: "32,430.22", subValue: "$222,000.00", class: "hidden md:flex" },
+      { value: "-" },
+      { value: "32,430.22" },
       { value: "" }
     ],
     rowButton: { label: "Deposit" }

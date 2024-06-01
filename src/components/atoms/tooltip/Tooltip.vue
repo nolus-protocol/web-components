@@ -15,12 +15,16 @@
       ref="tooltip"
       class="tooltip tooltip-animations absolute flex flex-col items-center group-hover:flex"
     >
-      <div class="relative flex">
+      <div class="relative flex flex-col">
         <span
           class="text-normal whitespace-no-wrap content bg-light-electric shadow-lg relative z-10 p-2 text-left leading-none text-white"
         >
           {{ content }}
         </span>
+        <div
+          ref="pointer"
+          class="pointer"
+        ></div>
       </div>
     </div>
   </Teleport>
@@ -31,6 +35,7 @@ import { ref } from "vue";
 
 const tooltip = ref(null as HTMLDivElement | null);
 const target = ref(null as HTMLDivElement | null);
+const pointer = ref(null as HTMLDivElement | null);
 
 let timeout: NodeJS.Timeout;
 
@@ -50,7 +55,7 @@ function mouseover(event: MouseEvent) {
   const element = tooltip.value as HTMLDivElement;
   // const triangleElement = triangle.value as HTMLDivElement;
 
-  if (!element) {
+  if (!element || !parent) {
     return false;
   }
 
@@ -79,6 +84,8 @@ function mouseover(event: MouseEvent) {
     if (left < 0) {
       element.style.left = `10px`;
     }
+
+    positionPointer();
   }
 
   element.style.visibility = "visible";
@@ -93,6 +100,22 @@ function mouseleave() {
       element.style.visibility = "hidden";
     }, 200);
   }
+}
+
+function positionPointer() {
+  const parent = target.value as HTMLDivElement;
+  const child = pointer.value as HTMLDivElement;
+
+  // Get the position of the target element
+  const targetRect = parent.getBoundingClientRect();
+
+  // Calculate the position for the pointer
+  const pointerTop = targetRect.top - child.offsetHeight - 5;
+  const pointerLeft = targetRect.left + targetRect.width / 2 - child.offsetWidth / 2;
+
+  // Set the position of the pointer
+  child.style.top = `${pointerTop}px`;
+  child.style.left = `${pointerLeft}px`;
 }
 </script>
 <style lang="scss" scoped>
@@ -119,7 +142,7 @@ function mouseleave() {
   }
 }
 .tooltip {
-  width: 196px;
+  //width: 196px;
   display: flex;
   visibility: hidden;
   left: 0;
@@ -140,10 +163,9 @@ span.content {
   font-family: "Garet", sans-serif;
   font-weight: 500;
   text-transform: normal !important;
+}
 
-  &:after {
-    @apply bg-light-electric absolute -bottom-1 left-0 right-0 m-auto h-3 w-3 rotate-45;
-    content: "";
-  }
+.pointer {
+  @apply bg-light-electric fixed -bottom-1 left-0 right-0 h-3 w-3 rotate-45;
 }
 </style>
