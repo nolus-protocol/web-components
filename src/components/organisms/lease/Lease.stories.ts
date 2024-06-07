@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/vue3";
 
 import Lease from "./Lease.vue";
-import { LeasePnlStatus, LeaseStatus } from "@/components/organisms/lease/types";
+import { LeaseOpeningBarStatuses, LeasePnlStatus, LeaseStatus } from "@/components/organisms/lease/types";
 
 const meta = {
   title: "Components/Organisms/Lease",
@@ -9,41 +9,18 @@ const meta = {
   argTypes: {},
   parameters: {},
   args: {
+    history: {
+      value: "#dsaj3252"
+    },
     title: "Buy position",
     pnl: {
       value: "$00.00",
       status: LeasePnlStatus.NEUTRAL
     },
-    share: {
-      label: "Share Position"
-    },
     tabs: [
-      { button: { icon: "icon-assets" }, content: "Some content 1" },
-      { button: { icon: "icon-assets" }, content: "Some content 2" },
-      { button: { icon: "icon-assets" }, content: "Some content 3" }
-    ],
-    actionButtons: {
-      repay: { label: "Repay" },
-      close: { label: "Close" },
-      collect: { label: "Collect" }
-    },
-    progressBarTitle: "Opening",
-    progressDateTitle: "Opened on",
-    progressDate: "Opening...",
-    debt: {
-      title: "Debt",
-      value: "$00.00",
-      class: "bg-neutral-100 rounded-md text-transparent"
-    },
-    interest: {
-      title: "Interest",
-      value: "2.02%"
-    },
-    interestDue: {
-      title: "Due",
-      value: "$00.00",
-      class: "text-warning-100"
-    }
+      { button: { icon: "icon-stats" }, content: "Some content 1" },
+      { button: { icon: "icon-lease-1" }, content: "Some content 2" }
+    ]
   } // default value
 } satisfies Meta<typeof Lease>;
 
@@ -53,44 +30,89 @@ type Story = StoryObj<typeof meta>;
 export const Opening: Story = {
   args: {
     status: LeaseStatus.OPENING,
+    progressBar: {
+      title: "Opening",
+      value: [LeaseOpeningBarStatuses.READY, LeaseOpeningBarStatuses.CURRENT, ""]
+    },
+    progressDate: {
+      value: "Opening...",
+      title: "Opened on"
+    },
     debt: {
       title: "Debt",
-      value: "$00.00",
-      class: "bg-neutral-100 rounded-md text-transparent"
+      class: "mt-1 h-5 bg-neutral-100 rounded-md text-transparent"
     },
     interest: {
       title: "Interest",
-      value: "2.02%",
-      class: "line-through"
+      class: "mt-1 h-5 bg-neutral-100 rounded-md text-transparent"
     },
     interestDue: {
       title: "Due",
-      value: "$00.00",
-      class: "bg-neutral-100 rounded-md text-transparent"
+      class: "mt-1 h-5 bg-neutral-100 rounded-md text-transparent"
+    },
+    actionButtons: {
+      repay: { label: "Repay" },
+      close: { label: "Close" }
     }
   }
 };
 export const Opened: Story = {
   args: {
+    share: {
+      label: "Share Position"
+    },
     status: LeaseStatus.OPENED,
-    progressBarTitle: "Health",
-    progressDate: "FEB. 8, 2024",
-    margin: 81,
+    progressBar: {
+      title: "Health",
+      value: ["62"]
+    },
+    progressDate: {
+      value: "FEB. 8, 2024",
+      title: "Opened on"
+    },
     pnl: {
       value: "+$20.00",
       status: LeasePnlStatus.POSITIVE
+    },
+    debt: {
+      title: "Debt",
+      value: "$00.00"
+    },
+    interest: {
+      title: "Interest",
+      value: "2.02%"
+    },
+    interestDue: {
+      title: "Due",
+      value: "$00.00",
+      class: "text-warning-100"
+    },
+    actionButtons: {
+      repay: { label: "Repay" },
+      close: { label: "Close" }
     }
   }
 };
-export const Collect: Story = {
+export const Paid: Story = {
   args: {
-    status: LeaseStatus.COLLECT,
-    progressBarTitle: "Health",
-    progressDate: "FEB. 8, 2024",
-    margin: 66,
+    share: {
+      label: "Share Position"
+    },
+    status: LeaseStatus.PAID,
+    progressDate: {
+      value: "FEB. 8, 2024",
+      title: "Opened on"
+    },
     pnl: {
       value: "-$20.00",
       status: LeasePnlStatus.POSITIVE
+    },
+    tabs: [
+      { button: { icon: "icon-stats", disabled: true } },
+      { button: { icon: "icon-lease-1" }, content: "Some content 2", active: true }
+    ],
+    actionButtons: {
+      collect: { label: "Collect" }
     }
   }
 };

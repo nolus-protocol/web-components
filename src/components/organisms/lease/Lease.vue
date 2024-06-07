@@ -1,9 +1,16 @@
 <template>
-  <div
-    class="flex w-full flex-col rounded-xl border-[1px] border-neutral-100 bg-neutral-bg-50 p-6 dark:border-border-color"
-  >
+  <div class="flex w-full flex-col border-[1px] border-border-color bg-neutral-bg-50 p-6 px-4 lg:rounded-xl lg:px-6">
     <div class="flex items-center justify-between">
-      <div class="text-12 font-[600] uppercase text-neutral-400">{{ title }}</div>
+      <div class="flex gap-2 text-12 font-[600] uppercase text-neutral-400">
+        {{ title }}
+        <div
+          :class="[{ 'cursor-pointer': history?.click }]"
+          class="normal-case text-primary-50"
+          @click="history?.click && history.click()"
+        >
+          {{ history?.value }}
+        </div>
+      </div>
       <Button
         v-if="share"
         v-bind="{
@@ -18,7 +25,7 @@
         }"
       />
     </div>
-    <hr class="my-4 border-neutral-100 dark:border-border-color" />
+    <hr class="my-4 border-border-color" />
     <div class="flex flex-col gap-6 lg:h-[150px] lg:flex-row">
       <div class="order-3 flex flex-row gap-2.5 lg:order-1 lg:flex-col">
         <Button
@@ -27,24 +34,29 @@
           :class="[{ 'button-active': selectedTab === index }]"
           v-bind="{
             ...tab.button,
-            disabled: status === LeaseStatus.OPENING,
+            disabled: tab.button.disabled || status === LeaseStatus.OPENING,
             severity: 'secondary',
             size: 'medium'
           }"
           @click="selectedTab = index"
         />
       </div>
-      <div class="order-1 flex flex-row justify-between lg:order-2 lg:flex-col lg:justify-normal lg:gap-3">
+      <div
+        :class="[{ 'justify-between': status !== LeaseStatus.PAID }]"
+        class="order-1 flex flex-row lg:order-2 lg:flex-col lg:justify-normal lg:gap-3"
+      >
         <div class="flex flex-col gap-2">
-          <div class="bg- text-12 font-medium text-neutral-400">PnL</div>
+          <div class="text-12 font-medium text-neutral-400">PnL</div>
           <div
             :class="[
               {
                 '!bg-danger-100 !text-white': pnl.status === LeasePnlStatus.NEGATIVE,
-                '!bg-success-100 !text-white': pnl.status === LeasePnlStatus.POSITIVE
+                '!bg-success-100 !text-white': pnl.status === LeasePnlStatus.POSITIVE,
+                'cursor-pointer': pnl.click
               }
             ]"
             class="flex items-center gap-1.5 rounded bg-neutral-100 p-2 text-12 font-medium text-neutral-400"
+            @click="pnl.click && pnl.click()"
           >
             <template v-if="pnl.status === LeasePnlStatus.POSITIVE">
               <ArrowUp />
@@ -55,90 +67,130 @@
             {{ pnl.value }}
           </div>
         </div>
-        <div class="flex flex-col gap-2">
-          <div class="text-12 font-medium text-neutral-400">{{ progressBarTitle }}</div>
-          <div class="flex justify-between gap-1">
-            <template v-if="margin && status !== LeaseStatus.OPENING">
+        <div
+          v-if="status !== LeaseStatus.PAID"
+          class="flex flex-col gap-2"
+        >
+          <template v-if="progressBar?.value.length === 1 && status !== LeaseStatus.OPENING">
+            <div class="text-12 font-medium text-neutral-400">{{ progressBar.title }}</div>
+            <div class="flex justify-between gap-1">
               <div
-                :class="[{ '!bg-danger-100': margin > 80 }]"
+                :class="[{ '!bg-danger-100': +progressBar.value > 80 }]"
                 class="h-[10px] w-[24px] rounded bg-neutral-100 lg:w-[35px]"
               ></div>
               <div
-                :class="[{ '!bg-warning-100': margin > 65 && margin <= 80 }]"
+                :class="[{ '!bg-warning-100': +progressBar.value > 65 && +progressBar.value <= 80 }]"
                 class="h-[10px] w-[24px] rounded bg-neutral-100 lg:w-[35px]"
               ></div>
               <div
-                :class="[{ '!bg-success-100': margin <= 65 }]"
+                :class="[{ '!bg-success-100': +progressBar.value <= 65 }]"
                 class="h-[10px] w-[24px] rounded bg-neutral-100 lg:w-[35px]"
               ></div>
-            </template>
-            <template v-if="status === LeaseStatus.OPENING">
-              <div class="box box1"></div>
-              <div class="box box2"></div>
-              <div class="box box3"></div>
-            </template>
-          </div>
+            </div>
+          </template>
+          <template v-if="progressBar && progressBar.value.length > 1 && status === LeaseStatus.OPENING">
+            <div class="text-12 font-medium text-neutral-400">{{ progressBar.title }}</div>
+            <div class="flex justify-between gap-1">
+              <div
+                v-for="(val, index) in progressBar.value"
+                :key="index"
+                :class="[
+                  'h-[10px] w-[24px] rounded bg-neutral-100 lg:w-[35px]',
+                  {
+                    'pulse !bg-primary-50': val === LeaseOpeningBarStatuses.CURRENT,
+                    '!bg-primary-50': val === LeaseOpeningBarStatuses.READY
+                  }
+                ]"
+              ></div>
+            </div>
+          </template>
         </div>
         <div class="flex flex-col gap-1">
-          <div class="text-12 font-medium text-neutral-400">{{ progressDateTitle }}</div>
+          <div class="text-12 font-medium text-neutral-400">{{ progressDate.title }}</div>
           <div
             :class="[{ pulse: status === LeaseStatus.OPENING }]"
             class="text-16 font-medium text-neutral-typography-200"
           >
-            {{ progressDate }}
+            {{ progressDate.value }}
           </div>
         </div>
       </div>
-      <div class="order-2 h-[1px] w-full bg-neutral-100 lg:order-3 lg:h-full lg:w-[1px] dark:bg-border-color" />
+      <div class="order-2 h-[1px] w-full bg-border-color lg:order-3 lg:h-full lg:!w-[1px]" />
       <div class="order-4 flex-1">
         <template v-for="(tab, index) in tabs">
-          <div
-            v-if="selectedTab === index"
-            :key="index"
-          >
+          <template v-if="selectedTab === index">
             {{ tab.content }}
-          </div>
+            <slot
+              v-if="!tab.content"
+              :name="`tab-${index}`"
+            />
+          </template>
         </template>
       </div>
     </div>
-    <hr class="my-4 border-neutral-100 dark:border-border-color" />
+    <hr class="my-4 border-border-color" />
     <div class="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between lg:gap-0">
       <div class="flex items-center justify-between lg:justify-normal lg:gap-8">
         <template v-if="debt">
           <div>
-            <div class="text-12 font-medium text-neutral-400">
+            <div class="flex items-center text-12 font-medium text-neutral-400">
               {{ debt.title }}
               <Tooltip
                 v-if="debt.tooltip && debt.tooltip.length > 0"
                 :content="debt.tooltip"
               />
             </div>
-            <div :class="['text-16 font-medium text-neutral-typography-200', debt?.class]">{{ debt.value }}</div>
+            <div
+              :class="[
+                'text-16 font-medium text-neutral-typography-200',
+                debt?.class,
+                { pulse: status === LeaseStatus.OPENING }
+              ]"
+            >
+              {{ debt.value }}
+              <slot
+                v-if="!debt.value"
+                :name="`debt-1`"
+              />
+            </div>
           </div>
         </template>
         <div
           v-if="interest || interestDue"
-          class="flex gap-8 rounded-md border-[1px] border-neutral-100 p-3 dark:border-border-color"
+          class="flex gap-8 rounded-md border-[1px] border-border-color p-3 dark:border-border-color"
         >
           <template
             v-for="(item, index) in [interest, interestDue]"
             :key="index"
           >
             <div>
-              <div class="text-12 font-medium text-neutral-400">
+              <div class="flex items-center text-12 font-medium text-neutral-400">
                 {{ item?.title }}
                 <Tooltip
                   v-if="item?.tooltip && item?.tooltip.length > 0"
                   :content="item?.tooltip"
                 />
               </div>
-              <div :class="['text-16 font-medium text-neutral-typography-200', item?.class]">{{ item?.value }}</div>
+              <div
+                :class="[
+                  'text-16 font-medium text-neutral-typography-200',
+                  item?.class,
+                  { pulse: status === LeaseStatus.OPENING }
+                ]"
+              >
+                {{ item?.value }}
+                <slot
+                  v-if="!item?.value"
+                  :key="index"
+                  :name="`interest-${index}`"
+                />
+              </div>
             </div>
           </template>
         </div>
       </div>
       <div
-        v-if="status !== LeaseStatus.COLLECT"
+        v-if="status !== LeaseStatus.PAID"
         class="flex justify-between gap-3 lg:justify-normal"
       >
         <Button
@@ -167,7 +219,7 @@
         />
       </div>
       <Button
-        v-if="status === LeaseStatus.COLLECT"
+        v-if="status === LeaseStatus.PAID"
         v-bind="{
           ...actionButtons.collect,
           severity: 'secondary',
@@ -182,16 +234,26 @@
 </template>
 
 <script lang="ts" setup>
-import { defineProps, ref } from "vue";
+import { defineProps, onMounted, ref } from "vue";
 import Tooltip from "../../atoms/tooltip/Tooltip.vue";
 import Button from "../../atoms/button/Button.vue";
 
 import ArrowUp from "@/shared/components/arrow-up.vue";
 import ArrowDown from "@/shared/components/arrow-down.vue";
 
-import { type LeaseEmits, LeasePnlStatus, type LeaseProps, LeaseStatus } from "./types";
+import { type LeaseEmits, LeaseOpeningBarStatuses, LeasePnlStatus, type LeaseProps, LeaseStatus } from "./types";
 
 const selectedTab = ref(0);
+
+onMounted(() => {
+  if (props.tabs.length > 0) {
+    props.tabs.map((tab, index) => {
+      if (tab.active) {
+        selectedTab.value = index;
+      }
+    });
+  }
+});
 
 const props = defineProps<LeaseProps>();
 
@@ -217,29 +279,5 @@ defineEmits<LeaseEmits>();
 
 .box {
   @apply h-[10px] w-[24px] rounded bg-neutral-100 lg:w-[35px];
-  animation: changeColor 2s steps(1, end) infinite;
-}
-
-.box1 {
-  animation-delay: 0s;
-}
-
-.box2 {
-  animation-delay: 0.66s;
-}
-
-.box3 {
-  animation-delay: 1.33s;
-}
-
-@keyframes changeColor {
-  0%,
-  33% {
-    @apply bg-primary-50;
-  }
-  34%,
-  100% {
-    @apply bg-neutral-100;
-  }
 }
 </style>

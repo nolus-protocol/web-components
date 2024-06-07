@@ -3,18 +3,19 @@ import type { ButtonProps } from "@/components/atoms/button/types";
 
 export interface LeaseTabProps {
   button: ButtonProps;
-  content: Component | DefineComponent | string;
+  content?: Component | DefineComponent | string;
+  active?: boolean;
 }
 
 export enum LeaseStatus {
   OPENING = "OPENING",
   OPENED = "OPENED",
-  COLLECT = "COLLECT"
+  PAID = "PAID"
 }
 
 export interface LeaseCurrencyProps {
   title: string;
-  value: string;
+  value?: string;
   tooltip?: string;
   class?: string;
 }
@@ -25,26 +26,39 @@ export enum LeasePnlStatus {
   NEUTRAL = "NEUTRAL"
 }
 
+export enum LeaseOpeningBarStatuses {
+  READY = "ready",
+  CURRENT = "current"
+}
+
+export type LeaseProgressBarProps = { title: string; value: string[] | LeaseOpeningBarStatuses[] };
+
 export interface LeaseProps {
   title: string;
+  history: {
+    click?: () => void;
+    value: string;
+  };
   share?: ButtonProps;
   tabs: LeaseTabProps[];
   status: LeaseStatus;
   pnl: {
+    click?: () => void;
     value: string;
-    status: LeasePnlStatus;
+    status?: LeasePnlStatus;
   };
-  margin?: number;
-  progressBarTitle: string;
-  progressDateTitle: string;
-  progressDate: string;
+  progressBar?: LeaseProgressBarProps;
+  progressDate: {
+    value: string;
+    title: string;
+  };
   debt?: LeaseCurrencyProps;
   interest?: LeaseCurrencyProps;
   interestDue?: LeaseCurrencyProps;
   actionButtons: {
-    repay: ButtonProps;
-    close: ButtonProps;
-    collect: ButtonProps;
+    repay?: ButtonProps;
+    close?: ButtonProps;
+    collect?: ButtonProps;
   };
 }
 

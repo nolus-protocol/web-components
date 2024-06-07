@@ -262,11 +262,17 @@ const onSelect = (option: any) => {
 };
 
 const leaseProps: LeaseProps = {
+  history: {
+    click() {
+      console.info("clicked");
+    },
+    value: "#daeqw21e"
+  },
   title: "Buy position",
   share: {
     label: "Share Position"
   },
-  status: LeaseStatus.COLLECT,
+  status: LeaseStatus.PAID,
   tabs: [
     { button: { icon: "icon-assets" }, content: "Some content 1" },
     { button: { icon: "icon-assets" }, content: "Some content 2" },
@@ -277,11 +283,18 @@ const leaseProps: LeaseProps = {
     close: { label: "Close" },
     collect: { label: "Collect" }
   },
-  progressBarTitle: "Health",
-  progressDateTitle: "Opened on",
-  progressDate: "FEB. 8, 2024",
-  margin: 66,
+  progressBar: {
+    title: "Health",
+    value: ["66"]
+  },
+  progressDate: {
+    title: "Opened on",
+    value: "FEB. 8, 2024"
+  },
   pnl: {
+    click() {
+      console.info("clicked");
+    },
     value: "-$20.00",
     status: LeasePnlStatus.POSITIVE
   }
