@@ -80,7 +80,7 @@
         >
           <template v-if="progressBar?.value.length === 1 && status !== LeaseStatus.OPENING">
             <div class="text-12 font-medium text-neutral-400">{{ progressBar.title }}</div>
-            <div class="flex justify-between gap-1">
+            <div class="flex h-full items-center justify-between gap-1">
               <div
                 :class="[{ '!bg-danger-100': +progressBar.value > 80 }]"
                 class="h-[10px] w-[24px] rounded bg-neutral-100 lg:w-[35px]"
@@ -116,9 +116,9 @@
           <div class="text-12 font-medium text-neutral-400">{{ progressDate.title }}</div>
           <div
             :class="[{ pulse: status === LeaseStatus.OPENING }]"
-            class="text-16 font-medium text-neutral-typography-200"
+            class="flex h-full items-center text-16 font-medium text-neutral-typography-200"
           >
-            {{ progressDate.value }}
+            <div>{{ progressDate.value }}</div>
           </div>
         </div>
       </div>
