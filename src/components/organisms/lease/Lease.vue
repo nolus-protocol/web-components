@@ -45,7 +45,10 @@
         :class="[{ 'justify-between': status !== LeaseStatus.PAID }]"
         class="order-1 flex flex-row lg:order-2 lg:flex-col lg:justify-normal lg:gap-3"
       >
-        <div class="flex flex-col gap-2">
+        <div
+          v-if="pnl"
+          class="flex flex-col gap-2"
+        >
           <div class="text-12 font-medium text-neutral-400">PnL</div>
           <div
             :class="[
@@ -65,6 +68,10 @@
               <ArrowDown />
             </template>
             {{ pnl.value }}
+            <slot
+              v-if="!pnl.value"
+              :name="`pnl-slot`"
+            />
           </div>
         </div>
         <div
@@ -196,10 +203,10 @@
         <Button
           class="flex-1 lg:flex-auto"
           v-bind="{
-            ...actionButtons.repay,
             severity: 'secondary',
             size: 'large',
             disabled: status === LeaseStatus.OPENING,
+            ...actionButtons.repay,
             onClick: () => {
               $emit('on-repay', { ...props });
             }
@@ -208,10 +215,10 @@
         <Button
           class="flex-1 lg:flex-auto"
           v-bind="{
-            ...actionButtons.close,
             severity: 'secondary',
             size: 'large',
             disabled: status === LeaseStatus.OPENING,
+            ...actionButtons.close,
             onClick: () => {
               $emit('on-close', { ...props });
             }
@@ -221,9 +228,9 @@
       <Button
         v-if="status === LeaseStatus.PAID"
         v-bind="{
-          ...actionButtons.collect,
           severity: 'secondary',
           size: 'large',
+          ...actionButtons.collect,
           onClick: () => {
             $emit('on-collect', { ...props });
           }

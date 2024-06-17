@@ -20,6 +20,12 @@ export interface LeaseCurrencyProps {
   class?: string;
 }
 
+export interface LeasePnlProps {
+  click?: () => void;
+  value?: string;
+  status?: LeasePnlStatus;
+}
+
 export enum LeasePnlStatus {
   POSITIVE = "POSITIVE",
   NEGATIVE = "NEGATIVE",
@@ -42,11 +48,7 @@ export interface LeaseProps {
   share?: ButtonProps;
   tabs: LeaseTabProps[];
   status: LeaseStatus;
-  pnl: {
-    click?: () => void;
-    value: string;
-    status?: LeasePnlStatus;
-  };
+  pnl?: LeasePnlProps;
   progressBar?: LeaseProgressBarProps;
   progressDate: {
     value: string;
