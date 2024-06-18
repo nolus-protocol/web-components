@@ -14,5 +14,4 @@ export interface ButtonProps {
   disabled?: boolean;
   class?: string | string[] | any;
   id?: any;
-  key?: any;
 }

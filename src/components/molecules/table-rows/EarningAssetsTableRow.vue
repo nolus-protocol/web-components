@@ -77,7 +77,6 @@
 </template>
 
 <script lang="ts" setup>
-import { defineProps } from "vue";
 import { Button } from "@/components";
 import { CURRENCY_VIEW_TYPES, type EarningAssetsTableRowItem, type EarningAssetsTableRowItemProps } from "./types";
 

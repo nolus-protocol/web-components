@@ -27,7 +27,6 @@
 </template>
 
 <script lang="ts" setup>
-import { defineProps } from "vue";
 import type { HistoryTableRowItemProps } from "./types";
 
 defineProps<HistoryTableRowItemProps>();

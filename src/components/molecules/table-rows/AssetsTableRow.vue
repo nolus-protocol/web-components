@@ -73,7 +73,6 @@
 </template>
 
 <script lang="ts" setup>
-import { defineProps } from "vue";
 import { Button } from "@/components";
 import { type AssetsTableRowItem, type AssetsTableRowItemProps, CURRENCY_VIEW_TYPES } from "./types";
 

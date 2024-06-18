@@ -58,7 +58,7 @@
                 'cursor-pointer': pnl.click
               }
             ]"
-            class="flex items-center gap-1.5 rounded bg-neutral-100 p-2 text-12 font-medium text-neutral-400"
+            class="flex select-none items-center gap-1.5 rounded bg-neutral-100 p-2 text-12 font-medium text-neutral-400"
             @click="pnl.click && pnl.click()"
           >
             <template v-if="pnl.status === LeasePnlStatus.POSITIVE">
@@ -241,7 +241,7 @@
 </template>
 
 <script lang="ts" setup>
-import { defineProps, onMounted, ref } from "vue";
+import { onMounted, ref } from "vue";
 import Tooltip from "../../atoms/tooltip/Tooltip.vue";
 import Button from "../../atoms/button/Button.vue";
 
