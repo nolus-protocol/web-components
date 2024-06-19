@@ -7,7 +7,7 @@
       v-for="(item, index) in items"
       :key="index"
       :class="[item.class]"
-      class="flex flex-1 items-center gap-0.5 text-18 font-medium uppercase text-neutral-400 [&:not(:first-child)]:justify-end [&:not(:first-child)]:text-16"
+      class="flex flex-1 items-center gap-0.5 text-18 font-medium text-neutral-400 [&:not(:first-child)]:justify-end [&:not(:first-child)]:text-16"
     >
       <Button
         v-if="item.button"
