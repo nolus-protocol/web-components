@@ -24,15 +24,7 @@ export const Primary: Story = {
     components: { Dialog },
     template: `
       <Dialog>
-        <template v-slot:header>
-          <p class="text-neutral-typography-200 py-[20px] px-[40px]">Header</p>
-        </template>
-        <template v-slot:body>
-          <p class="text-neutral-typography-200 py-[20px] px-[40px]">Dialog body</p>
-        </template>
-        <template v-slot:footer>
-          <p class="text-neutral-typography-200 py-[20px] px-[40px]">Footer</p>
-        </template>
+          <p class="text-neutral-typography-200 py-[20px] px-[40px]">Child Component</p>
       </Dialog>
     `
   }),

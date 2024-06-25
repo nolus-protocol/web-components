@@ -13,9 +13,7 @@
       <div
         class="mb-0 mt-0 max-h-[calc(100%-80px)] w-full max-w-[516px] overflow-hidden bg-neutral-bg-50 shadow-dialog md:rounded-xl lg:mb-12 lg:mt-12"
       >
-        <slot name="header"></slot>
-        <slot name="body"></slot>
-        <slot name="footer"></slot>
+        <slot />
       </div>
     </div>
   </Teleport>
