@@ -12,6 +12,13 @@ export interface HistoryTableRowItemProps {
   items: HistoryTableItem[];
 }
 
+export interface HistoryTableRowLoadingItemProps {
+  status: string;
+  action: string;
+  fee: string;
+  button: string;
+}
+
 export interface AssetsTableRowItem {
   type?: CURRENCY_VIEW_TYPES;
   value?: string;

@@ -3,6 +3,7 @@ import type { Meta, StoryObj } from "@storybook/vue3";
 import HistoryTableRowComponent from "./HistoryTableRow.vue";
 import AssetsTableRowComponent from "./AssetsTableRow.vue";
 import EarningAssetsTableRowComponent from "./EarningAssetsTableRow.vue";
+import HistoryTableLoadingRow from "./HistoryTableLoadingRow.vue";
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories
 const meta = {
@@ -41,6 +42,30 @@ export const History: Story = {
         { value: `0.0001-${i}` },
         { value: `12:00-${i}` }
       ]
+    }))
+  }
+};
+
+export const HistoryLoading: Story = {
+  render: (args) => ({
+    data() {
+      return { args };
+    },
+    components: { HistoryTableLoadingRow },
+    template: `<HistoryTableLoadingRow v-for="(row, index) in args.historyData"
+            :key="index"
+            :status="row.status" :fee="row.fee" :action="row.action" :button="row.label">
+              <template v-slot:status>
+                slot
+              </template>
+            </HistoryTableLoadingRow>`
+  }),
+  args: {
+    historyData: Array.from({ length: 1 }).map((n, i) => ({
+      status: "Pending",
+      action: "Receive 1.000000 ETH from Ethereum",
+      fee: "0.481215 NLS",
+      label: "Details"
     }))
   }
 };
