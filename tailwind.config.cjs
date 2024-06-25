@@ -130,6 +130,11 @@ export default {
         },
         hover: {
           btn: "var(--color-hover)"
+        },
+        dialogs: {
+          swap: {
+            color: "var(--swap-confirmation-color)",
+          }
         }
       }
     },

@@ -27,6 +27,11 @@
 :root[class~="sync"] {
   @media (prefers-color-scheme: dark) {
     .button {
+      &-primary {
+        &-loading {
+          @apply bg-neutral-800 text-neutral-800 border-border-color #{!important};
+        }
+      }
       &-secondary {
         @apply disabled:bg-neutral-bg-50 disabled:text-neutral-typography-50 disabled:border-border-color;
 

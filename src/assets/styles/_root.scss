@@ -38,6 +38,8 @@
     --media-query-lg: 1024px;
     --media-query-xl: 1200px;
     --media-query-xxl: 1400px;
+
+    --swap-confirmation-color: #f7f9fc;
   }
 
   :root[class~="sync"] {
@@ -55,6 +57,8 @@
       --color-progress: #2b384b;
 
       --color-hover: #142237;
+
+      --swap-confirmation-color: #2b384b;
     }
   }
 
@@ -72,5 +76,7 @@
     --color-progress: #2b384b;
 
     --color-hover: #142237;
+
+    --swap-confirmation-color: #2b384b;
   }
 }
