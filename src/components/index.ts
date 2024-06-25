@@ -16,6 +16,7 @@ import CurrencyField from "@/components/molecules/currency-field/CurrencyField.v
 import MultilineCurrencyField from "@/components/molecules/multiline-currency-field/MultilineCurrencyField.vue";
 import Proposal from "@/components/molecules/proposal/Proposal.vue";
 import HistoryTableRow from "@/components/molecules/table-rows/HistoryTableRow.vue";
+import HistoryTableLoadingRow from "@/components/molecules/table-rows/HistoryTableLoadingRow.vue";
 import AssetsTableRow from "@/components/molecules/table-rows/AssetsTableRow.vue";
 import EarningAssetsTableRow from "@/components/molecules/table-rows/EarningAssetsTableRow.vue";
 
@@ -45,7 +46,7 @@ export {
   HistoryTableRow,
   AssetsTableRow,
   EarningAssetsTableRow,
-
+  HistoryTableLoadingRow,
   // organisms
   Lease,
   Table
