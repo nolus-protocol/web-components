@@ -19,8 +19,8 @@
     </div>
     <div :class="['flex flex-1 items-end gap-0.5 text-12 font-medium text-neutral-400 md:justify-end', $attrs.class]">
       <Button
-        class="text-[14px] !font-normal"
-        severity="primary"
+        class="text-[14px]"
+        severity="secondary"
         size="medium"
         @click="$emit('button-click')"
         :label="props.button"
