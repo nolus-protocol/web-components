@@ -1,11 +1,6 @@
 <template>
   <div :class="['flex flex-col gap-1 border-b-[1px] border-border-color py-3 md:flex-row md:gap-0', $attrs.class]">
-    <div
-      :class="[
-        'flex max-w-[200px] flex-1 items-center gap-0.5 text-14 font-medium uppercase text-neutral-400',
-        $attrs.class
-      ]"
-    >
+    <div :class="['flex max-w-[200px] flex-1 items-center gap-0.5 text-14 font-medium text-neutral-400', $attrs.class]">
       <a
         class="flex items-center gap-1 text-primary-50"
         target="_blank"
