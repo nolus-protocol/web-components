@@ -9,12 +9,7 @@
         {{ props.status }}
       </a>
     </div>
-    <div
-      :class="[
-        'flex flex-1 items-center gap-0.5 text-12 text-14 font-medium font-semibold text-neutral-400',
-        $attrs.class
-      ]"
-    >
+    <div :class="['flex flex-1 items-center gap-0.5 text-14 font-semibold text-neutral-400', $attrs.class]">
       <span :class="['text-neutral-typography-200']">{{ props.action }}</span>
     </div>
     <div
@@ -32,11 +27,11 @@
       ]"
     >
       <Button
+        :label="props.button"
         class="text-[14px]"
         severity="secondary"
         size="medium"
         @click="$emit('button-click')"
-        :label="props.button"
       />
     </div>
   </div>
