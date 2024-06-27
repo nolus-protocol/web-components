@@ -1,13 +1,13 @@
 <template>
   <button
-    class="button button-secondary flex gap-3 rounded-lg px-6 py-4 text-14 font-medium"
+    class="button button-secondary flex justify-start gap-3 rounded-lg px-4 py-3 text-14 font-medium"
     type="button"
     @click="onClick"
   >
     <span
       v-if="icon"
       :class="[icon]"
-      class="icon text-[32px]"
+      class="icon !text-[35px]"
     />
     {{ label }}
   </button>
