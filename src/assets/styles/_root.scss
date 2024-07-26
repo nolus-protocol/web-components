@@ -40,6 +40,8 @@
     --media-query-xxl: 1400px;
 
     --swap-confirmation-color: #f7f9fc;
+    --swap-header-inactive-color: #f7f9fc;
+    --swap-header-stroke: #d6dce4;
   }
 
   :root[class~="sync"] {
@@ -59,6 +61,8 @@
       --color-hover: #142237;
 
       --swap-confirmation-color: #2b384b;
+      --swap-header-inactive-color: #07162c;
+      --swap-header-stroke: #2b384b;
     }
   }
 
@@ -78,5 +82,7 @@
     --color-hover: #142237;
 
     --swap-confirmation-color: #2b384b;
+    --swap-header-inactive-color: #07162c;
+    --swap-header-stroke: #2b384b;
   }
 }

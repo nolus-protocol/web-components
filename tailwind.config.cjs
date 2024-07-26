@@ -134,6 +134,8 @@ export default {
         dialogs: {
           swap: {
             color: "var(--swap-confirmation-color)",
+            inactive: "var(--swap-header-inactive-color)",
+            stroke: "var(--swap-header-stroke)"
           }
         }
       }
