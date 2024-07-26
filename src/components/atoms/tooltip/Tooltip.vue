@@ -127,6 +127,7 @@ function positionPointer() {
   font-size: 10px;
   line-height: 14px;
   cursor: pointer;
+  overflow: hidden;
 
   .icon-tooltip {
     @apply text-neutral-typography-50;
