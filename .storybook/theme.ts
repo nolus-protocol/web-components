@@ -1,4 +1,4 @@
-import { create } from '@storybook/theming'
+import { create } from "@storybook/theming";
 
 export default create({
   base: "light",
@@ -6,5 +6,6 @@ export default create({
   // brand
   brandTitle: "Nolus Storybook",
   brandUrl: "/",
-  // brandImage: '/blok-ink-logo.svg',
+  brandImage: "/logo.svg",
+  brandTarget: "_self"
 });
