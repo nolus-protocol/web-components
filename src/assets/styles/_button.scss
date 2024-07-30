@@ -5,17 +5,15 @@
     @apply bg-primary-50 text-white hover:bg-primary-100 active:bg-primary-200 disabled:bg-neutral-100 disabled:text-neutral-typography-50 disabled:border-neutral-100;
 
     &-loading {
-      @apply pointer-events-none bg-neutral-100 text-neutral-100 #{!important};
+      @apply pointer-events-none bg-neutral-100 text-neutral-100 dark:bg-neutral-bg-200 dark:text-neutral-bg-200 dark:border-none #{!important};
     }
   }
 
   &-secondary {
-    @apply border-[1px] border-border-color text-neutral-typography-200 bg-neutral-bg-50 dark:hover:border-border-color dark:hover:bg-neutral-bg-100 dark:active:bg-neutral-bg-50 hover:bg-hover-btn hover:border-neutral-200 active:text-primary-200 active:border-border-hover-color dark:active:border-primary-50 active:bg-primary-50/10 disabled:bg-neutral-100 disabled:border-neutral-100 disabled:text-neutral-typography-50 dark:disabled:bg-neutral-bg-50 dark:disabled:text-neutral-typography-50 dark:disabled:border-border-color;
-
-
+    @apply border-[1px] border-border-color text-neutral-typography-200 bg-neutral-bg-50 dark:hover:border-border-color dark:hover:bg-neutral-bg-100 dark:active:bg-neutral-bg-50 hover:bg-hover-btn hover:border-neutral-200 active:text-primary-200 active:border-border-hover-color dark:active:border-primary-50 active:bg-primary-50/10 disabled:bg-neutral-100 disabled:border-neutral-100 disabled:text-neutral-typography-50 dark:disabled:bg-neutral-bg-200 dark:disabled:text-neutral-typography-50 dark:disabled:border-none;
 
     &-loading {
-      @apply pointer-events-none bg-neutral-100 text-neutral-100 border-neutral-100 dark:bg-neutral-bg-50 dark:text-neutral-bg-50 dark:border-border-color #{!important};
+      @apply pointer-events-none bg-neutral-100 text-neutral-100 border-neutral-100 dark:bg-neutral-bg-200 dark:text-neutral-bg-200 dark:border-none #{!important};
     }
   }
 
@@ -28,16 +26,18 @@
   @media (prefers-color-scheme: dark) {
     .button {
       &-primary {
+        @apply disabled:bg-neutral-bg-200 disabled:text-neutral-typography-50 disabled:border-none;
+
         &-loading {
           @apply bg-neutral-800 text-neutral-800 border-border-color #{!important};
         }
       }
 
       &-secondary {
-        @apply disabled:bg-neutral-bg-50 disabled:text-neutral-typography-50 disabled:border-border-color;
+        @apply disabled:bg-neutral-bg-200 disabled:text-neutral-typography-50 disabled:border-none;
 
         &-loading {
-          @apply pointer-events-none bg-neutral-bg-50 text-neutral-bg-50 border-border-color #{!important};
+          @apply pointer-events-none bg-neutral-bg-200 text-neutral-bg-200 border-none #{!important};
         }
       }
     }
