@@ -96,11 +96,15 @@ export default {
         "neutral-typography": {
           50: "var(--color-typography-50)",
           100: "var(--color-typography-100)",
-          200: "var(--color-typography-200)"
+          200: "var(--color-typography-200)",
+          "link": "var(--color-typography-link)",
+          "error": "var(--color-typography-error)",
+          "success": "var(--color-typography-success)",
+          "brand": "var(--color-typography-brand)"
         },
         primary: {
           50: "var(--color-primary-50)",
-          "50/10": "#2868e11a",
+          "50/10": "rgba(193, 202, 215, 0.35)",
           100: "var(--color-primary-100)",
           200: "var(--color-primary-200)"
         },
@@ -122,7 +126,7 @@ export default {
         },
         border: {
           color: "var(--border-color)",
-          "hover-color": "var(--border-hover-color)"
+          "hover-color": "var(--border-color-emphasized)"
         },
         spinner: {
           color: "var(--spinner-color)",

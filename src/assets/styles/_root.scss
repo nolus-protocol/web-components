@@ -1,17 +1,21 @@
 @layer base {
   :root {
     --color-background-50: #ffffff;
-    --color-background-100: #ebeff5;
-    --color-background-200: #c1cad7;
-    --color-background-300: linear-gradient(314deg, #ebeff5 2.19%, #f0f4f7 100%);
+    --color-background-100: #F7F9FC;
+    --color-background-200: #C1CAD7;
+    --color-background-300: #EBEFF5;
 
-    --color-typography-50: #8396b1;
-    --color-typography-100: #5e7699;
-    --color-typography-200: #082d63;
+    --color-typography-50: #8396B1;
+    --color-typography-100: #4C5A6E;
+    --color-typography-200: #273141;
+    --color-typography-link: #2054B5;
+    --color-typography-error: #AB1F3B;
+    --color-typography-success: #0F6641;
+    --color-typography-brand: #CF4625;
 
-    --color-primary-50: #2868e1;
-    --color-primary-100: #245dc7;
-    --color-primary-200: #1f51ad;
+    --color-primary-50: #3470E2;
+    --color-primary-100: #245DC8;
+    --color-primary-200: #2054B5;
 
     --color-danger-50: #e4292926;
     --color-danger-100: #e42929;
@@ -24,10 +28,10 @@
 
     --color-brand-accent: #ff562e;
 
-    --border-color: #d6dce4;
-    --border-hover-color: #8396b1;
+    --border-color: #C1CAD7;
+    --border-color-emphasized: #A4B2C5;
 
-    --spinner-color: #2868e1;
+    --spinner-color: #3470E2;
     --spinner-border-color: #c1cad7;
     --color-progress: #ebeff5;
 
@@ -44,15 +48,25 @@
 
   :root[class~="sync"] {
     @media (prefers-color-scheme: dark) {
-      --color-background-50: #142237;
-      --color-background-100: #2b384b;
-      --color-background-200: #07162c;
+      --color-background-50: #171C25;
+      --color-background-100: #273141;
+      --color-background-200: #384354;
 
-      --color-typography-200: #ffffff;
+      --color-typography-50: #66768E;
+      --color-typography-100: #C1CAD7;
+      --color-typography-200: #F7F9FC;
+      --color-typography-link: #B5CAF5;
+      --color-typography-error: #F6B9C5;
+      --color-typography-success: #8CD8B8;
+      --color-typography-brand: #FF5F3A;
 
-      --border-color: #2b384b;
+      --color-primary-100: #6793EA;
+      --color-primary-200: #245DC8;
 
-      --spinner-color: #2868e1;
+      --border-color: #384354;
+      --border-color-emphasized: #66768E;
+
+      --spinner-color: #3470E2;
       --spinner-border-color: #2b384b;
       --color-progress: #2b384b;
 
@@ -63,15 +77,25 @@
   }
 
   :root[class~="dark"] {
-    --color-background-50: #142237;
-    --color-background-100: #2b384b;
-    --color-background-200: #07162c;
+    --color-background-50: #171C25;
+    --color-background-100: #273141;
+    --color-background-200: #384354;
 
-    --color-typography-200: #ffffff;
+    --color-typography-50: #66768E;
+    --color-typography-100: #C1CAD7;
+    --color-typography-200: #F7F9FC;
+    --color-typography-link: #B5CAF5;
+    --color-typography-error: #F6B9C5;
+    --color-typography-success: #8CD8B8;
+    --color-typography-brand: #FF5F3A;
 
-    --border-color: #2b384b;
+    --color-primary-100: #6793EA;
+    --color-primary-200: #245DC8;
 
-    --spinner-color: #2868e1;
+    --border-color: #384354;
+    --border-color-emphasized: #66768E;
+
+    --spinner-color: #3470E2;
     --spinner-border-color: #2b384b;
     --color-progress: #2b384b;
 

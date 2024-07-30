@@ -10,6 +10,16 @@
         }
       "
     />
+    <Button
+      label="test"
+      severity="secondary"
+      size="large"
+      @click="
+        () => {
+          console.info('dsadsadasdadsada');
+        }
+      "
+    />
     <NotificationButton />
     <Close class="" />
     <Dropdown

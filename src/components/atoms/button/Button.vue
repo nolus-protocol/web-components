@@ -47,9 +47,9 @@ const classes = computed(() => ({
   "button button-primary": props.severity === Type.primary,
   "button button-secondary": props.severity === Type.secondary,
 
-  "px-3 py-1 rounded text-12": props.size === Size.small,
-  "px-3 py-2 rounded-md text-14": props.size === Size.medium,
-  "px-6 py-3 rounded-lg text-14": props.size === Size.large,
+  "px-3 py-1 rounded-full text-12": props.size === Size.small,
+  "px-4 py-2 rounded-full text-14": props.size === Size.medium,
+  "px-6 py-2 rounded-full text-14": props.size === Size.large,
 
   "button-primary-loading": props.severity === Type.primary && props.loading,
   "button-secondary-loading": props.severity === Type.secondary && props.loading

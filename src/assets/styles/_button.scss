@@ -10,7 +10,7 @@
   }
 
   &-secondary {
-    @apply border-[1px] border-border-color text-neutral-typography-200 bg-neutral-bg-50 dark:hover:border-neutral-typography-100 dark:active:bg-neutral-bg-50 hover:bg-hover-btn hover:border-neutral-typography-50 active:text-primary-50 active:border-primary-50 dark:active:border-primary-50 active:bg-primary-50/10 disabled:bg-neutral-100 disabled:border-neutral-100 disabled:text-neutral-typography-50 dark:disabled:bg-neutral-bg-50 dark:disabled:text-neutral-typography-50 dark:disabled:border-border-color;
+    @apply border-[1px] border-border-color text-neutral-typography-200 bg-neutral-bg-50 dark:hover:border-border-color dark:hover:bg-neutral-bg-100 dark:active:bg-neutral-bg-50 hover:bg-hover-btn hover:border-neutral-200 active:text-primary-200 active:border-border-hover-color dark:active:border-primary-50 active:bg-primary-50/10 disabled:bg-neutral-100 disabled:border-neutral-100 disabled:text-neutral-typography-50 dark:disabled:bg-neutral-bg-50 dark:disabled:text-neutral-typography-50 dark:disabled:border-border-color;
 
 
 
