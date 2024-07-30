@@ -29,7 +29,8 @@ const preview: Preview = {
         order: ["Introduction", "Documentation", "Components"]
       }
     }
-  }
+  },
+  tags: ["autodocs"]
 };
 
 export default preview;

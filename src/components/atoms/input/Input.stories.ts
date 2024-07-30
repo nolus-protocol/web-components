@@ -6,7 +6,9 @@ import Input from "./Input.vue";
 const meta = {
   title: "Components/Atoms/Input",
   component: Input,
-  argTypes: {},
+  argTypes: {
+    type: { control: "select", options: ["text", "password", "email"] }
+  },
   args: {
     id: "1",
     label: "Some Label",
