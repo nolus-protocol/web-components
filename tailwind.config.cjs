@@ -89,7 +89,11 @@ export default {
         },
 
         // new
-        bg: {
+        "neutral-bg": {
+          50: "var(--color-background-50)",
+          100: "var(--color-background-100)",
+          200: "var(--color-background-200)",
+          300: "var(--color-background-300)",
           "1": "var(--color-background-level-1)",
           "2": "var(--color-background-level-2)",
           "3": "var(--color-background-level-3)",
@@ -179,12 +183,6 @@ export default {
         },
 
         // old
-        "neutral-bg": {
-          50: "var(--color-background-50)",
-          100: "var(--color-background-100)",
-          200: "var(--color-background-200)",
-          300: "var(--color-background-300)"
-        },
         "neutral-typography": {
           50: "var(--color-typography-50)",
           100: "var(--color-typography-100)",
