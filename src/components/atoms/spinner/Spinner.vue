@@ -10,7 +10,7 @@
     xmlns="http://www.w3.org/2000/svg"
   >
     <path
-      class="fill-spinner-color"
+      class="fill-primary-default"
       d="M17.3107 8.41098C17.0236 7.08477 16.3809 5.86175 15.4515 4.87313C14.5221 3.88451 13.3411 3.1676 12.0352 2.79932L12.7168 0.395996C14.4536 0.889442 16.0241 1.8444 17.2615 3.15932C18.5047 4.47696 19.3655 6.10843 19.7513 7.87848L17.3115 8.41014L17.3107 8.41098Z"
     />
     <path
@@ -39,8 +39,7 @@ const props = withDefaults(defineProps<SpinnerProps>(), {
 const classes = computed(() => ({}));
 
 const pathTwo = computed(() => ({
-  "fill-spinner-border-color": props.severity === "primary",
-  "fill-spinner-border-color dark:fill-spinner-border-color": props.severity === "secondary"
+  "fill-secondary-active": props.severity === "primary" || props.severity === "secondary"
 }));
 
 const style = computed(() => ({}));

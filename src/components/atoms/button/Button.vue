@@ -9,18 +9,18 @@
     <span
       v-if="icon && iconPosition === 'left'"
       :class="[icon]"
-      class="icon"
+      class="icon flex"
     />
     {{ label }}
     <span
       v-if="icon && iconPosition === 'right'"
       :class="[icon]"
-      class="icon"
+      class="icon flex"
     />
     <span
       v-if="icon && !iconPosition"
       :class="[icon]"
-      class="icon"
+      class="icon flex"
     />
     <span
       v-if="loading"
@@ -51,8 +51,7 @@ const classes = computed(() => ({
   "px-4 py-2 rounded-full text-14": props.size === Size.medium,
   "px-6 py-2 rounded-full text-14": props.size === Size.large,
 
-  "button-primary-loading": props.severity === Type.primary && props.loading,
-  "button-secondary-loading": props.severity === Type.secondary && props.loading
+  "button-loading": props.loading
 }));
 
 const style = computed(() => ({}));

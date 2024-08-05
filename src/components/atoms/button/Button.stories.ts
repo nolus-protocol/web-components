@@ -44,7 +44,6 @@ export const Medium: Story = {
     size: "medium"
   }
 };
-
 export const Small: Story = {
   args: {
     size: "small"
@@ -54,7 +53,7 @@ export const Small: Story = {
 export const WithIcon: Story = {
   args: {
     ...Primary.args,
-    icon: "icon-hub",
+    icon: "icon-arrow-short-up text-[23px]",
     iconPosition: "left"
   }
 };

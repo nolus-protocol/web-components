@@ -87,6 +87,98 @@ export default {
           900: "#581e10",
           950: "#341109"
         },
+
+        // new
+        bg: {
+          "1": "var(--color-background-level-1)",
+          "2": "var(--color-background-level-2)",
+          "3": "var(--color-background-level-3)",
+          "4": "var(--color-background-level-4)",
+          "inverted-2": "var(--color-background-level-inverted-2)",
+          "inverted-1": "var(--color-background-level-inverted-1)",
+        },
+        typography: {
+          default: "var(--color-typography-default)",
+          secondary: "var(--color-typography-secondary)",
+          disabled: "var(--color-typography-disabled)",
+          link: "var(--color-typography-link)",
+          error: "var(--color-typography-error)",
+          success: "var(--color-typography-success)",
+          brand: "var(--color-typography-brand)",
+        },
+        icon: {
+          default: "var(--color-icon-default)",
+          secondary: "var(--color-icon-secondary)",
+          disabled: "var(--color-icon-disabled)",
+          link: "var(--color-icon-link)",
+          error: "var(--color-icon-error)",
+          success: "var(--color-icon-success)",
+          brand: "var(--color-icon-brand)",
+          inverted: "var(--color-icon-inverted)",
+          "static-light": "var(--color-icon-static-light)",
+          "static-dark": "var(--color-icon-static-dark)"
+        },
+        primary: {
+          50: "var(--color-primary-50)",
+          "50/10": "rgba(193, 202, 215, 0.35)",
+          100: "var(--color-primary-100)",
+          200: "var(--color-primary-200)",
+          default: "var(--color-primary-default)",
+          hover: "var(--color-primary-hover)",
+          active: "var(--color-primary-active)"
+        },
+        secondary: {
+          default: "var(--color-secondary-default)",
+          hover: "var(--color-secondary-hover)",
+          active: "var(--color-secondary-active)"
+        },
+        danger: {
+          50: "var(--color-danger-50)",
+          100: "var(--color-danger-100)",
+          default: "var(--color-danger-default)",
+          hover: "var(--color-danger-hover)",
+          active: "var(--color-danger-active)"
+        },
+        disabled: "var(--color-disabled)",
+        "static-light": "var(--color-static-light)",
+        "info-muted": "var(--color-info-muted)",
+        success: {
+          50: "var(--color-success-50)",
+          100: "var(--color-success-100)",
+          muted: "var(--color-success-muted)",
+          emphasized: "var(--color-success-emphasized)"
+        },
+        warning: {
+          50: "var(--color-warning-50)",
+          100: "var(--color-warning-100)",
+          muted: "var(--color-success-muted)",
+          emphasized: "var(--color-success-emphasized)"
+        },
+        error: {
+          muted: "var(--color-success-muted)",
+          emphasized: "var(--color-success-emphasized)"
+        },
+        logo: "var(--color-logo)",
+        scrollbar: "var(--color-scrollbar)",
+        border: {
+          color: "var(--border-color)",
+          "hover-color": "var(--border-color-emphasized)",
+          muted: "var(--color-border-muted)",
+          default: "var(--color-border-default)",
+          emphasized: "var(--color-border-emphasized)",
+          dominant: "var(--color-border-dominant)",
+          focus: "var(--color-border-focus)",
+          success: "var(--color-border-success)",
+          error: "var(--color-border-error)",
+          warning: "var(--color-border-warning)"
+        },
+        shadow: {
+          default: "var(--color-shadow-default)",
+          light: "var(--color-shadow-light)",
+          lighter: "var(--color-shadow-lighter)"
+        },
+
+        // old
         "neutral-bg": {
           50: "var(--color-background-50)",
           100: "var(--color-background-100)",
@@ -102,31 +194,9 @@ export default {
           "success": "var(--color-typography-success)",
           "brand": "var(--color-typography-brand)"
         },
-        primary: {
-          50: "var(--color-primary-50)",
-          "50/10": "rgba(193, 202, 215, 0.35)",
-          100: "var(--color-primary-100)",
-          200: "var(--color-primary-200)"
-        },
-        danger: {
-          50: "var(--color-danger-50)",
-          100: "var(--color-danger-100)"
-        },
-        success: {
-          50: "var(--color-success-50)",
-          100: "var(--color-success-100)"
-        },
-        warning: {
-          50: "var(--color-warning-50)",
-          100: "var(--color-warning-100)"
-        },
         accent: "var(--color-brand-accent)",
         progress: {
           color: "var(--color-progress)"
-        },
-        border: {
-          color: "var(--border-color)",
-          "hover-color": "var(--border-color-emphasized)"
         },
         spinner: {
           color: "var(--spinner-color)",
@@ -177,6 +247,8 @@ export default {
       "50%": "15%"
     },
     boxShadow: {
+      medium: "0px 4px 6px -1px var(--color-shadow-default), 0px 2px 4px -2px var(--color-shadow-default)",
+      larger: "0px 12px 20px 0px var(--color-shadow-light), 0px 2px 4px 0px var(--color-shadow-lighter)",
       dialog: "0 8px 48px #072d6326",
       "field-heavy": "0px 8px 48px 0px rgba(7, 45, 99, 0.15)",
       "field-normal": "0px 12px 32px 0px rgba(7, 45, 99, 0.06)"
