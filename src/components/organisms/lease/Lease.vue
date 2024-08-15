@@ -1,8 +1,10 @@
 <template>
   <div class="flex w-full flex-col border-[1px] border-border-color bg-neutral-bg-50 p-6 px-4 lg:rounded-xl lg:px-6">
     <div class="flex items-center justify-between">
-      <div class="flex gap-2 text-12 font-[600] uppercase text-neutral-400">
-        {{ title }}
+      <div class="flex items-center gap-2 text-12 font-[600] uppercase text-neutral-400">
+        <span class="boder rounded border border-success-100 p-1 text-success-100">
+          {{ title }}
+        </span>
         <div
           :class="[{ 'cursor-pointer': history?.click }]"
           class="normal-case text-primary-50"
@@ -83,15 +85,15 @@
             <div class="flex h-full items-center justify-between gap-1">
               <div
                 :class="[{ '!bg-danger-100': +progressBar.value > 80 }]"
-                class="bg-progress-color h-[10px] w-[24px] rounded lg:w-[35px]"
+                class="h-[10px] w-[24px] rounded bg-progress-color lg:w-[35px]"
               ></div>
               <div
                 :class="[{ '!bg-warning-100': +progressBar.value > 65 && +progressBar.value <= 80 }]"
-                class="bg-progress-color h-[10px] w-[24px] rounded lg:w-[35px]"
+                class="h-[10px] w-[24px] rounded bg-progress-color lg:w-[35px]"
               ></div>
               <div
                 :class="[{ '!bg-success-100': +progressBar.value <= 65 }]"
-                class="bg-progress-color h-[10px] w-[24px] rounded lg:w-[35px]"
+                class="h-[10px] w-[24px] rounded bg-progress-color lg:w-[35px]"
               ></div>
             </div>
           </template>
@@ -102,7 +104,7 @@
                 v-for="(val, index) in progressBar.value"
                 :key="index"
                 :class="[
-                  'bg-progress-color h-[10px] w-[24px] rounded lg:w-[35px]',
+                  'h-[10px] w-[24px] rounded bg-progress-color lg:w-[35px]',
                   {
                     'pulse !bg-primary-50': val === LeaseOpeningBarStatuses.CURRENT,
                     '!bg-primary-50': val === LeaseOpeningBarStatuses.READY
@@ -285,6 +287,6 @@ defineEmits<LeaseEmits>();
 }
 
 .box {
-  @apply bg-progress-color h-[10px] w-[24px] rounded lg:w-[35px];
+  @apply h-[10px] w-[24px] rounded bg-progress-color lg:w-[35px];
 }
 </style>
