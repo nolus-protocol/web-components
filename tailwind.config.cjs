@@ -105,9 +105,11 @@ export default {
           default: "var(--color-typography-default)",
           secondary: "var(--color-typography-secondary)",
           disabled: "var(--color-typography-disabled)",
-          link: "var(--color-typography-link)",
-          error: "var(--color-typography-error)",
           success: "var(--color-typography-success)",
+          warning: "var(--color-typography-warning)",
+          error: "var(--color-typography-error)",
+          "error-heavy": "var(--color-typography-error-heavy)",
+          link: "var(--color-typography-link)",
           brand: "var(--color-typography-brand)",
         },
         icon: {
@@ -155,12 +157,12 @@ export default {
         warning: {
           50: "var(--color-warning-50)",
           100: "var(--color-warning-100)",
-          muted: "var(--color-success-muted)",
-          emphasized: "var(--color-success-emphasized)"
+          muted: "var(--color-warning-muted)",
+          emphasized: "var(--color-warning-emphasized)"
         },
         error: {
-          muted: "var(--color-success-muted)",
-          emphasized: "var(--color-success-emphasized)"
+          muted: "var(--color-error-muted)",
+          emphasized: "var(--color-error-emphasized)"
         },
         logo: "var(--color-logo)",
         scrollbar: "var(--color-scrollbar)",

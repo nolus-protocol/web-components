@@ -11,5 +11,13 @@ export enum Type {
   danger = "danger"
 }
 
+export enum Variant {
+  secondary = "secondary",
+  info = "info",
+  success = "success",
+  warning = "warning",
+  error = "error"
+}
+
 export const iconsExternalUrl =
   "https://raw.githubusercontent.com/nolus-protocol/webapp/main/src/config/currencies/icons";

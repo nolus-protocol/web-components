@@ -45,9 +45,11 @@
     --color-typography-default: #273141;
     --color-typography-secondary: #4C5A6E;
     --color-typography-disabled: #8396b1;
-    --color-typography-link: #2054b5;
-    --color-typography-error: #ab1f3b;
     --color-typography-success: #0f6641;
+    --color-typography-warning: #73530f;
+    --color-typography-error: #ab1f3b;
+    --color-typography-error-heavy: #81182c;
+    --color-typography-link: #2054b5;
     --color-typography-brand: #cf4625;
 
     --color-icon-default: #566479;
@@ -57,9 +59,11 @@
     --color-icon-error: #df294d;
     --color-icon-success: #148555;
     --color-icon-brand: #ff5f3a;
-    --color-icon-inverted: #FFFFFF;
-    --color-icon-static-light: #FFFFFF;
-    --color-icon-static-dark: #273141;
+
+    // same for typography and icon
+    --color-inverted: #FFFFFF;
+    --color-static-light: #FFFFFF;
+    --color-static-dark: #273141;
 
     --color-background-level-1: #f7f9fc;
     --color-background-level-2: #ffffff;
@@ -81,8 +85,6 @@
     --color-danger-active: #f6b9c5;
 
     --color-disabled: #ebeff5;
-
-    --color-static-light: #FFFFFF;
 
     --color-info-muted: #e8effc;
 
@@ -143,10 +145,12 @@
       --color-typography-default: #f7f9fc;
       --color-typography-secondary: #c1cad7;
       --color-typography-disabled: #66768e;
-      --color-typography-link: #B5CAF5;
-      --color-typography-error: #F6B9C5;
-      --color-typography-success: #8CD8B8;
-      --color-typography-brand: #FF5F3A;
+      --color-typography-success: #8cd8b8;
+      --color-typography-warning: #ffbf34;
+      --color-typography-error: #f6b9c5;
+      --color-typography-error-heavy: #f6b9c5;
+      --color-typography-link: #b5caf5;
+      --color-typography-brand: #ff5f3a;
 
       --color-icon-default: #ebeff5;
       --color-icon-secondary: #8396b1;
@@ -155,9 +159,11 @@
       --color-icon-error: #ed6983;
       --color-icon-success: #19a96c;
       --color-icon-brand: #ff5f3a;
-      --color-icon-inverted: #273141;
-      --color-icon-static-light: #FFFFFF;
-      --color-icon-static-dark: #273141;
+
+      // same for typography and icon
+      --color-inverted: #273141;
+      --color-static-light: #FFFFFF;
+      --color-static-dark: #273141;
 
       --color-background-level-1: #171c25;
       --color-background-level-2: #1E242F;
@@ -220,10 +226,6 @@
     --color-typography-50: #66768E;
     --color-typography-100: #C1CAD7;
     --color-typography-200: #F7F9FC;
-    --color-typography-link: #B5CAF5;
-    --color-typography-error: #F6B9C5;
-    --color-typography-success: #8CD8B8;
-    --color-typography-brand: #FF5F3A;
 
     --color-primary-100: #6793EA;
     --color-primary-200: #245DC8;
@@ -243,6 +245,12 @@
     --color-typography-default: #f7f9fc;
     --color-typography-secondary: #c1cad7;
     --color-typography-disabled: #66768e;
+    --color-typography-success: #8cd8b8;
+    --color-typography-warning: #ffbf34;
+    --color-typography-error: #f6b9c5;
+    --color-typography-error-heavy: #f6b9c5;
+    --color-typography-link: #b5caf5;
+    --color-typography-brand: #ff5f3a;
 
     --color-icon-default: #ebeff5;
     --color-icon-secondary: #8396b1;
@@ -251,9 +259,11 @@
     --color-icon-error: #ed6983;
     --color-icon-success: #19a96c;
     --color-icon-brand: #ff5f3a;
-    --color-icon-inverted: #273141;
-    --color-icon-static-light: #FFFFFF;
-    --color-icon-static-dark: #273141;
+
+    // same for typography and icon
+    --color-inverted: #273141;
+    --color-static-light: #FFFFFF;
+    --color-static-dark: #273141;
 
     --color-background-level-1: #171c25;
     --color-background-level-2: #1E242F;

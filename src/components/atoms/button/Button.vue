@@ -1,6 +1,6 @@
 <template>
   <button
-    :class="['font-semibold', 'button', classes, props.class]"
+    :class="['font-semibold', 'button', classes, `button-${severity}`, props.class]"
     :disabled="disabled"
     :style="style"
     type="button"
@@ -34,7 +34,7 @@
 <script lang="ts" setup>
 import { computed } from "vue";
 import Spinner from "../spinner/Spinner.vue";
-import { Size, Type } from "@/shared/utils/types";
+import { Size } from "@/shared/utils/types";
 import type { ButtonProps } from "@/components/atoms/button/types";
 
 const props = defineProps<ButtonProps>();
@@ -44,11 +44,6 @@ const emit = defineEmits<{
 }>();
 
 const classes = computed(() => ({
-  "button-primary": props.severity === Type.primary,
-  "button-secondary": props.severity === Type.secondary,
-  "button-tertiary": props.severity === Type.tertiary,
-  "button-danger": props.severity === Type.danger,
-
   "px-3 py-1 rounded-full text-12": props.size === Size.small,
   "px-4 py-2 rounded-full text-14": props.size === Size.medium,
   "px-6 py-2 rounded-full text-14": props.size === Size.large,
