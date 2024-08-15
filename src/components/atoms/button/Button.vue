@@ -1,6 +1,6 @@
 <template>
   <button
-    :class="['font-semibold', classes, props.class]"
+    :class="['font-semibold', 'button', classes, props.class]"
     :disabled="disabled"
     :style="style"
     type="button"
@@ -44,8 +44,10 @@ const emit = defineEmits<{
 }>();
 
 const classes = computed(() => ({
-  "button button-primary": props.severity === Type.primary,
-  "button button-secondary": props.severity === Type.secondary,
+  "button-primary": props.severity === Type.primary,
+  "button-secondary": props.severity === Type.secondary,
+  "button-tertiary": props.severity === Type.tertiary,
+  "button-danger": props.severity === Type.danger,
 
   "px-3 py-1 rounded-full text-12": props.size === Size.small,
   "px-4 py-2 rounded-full text-14": props.size === Size.medium,

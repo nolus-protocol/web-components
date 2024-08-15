@@ -1,14 +1,31 @@
 .button {
-  @apply flex items-center justify-center gap-1 disabled:bg-disabled disabled:text-typography-disabled disabled:border-none shadow-medium disabled:hover:bg-disabled disabled:shadow-transparent;
+  @apply flex items-center justify-center gap-1 shadow-medium transition duration-150 ease-out;
+  @apply disabled:bg-disabled disabled:text-typography-disabled disabled:border-none disabled:hover:bg-disabled disabled:shadow-transparent;
   // TODO: ask about this state
   //@apply focus:outline focus:outline-offset-1 focus:outline-primary-hover active:outline-none;
 
   &-primary {
-    @apply bg-primary-default text-static-light hover:bg-primary-hover active:bg-primary-active;
+    @apply bg-primary-default text-static-light;
+    @apply hover:bg-primary-hover;
+    @apply active:bg-primary-active;
   }
 
   &-secondary {
-    @apply border-[1px] border-border-default text-typography-default bg-secondary-default hover:bg-secondary-hover active:bg-secondary-active active:border-border-emphasized;
+    @apply border-[1px] border-border-default text-typography-default bg-secondary-default;
+    @apply hover:bg-secondary-hover;
+    @apply active:bg-secondary-active active:border-border-emphasized;
+  }
+
+  &-tertiary {
+    @apply text-typography-default border-[1px] border-transparent shadow-transparent;
+    @apply hover:border-border-default hover:shadow-medium hover:bg-secondary-hover;
+    @apply active:bg-secondary-active active:border-border-emphasized;
+  }
+
+  &-danger {
+    @apply bg-danger-default text-typography-error border-[1px] border-border-error;
+    @apply hover:bg-danger-hover;
+    @apply active:bg-danger-active;
   }
 
   &-loading {
