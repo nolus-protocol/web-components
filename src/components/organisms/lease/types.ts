@@ -40,7 +40,7 @@ export enum LeaseOpeningBarStatuses {
 export type LeaseProgressBarProps = { title: string; value: string[] | LeaseOpeningBarStatuses[] };
 
 export interface LeaseProps {
-  title: string;
+  title: { value: string; class?: string };
   history: {
     click?: () => void;
     value: string;

@@ -2,8 +2,8 @@
   <div class="flex w-full flex-col border-[1px] border-border-color bg-neutral-bg-50 p-6 px-4 lg:rounded-xl lg:px-6">
     <div class="flex items-center justify-between">
       <div class="flex items-center gap-2 text-12 font-[600] uppercase text-neutral-400">
-        <span class="boder rounded border border-success-100 p-1 text-success-100">
-          {{ title }}
+        <span :class="title.class">
+          {{ title.value }}
         </span>
         <div
           :class="[{ 'cursor-pointer': history?.click }]"
