@@ -268,7 +268,7 @@ const leaseProps: LeaseProps = {
     },
     value: "#daeqw21e"
   },
-  title: "Buy position",
+  title: { value: "Buy position" },
   share: {
     label: "Share Position"
   },

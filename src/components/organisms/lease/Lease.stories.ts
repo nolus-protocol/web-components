@@ -12,7 +12,7 @@ const meta = {
     history: {
       value: "#dsaj3252"
     },
-    title: "Buy position",
+    title: { value: "Buy position" },
     pnl: {
       value: "$00.00",
       status: LeasePnlStatus.NEUTRAL
