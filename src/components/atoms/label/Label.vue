@@ -1,14 +1,14 @@
 <template>
   <div
     :class="[`label-${variant}`, props.class]"
-    class="inline-flex min-h-6 items-center rounded border-[1px] px-2 py-1 text-[13px] font-medium"
+    class="inline-flex min-h-6 w-fit items-center rounded border-[1px] px-2 py-1 text-[13px] font-medium"
   >
     <span
       v-if="icon && iconPosition === 'left'"
       :class="[icon]"
       class="icon flex"
     />
-    {{ label }}
+    {{ value }}
     <span
       v-if="icon && iconPosition === 'right'"
       :class="[icon]"

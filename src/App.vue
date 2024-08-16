@@ -10,6 +10,10 @@
         }
       "
     />
+    <Label
+      value="Label"
+      variant="secondary"
+    />
     <Button
       label="test"
       severity="secondary"
@@ -178,6 +182,7 @@ import {
   EarningAssetsTableRow,
   HistoryTableRow,
   Input,
+  Label,
   Lease,
   MultilineCurrencyField,
   NotificationButton,

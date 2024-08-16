@@ -1,3 +1,5 @@
+import type { Size } from "@/shared/utils/types";
+
 export interface DropdownOption {
   value: string | number;
   label: string;
@@ -6,6 +8,7 @@ export interface DropdownOption {
 
 export interface DropdownProps {
   id?: string;
+  size?: Size.small | Size.medium;
   label?: string;
   placeholder?: string;
   options: DropdownOption[];

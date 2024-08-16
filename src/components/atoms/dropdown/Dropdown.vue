@@ -74,16 +74,22 @@
 import { computed, ref, Transition, watch } from "vue";
 import type { DropdownOption, DropdownProps } from "./types";
 import Spinner from "../spinner/Spinner.vue";
+import { Size } from "@/shared/utils/types";
 
 const dropdownRef = ref<HTMLElement | null>(null);
 const isOpen = ref(false);
 const selectedOption = ref<DropdownOption | null>(null);
 const searchInputRef = ref<HTMLInputElement>();
 
-const props = defineProps<DropdownProps>();
+const props = withDefaults(defineProps<DropdownProps>(), {
+  size: Size.medium
+});
 
 const searchInput = ref("");
 const classes = computed(() => ({
+  "px-2 py-1": props.size === Size.small,
+  "px-3 py-2": props.size === Size.medium,
+
   "border-primary-50": isOpen,
   "!border-danger-100": props.error
 }));

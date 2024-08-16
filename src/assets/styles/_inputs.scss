@@ -4,19 +4,18 @@
   }
 
   &-label {
-      @apply text-14 font-medium cursor-pointer text-neutral-typography-200 dark:text-neutral-typography-50;
+      @apply text-14 font-normal cursor-pointer text-typography-default;
   }
 
   &-input,
   &-dropdown {
-      @apply flex items-center rounded-md border-[1px] border-border-color hover:border-border-hover-color bg-neutral-bg-50 px-3 text-neutral-typography-200 outline-none active:border-primary-50 focus:border-primary-50 disabled:hover:border-border-color disabled:bg-neutral-bg-100 dark:disabled:bg-neutral-bg-50 disabled:text-neutral-typography-50 transition;
-    //transition: 0.3s;
-    height: 44px;
+    @apply flex items-center border-[1px] border-border-dominant bg-neutral-bg-2 shadow-shadow-default text-typography-default rounded-md text-16 h-10 font-normal;
+    @apply focus:border-[2px] focus:border-border-focus focus:outline-none;
   }
 
   &-input {
     &.password {
-      @apply text-32 text-transparent text-shadow-password;
+      @apply text-32;
     }
   }
 }

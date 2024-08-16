@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/vue3";
 
 import Dropdown from "./Dropdown.vue";
-import { iconsExternalUrl } from "@/shared/utils/types";
+import { iconsExternalUrl, Size } from "@/shared/utils/types";
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories
 const meta = {
@@ -10,6 +10,7 @@ const meta = {
   argTypes: {},
   args: {
     id: "1",
+    size: Size.medium,
     label: "Some Label",
     placeholder: "Select an option",
     error: false,

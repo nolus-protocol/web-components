@@ -3,8 +3,8 @@ import type { Variant } from "@/shared/utils/types";
 export type LabelVariant = keyof typeof Variant;
 
 export interface LabelProps {
-  label?: string;
-  variant?: LabelVariant;
+  value: string;
+  variant: LabelVariant;
   icon?: string;
   iconPosition?: "left" | "right";
   disabled?: boolean;

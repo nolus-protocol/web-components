@@ -11,6 +11,7 @@ import Radio from "@/components/atoms/radio/Radio.vue";
 import Spinner from "@/components/atoms/spinner/Spinner.vue";
 import Tooltip from "@/components/atoms/tooltip/Tooltip.vue";
 import Wallet from "@/components/atoms/wallet/Wallet.vue";
+import Label from "@/components/atoms/label/Label.vue";
 
 import CurrencyField from "@/components/molecules/currency-field/CurrencyField.vue";
 import MultilineCurrencyField from "@/components/molecules/multiline-currency-field/MultilineCurrencyField.vue";
@@ -38,6 +39,7 @@ export {
   Spinner,
   Tooltip,
   Wallet,
+  Label,
 
   // molecules
   CurrencyField,
