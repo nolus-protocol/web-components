@@ -1,7 +1,7 @@
 <template>
   <div
     :class="[`label-${variant}`, props.class]"
-    class="inline-flex min-h-6 items-center gap-1 rounded border-[1px] px-2 py-1 text-[13px] font-medium"
+    class="inline-flex min-h-6 items-center rounded border-[1px] px-2 py-1 text-[13px] font-medium"
   >
     <span
       v-if="icon && iconPosition === 'left'"

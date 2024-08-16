@@ -1,8 +1,7 @@
 .button {
   @apply flex items-center justify-center gap-1 shadow-medium transition duration-150 ease-out;
   @apply disabled:bg-disabled disabled:text-typography-disabled disabled:border-none disabled:hover:bg-disabled disabled:shadow-transparent;
-  // TODO: ask about this state
-  //@apply focus:outline focus:outline-offset-1 focus:outline-primary-hover active:outline-none;
+  @apply focus-visible:outline focus-visible:outline-offset-1 focus-visible:outline-primary-hover active:outline-none;
 
   &-primary {
     @apply bg-primary-default text-static-light;
