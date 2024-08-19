@@ -11,7 +11,7 @@ const meta = {
     iconPosition: { control: "select", options: ["left", "right"] }
   },
   args: {
-    label: "Label",
+    value: "Label",
     variant: Variant.info
   } // default value
 } satisfies Meta<typeof Label>;

@@ -14,13 +14,14 @@
       class="relative"
     >
       <SearchIcon
+        id="search-close"
         :class="[
           {
             'left-2': size === Size.small,
             'left-3': size === Size.medium
           }
         ]"
-        class="absolute top-[50%] translate-y-[-50%]"
+        class="text-icon-default absolute top-[50%] translate-y-[-50%]"
       />
       <input
         :id="`input-${id}`"
@@ -32,7 +33,7 @@
       />
       <i
         v-if="inputValue?.length > 0"
-        class="icon icon-close bg-icon-default absolute right-2 top-[50%] flex h-[18px] w-[18px] translate-y-[-50%] cursor-pointer items-center justify-center rounded-full text-white"
+        class="icon icon-close bg-icon-default dark:text- text-neutral-bg-2 absolute right-2 top-[50%] flex h-[18px] w-[18px] translate-y-[-50%] cursor-pointer items-center justify-center rounded-full"
         @click="inputValue = ''"
       />
     </div>
@@ -90,5 +91,13 @@ const classes = computed(() => ({
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
+}
+
+#search-close {
+  path {
+    @apply fill-neutral-bg-2;
+    stroke: white;
+    fill: white;
+  }
 }
 </style>
