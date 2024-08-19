@@ -24,81 +24,61 @@
       />
       <input
         :id="`input-${id}`"
-        :class="[
-          'field-input',
-          'w-full',
-          classes,
-          {
-            'px-2 pl-[32px]': props.size === Size.small,
-            'px-3 pl-[32px]': props.size === Size.medium
-          }
-        ]"
+        v-model="inputValue"
+        :class="['field-input', 'w-full', 'px-[31px] pr-[25px] focus:px-[30px] focus:pr-[24px]', classes]"
         :disabled="disabled"
         :type="type"
-        :value="value"
-        @input="updateInputValue"
+        @input="(e) => $emit('input', e)"
       />
       <i
-        v-if="value"
-        class="icon icon-close"
-        @click="clearInput"
+        v-if="inputValue?.length > 0"
+        class="icon icon-close bg-icon-default absolute right-2 top-[50%] flex h-[18px] w-[18px] translate-y-[-50%] cursor-pointer items-center justify-center rounded-full text-white"
+        @click="inputValue = ''"
       />
     </div>
     <input
       v-else
       :id="`input-${id}`"
+      v-model="inputValue"
       :class="['field-input', classes]"
       :disabled="disabled"
       :type="type"
-      :value="value"
-      @input="updateInputValue"
+      @input="(e) => $emit('input', e)"
     />
   </div>
 </template>
 
 <script lang="ts" setup>
-import { computed } from "vue";
+import { computed, ref } from "vue";
 import SearchIcon from "@/assets/icons/search.svg";
-import { debounce } from "@/shared/helpers";
 import { Size } from "@/shared/utils/types";
 import type { InputProps } from "./types";
 import { InputType } from "./types";
+
+// Create a ref for the input element
+const inputValue = ref("");
 
 const props = withDefaults(defineProps<InputProps>(), {
   size: Size.medium
 });
 
 const classes = computed(() => ({
-  "px-2 py-1": props.size === Size.small,
-  "px-3 py-2": props.size === Size.medium,
+  "px-2 py-1 focus:px-[7px] focus:py-[3px]": props.size === Size.small,
+  "px-3 py-2 focus:px-[11px] focus:py-[7px]": props.size === Size.medium,
 
   "!border-border-success": props.valid,
   "!border-danger-100": props.error,
 
   password: props.type === InputType.password
 }));
-
-const emit = defineEmits<{
-  (e: "input", value: string | number): void;
-}>();
-
-const updateInputValue = debounce((event: Event) => {
-  const inputValue = (event.target as HTMLInputElement).value;
-
-  emit("input", inputValue);
-
-  if (props.onChange) {
-    props.onChange(event);
-  }
-}, 300);
-
-// Add a method to clear the input value
-const clearInput = () => {
-  emit("input", "");
-};
 </script>
 
 <style lang="scss" scoped>
+.field-wrapper {
+  .icon-close:before {
+    font-size: 10px;
+  }
+}
 .rotate-180 {
   transform: rotateX(180deg);
 }

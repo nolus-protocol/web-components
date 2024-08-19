@@ -16,5 +16,4 @@ export interface InputProps {
   error?: boolean;
   disabled?: boolean;
   valid?: boolean;
-  onChange?: (event: Event) => void;
 }

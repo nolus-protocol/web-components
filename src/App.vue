@@ -46,12 +46,13 @@
 
     <Input
       id="test-input"
-      :on-change="
+      label="Test Input"
+      type="text"
+      @input="
         (e) => {
           console.info((e.target as HTMLInputElement).value);
         }
       "
-      type="text"
     />
 
     <CurrencyField
