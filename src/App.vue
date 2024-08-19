@@ -10,6 +10,14 @@
         }
       "
     />
+    <Toggle
+      id="nolus-toggle"
+      @input="
+        (value) => {
+          console.info(value);
+        }
+      "
+    />
     <Label
       value="Label"
       variant="secondary"
@@ -188,7 +196,8 @@ import {
   MultilineCurrencyField,
   NotificationButton,
   Proposal,
-  Table
+  Table,
+  Toggle
 } from "@/components";
 import {
   type EarningAssetsTableRowItemProps,
