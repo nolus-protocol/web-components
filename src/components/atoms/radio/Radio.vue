@@ -1,10 +1,10 @@
 <template>
-  <div class="flex items-center gap-2 text-[13px] font-normal text-neutral-typography-200">
+  <div class="text-typography-default flex items-center gap-2 text-16 font-normal">
     <input
       :id="id"
       :class="[inputClass]"
       :name="name"
-      class="h-4 w-4 cursor-pointer appearance-none rounded-full border-[1px] border-border-color bg-neutral-bg-50 checked:border-4 checked:border-primary-50 hover:border-neutral-typography-50 checked:hover:border-primary-50 dark:checked:bg-neutral-bg-50"
+      class="border-border-dominant bg-secondary-default hover:bg-secondary-hover checked:border-primary-default checked:hover:border-primary-hover checked:bg-secondary-default nls-focus h-4 w-4 cursor-pointer appearance-none rounded-full border-[1px] checked:border-4"
       type="radio"
     />
     <label

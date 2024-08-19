@@ -9,6 +9,7 @@ const meta = {
   argTypes: {},
   args: {
     id: "toggle-1",
+    label: "Show small balances",
     value: false
   } // default value
 } satisfies Meta<typeof Toggle>;
