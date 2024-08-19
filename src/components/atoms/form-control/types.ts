@@ -6,6 +6,5 @@ export enum FormControlVariant {
 export interface FormControlProps {
   variant?: keyof typeof FormControlVariant;
   label: string;
-  error?: boolean;
-  helperText?: string;
+  helperText?: boolean;
 }

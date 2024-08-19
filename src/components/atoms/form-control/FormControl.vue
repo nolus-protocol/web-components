@@ -14,6 +14,7 @@
           'h-fit translate-y-[50%]': variant === FormControlVariant.horizontal
         }
       ]"
+      class="text-typography-default"
       >{{ label }}</label
     >
     <div
@@ -25,18 +26,17 @@
       ]"
       class="gap-1"
     >
-      <slot />
+      <slot name="body" />
       <div
         v-if="helperText"
         :class="[
           {
-            'text-typography-error': error,
             'flex-1 basis-full': variant === FormControlVariant.horizontal
           }
         ]"
-        class=""
+        class="text-typography-default"
       >
-        {{ helperText }}
+        <slot name="helper-text" />
       </div>
     </div>
   </div>

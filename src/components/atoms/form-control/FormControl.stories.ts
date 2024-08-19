@@ -16,9 +16,8 @@ const meta = {
   },
   args: {
     label: "Some Label",
-    error: false,
-    variant: FormControlVariant.vertical,
-    helperText: "Some helper text"
+    helperText: true,
+    variant: FormControlVariant.vertical
   } // default value
 } satisfies Meta<typeof FormControl>;
 
@@ -39,13 +38,13 @@ export const Vertical: Story = {
       <FormControl
         v-bind="args"
       >
-        <Input id="test" :type="InputType.text" :error="args.error" />
+        <template #body><Input id="test" :type="InputType.text" :error="args.error" /></template>
+        <template #helper-text><p>Some helper text</p></template>
       </FormControl>
     `
   }),
   args: {
     label: "Vertical Label",
-    error: true,
     variant: FormControlVariant.vertical
   }
 };
@@ -60,7 +59,8 @@ export const Horizontal: Story = {
       <FormControl
         v-bind="args"
       >
-        <Dropdown id="test" :error="args.error" :options="[]" :on-select="() => {}" />
+        <template #body><Dropdown id="test" :error="args.error" :options="[]" :on-select="() => {}" /></template>
+        <template #helper-text><p>Some helper text</p></template>
       </FormControl>
     `
   }),
