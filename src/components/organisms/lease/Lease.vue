@@ -166,7 +166,7 @@
         </template>
         <div
           v-if="interest || interestDue"
-          class="flex gap-8 rounded-md border-[1px] border-border-color p-3 dark:border-border-color"
+          class="flex gap-8 rounded-md border-border-color lg:border-[1px] lg:p-3 dark:border-border-color"
         >
           <template
             v-for="(item, index) in [interest, interestDue]"
