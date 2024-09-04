@@ -28,6 +28,13 @@
     "build-storybook-docs": "storybook build --docs",
     "prepare": "husky && npm run build"
   },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true,
+      "vue/setup-compiler-macros": true
+    }
+  },
   "peerDependencies": {
     "vue": "^3.4.22"
   },

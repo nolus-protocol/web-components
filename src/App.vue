@@ -33,7 +33,37 @@
       "
     />
     <NotificationButton />
-    <Close class="" />
+    <Close
+      class=""
+      onclick="() => { console.info('aaaaa') }"
+    />
+    <Alert
+      :on-close="
+        () => {
+          console.info('AAAAAA');
+        }
+      "
+      :show-close="true"
+      :type="AlertType.warning"
+    >
+      <template v-slot:content>
+        <span>Alert content</span>
+      </template>
+    </Alert>
+
+    <Alert
+      :on-close="
+        () => {
+          console.info('AAAAAA');
+        }
+      "
+      :show-close="true"
+      :type="AlertType.error"
+    >
+      <template v-slot:content>
+        <span>Alert content</span>
+      </template>
+    </Alert>
     <Dropdown
       :on-select="onSelect"
       :options="options"
@@ -184,6 +214,7 @@
 
 <script lang="ts" setup>
 import {
+  Alert,
   Button,
   Close,
   CurrencyField,
@@ -200,6 +231,7 @@ import {
   Toggle
 } from "@/components";
 import {
+  AlertType,
   type EarningAssetsTableRowItemProps,
   type HistoryTableRowItemProps,
   LeasePnlStatus,

@@ -7,7 +7,7 @@ import Dropdown from "@/components/atoms/dropdown/Dropdown.vue";
 import FormControl from "@/components/atoms/form-control/FormControl.vue";
 import Input from "@/components/atoms/input/Input.vue";
 import Label from "@/components/atoms/label/Label.vue";
-import NotificationBox from "@/components/atoms/notification-box/NotificationBox.vue";
+import Alert from "@/components/atoms/alert/Alert.vue";
 import NotificationButton from "@/components/atoms/notification-button/NotificationButton.vue";
 import Radio from "@/components/atoms/radio/Radio.vue";
 import Spinner from "@/components/atoms/spinner/Spinner.vue";
@@ -37,7 +37,7 @@ export {
   FormControl,
   Input,
   Label,
-  NotificationBox,
+  Alert,
   NotificationButton,
   Radio,
   Spinner,
