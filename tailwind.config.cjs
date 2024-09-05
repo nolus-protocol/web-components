@@ -111,6 +111,9 @@ export default {
           "error-heavy": "var(--color-typography-error-heavy)",
           link: "var(--color-typography-link)",
           brand: "var(--color-typography-brand)",
+          inverted: "var(--color-inverted)",
+          "static-light": "var(--color-static-light)",
+          "static-dark": "var(--color-static-dark)"
         },
         icon: {
           default: "var(--color-icon-default)",
@@ -120,9 +123,9 @@ export default {
           error: "var(--color-icon-error)",
           success: "var(--color-icon-success)",
           brand: "var(--color-icon-brand)",
-          inverted: "var(--color-icon-inverted)",
-          "static-light": "var(--color-icon-static-light)",
-          "static-dark": "var(--color-icon-static-dark)"
+          inverted: "var(--color-inverted)",
+          "static-light": "var(--color-static-light)",
+          "static-dark": "var(--color-static-dark)"
         },
         primary: {
           50: "var(--color-primary-50)",

@@ -33,10 +33,6 @@
       "
     />
     <NotificationButton />
-    <Close
-      class=""
-      onclick="() => { console.info('aaaaa') }"
-    />
     <Alert
       :on-close="
         () => {
@@ -50,7 +46,16 @@
         <span>Alert content</span>
       </template>
     </Alert>
-
+    <Close
+      class=""
+      onclick="() => { console.info('aaaaa') }"
+    />
+    <TooltipV2
+      content="150%"
+      position="bottom"
+    >
+      <div>Hover me</div>
+    </TooltipV2>
     <Alert
       :on-close="
         () => {
@@ -228,7 +233,8 @@ import {
   NotificationButton,
   Proposal,
   Table,
-  Toggle
+  Toggle,
+  TooltipV2
 } from "@/components";
 import {
   AlertType,
@@ -239,6 +245,7 @@ import {
   LeaseStatus,
   ProposalStatus
 } from "./components/types";
+import { ref } from "vue";
 
 const columns = [
   { label: "Tx hash" },
@@ -356,6 +363,8 @@ const leaseProps: LeaseProps = {
     status: LeasePnlStatus.POSITIVE
   }
 };
+
+const elementRef = ref<HTMLElement | null>(null);
 </script>
 
 <style scoped></style>

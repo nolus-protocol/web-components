@@ -32,7 +32,7 @@
     </div>
     <i
       v-if="showClose"
-      class="icon icon-close absolute right-2 top-2 cursor-pointer text-[22px] leading-none"
+      class="icon icon-close text-icon-default absolute right-2 top-2 cursor-pointer text-[22px] leading-none"
       @click="onCloseAlert"
     ></i>
   </div>
