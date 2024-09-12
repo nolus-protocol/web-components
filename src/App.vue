@@ -50,12 +50,12 @@
       class=""
       onclick="() => { console.info('aaaaa') }"
     />
-    <TooltipV2
+    <Tooltip
       content="150%"
       position="bottom"
     >
       <div>Hover me</div>
-    </TooltipV2>
+    </Tooltip>
     <Alert
       :on-close="
         () => {
@@ -234,7 +234,7 @@ import {
   Proposal,
   Table,
   Toggle,
-  TooltipV2
+  Tooltip
 } from "@/components";
 import {
   AlertType,
