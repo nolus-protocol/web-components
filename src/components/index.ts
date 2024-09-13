@@ -22,6 +22,7 @@ import HistoryTableRow from "@/components/molecules/table-rows/HistoryTableRow.v
 import HistoryTableLoadingRow from "@/components/molecules/table-rows/HistoryTableLoadingRow.vue";
 import AssetsTableRow from "@/components/molecules/table-rows/AssetsTableRow.vue";
 import EarningAssetsTableRow from "@/components/molecules/table-rows/EarningAssetsTableRow.vue";
+import Toast from "@/components/molecules/toast/Toast.vue";
 
 import Lease from "@/components/organisms/lease/Lease.vue";
 import Table from "@/components/organisms/table/Table.vue";
@@ -53,6 +54,8 @@ export {
   AssetsTableRow,
   EarningAssetsTableRow,
   HistoryTableLoadingRow,
+  Toast,
+
   // organisms
   Lease,
   Table

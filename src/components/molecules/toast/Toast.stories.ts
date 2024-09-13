@@ -5,7 +5,7 @@ import { ToastType } from "./types";
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories
 const meta = {
-  title: "Components/Atoms/Toast",
+  title: "Components/Molecules/Toast",
   component: Toast,
   argTypes: {},
   args: {} // default value
