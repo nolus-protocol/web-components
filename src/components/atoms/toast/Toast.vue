@@ -4,15 +4,9 @@
     :class="[classes]"
     class="relative flex items-center justify-between rounded-xl p-3 text-typography-inverted"
   >
-    <div class="flex items-center gap-2">
-      <i
-        class="icon icon-success cursor-pointer text-[18px] leading-none text-typography-inverted"
-        @click="onCloseAlert"
-      ></i>
-      <slot
-        class="text-14 font-normal text-typography-inverted"
-        name="content"
-      ></slot>
+    <div class="flex items-center gap-2 text-14 font-normal text-typography-inverted">
+      <i class="icon icon-success cursor-pointer text-[18px] leading-none text-typography-inverted"></i>
+      <slot></slot>
     </div>
     <div class="flex items-center gap-3">
       <Button
@@ -20,6 +14,7 @@
         label="Undo"
         severity="tertiary"
         size="small"
+        v-bind="undoBtnProps"
         @click="onUndoClick"
       />
       <i

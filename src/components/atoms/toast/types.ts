@@ -1,12 +1,14 @@
+import type { ButtonProps } from "@/components/atoms/button/types";
+
 export enum ToastType {
   info = "info",
   success = "success",
-  warning = "warning",
   error = "error"
 }
 
 export interface IToast {
   type: ToastType;
+  undoBtnProps?: ButtonProps;
   onClose?: () => void;
   onUndo?: () => void;
 }

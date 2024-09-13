@@ -22,14 +22,15 @@ export const Info: Story = {
     components: { Toast },
     template: `
      <Toast v-bind="args">
-        <template v-slot:content>
           You will be prompted for a second signature after the first transaction is finalized.
-        </template>
       </Toast>
     `
   }),
   args: {
-    type: ToastType.info
+    type: ToastType.info,
+    undoBtnProps: {
+      label: "Info"
+    }
   }
 };
 
@@ -41,9 +42,7 @@ export const Success: Story = {
     components: { Toast },
     template: `
       <Toast v-bind="args">
-        <template v-slot:content>
           You will be prompted for a second signature after the first transaction is finalized.
-        </template>
       </Toast>
     `
   }),
@@ -60,9 +59,7 @@ export const Error: Story = {
     components: { Toast },
     template: `
       <Toast v-bind="args">
-        <template v-slot:content>
           You will be prompted for a second signature after the first transaction is finalized.
-        </template>
       </Toast>
     `
   }),
