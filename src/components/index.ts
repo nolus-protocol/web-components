@@ -1,3 +1,4 @@
+import Badge from "@/components/atoms/badge/Badge.vue";
 import Boxes from "@/components/atoms/boxes/Boxes.vue";
 import Button from "@/components/atoms/button/Button.vue";
 import Checkbox from "@/components/atoms/checkbox/Checkbox.vue";
@@ -29,6 +30,7 @@ import Table from "@/components/organisms/table/Table.vue";
 
 export {
   // atoms
+  Badge,
   Boxes,
   Button,
   Checkbox,
