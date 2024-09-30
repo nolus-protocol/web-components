@@ -19,48 +19,67 @@
     >
       <span class="flex flex-1 items-center">
         <img
-          v-if="selectedOption && selectedOption.icon"
-          :alt="selectedOption?.label"
-          :src="selectedOption?.icon"
+          v-if="selectedOption?.icon"
+          :alt="selectedOption.label"
+          :src="selectedOption.icon"
           class="mr-1 h-4 w-4"
         />
-        <span class="relative w-full">
-          <input
-            id="search-input"
-            ref="searchInputRef"
-            v-model="searchInput"
-            :placeholder="selectedOption ? selectedOption?.label : placeholder"
-            class="w-full cursor-pointer border-none bg-transparent placeholder-neutral-typography-200 outline-none"
-            type="text"
-            @focusout="focusOut"
-          />
+        <span v-if="selectedOption && selectedOption?.label">
+          {{ selectedOption.label }}
         </span>
+        <span v-if="!selectedOption">{{ placeholder }}</span>
       </span>
       <Spinner v-if="isLoading" />
       <i
         :class="{ 'rotate-180': isOpen }"
-        class="icon icon-picker leading-1 transform text-[20px] text-neutral-400 transition duration-300 ease-in-out"
+        class="icon icon-picker leading-1 flex transform items-center text-[20px] text-icon-default transition duration-300 ease-in-out"
       />
     </button>
     <Transition name="fade">
       <div
         v-if="isOpen"
-        class="shadow-lg absolute top-full z-10 mt-1 w-full rounded-md border-[1px] border-border-color bg-neutral-bg-50 text-neutral-typography-200 shadow-field-heavy dark:hover:border-neutral-typography-100"
-        @focus="searchInputRef?.focus()"
+        class="shadow-lg absolute top-full z-10 mt-3 w-full overflow-hidden rounded-lg border-[1px] border-border-default bg-neutral-bg-2 text-typography-default shadow-shadow-lighter"
       >
-        <ul class="max-h-[160px] overflow-y-auto p-2">
+        <div class="flex flex-col gap-4 border-b-[1px] border-border-default p-4">
+          <div class="flex justify-between">
+            <span class="flex-1 font-medium">{{ dropdownLabel }}</span>
+            <i
+              class="icon icon-close leading-1 flex cursor-pointer items-center text-[15px] text-icon-default"
+              @click="isOpen = !isOpen"
+            />
+          </div>
+          <Input
+            id="search-input"
+            ref="searchInputRef"
+            :size="Size.medium"
+            :type="InputType.search"
+            :value="searchInput"
+            @input="
+              (e) => {
+                searchInput = (e.target as HTMLInputElement).value;
+              }
+            "
+            @on-search-clear="
+              (e) => {
+                e.stopPropagation();
+                searchInput = '';
+              }
+            "
+          />
+        </div>
+        <ul class="flex max-h-[250px] flex-col gap-3 overflow-y-auto rounded-b-lg">
           <li
             v-for="option in filteredOptions"
             :key="option.value"
             :class="{ 'bg-neutral-bg-100': selectedOption?.value === option.value }"
-            class="mb-1 flex cursor-pointer items-center rounded-md px-1 py-2 hover:bg-neutral-bg-100"
+            class="flex cursor-pointer items-center px-4 py-2 hover:bg-neutral-bg-100"
             @click="selectOption(option)"
           >
             <img
               v-if="option.icon"
               :alt="option.label"
               :src="option.icon"
-              class="mr-1 h-4 w-4"
+              class="mr-3 h-6 w-6"
             />
             {{ option.label }}
           </li>
@@ -75,6 +94,8 @@ import { computed, ref, Transition, watch } from "vue";
 import type { DropdownOption, DropdownProps } from "./types";
 import Spinner from "../spinner/Spinner.vue";
 import { Size } from "@/shared/utils/types";
+import { InputType } from "@/components/atoms/input/types";
+import Input from "../input/Input.vue";
 
 const dropdownRef = ref<HTMLElement | null>(null);
 const isOpen = ref(false);
@@ -82,13 +103,15 @@ const selectedOption = ref<DropdownOption | null>(null);
 const searchInputRef = ref<HTMLInputElement>();
 
 const props = withDefaults(defineProps<DropdownProps>(), {
+  placeholder: "Select an option",
+  dropdownLabel: "Select Token",
   size: Size.medium
 });
 
 const searchInput = ref("");
 const classes = computed(() => ({
-  "px-2 py-1": props.size === Size.small,
-  "px-3 py-2": props.size === Size.medium,
+  "px-2 py-1 focus:px-[7px] focus:py-[3px]": props.size === Size.small,
+  "px-3 py-2 focus:px-[11px] focus:py-[7px]": props.size === Size.medium,
 
   "border-primary-50": isOpen,
   "!border-danger-100": props.error
@@ -99,7 +122,6 @@ const emit = defineEmits<{
 }>();
 
 const toggleDropdown = () => {
-  searchInputRef.value?.focus();
   isOpen.value = !isOpen.value;
 };
 

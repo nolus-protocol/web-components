@@ -7,12 +7,13 @@ import { iconsExternalUrl, Size } from "@/shared/utils/types";
 const meta = {
   title: "Components/Atoms/Dropdown",
   component: Dropdown,
-  argTypes: {},
+  argTypes: {
+    size: { control: "select", options: [Size.small, Size.medium] }
+  },
   args: {
     id: "1",
-    size: Size.medium,
-    label: "Some Label",
     placeholder: "Select an option",
+    size: Size.medium,
     error: false,
     options: [
       { value: "apple", label: "Apple", icon: `${iconsExternalUrl}/osmosis-usdc.svg` },

@@ -9,6 +9,7 @@ export interface DropdownOption {
 export interface DropdownProps {
   id?: string;
   size?: Size.small | Size.medium;
+  dropdownLabel?: string;
   label?: string;
   placeholder?: string;
   options: DropdownOption[];

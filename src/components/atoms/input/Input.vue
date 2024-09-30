@@ -21,20 +21,20 @@
             'left-3': size === Size.medium
           }
         ]"
-        class="text-icon-default absolute top-[50%] translate-y-[-50%]"
+        class="absolute top-[50%] translate-y-[-50%] text-icon-default"
       />
       <input
         :id="`input-${id}`"
         v-model="inputValue"
-        :class="['field-input', 'w-full', 'px-[31px] pr-[25px] focus:px-[30px] focus:pr-[24px]', classes]"
+        :class="['field-input', 'w-full', 'px-[35px] pr-[25px] focus:px-[34px] focus:pr-[24px]', classes]"
         :disabled="disabled"
         :type="type"
         @input="(e) => $emit('input', e)"
       />
       <i
         v-if="inputValue?.length > 0"
-        class="icon icon-close bg-icon-default dark:text- text-neutral-bg-2 absolute right-2 top-[50%] flex h-[18px] w-[18px] translate-y-[-50%] cursor-pointer items-center justify-center rounded-full"
-        @click="inputValue = ''"
+        class="icon icon-close dark:text- absolute right-2 top-[50%] flex h-[18px] w-[18px] translate-y-[-50%] cursor-pointer items-center justify-center rounded-full bg-icon-default text-neutral-bg-2"
+        @click="onSearchClear"
       />
     </div>
     <input
@@ -72,6 +72,16 @@ const classes = computed(() => ({
 
   password: props.type === InputType.password
 }));
+
+const emit = defineEmits<{
+  (e: "input", event: Event): void;
+  (e: "onSearchClear", event: Event): void;
+}>();
+
+const onSearchClear = (e: Event) => {
+  emit("onSearchClear", e);
+  inputValue.value = "";
+};
 </script>
 
 <style lang="scss" scoped>
