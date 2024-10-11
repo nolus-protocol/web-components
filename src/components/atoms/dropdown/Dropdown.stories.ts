@@ -2,6 +2,9 @@ import type { Meta, StoryObj } from "@storybook/vue3";
 
 import Dropdown from "./Dropdown.vue";
 import { iconsExternalUrl, Size } from "@/shared/utils/types";
+import { h } from "vue";
+import AssetItem from "@/components/atoms/asset-list-item/AssetItem.stories";
+import type { AssetItemProps } from "@/components/atoms/asset-list-item/types";
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories
 const meta = {
@@ -15,6 +18,8 @@ const meta = {
     placeholder: "Select an option",
     size: Size.medium,
     error: false,
+    searchable: false,
+    dropdownLabel: "",
     options: [
       { value: "apple", label: "Apple", icon: `${iconsExternalUrl}/osmosis-usdc.svg` },
       { value: "banana", label: "Banana" },
@@ -33,8 +38,21 @@ type Story = StoryObj<typeof meta>;
  * See https://storybook.js.org/docs/api/csf
  * to learn how to use render functions.
  */
-export const Primary: Story = {
+export const Default: Story = {
   args: {
     onSelect: () => {}
+  }
+};
+
+export const WithCustomItem: Story = {
+  args: {
+    onSelect: () => {},
+    itemsHeadline: ["Assets", "Your balance"],
+    itemTemplate: (item: any) =>
+      h<AssetItemProps>(
+        AssetItem,
+        { name: item.label, icon: item.icon, abbreviation: item.label.splice(0, 2), balance: "", price: "" },
+        [item.label]
+      )
   }
 };

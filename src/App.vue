@@ -70,16 +70,9 @@
       </template>
     </Alert>
     <Dropdown
-      :on-select="onSelect"
-      :options="options"
-    />
-    <Dropdown
-      :on-select="
-        (option) => {
-          console.info(option);
-        }
-      "
-      :options="options"
+      :item-template="(option) => h(Alert, { type: AlertType.error })"
+      :on-select="(data) => console.info(data)"
+      :options="options2"
     />
     <Button
       label="Secondary button"
@@ -238,6 +231,7 @@ import {
 } from "@/components";
 import {
   AlertType,
+  type DropdownOption,
   type EarningAssetsTableRowItemProps,
   type HistoryTableRowItemProps,
   LeasePnlStatus,
@@ -245,7 +239,7 @@ import {
   LeaseStatus,
   ProposalStatus
 } from "./components/types";
-import { ref } from "vue";
+import { h, ref } from "vue";
 
 const columns = [
   { label: "Tx hash" },
@@ -291,6 +285,37 @@ const assetsData: EarningAssetsTableRowItemProps[] = [
   }
 ];
 
+interface OptionsProps extends DropdownOption {}
+
+const options2: OptionsProps[] = [
+  {
+    value: "apple",
+    label: "Apple",
+    icon: "https://raw.githubusercontent.com/nolus-protocol/webapp/main/src/config/currencies/icons/osmosis-usdc.svg"
+  },
+  {
+    value: "banana",
+    label: "Banana",
+    icon: "https://raw.githubusercontent.com/nolus-protocol/webapp/main/src/config/currencies/icons/osmosis-usdc.svg"
+  },
+  {
+    value: "orange",
+    label: "Orange",
+    icon: "https://raw.githubusercontent.com/nolus-protocol/webapp/main/src/config/currencies/icons/osmosis-usdc.svg"
+  },
+  {
+    value: "grape",
+    label: "Grape",
+    icon: "https://raw.githubusercontent.com/nolus-protocol/webapp/main/src/config/currencies/icons/osmosis-usdc.svg"
+  },
+  {
+    value: "strawberry",
+    label: "Strawberry",
+    icon: "https://raw.githubusercontent.com/nolus-protocol/webapp/main/src/config/currencies/icons/osmosis-usdc.svg"
+  },
+  { value: "watermelon", label: "Watermelon" }
+];
+
 const options = [
   {
     value: "apple",
@@ -320,10 +345,6 @@ const options = [
   },
   { value: "watermelon", label: "Watermelon" }
 ];
-
-const onSelect = (option: any) => {
-  console.info(option);
-};
 
 const leaseProps: LeaseProps = {
   history: {
