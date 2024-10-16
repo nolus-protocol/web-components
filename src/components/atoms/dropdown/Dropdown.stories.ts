@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from "@storybook/vue3";
 import Dropdown from "./Dropdown.vue";
 import { iconsExternalUrl, Size } from "@/shared/utils/types";
 import { h } from "vue";
-import AssetItem from "@/components/atoms/asset-list-item/AssetItem.stories";
+import AssetItem from "@/components/atoms/asset-list-item/AssetItem.vue";
 import type { AssetItemProps } from "@/components/atoms/asset-list-item/types";
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories
@@ -44,15 +44,54 @@ export const Default: Story = {
   }
 };
 
-export const WithCustomItem: Story = {
+export const WithAssetItem: Story = {
   args: {
+    options: [
+      {
+        value: "nolus",
+        label: "Nolus",
+        abbreviation: "NLS",
+        icon: `${iconsExternalUrl}/osmosis-nls.svg`,
+        balance: "1.234",
+        price: "$123"
+      },
+      {
+        value: "osmosis",
+        abbreviation: "OSMO",
+        label: "Osmosis",
+        icon: `${iconsExternalUrl}/osmosis-osmo.svg`,
+        balance: "1.234",
+        price: "$123"
+      },
+      {
+        value: "cosmos",
+        abbreviation: "ATOM",
+        label: "Cosmos",
+        icon: `${iconsExternalUrl}/osmosis-atom.svg`,
+        balance: "1.234",
+        price: "$123"
+      },
+      {
+        value: "stOSMO",
+        abbreviation: "stOSMO",
+        label: "Stride Staked Osmo",
+        icon: `${iconsExternalUrl}/osmosis-stosmo.svg`,
+        balance: "1.234",
+        price: "$123"
+      },
+      {
+        value: "stATOM",
+        abbreviation: "stATOM",
+        label: "Stride Staked Atom",
+        icon: `${iconsExternalUrl}/osmosis-statom.svg`,
+        balance: "1.234",
+        price: "$123"
+      }
+    ],
     onSelect: () => {},
     itemsHeadline: ["Assets", "Your balance"],
-    itemTemplate: (item: any) =>
-      h<AssetItemProps>(
-        AssetItem,
-        { name: item.label, icon: item.icon, abbreviation: item.label.splice(0, 2), balance: "", price: "" },
-        [item.label]
-      )
+    itemTemplate: (item: any) => h<AssetItemProps>(AssetItem, { name: item.label, ...item }),
+    searchable: true,
+    dropdownLabel: "Select token"
   }
 };

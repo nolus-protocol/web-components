@@ -70,9 +70,12 @@
       </template>
     </Alert>
     <Dropdown
-      :item-template="(option) => h(Alert, { type: AlertType.error })"
+      :item-template="(item: any) => h<AssetItemProps>(AssetItem, { name: item.label, ...item })"
+      :items-headline="['Asset', 'Your balance']"
       :on-select="(data) => console.info(data)"
       :options="options2"
+      dropdown-label="Select token"
+      searchable
     />
     <Button
       label="Secondary button"
@@ -213,6 +216,7 @@
 <script lang="ts" setup>
 import {
   Alert,
+  AssetItem,
   Button,
   Close,
   CurrencyField,
@@ -231,6 +235,7 @@ import {
 } from "@/components";
 import {
   AlertType,
+  type AssetItemProps,
   type DropdownOption,
   type EarningAssetsTableRowItemProps,
   type HistoryTableRowItemProps,
@@ -240,6 +245,7 @@ import {
   ProposalStatus
 } from "./components/types";
 import { h, ref } from "vue";
+import { iconsExternalUrl } from "@/shared/utils/types";
 
 const columns = [
   { label: "Tx hash" },
@@ -285,35 +291,53 @@ const assetsData: EarningAssetsTableRowItemProps[] = [
   }
 ];
 
-interface OptionsProps extends DropdownOption {}
+interface OptionsProps extends DropdownOption {
+  abbreviation: string;
+  balance: string;
+  price: string;
+}
 
 const options2: OptionsProps[] = [
   {
-    value: "apple",
-    label: "Apple",
-    icon: "https://raw.githubusercontent.com/nolus-protocol/webapp/main/src/config/currencies/icons/osmosis-usdc.svg"
+    value: "nolus",
+    label: "Nolus",
+    abbreviation: "NLS",
+    icon: `${iconsExternalUrl}/osmosis-nls.svg`,
+    balance: "1.234",
+    price: "$123"
   },
   {
-    value: "banana",
-    label: "Banana",
-    icon: "https://raw.githubusercontent.com/nolus-protocol/webapp/main/src/config/currencies/icons/osmosis-usdc.svg"
+    value: "osmosis",
+    abbreviation: "OSMO",
+    label: "Osmosis",
+    icon: `${iconsExternalUrl}/osmosis-osmo.svg`,
+    balance: "1.234",
+    price: "$123"
   },
   {
-    value: "orange",
-    label: "Orange",
-    icon: "https://raw.githubusercontent.com/nolus-protocol/webapp/main/src/config/currencies/icons/osmosis-usdc.svg"
+    value: "cosmos",
+    abbreviation: "ATOM",
+    label: "Cosmos",
+    icon: `${iconsExternalUrl}/osmosis-atom.svg`,
+    balance: "1.234",
+    price: "$123"
   },
   {
-    value: "grape",
-    label: "Grape",
-    icon: "https://raw.githubusercontent.com/nolus-protocol/webapp/main/src/config/currencies/icons/osmosis-usdc.svg"
+    value: "stOSMO",
+    abbreviation: "stOSMO",
+    label: "Stride Staked Osmo",
+    icon: `${iconsExternalUrl}/osmosis-stosmo.svg`,
+    balance: "1.234",
+    price: "$123"
   },
   {
-    value: "strawberry",
-    label: "Strawberry",
-    icon: "https://raw.githubusercontent.com/nolus-protocol/webapp/main/src/config/currencies/icons/osmosis-usdc.svg"
-  },
-  { value: "watermelon", label: "Watermelon" }
+    value: "stATOM",
+    abbreviation: "stATOM",
+    label: "Stride Staked Atom",
+    icon: `${iconsExternalUrl}/osmosis-statom.svg`,
+    balance: "1.234",
+    price: "$123"
+  }
 ];
 
 const options = [
@@ -343,6 +367,9 @@ const options = [
     label: "Strawberry",
     icon: "https://raw.githubusercontent.com/nolus-protocol/webapp/main/src/config/currencies/icons/osmosis-usdc.svg"
   },
+  { value: "watermelon", label: "Watermelon" },
+  { value: "watermelon", label: "Watermelon" },
+  { value: "watermelon", label: "Watermelon" },
   { value: "watermelon", label: "Watermelon" }
 ];
 

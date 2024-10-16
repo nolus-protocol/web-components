@@ -25,7 +25,9 @@ import { ref, watch } from "vue";
 
 let timeout: NodeJS.Timeout;
 
-const props = defineProps<Tooltip>();
+const props = withDefaults(defineProps<Tooltip>(), {
+  position: "top"
+});
 
 const tooltip = ref(null as HTMLDivElement | null);
 const target = ref(null as HTMLDivElement | null);

@@ -48,7 +48,7 @@
             v-if="dropdownLabel"
             class="flex justify-between"
           >
-            <span class="flex-1 font-medium">{{ dropdownLabel }}</span>
+            <span class="flex-1 font-semibold">{{ dropdownLabel }}</span>
             <i
               class="icon icon-close leading-1 flex cursor-pointer items-center text-[15px] text-icon-default"
               @click="isOpen = !isOpen"
@@ -74,27 +74,29 @@
             "
           />
         </div>
+        <div
+          v-if="itemsHeadline"
+          class="flex border-b-[1px] border-border-default bg-neutral-bg-1 p-3"
+        >
+          <span
+            v-for="headline in itemsHeadline"
+            :key="headline"
+            class="flex-1 text-14 font-normal text-typography-default last-of-type:text-right"
+            >{{ headline }}</span
+          >
+        </div>
         <ul class="flex max-h-[250px] flex-col overflow-y-auto rounded-b-lg">
           <template v-if="filteredItemTemplates.length > 0">
-            <div
-              v-if="itemsHeadline"
-              class="flex border-b-[1px] border-border-default"
-            >
-              <span
-                v-for="headline in itemsHeadline"
-                :key="headline"
-                class="flex-1 bg-neutral-bg-1 p-3 text-14 font-normal text-typography-default last-of-type:text-right"
-                >{{ headline }}</span
-              >
+            <div class="flex flex-col gap-3">
+              <component
+                :is="itemTemplate?.(option)"
+                v-for="option in filteredItemTemplates"
+                :key="option.value"
+                :class="{ 'bg-primary-default text-typography-static-light': selectedOption?.value === option.value }"
+                class="min-h-10 cursor-pointer hover:bg-primary-default hover:text-typography-static-light"
+                @click="selectOption(option)"
+              ></component>
             </div>
-            <component
-              :is="itemTemplate?.(option)"
-              v-for="option in filteredItemTemplates"
-              :key="option.value"
-              :class="{ 'bg-primary-default text-typography-static-light': selectedOption?.value === option.value }"
-              class="min-h-10 cursor-pointer hover:bg-primary-default hover:text-typography-static-light"
-              @click="selectOption(option)"
-            ></component>
           </template>
           <template v-else>
             <li

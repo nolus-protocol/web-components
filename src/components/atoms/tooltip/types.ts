@@ -1,4 +1,4 @@
 export interface Tooltip {
   content: string;
-  position: "top" | "bottom" | "left" | "right";
+  position?: "top" | "bottom" | "left" | "right";
 }

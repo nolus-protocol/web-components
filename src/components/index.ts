@@ -15,6 +15,7 @@ import Spinner from "@/components/atoms/spinner/Spinner.vue";
 import Toggle from "@/components/atoms/toggle/Toggle.vue";
 import Tooltip from "@/components/atoms/tooltip/Tooltip.vue";
 import Wallet from "@/components/atoms/wallet/Wallet.vue";
+import AssetItem from "@/components/atoms/asset-list-item/AssetItem.vue";
 
 import CurrencyField from "@/components/molecules/currency-field/CurrencyField.vue";
 import MultilineCurrencyField from "@/components/molecules/multiline-currency-field/MultilineCurrencyField.vue";
@@ -47,6 +48,7 @@ export {
   Toggle,
   Tooltip,
   Wallet,
+  AssetItem,
 
   // molecules
   CurrencyField,
