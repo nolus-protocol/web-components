@@ -3,27 +3,49 @@
     ref="container"
     class="relative mr-[16px] cursor-pointer sm:mr-[0px]"
     @mousedown="onMouseDown"
+    @touchend="onMouseLeave"
     @touchstart.passive="onMouseDown"
     @touchmove.passive="onMouseMove"
-    @touchend="onMouseLeave"
   >
-    <div class="relative flex h-[10px] w-full overflow-hidden rounded-[8px] bg-neutral-bg-100">
+    <div class="relative flex h-[12px] w-full overflow-hidden rounded-full bg-neutral-bg-3">
       <div
         ref="background"
-        class="background-box"
-      ></div>
-      <div class="relative z-[2] flex w-full">
-        <span
-          class="small flex-1"
-          v-for="_item of props.positions"
-        ></span>
+        class="absolute left-0 top-0 z-[2] h-[12px] w-[15%] overflow-hidden bg-primary-default"
+      >
+        <div
+          :style="[
+            {
+              width: container?.offsetWidth + 'px'
+            }
+          ]"
+          class="flex h-full items-center justify-between px-1"
+        >
+          <span
+            v-for="index in props.positions + 1"
+            :key="index"
+            class="h-[4px] w-[4px] rounded-full bg-white"
+          ></span>
+        </div>
+      </div>
+      <div class="relative flex w-full">
+        <div class="absolute flex h-full w-full items-center justify-between px-1">
+          <span
+            v-for="index in props.positions + 1"
+            :key="index"
+            class="h-[4px] w-[4px] rounded-full bg-neutral-bg-4"
+          ></span>
+        </div>
       </div>
     </div>
     <button
       ref="button"
+      class="absolute left-[18px] top-1/2 z-[2] flex h-[36px] w-[36px] -translate-y-1/2 transform items-center justify-center gap-0.5 rounded-full bg-primary-default"
       draggable="true"
       type="button"
-    ></button>
+    >
+      <span class="triangle triangle-right bg-white"></span>
+      <span class="triangle triangle-left bg-white"></span>
+    </button>
   </div>
 </template>
 
@@ -32,15 +54,15 @@ import { onMounted, onUnmounted, ref } from "vue";
 
 export interface RangeProps {
   positions: number;
-  minPosiiton: number;
+  minPosition: number;
   maxPosition: number;
   disabled?: boolean;
 }
 
 const props = withDefaults(defineProps<RangeProps>(), {
-  minPosiiton: 25,
+  minPosition: 25,
   maxPosition: 150,
-  positions: 5,
+  positions: 6,
   disabled: false
 });
 
@@ -169,7 +191,7 @@ function setPercent(draggable: HTMLButtonElement, xPos: number, parentRect: DOMR
     const prc = ((x + draggableRect.width / 2) / parentRect.width) * 100;
     const percent = ((x + draggableRect.width / 2) / parentRect.width) * 100;
     const scale = Math.round(percent / percentPosition);
-    const leasePercent = scale * props.maxPosition + props.minPosiiton;
+    const leasePercent = scale * props.maxPosition + props.minPosition;
 
     scalePercent = Math.round(scale * percentPosition);
     draggable.style.left = `${x}px`;
@@ -207,31 +229,32 @@ function removeAnimations() {
 </script>
 
 <style lang="scss" scoped>
-div.background-box {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 15%;
-  background-color: var(--color-primary-50);
-  z-index: 1;
-  height: 10px;
+.triangle {
+  @apply relative text-left;
+}
+.triangle:before,
+.triangle:after {
+  @apply absolute bg-inherit content-[""];
+}
+.triangle,
+.triangle:before,
+.triangle:after {
+  @apply mb-[2px] h-[5px] w-[5px] rounded-tr-[60%];
 }
 
-span.small {
-  &:not(:last-child) {
-    border-right: solid 4px var(--color-background-50);
+.triangle {
+  &-left {
+    transform: rotate(-90deg) skewX(-30deg) scale(1, 0.866);
+  }
+  &-right {
+    transform: rotate(-30deg) skewX(-30deg) scale(1, 0.866);
   }
 }
 
-button {
-  position: absolute;
-  left: 18px;
-  top: 50%;
-  transform: translate(0, -50%);
-  z-index: 2;
-  width: 36px;
-  height: 36px;
-  background-image: url("@/assets/icons/slider.svg");
+.triangle:before {
+  transform: rotate(-135deg) skewX(-45deg) scale(1.414, 0.707) translate(0, -50%);
+}
+.triangle:after {
+  transform: rotate(135deg) skewY(-45deg) scale(0.707, 1.414) translate(50%);
 }
 </style>

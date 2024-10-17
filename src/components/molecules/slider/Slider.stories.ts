@@ -1,16 +1,16 @@
 import type { Meta, StoryObj } from "@storybook/vue3";
 
-import Range from "./Range.vue";
+import Slider from "./Slider.vue";
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories
 const meta = {
-  title: "Components/Atoms/Range",
-  component: Range,
+  title: "Components/Molecules/Slider",
+  component: Slider,
   argTypes: {
     onOnDrag: { action: "dragged" }
   },
   args: {} // default value
-} satisfies Meta<typeof Range>;
+} satisfies Meta<typeof Slider>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
@@ -22,8 +22,8 @@ type Story = StoryObj<typeof meta>;
 export const Primary: Story = {
   args: {
     class: "max-w-[450px]",
-    minPosiiton: 25,
+    minPosition: 25,
     maxPosition: 150,
-    positions: 5
+    positions: 6
   }
 };
