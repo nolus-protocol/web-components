@@ -27,13 +27,15 @@
       ]"
     >
       <Button
-        v-if="props.button.length > 0"
+        v-if="props.button && props.button.length > 0"
         :label="props.button"
         class="text-[14px]"
         severity="secondary"
         size="medium"
         @click="$emit('button-click')"
       />
+
+      <span v-if="props.date && props.date.length > 0">{{ props.date }}</span>
     </div>
   </div>
 </template>

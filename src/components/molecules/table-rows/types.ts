@@ -16,7 +16,8 @@ export interface HistoryTableRowLoadingItemProps {
   status: string;
   action: string;
   fee: string;
-  button: string;
+  button?: string;
+  date?: string;
 }
 
 export interface AssetsTableRowItem {
