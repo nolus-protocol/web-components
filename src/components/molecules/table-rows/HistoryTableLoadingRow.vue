@@ -27,6 +27,7 @@
       ]"
     >
       <Button
+        v-if="props.button.length > 0"
         :label="props.button"
         class="text-[14px]"
         severity="secondary"
