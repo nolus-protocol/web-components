@@ -38,5 +38,8 @@ export default defineConfig({
         }
       }
     }
+  },
+  optimizeDeps: {
+    exclude: ["storybook-addon-links"]
   }
 });

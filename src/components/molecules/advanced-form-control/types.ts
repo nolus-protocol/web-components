@@ -1,0 +1,32 @@
+import type { DropdownOption } from "@/components/atoms/dropdown/types";
+
+export interface AdvancedCurrencyFieldBalance {
+  value: string;
+  ticker: string;
+}
+
+export interface AdvancedCurrencyFieldOption extends DropdownOption {
+  price?: string;
+  balance?: AdvancedCurrencyFieldBalance;
+}
+
+export interface AdvancedCurrencyFieldProps {
+  id: string;
+  value?: string;
+  label?: string;
+  balanceLabel?: string;
+  calculatedBalance?: string;
+  tooltip?: string;
+  selectedCurrencyOption?: AdvancedCurrencyFieldOption;
+  currencyOptions: AdvancedCurrencyFieldOption[];
+  disabledCurrencyPicker?: boolean;
+  disabledInputField?: boolean;
+  name?: string;
+  errorMsg?: string;
+  isError?: boolean;
+  numberValue?: string;
+  onPaste?: (e: ClipboardEvent) => void;
+  positive?: boolean;
+  placeholder: string;
+  isLoadingPicker?: boolean;
+}

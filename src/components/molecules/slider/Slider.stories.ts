@@ -24,6 +24,6 @@ export const Primary: Story = {
     class: "max-w-[450px]",
     minPosition: 25,
     maxPosition: 150,
-    positions: 6
+    positions: 5
   }
 };

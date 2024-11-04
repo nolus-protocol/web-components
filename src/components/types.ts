@@ -10,6 +10,7 @@ export * from "@/components/atoms/toggle/types";
 export * from "@/components/atoms/tooltip/types";
 export * from "@/components/atoms/asset-list-item/types";
 
+export * from "@/components/molecules/advanced-form-control/types";
 export * from "@/components/molecules/multiline-currency-field/types";
 export * from "@/components/molecules/proposal/types";
 export * from "@/components/molecules/table-rows/types";

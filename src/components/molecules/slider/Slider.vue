@@ -21,7 +21,7 @@
           class="flex h-full items-center justify-between px-1"
         >
           <span
-            v-for="index in props.positions + 1"
+            v-for="index in props.positions"
             :key="index"
             class="h-[4px] w-[4px] rounded-full bg-white"
           ></span>
@@ -30,7 +30,7 @@
       <div class="relative flex w-full">
         <div class="absolute flex h-full w-full items-center justify-between px-1">
           <span
-            v-for="index in props.positions + 1"
+            v-for="index in props.positions"
             :key="index"
             class="h-[4px] w-[4px] rounded-full bg-neutral-bg-4"
           ></span>
@@ -62,7 +62,7 @@ export interface RangeProps {
 const props = withDefaults(defineProps<RangeProps>(), {
   minPosition: 25,
   maxPosition: 150,
-  positions: 6,
+  positions: 5,
   disabled: false
 });
 
