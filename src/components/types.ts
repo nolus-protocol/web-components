@@ -13,6 +13,7 @@ export * from "@/components/atoms/asset-list-item/types";
 export * from "@/components/molecules/advanced-form-control/types";
 export * from "@/components/molecules/multiline-currency-field/types";
 export * from "@/components/molecules/proposal/types";
+export * from "@/components/molecules/stepper/types";
 export * from "@/components/molecules/table-rows/types";
 export * from "@/components/molecules/toast/types";
 

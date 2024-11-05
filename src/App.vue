@@ -210,6 +210,34 @@
         }
       "
     />
+
+    <Stepper
+      :active-step="1"
+      :steps="[
+        { label: 'Step 1', icon: `${iconsExternalUrl}/osmosis-nls.svg` },
+        { label: 'Step 1', icon: `${iconsExternalUrl}/osmosis-nls.svg` },
+        { label: 'Step 1', icon: `${iconsExternalUrl}/osmosis-nls.svg`, approval: true }
+      ]"
+      :variant="StepperVariant.SMALL"
+    />
+    <Stepper
+      :active-step="1"
+      :steps="[
+        {
+          label: 'Transfer',
+          icon: `${iconsExternalUrl}/osmosis-nls.svg`,
+          token: { balance: 100, symbol: 'NLS' },
+          meta: () => h('div', `Osmosis > Nolus (#ac34aadf) Nolus`)
+        },
+        {
+          label: 'Transfer',
+          icon: `${iconsExternalUrl}/osmosis-atom.svg`,
+          token: { balance: 100, symbol: 'NLS' }
+        },
+        { label: 'Transfer', icon: `${iconsExternalUrl}/osmosis-atom.svg`, token: { balance: 100, symbol: 'NLS' } }
+      ]"
+      :variant="StepperVariant.MEDIUM"
+    />
   </div>
 </template>
 
@@ -229,6 +257,7 @@ import {
   MultilineCurrencyField,
   NotificationButton,
   Proposal,
+  Stepper,
   Table,
   Toggle,
   Tooltip
@@ -242,7 +271,8 @@ import {
   LeasePnlStatus,
   type LeaseProps,
   LeaseStatus,
-  ProposalStatus
+  ProposalStatus,
+  StepperVariant
 } from "./components/types";
 import { h, ref } from "vue";
 import { iconsExternalUrl } from "@/shared/utils/types";

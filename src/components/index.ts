@@ -17,6 +17,7 @@ import Tooltip from "@/components/atoms/tooltip/Tooltip.vue";
 import Wallet from "@/components/atoms/wallet/Wallet.vue";
 import AssetItem from "@/components/atoms/asset-list-item/AssetItem.vue";
 
+import AdvancedFormControl from "@/components/molecules/advanced-form-control/AdvancedFormControl.vue";
 import CurrencyField from "@/components/molecules/currency-field/CurrencyField.vue";
 import MultilineCurrencyField from "@/components/molecules/multiline-currency-field/MultilineCurrencyField.vue";
 import Proposal from "@/components/molecules/proposal/Proposal.vue";
@@ -24,6 +25,7 @@ import HistoryTableRow from "@/components/molecules/table-rows/HistoryTableRow.v
 import HistoryTableLoadingRow from "@/components/molecules/table-rows/HistoryTableLoadingRow.vue";
 import AssetsTableRow from "@/components/molecules/table-rows/AssetsTableRow.vue";
 import EarningAssetsTableRow from "@/components/molecules/table-rows/EarningAssetsTableRow.vue";
+import Stepper from "@/components/molecules/stepper/Stepper.vue";
 import Toast from "@/components/molecules/toast/Toast.vue";
 
 import Lease from "@/components/organisms/lease/Lease.vue";
@@ -51,6 +53,7 @@ export {
   AssetItem,
 
   // molecules
+  AdvancedFormControl,
   CurrencyField,
   MultilineCurrencyField,
   Proposal,
@@ -58,6 +61,7 @@ export {
   AssetsTableRow,
   EarningAssetsTableRow,
   HistoryTableLoadingRow,
+  Stepper,
   Toast,
 
   // organisms
