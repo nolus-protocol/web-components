@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/vue3";
 
 import Dialog from "./Dialog.vue";
+import Button from "../button/Button.vue";
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories
 const meta = {
@@ -19,14 +20,65 @@ type Story = StoryObj<typeof meta>;
  * See https://storybook.js.org/docs/api/csf
  * to learn how to use render functions.
  */
-export const Primary: Story = {
-  render: () => ({
-    components: { Dialog },
+export const WithClose: Story = {
+  render: (args) => ({
+    data() {
+      return { args };
+    },
+    components: { Dialog, Button },
     template: `
-      <Dialog>
-          <p class="text-neutral-typography-200 py-[20px] px-[40px]">Child Component</p>
+      <Dialog v-bind="args">
+          <template #content>
+            <p class="text-typography-default">Child Component</p>
+          </template>
       </Dialog>
     `
   }),
-  args: {}
+  args: {
+    title: "Dialog Title",
+    showClose: true
+  }
+};
+
+export const WithButtons: Story = {
+  render: (args) => ({
+    data() {
+      return { args };
+    },
+    components: { Dialog, Button },
+    template: `
+      <Dialog v-bind="args">
+          <template #content>
+            <p class="text-typography-default">Child Component</p>
+          </template>
+          <template #footer>
+            <div class="flex justify-end gap-2.5">
+              <Button
+                label="Cancel"
+                severity="tertiary"
+                size="large"
+                @click="
+                  () => {
+                  console.info('dsadsadasdadsada');
+                  }
+                "
+              />
+              <Button
+                label="Button"
+                severity="secondary"
+                size="large"
+                @click="
+                  () => {
+                  console.info('dsadsadasdadsada');
+                  }
+                "
+              />
+            </div>
+          </template>
+      </Dialog>
+    `
+  }),
+  args: {
+    title: "Dialog Title"
+  }
 };
