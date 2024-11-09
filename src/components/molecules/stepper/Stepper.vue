@@ -101,14 +101,11 @@ const props = defineProps<
 
 onMounted(() => {
   stepContainers.value.forEach((container, index) => {
-    console.info(container);
     if (container) {
       stepContainerHeights.value[index] = container.getBoundingClientRect().height;
     }
   });
 });
-
-console.info(stepContainerHeights.value);
 </script>
 
 <style lang="scss" scoped></style>

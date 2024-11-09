@@ -4,19 +4,11 @@
       label="test"
       severity="primary"
       size="large"
-      @click="
-        () => {
-          console.info('dsadsadasdadsada');
-        }
-      "
+      @click="() => {}"
     />
     <Toggle
       id="nolus-toggle"
-      @input="
-        (value) => {
-          console.info(value);
-        }
-      "
+      @input="(value) => {}"
     />
     <Label
       value="Label"
@@ -26,19 +18,10 @@
       label="test"
       severity="secondary"
       size="large"
-      @click="
-        () => {
-          console.info('dsadsadasdadsada');
-        }
-      "
+      @click="() => {}"
     />
-    <NotificationButton />
     <Alert
-      :on-close="
-        () => {
-          console.info('AAAAAA');
-        }
-      "
+      :on-close="() => {}"
       :show-close="true"
       :type="AlertType.warning"
     >
@@ -46,10 +29,7 @@
         <span>Alert content</span>
       </template>
     </Alert>
-    <Close
-      class=""
-      onclick="() => { console.info('aaaaa') }"
-    />
+
     <Tooltip
       content="150%"
       position="bottom"
@@ -57,11 +37,7 @@
       <div>Hover me</div>
     </Tooltip>
     <Alert
-      :on-close="
-        () => {
-          console.info('AAAAAA');
-        }
-      "
+      :on-close="() => {}"
       :show-close="true"
       :type="AlertType.error"
     >
@@ -72,7 +48,7 @@
     <Dropdown
       :item-template="(item: any) => h<AssetItemProps>(AssetItem, { name: item.label, ...item })"
       :items-headline="['Asset', 'Your balance']"
-      :on-select="(data) => console.info(data)"
+      :on-select="(data) => {}"
       :options="options2"
       dropdown-label="Select token"
       searchable
@@ -87,11 +63,7 @@
       id="test-input"
       label="Test Input"
       type="text"
-      @input="
-        (e) => {
-          console.info((e.target as HTMLInputElement).value);
-        }
-      "
+      @input="(e) => {}"
     />
 
     <CurrencyField
@@ -101,38 +73,18 @@
       :currency-options="options"
       label="Test1"
       placeholder="0"
-      @input="
-        (value) => {
-          console.info(value);
-        }
-      "
-      @on-selected-currency="
-        (option) => {
-          console.info(option);
-        }
-      "
+      @input="(value) => {}"
+      @on-selected-currency="(option) => {}"
     />
 
     <MultilineCurrencyField
       id="multiline"
       :balance="{ label: 'Test', value: '3123123', ticker: 'USDT' }"
       :currency-options="options"
-      :on-swap="
-        (e) => {
-          console.info('swap', e);
-        }
-      "
+      :on-swap="(e) => {}"
       placeholder="0"
-      @on-first-change="
-        (value) => {
-          console.info(value);
-        }
-      "
-      @on-second-change="
-        (value) => {
-          console.info(value);
-        }
-      "
+      @on-first-change="(value) => {}"
+      @on-second-change="(value) => {}"
     />
     <Proposal
       id="12"
@@ -146,11 +98,7 @@
       turnout="75%"
       voteButtonText="Vote now"
       voting_end_time="24-05-2024"
-      @vote="
-        (e) => {
-          console.info(e);
-        }
-      "
+      @vote="(e) => {}"
     />
 
     <Table
@@ -181,11 +129,7 @@
           :key="index"
           :items="row.items"
           :rowButton="row.rowButton"
-          @button-click="
-            (data) => {
-              console.info(data);
-            }
-          "
+          @button-click="(data) => {}"
         />
       </template>
 
@@ -194,29 +138,21 @@
           label="Show Small Balances"
           severity="secondary"
           size="medium"
-          @click="
-            () => {
-              console.info('dsadsadasdadsada');
-            }
-          "
+          @click="() => {}"
       /></template>
     </Table>
 
     <Lease
       v-bind="leaseProps"
-      @on-collect="
-        (data) => {
-          console.info(data);
-        }
-      "
+      @on-collect="(data) => {}"
     />
 
     <Stepper
       :active-step="1"
       :steps="[
         { label: 'Step 1', icon: `${iconsExternalUrl}/osmosis-nls.svg` },
-        { label: 'Step 1', icon: `${iconsExternalUrl}/osmosis-nls.svg` },
-        { label: 'Step 1', icon: `${iconsExternalUrl}/osmosis-nls.svg`, approval: true }
+        { label: 'Step 1', icon: `${iconsExternalUrl}/osmosis-nls.svg`, approval: true },
+        { label: 'Step 1', icon: `${iconsExternalUrl}/osmosis-nls.svg` }
       ]"
       :variant="StepperVariant.SMALL"
     />
@@ -238,6 +174,62 @@
       ]"
       :variant="StepperVariant.MEDIUM"
     />
+
+    <Popover
+      ref="popoverRef"
+      position="top-left"
+      title="Test"
+    >
+      <template #parent>
+        <Button
+          class="h-10 w-10 rounded-full !p-0"
+          icon="icon-bell text-[20px]"
+          severity="secondary"
+          size="small"
+        ></Button>
+      </template>
+      <template #footer>
+        <Button
+          label="Close"
+          severity="secondary"
+          size="small"
+          @click="
+            () => {
+              popoverRef?.close();
+            }
+          "
+        ></Button>
+      </template>
+    </Popover>
+
+    <Button
+      label="Show Dialog"
+      severity="secondary"
+      size="large"
+      @click="
+        () => {
+          dialogRef?.show();
+        }
+      "
+    ></Button>
+
+    <Dialog ref="dialogRef">
+      <template #content>
+        <p class="text-typography-default">Child Component</p>
+      </template>
+      <template #footer>
+        <Button
+          label="Close"
+          severity="secondary"
+          size="small"
+          @click="
+            () => {
+              dialogRef?.close();
+            }
+          "
+        ></Button>
+      </template>
+    </Dialog>
   </div>
 </template>
 
@@ -246,8 +238,8 @@ import {
   Alert,
   AssetItem,
   Button,
-  Close,
   CurrencyField,
+  Dialog,
   Dropdown,
   EarningAssetsTableRow,
   HistoryTableRow,
@@ -255,7 +247,7 @@ import {
   Label,
   Lease,
   MultilineCurrencyField,
-  NotificationButton,
+  Popover,
   Proposal,
   Stepper,
   Table,
@@ -276,6 +268,9 @@ import {
 } from "./components/types";
 import { h, ref } from "vue";
 import { iconsExternalUrl } from "@/shared/utils/types";
+
+const popoverRef = ref<typeof Popover | null>(null);
+const dialogRef = ref<typeof Dialog | null>(null);
 
 const columns = [
   { label: "Tx hash" },
@@ -441,8 +436,6 @@ const leaseProps: LeaseProps = {
     status: LeasePnlStatus.POSITIVE
   }
 };
-
-const elementRef = ref<HTMLElement | null>(null);
 </script>
 
 <style scoped></style>

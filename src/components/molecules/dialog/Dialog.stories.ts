@@ -1,15 +1,13 @@
 import type { Meta, StoryObj } from "@storybook/vue3";
 
 import Dialog from "./Dialog.vue";
-import Button from "../button/Button.vue";
+import Button from "../../atoms/button/Button.vue";
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories
 const meta = {
-  title: "Components/Atoms/Dialog",
+  title: "Components/Molecules/Dialog",
   component: Dialog,
-  argTypes: {
-    "onClose-modal": { action: "close" }
-  },
+  argTypes: {},
   args: {} // default value
 } satisfies Meta<typeof Dialog>;
 
@@ -36,7 +34,8 @@ export const WithClose: Story = {
   }),
   args: {
     title: "Dialog Title",
-    showClose: true
+    showClose: true,
+    class: "!visible !opacity-[1]"
   }
 };
 
@@ -79,6 +78,7 @@ export const WithButtons: Story = {
     `
   }),
   args: {
-    title: "Dialog Title"
+    title: "Dialog Title",
+    class: "!visible !opacity-[1]"
   }
 };

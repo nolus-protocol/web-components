@@ -100,6 +100,7 @@ export default {
           "4": "var(--color-background-level-4)",
           "inverted-2": "var(--color-background-level-inverted-2)",
           "inverted-1": "var(--color-background-level-inverted-1)",
+          "inverted-1/50": "var(--color-background-level-inverted-1-50)",
         },
         typography: {
           default: "var(--color-typography-default)",
@@ -238,6 +239,7 @@ export default {
       16: ["16px", "24px"],
       18: ["18px", "26px"],
       20: ["20px", "28px"],
+      24: ["24px", "32px"],
       28: ["28px", "46px"],
       32: ["32px", "46px"],
       40: ["40px", "58px"],

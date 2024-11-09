@@ -5,7 +5,7 @@ import { AlertType } from "./types";
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories
 const meta = {
-  title: "Components/Atoms/Alert",
+  title: "Components/Molecules/Alert",
   component: Alert,
   argTypes: {},
   args: {} // default value
