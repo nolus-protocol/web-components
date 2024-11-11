@@ -230,10 +230,18 @@
         ></Button>
       </template>
     </Dialog>
+
+    <SvgIcon
+      class="fill-icon-error"
+      name="approval"
+    />
+
+    <!--    <Test />-->
   </div>
 </template>
 
 <script lang="ts" setup>
+import Test from "@/documentation/test.vue";
 import {
   Alert,
   AssetItem,
@@ -250,6 +258,7 @@ import {
   Popover,
   Proposal,
   Stepper,
+  SvgIcon,
   Table,
   Toggle,
   Tooltip
