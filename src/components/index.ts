@@ -1,5 +1,6 @@
 import AssetItem from "@/components/atoms/asset-list-item/AssetItem.vue";
-import Badge from "@/components/atoms/badge/Badge.vue";
+import Badge from "@/components/atoms/help-text/HelpText.vue";
+import HelpText from "@/components/atoms/help-text/HelpText.vue";
 import Button from "@/components/atoms/button/Button.vue";
 import Checkbox from "@/components/atoms/checkbox/Checkbox.vue";
 import Dropdown from "@/components/atoms/dropdown/Dropdown.vue";
@@ -25,6 +26,7 @@ import HistoryTableLoadingRow from "@/components/molecules/table-rows/HistoryTab
 import AssetsTableRow from "@/components/molecules/table-rows/AssetsTableRow.vue";
 import EarningAssetsTableRow from "@/components/molecules/table-rows/EarningAssetsTableRow.vue";
 import Toast from "@/components/molecules/toast/Toast.vue";
+import Widget from "@/components/molecules/widget/Widget.vue";
 
 import Lease from "@/components/organisms/lease/Lease.vue";
 import Table from "@/components/organisms/table/Table.vue";
@@ -37,6 +39,7 @@ export {
   Checkbox,
   Dropdown,
   FormControl,
+  HelpText,
   Input,
   Label,
   Radio,
@@ -59,6 +62,7 @@ export {
   EarningAssetsTableRow,
   HistoryTableLoadingRow,
   Toast,
+  Widget,
 
   // organisms
   Lease,

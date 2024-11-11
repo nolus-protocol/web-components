@@ -12,7 +12,6 @@ const meta = {
   component: Table,
   parameters: {},
   args: {
-    title: "Table title",
     columns: [
       { label: "Column 1", tooltip: "Column 1 tooltip" },
       { label: "Column 2" },
@@ -50,7 +49,6 @@ export const History: Story = {
     `
   }),
   args: {
-    title: "History",
     columns: [
       { label: "Tx hash" },
       { label: "Action", tooltip: "Action tooltip" },

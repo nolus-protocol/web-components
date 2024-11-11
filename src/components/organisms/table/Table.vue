@@ -1,11 +1,9 @@
 <template>
-  <div
-    class="flex w-full flex-col gap-6 border-[1px] border-border-color bg-neutral-bg-50 p-6 shadow-field-normal md:rounded-xl"
-  >
+  <Widget>
     <div
       v-if="title || $slots.header"
       :class="[{ 'items-center justify-between': $slots.header && title, 'justify-end': $slots.header && !title }]"
-      class="flex text-16 font-medium leading-none text-neutral-typography-200"
+      class="flex text-16 font-medium leading-none text-typography-default"
     >
       {{ title }}
 
@@ -14,13 +12,13 @@
       </div>
     </div>
     <div class="flex flex-col [&>*:last-child]:border-none">
-      <div :class="['flex border-b-[1px] border-border-color pb-2.5', columnsClasses]">
+      <div :class="['flex border-b-[1px] border-border-default py-3', columnsClasses]">
         <div
           v-for="(column, index) in columns"
           :key="column.label"
           :class="[
-            'flex flex-1 items-center gap-0.5 text-12 font-medium uppercase text-neutral-400',
-            { 'justify-end': columns && index > 0 },
+            'flex flex-1 items-center gap-0.5 text-14 font-normal text-typography-default',
+            { 'justify-end': index > 0 },
             column.class
           ]"
         >
@@ -40,11 +38,11 @@
     >
       <slot name="footer"></slot>
     </div>
-  </div>
+  </Widget>
 </template>
 
 <script lang="ts" setup>
-import { Tooltip } from "@/components";
+import { Tooltip, Widget } from "@/components";
 
 const props = defineProps<{
   title?: string;
