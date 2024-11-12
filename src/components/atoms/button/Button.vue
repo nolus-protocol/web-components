@@ -8,18 +8,21 @@
   >
     <SvgIcon
       v-if="icon && iconPosition === 'left'"
+      :default-color="false"
       :name="icon"
       :size="iconSize"
     />
     {{ label }}
     <SvgIcon
       v-if="icon && iconPosition === 'right'"
+      :default-color="false"
       :name="icon"
       :size="iconSize"
     />
 
     <SvgIcon
       v-if="icon && !iconPosition"
+      :default-color="false"
       :name="icon"
       :size="iconSize"
       class="flex"

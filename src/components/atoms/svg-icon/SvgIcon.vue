@@ -1,5 +1,6 @@
 <template>
   <IconComponent
+    :class="[{ 'fill-icon-default': defaultColor }]"
     v-bind="svgAttributes"
     viewBox="0 0 24 24"
   />
@@ -11,7 +12,8 @@ import { computed, defineAsyncComponent } from "vue";
 import { type SvgProps } from "./types";
 
 const props = withDefaults(defineProps<SvgProps>(), {
-  size: "m"
+  size: "m",
+  defaultColor: true
 });
 
 const svgAttributes = computed(() => {
