@@ -6,22 +6,29 @@
     type="button"
     @click="onClick"
   >
-    <span
+    <SvgIcon
       v-if="icon && iconPosition === 'left'"
-      :class="[icon]"
-      class="icon flex"
+      :name="icon"
+      :size="iconSize"
     />
     {{ label }}
-    <span
+    <SvgIcon
       v-if="icon && iconPosition === 'right'"
-      :class="[icon]"
-      class="icon flex"
+      :name="icon"
+      :size="iconSize"
     />
-    <span
+
+    <SvgIcon
       v-if="icon && !iconPosition"
-      :class="[icon]"
-      class="icon flex"
+      :name="icon"
+      :size="iconSize"
+      class="flex"
     />
+    <!--    <span-->
+    <!--      v-if="icon && !iconPosition"-->
+    <!--      :class="[icon]"-->
+    <!--      class="icon flex"-->
+    <!--    />-->
     <span
       v-if="loading"
       class="absolute mx-auto my-0"
@@ -34,6 +41,7 @@
 <script lang="ts" setup>
 import { computed } from "vue";
 import Spinner from "../spinner/Spinner.vue";
+import SvgIcon from "../svg-icon/SvgIcon.vue";
 import { Size } from "@/shared/utils/types";
 import type { ButtonProps } from "@/components/atoms/button/types";
 
@@ -50,6 +58,14 @@ const classes = computed(() => ({
 
   "button-loading": props.loading
 }));
+
+const iconSize = computed(() => {
+  if (props.size === Size.small) return "xs";
+  if (props.size === Size.medium) return "s";
+  if (props.size === Size.large) return "m";
+
+  return "m";
+});
 
 const style = computed(() => ({}));
 

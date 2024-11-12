@@ -65,8 +65,16 @@ export const Small: Story = {
 export const WithIcon: Story = {
   args: {
     ...Primary.args,
-    icon: "icon-arrow-short-up text-[23px]",
+    icon: "arrow-up",
     iconPosition: "left"
+  }
+};
+
+export const Icon: Story = {
+  args: {
+    ...Primary.args,
+    label: "",
+    icon: "arrow-up"
   }
 };
 
