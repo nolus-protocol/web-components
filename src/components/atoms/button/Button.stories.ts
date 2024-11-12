@@ -8,8 +8,8 @@ const meta = {
   title: "Components/Atoms/Button",
   component: Button,
   argTypes: {
-    severity: { control: "select", options: Type },
-    size: { control: "select", options: Size },
+    severity: { control: "select", options: [Type.primary, Type.danger, Type.tertiary, Type.secondary] },
+    size: { control: "select", options: [Size.small, Size.medium, Size.large] },
     iconPosition: { control: "select", options: ["left", "right"] },
     onClick: { action: "clicked" }
   },

@@ -1,11 +1,12 @@
 <template>
-  <component
-    :is="icon"
+  <IconComponent
     v-bind="svgAttributes"
+    viewBox="0 0 24 24"
   />
 </template>
 
 <script lang="ts" setup>
+import type { Component } from "vue";
 import { computed, defineAsyncComponent } from "vue";
 import { type SvgProps } from "./types";
 
@@ -13,26 +14,44 @@ const props = withDefaults(defineProps<SvgProps>(), {
   size: "m"
 });
 
-const icon = computed(() => {
-  return defineAsyncComponent(() => import(`../../../assets/icons/${props.name}.svg`));
-});
-
 const svgAttributes = computed(() => {
   switch (props.size) {
     case "xs":
-      return { width: "16", height: "16", viewBox: "0 0 16 16" };
+      return { width: "16", height: "16" };
     case "s":
-      return { width: "18", height: "18", viewBox: "0 0 18 18" };
+      return { width: "18", height: "18" };
     case "l":
-      return { width: "24", height: "24", viewBox: "0 0 24 24" };
+      return { width: "24", height: "24" };
     case "xl":
-      return { width: "32", height: "32", viewBox: "0 0 32 32" };
+      return { width: "32", height: "32" };
     case "2xl":
-      return { width: "40", height: "40", viewBox: "0 0 40 40" };
+      return { width: "40", height: "40" };
     default:
-      return { width: "20", height: "20", viewBox: "0 0 20 20" };
+      return { width: "20", height: "20" };
   }
 });
+
+const { loader } = createIconMap().get(props.name) ?? {};
+const IconComponent = loader ? defineAsyncComponent(loader) : null;
+
+function getIconNameFromPath(path: string) {
+  const pathSplit = path.split("/");
+  const filename = pathSplit[pathSplit.length - 1] || "";
+
+  return filename.replace(".svg", "");
+}
+
+function createIconMap() {
+  const importGlob = import.meta.glob("@/assets/icons/*.svg");
+  const iconMap = new Map<string, { loader: () => Promise<Component> }>([]);
+
+  for (const path in importGlob) {
+    const iconName = getIconNameFromPath(path);
+    iconMap.set(iconName, { loader: importGlob[path] as () => Promise<Component> });
+  }
+
+  return iconMap;
+}
 </script>
 
 <style lang="" scoped></style>

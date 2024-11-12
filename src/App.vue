@@ -233,15 +233,12 @@
 
     <SvgIcon
       class="fill-icon-error"
-      name="approval"
+      name="slider"
     />
-
-    <!--    <Test />-->
   </div>
 </template>
 
 <script lang="ts" setup>
-import Test from "@/documentation/test.vue";
 import {
   Alert,
   AssetItem,

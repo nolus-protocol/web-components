@@ -9,7 +9,7 @@ const meta = {
   title: "Components/Atoms/Input",
   component: Input,
   argTypes: {
-    type: { control: "select", options: InputType },
+    type: { control: "select", options: Object.keys(InputType).map((type) => type) },
     size: { control: "select", options: [Size.small, Size.medium] }
   },
   args: {

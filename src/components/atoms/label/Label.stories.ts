@@ -6,7 +6,7 @@ const meta = {
   title: "Components/Atoms/Label",
   component: Label,
   argTypes: {
-    variant: { control: "select", options: Variant },
+    variant: { control: "select", options: Object.keys(Variant).map((variant) => variant) },
     icon: { control: "text" },
     iconPosition: { control: "select", options: ["left", "right"] }
   },

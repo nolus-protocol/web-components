@@ -4,6 +4,7 @@ export type DropdownOption = {
   value: string | number;
   label: string;
   icon?: string;
+  [key: string]: any;
 };
 
 export interface DropdownProps {

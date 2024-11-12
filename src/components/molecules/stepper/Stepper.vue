@@ -40,7 +40,7 @@
       <div
         v-for="(step, index) in props.steps as MediumStep[]"
         :key="index"
-        :ref="(el) => stepContainers.push(el)"
+        :ref="(el: any) => stepContainers.push(el)"
         class="flex gap-x-3"
       >
         <div class="flex flex-col items-center">
