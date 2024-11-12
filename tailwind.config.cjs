@@ -252,6 +252,7 @@ export default {
       "50%": "15%"
     },
     boxShadow: {
+      small: "0px 1px 2px 0px var(--color-shadow-default)",
       medium: "0px 4px 6px -1px var(--color-shadow-default), 0px 2px 4px -2px var(--color-shadow-default)",
       larger: "0px 12px 20px 0px var(--color-shadow-light), 0px 2px 4px 0px var(--color-shadow-lighter)",
       dialog: "0 8px 48px #072d6326",
