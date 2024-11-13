@@ -27,11 +27,6 @@
       :size="iconSize"
       class="flex"
     />
-    <!--    <span-->
-    <!--      v-if="icon && !iconPosition"-->
-    <!--      :class="[icon]"-->
-    <!--      class="icon flex"-->
-    <!--    />-->
     <span
       v-if="loading"
       class="absolute mx-auto my-0"
