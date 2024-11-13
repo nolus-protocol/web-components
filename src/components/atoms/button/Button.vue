@@ -63,9 +63,9 @@ const classes = computed(() => ({
 }));
 
 const iconSize = computed(() => {
-  if (props.size === Size.small) return "xs";
-  if (props.size === Size.medium) return "s";
-  if (props.size === Size.large) return "m";
+  if (props.size === Size.small) return "s";
+  if (props.size === Size.medium) return "m";
+  if (props.size === Size.large) return "l";
 
   return "m";
 });
