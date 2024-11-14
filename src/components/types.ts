@@ -18,3 +18,5 @@ export * from "@/components/molecules/table-rows/types";
 export * from "@/components/molecules/toast/types";
 
 export * from "@/components/organisms/lease/types";
+
+export * from "../shared/utils/types";

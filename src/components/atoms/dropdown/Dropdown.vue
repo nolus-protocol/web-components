@@ -12,7 +12,7 @@
     >
     <button
       :id="`dropdown-btn-${id}`"
-      :class="['field-dropdown', classes]"
+      :class="['field-dropdown', classes, $attrs.class]"
       :disabled="disabled"
       type="button"
       @click="toggleDropdown"
