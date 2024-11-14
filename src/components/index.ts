@@ -1,5 +1,5 @@
 import AssetItem from "@/components/atoms/asset-list-item/AssetItem.vue";
-import Badge from "@/components/atoms/help-text/HelpText.vue";
+import Badge from "@/components/atoms/badge/Badge.vue";
 import HelpText from "@/components/atoms/help-text/HelpText.vue";
 import Button from "@/components/atoms/button/Button.vue";
 import Checkbox from "@/components/atoms/checkbox/Checkbox.vue";
