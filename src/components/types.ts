@@ -1,4 +1,5 @@
 export * from "@/components/atoms/help-text/types";
+export * from "@/components/atoms/badge/types";
 export * from "@/components/atoms/button/types";
 export * from "@/components/atoms/dropdown/types";
 export * from "@/components/atoms/form-control/types";
