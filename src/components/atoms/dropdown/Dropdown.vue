@@ -24,7 +24,7 @@
           :src="selectedOption.icon"
           class="mr-1 h-4 w-4"
         />
-        <span v-if="selectedOption && selectedOption?.label">
+        <span v-if="selectedOption && selectedOption?.label && !hideText">
           {{ selectedOption.label }}
         </span>
         <span v-if="!selectedOption">{{ placeholder }}</span>
@@ -38,6 +38,7 @@
     <Transition name="fade">
       <div
         v-if="isOpen"
+        :class="dropdownPosition === 'right' ? 'right-0' : 'left-0'"
         class="shadow-lg absolute top-full z-10 mt-3 w-full min-w-48 overflow-hidden rounded-lg border-[1px] border-border-default bg-neutral-bg-2 text-typography-default shadow-shadow-lighter"
       >
         <div
@@ -146,7 +147,9 @@ const props = withDefaults(
   >(),
   {
     placeholder: "Select an option",
-    size: Size.medium
+    size: Size.medium,
+    hideText: false,
+    dropdownPosition: "left"
   }
 );
 
