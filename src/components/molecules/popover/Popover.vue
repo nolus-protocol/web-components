@@ -1,7 +1,7 @@
 <template>
   <div
     ref="target"
-    class="relative flex w-fit flex-col items-center text-typography-default"
+    class="text-typography-default"
     @click="show"
   >
     <slot name="parent"></slot>
@@ -10,7 +10,7 @@
     <div
       ref="popover"
       :style="[popoverStyle]"
-      class="invisible fixed z-[999999999] flex h-screen w-full flex-col bg-neutral-bg-2 opacity-0 shadow-larger md:h-fit md:max-w-[512px] md:rounded-xl md:border md:border-border-default"
+      class="invisible fixed z-[999999999] flex h-screen w-full flex-col bg-neutral-bg-2 opacity-0 shadow-larger transition duration-200 md:h-fit md:max-w-[512px] md:rounded-xl md:border md:border-border-default"
     >
       <div class="flex items-center justify-between p-4">
         <span class="text-24 font-semibold text-typography-default">{{ title }}</span>
@@ -45,7 +45,8 @@ const disable = ref(false);
 
 const props = withDefaults(defineProps<PopoverProps>(), {
   showClose: false,
-  position: "bottom"
+  position: "bottom",
+  top: 73
 });
 
 const target = ref<HTMLElement | null>(null);
@@ -54,10 +55,6 @@ const emit = defineEmits(["close-popover", "unmounted"]);
 
 onMounted(() => {
   const element = popover.value;
-
-  if (element) {
-    element.style.animation = "fadeInAnimation 200ms";
-  }
 
   document.addEventListener("keyup", escapeClicked);
   window.addEventListener("popstate", backButtonClicked);
@@ -84,7 +81,6 @@ function close() {
   const element = popover.value as HTMLDivElement;
 
   if (element) {
-    element.style.animation = "fadeOutAnimation 200ms";
     element.style.opacity = "0";
 
     timeout = setTimeout(() => {
@@ -154,7 +150,7 @@ const calculatePopoverPosition = () => {
   // check if is on mobile
   if (window.innerWidth < 768) {
     popoverStyle.value = {
-      top: `0`,
+      top: `${props.top}px`,
       left: `0`
     };
   } else {
@@ -186,3 +182,14 @@ defineExpose({
   close
 });
 </script>
+
+<style lang="scss" scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s ease-in-out;
+}
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
+</style>
