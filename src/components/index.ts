@@ -22,15 +22,12 @@ import Popover from "@/components/molecules/popover/Popover.vue";
 import Proposal from "@/components/molecules/proposal/Proposal.vue";
 import Slider from "@/components/molecules/slider/Slider.vue";
 import Stepper from "@/components/molecules/stepper/Stepper.vue";
-import HistoryTableRow from "@/components/molecules/table-rows/HistoryTableRow.vue";
-import HistoryTableLoadingRow from "@/components/molecules/table-rows/HistoryTableLoadingRow.vue";
-import AssetsTableRow from "@/components/molecules/table-rows/AssetsTableRow.vue";
-import EarningAssetsTableRow from "@/components/molecules/table-rows/EarningAssetsTableRow.vue";
 import Toast from "@/components/molecules/toast/Toast.vue";
 import Widget from "@/components/molecules/widget/Widget.vue";
 
 import Lease from "@/components/organisms/lease/Lease.vue";
 import Table from "@/components/organisms/table/Table.vue";
+import TableRow from "@/components/organisms/table/TableRow.vue";
 
 export {
   // atoms
@@ -59,14 +56,11 @@ export {
   Proposal,
   Slider,
   Stepper,
-  HistoryTableRow,
-  AssetsTableRow,
-  EarningAssetsTableRow,
-  HistoryTableLoadingRow,
   Toast,
   Widget,
 
   // organisms
   Lease,
-  Table
+  Table,
+  TableRow
 };

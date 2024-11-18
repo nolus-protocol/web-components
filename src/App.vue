@@ -101,14 +101,9 @@
       @vote="(e) => {}"
     />
 
-    <Table
-      :columns="columns"
-      class="p-4 md:p-6"
-      columnsClasses="hidden md:flex"
-      title="History"
-    >
+    <Table :columns="columns">
       <template v-slot:body>
-        <HistoryTableRow
+        <TableRow
           v-for="(row, index) in historyData"
           :key="index"
           :items="row.items"
@@ -116,15 +111,9 @@
       </template>
     </Table>
 
-    <Table
-      :columns="assetsColumns"
-      class="p-4 md:p-6"
-      footerClasses="flex justify-center"
-      title="Assets"
-    >
-      <template v-slot:header>Search or button</template>
+    <Table :columns="assetsColumns">
       <template v-slot:body>
-        <EarningAssetsTableRow
+        <TableRow
           v-for="(row, index) in assetsData"
           :key="index"
           :items="row.items"
@@ -132,14 +121,6 @@
           @button-click="(data) => {}"
         />
       </template>
-
-      <template v-slot:footer
-        ><Button
-          label="Show Small Balances"
-          severity="secondary"
-          size="medium"
-          @click="() => {}"
-      /></template>
     </Table>
 
     <Lease
@@ -257,8 +238,6 @@ import {
   CurrencyField,
   Dialog,
   Dropdown,
-  EarningAssetsTableRow,
-  HistoryTableRow,
   Input,
   Label,
   Lease,
@@ -268,6 +247,7 @@ import {
   Stepper,
   SvgIcon,
   Table,
+  TableRow,
   Toggle,
   Tooltip
 } from "@/components";
@@ -275,8 +255,7 @@ import {
   AlertType,
   type AssetItemProps,
   type DropdownOption,
-  type EarningAssetsTableRowItemProps,
-  type HistoryTableRowItemProps,
+  type LabelProps,
   LeasePnlStatus,
   type LeaseProps,
   LeaseStatus,
@@ -285,6 +264,7 @@ import {
 } from "./components/types";
 import { h, onMounted, ref } from "vue";
 import { iconsExternalUrl } from "@/shared/utils/types";
+import type { TableColumnProps, TableRowItemProps } from "@/components/organisms/table/types";
 
 const isOpen = ref(false);
 const popoverParent = ref<HTMLElement>();
@@ -294,45 +274,49 @@ onMounted(() => {
   console.info({ popoverParent });
 });
 
-const columns = [
-  { label: "Tx hash" },
-  { label: "Action", tooltip: "Action tooltip" },
-  { label: "Fee" },
-  { label: "Time" }
+const columns: TableColumnProps[] = [
+  { label: "Transaction", variant: "left" },
+  { label: "Category" },
+  { label: "Time" },
+  { label: "Status" }
 ];
 
-const assetsColumns = [
-  { label: "Asset" },
-  { label: "balance", class: "hidden md:flex" },
-  { label: "yield", tooltip: "Yield tooltip" },
-  { label: "lease up to", tooltip: "Lease up to tooltip" },
-  { label: "receive/send", class: "hidden md:flex" }
-];
-
-const historyData: HistoryTableRowItemProps[] = [
+const historyData: TableRowItemProps[] = [
   {
     items: [
-      { value: "0x123", url: "https://google.com" },
-      { value: "Swap", bold: true },
-      { value: "0.0001" },
-      { value: "12:00" }
+      {
+        value: `Collect tokens from lease position nolus1...kwjklf`,
+        url: "https://google.com",
+        variant: "left",
+        class: "font-semibold"
+      },
+      { value: `Leases` },
+      { value: `15m ago` },
+      { component: () => h<LabelProps>(Label, { value: "Complete", variant: "success" }) }
     ]
   }
 ];
 
-const assetsData: EarningAssetsTableRowItemProps[] = [
+const assetsColumns: TableColumnProps[] = [
+  { label: "Asset", variant: "left" },
+  { label: "Price" },
+  { label: "Balance" },
+  { label: "Yield", tooltip: { position: "top", content: "Yield tooltip" } }
+];
+
+const assetsData: TableRowItemProps[] = [
   {
     items: [
       {
-        value: "BTC",
-        subValue: "$29,836.42",
+        value: "Cosmos",
+        subValue: "ATOM",
         image:
-          "https://raw.githubusercontent.com/nolus-protocol/webapp/main/src/config/currencies/icons/neutron-usdc.svg"
+          "https://raw.githubusercontent.com/nolus-protocol/webapp/main/src/config/currencies/icons/neutron-usdc.svg",
+        variant: "left"
       },
-      { value: "32,430.22", subValue: "$222,000.00", class: "hidden md:flex" },
-      { value: "-" },
-      { value: "32,430.22" },
-      { value: "" }
+      { value: "$43.23" },
+      { value: "5.123", subValue: "$42.32" },
+      { value: "5.96%", subValue: "+15.00% NLS", class: "text-typography-success" }
     ],
     rowButton: { label: "Deposit" }
   }

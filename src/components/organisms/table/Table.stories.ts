@@ -1,10 +1,12 @@
 import type { Meta, StoryObj } from "@storybook/vue3";
+import { h } from "vue";
 
 import Table from "./Table.vue";
-import HistoryTableRow from "../../molecules/table-rows/HistoryTableRow.vue";
-import AssetsTableRow from "../../molecules/table-rows/AssetsTableRow.vue";
-import EarningAssetsTableRow from "../../molecules/table-rows/EarningAssetsTableRow.vue";
+import TableRow from "./TableRow.vue";
 import Button from "../../atoms/button/Button.vue";
+import { TableProps, TableRowItemProps } from "./types";
+import Label from "../../atoms/label/Label.vue";
+import type { LabelProps } from "../../atoms/label/types";
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories
 const meta = {
@@ -28,18 +30,16 @@ type Story = StoryObj<typeof meta>;
  * to learn how to use render functions.
  */
 
-export const History: Story = {
+export const History: StoryObj<typeof meta> = {
   render: (args) => ({
     data() {
       return { args };
     },
-    components: { Table, HistoryTableRow },
+    components: { Table, TableRow },
     template: `
-      <Table
-        v-bind="args"
-      >
+      <Table v-bind="args">
         <template v-slot:body>
-          <HistoryTableRow
+          <TableRow
             v-for="(row, index) in args.historyData"
             :key="index"
             :items="row.items"
@@ -49,32 +49,28 @@ export const History: Story = {
     `
   }),
   args: {
-    columns: [
-      { label: "Tx hash" },
-      { label: "Action", tooltip: "Action tooltip" },
-      { label: "Fee" },
-      { label: "Time" }
-    ],
+    columns: [{ label: "Transaction", variant: "left" }, { label: "Category" }, { label: "Time" }, { label: "Status" }],
+    columnsClasses: "hidden md:flex",
+    searchable: true,
+    size: "123 asstes",
+    toggle: {
+      label: "Show small balances"
+    },
     historyData: Array.from({ length: 10 }).map((n, i) => ({
       items: [
-        { value: `0x123-${i}`, url: "https://google.com" },
-        { value: `Swap-${i}`, bold: true },
-        { value: `0.0001-${i}` },
-        { value: `12:00-${i}` }
+        {
+          value: `Collect tokens from lease position nolus1...kwjklf`,
+          url: "https://google.com",
+          variant: "left",
+          bold: true,
+          class: ""
+        },
+        { value: `Leases`, bold: true },
+        { value: `15m ago` },
+        { component: () => h<LabelProps>(Label, { value: "Complete", variant: "success" }) }
       ]
-    })),
-    class: "p-4 md:p-6",
-    columnsClasses: "hidden md:flex"
-  } as {
-    title?: string;
-    columns: {
-      label: string;
-      class?: string;
-      tooltip?: string;
-    }[];
-    columnsClasses?: string;
-    footerClasses?: string;
-  }
+    }))
+  } as TableProps & { historyData: TableRowItemProps[] }
 };
 
 export const Asset: Story = {
@@ -82,74 +78,48 @@ export const Asset: Story = {
     data() {
       return { args };
     },
-    components: { Table, AssetsTableRow, Button },
+    components: { Table, TableRow, Button },
     template: `
       <Table
         v-bind="args"
       >
-      <template v-slot:header>Search or button</template>
       <template v-slot:body>
-        <AssetsTableRow
+        <TableRow
           v-for="(row, index) in args.assetsData"
           :key="index"
           :items="row.items"
-          @button-click="
-            (data) => {
-              console.info(data);
-            }
-          "
         />
       </template>
-
-      <template v-slot:footer
-        ><Button
-          label="Show Small Balances"
-          severity="secondary"
-          size="medium"
-          @click="
-            () => {
-              console.info('dsadsadasdadsada');
-            }
-          "
-      /></template>
       </Table>
     `
   }),
   args: {
     columns: [
-      { label: "Asset" },
-      { label: "balance" },
-      { label: "yield", tooltip: "Yield tooltip", class: "hidden md:flex" },
-      { label: "lease up to", tooltip: "Lease up to tooltip", class: "hidden md:flex" },
-      { label: "receive/send" }
+      { label: "Asset", variant: "left" },
+      { label: "Price" },
+      { label: "Balance" },
+      { label: "Yield", tooltip: { position: "top", content: "Yield tooltip" } }
     ],
     assetsData: Array.from({ length: 10 }).map((n, i) => ({
       items: [
         {
-          value: "BTC",
-          subValue: "$29,836.42",
+          value: "Cosmos",
+          subValue: "ATOM",
           image:
-            "https://raw.githubusercontent.com/nolus-protocol/webapp/main/src/config/currencies/icons/neutron-usdc.svg"
+            "https://raw.githubusercontent.com/nolus-protocol/webapp/main/src/config/currencies/icons/neutron-usdc.svg",
+          variant: "left"
         },
-        { value: "32,430.22", subValue: "$222,000.00" },
-        { value: "-", class: "hidden md:flex" },
-        { value: "32,430.22", class: "hidden md:flex" },
-        { value: "", button: true }
+        { value: "$43.23" },
+        { value: "5.123", subValue: "$42.32" },
+        { value: "5.96%", subValue: "+15.00% NLS", class: "text-typography-success" }
       ]
     })),
-    class: "p-4 md:p-6",
-    footerClasses: "flex justify-center",
-    title: "Assets"
-  } as {
-    title?: string;
-    columns: {
-      label: string;
-      class?: string;
-      tooltip?: string;
-    }[];
-    columnsClasses?: string;
-    footerClasses?: string;
-  }
+    searchable: true,
+    size: "123 asstes",
+    toggle: {
+      label: "Show small balances"
+    }
+  } as TableProps & { assetsData: TableRowItemProps[] }
 };
 
 export const EarningAssets: Story = {
@@ -157,13 +127,13 @@ export const EarningAssets: Story = {
     data() {
       return { args };
     },
-    components: { Table, EarningAssetsTableRow, Button },
+    components: { Table, TableRow, Button },
     template: `
       <Table
         v-bind="args"
       >
       <template v-slot:body>
-        <EarningAssetsTableRow
+        <TableRow
           v-for="(row, index) in args.assetsData"
           :key="index"
           :items="row.items"
@@ -175,51 +145,39 @@ export const EarningAssets: Story = {
           "
         />
       </template>
-
-      <template v-slot:footer
-        ><Button
-          label="Show Small Balances"
-          severity="secondary"
-          size="medium"
-          @click="
-            () => {
-              console.info('dsadsadasdadsada');
-            }
-          "
-      /></template>
       </Table>
     `
   }),
   args: {
+    searchable: true,
+    size: "123 asstes",
     columns: [
-      { label: "Asset" },
-      { label: "Deposit", tooltip: "Deposit tooltip", class: "hidden md:flex" },
-      { label: "yield" }
+      { label: "Asset", variant: "left" },
+      { label: "Deposit", tooltip: { content: "Deposit tooltip" } },
+      { label: "Yield", tooltip: { content: "Deposit tooltip" } },
+      { label: "Availability", tooltip: { content: "Deposit tooltip" } }
     ],
     assetsData: Array.from({ length: 10 }).map((n, i) => ({
       items: [
         {
-          value: "BTC",
-          valueInfo: "compounding",
+          value: "Stride Stacked ATOM",
+          subValue: "stATOM",
           image:
-            "https://raw.githubusercontent.com/nolus-protocol/webapp/main/src/config/currencies/icons/neutron-usdc.svg"
+            "https://raw.githubusercontent.com/nolus-protocol/webapp/main/src/config/currencies/icons/neutron-usdc.svg",
+          variant: "left"
         },
-        { value: "32,430.22", subValue: "$222,000.00", class: "hidden md:flex" },
-        { value: "16.24%", subValue: "+15.00% NLS", class: "text-success-100", button: { label: "Supply / Withdraw" } }
+        { value: "25", subValue: "$111.24" },
+        {
+          value: "0.10%",
+          subValue: "+4.00% NLS",
+          class: "text-typography-success"
+        },
+        {
+          component: () => h<LabelProps>(Label, { value: "Complete", variant: "success" })
+        }
       ],
       rowButton: { label: "Supply / Withdraw" }
     })),
-    class: "p-4 md:p-6",
-    footerClasses: "flex justify-center",
     title: "Assets"
-  } as {
-    title?: string;
-    columns: {
-      label: string;
-      class?: string;
-      tooltip?: string;
-    }[];
-    columnsClasses?: string;
-    footerClasses?: string;
-  }
+  } as TableProps & { assetsData: TableRowItemProps[] }
 };

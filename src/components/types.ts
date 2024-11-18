@@ -14,9 +14,9 @@ export * from "@/components/molecules/alert/types";
 export * from "@/components/molecules/multiline-currency-field/types";
 export * from "@/components/molecules/proposal/types";
 export * from "@/components/molecules/stepper/types";
-export * from "@/components/molecules/table-rows/types";
 export * from "@/components/molecules/toast/types";
 
 export * from "@/components/organisms/lease/types";
+export * from "@/components/organisms/table/types";
 
 export * from "../shared/utils/types";
