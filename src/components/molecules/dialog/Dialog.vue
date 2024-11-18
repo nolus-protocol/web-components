@@ -1,10 +1,11 @@
 <template>
   <div
     ref="dialog"
-    class="bg-neutral-bg-inverted-1/50 invisible fixed bottom-0 left-0 right-0 top-0 z-[999999999] flex items-center justify-center opacity-0"
+    class="invisible fixed bottom-0 left-0 right-0 top-0 z-[999999999] flex items-center justify-center bg-neutral-bg-inverted-1/50 opacity-0"
     @keydown.esc="close"
   >
     <div
+      ref="dialogChild"
       class="flex h-screen w-full flex-col overflow-hidden bg-neutral-bg-2 shadow-larger md:h-fit md:max-w-[512px] md:rounded-xl md:border md:border-border-default"
     >
       <div class="flex items-center justify-between p-6">
@@ -33,6 +34,7 @@
 import { onMounted, onUnmounted, provide, ref } from "vue";
 
 const dialog = ref<HTMLDivElement>();
+const dialogChild = ref<HTMLDivElement>();
 
 const props = defineProps({
   title: {
@@ -57,11 +59,13 @@ onMounted(() => {
 
   document.addEventListener("keyup", escapeClicked);
   window.addEventListener("popstate", backButtonClicked);
+  window.addEventListener("click", handleClickOutside);
 });
 
 onUnmounted(() => {
   document.removeEventListener("keyup", escapeClicked);
   window.removeEventListener("popstate", backButtonClicked);
+  window.removeEventListener("click", handleClickOutside);
 });
 
 function escapeClicked(event: KeyboardEvent) {
@@ -97,6 +101,12 @@ function close() {
     document.body.style.overflowY = "auto";
   }, 100);
 }
+
+const handleClickOutside = (event: MouseEvent) => {
+  if (event.target === dialog.value) {
+    close();
+  }
+};
 
 provide("show", show);
 provide("close", close);
