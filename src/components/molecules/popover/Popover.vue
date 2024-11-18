@@ -1,44 +1,40 @@
 <template>
   <div
-    ref="target"
-    class="text-typography-default"
-    @click="show"
+    ref="popover"
+    :class="[
+      'fixed z-[999999999] flex h-screen w-full flex-col bg-neutral-bg-2 shadow-larger transition duration-200 md:h-fit md:w-auto md:max-w-[512px] md:rounded-xl md:border md:border-border-default',
+      $attrs.class
+    ]"
+    :style="[popoverStyle]"
   >
-    <slot name="parent"></slot>
-  </div>
-  <Teleport to="body">
-    <div
-      ref="popover"
-      :style="[popoverStyle]"
-      class="invisible fixed z-[999999999] flex h-screen w-full flex-col bg-neutral-bg-2 opacity-0 shadow-larger transition duration-200 md:h-fit md:max-w-[512px] md:rounded-xl md:border md:border-border-default"
-    >
-      <div class="flex items-center justify-between p-4">
-        <span class="text-24 font-semibold text-typography-default">{{ title }}</span>
-        <slot name="header" />
-        <i
-          v-if="showClose"
-          class="icon icon-close cursor-pointer text-[22px] leading-none text-icon-default"
-          @click="close"
-        ></i>
-      </div>
-      <div class="flex-1 px-4 pb-4">
-        <slot name="content" />
-      </div>
-      <div
-        v-if="$slots.footer"
-        class="border-t border-border-default p-4"
-      >
-        <slot name="footer" />
-      </div>
+    <div class="flex items-center justify-between p-4">
+      <span class="text-24 font-semibold text-typography-default">{{ title }}</span>
+      <slot name="header" />
+      <i
+        v-if="showClose"
+        class="icon icon-close cursor-pointer text-[22px] leading-none text-icon-default"
+        @click="close"
+      ></i>
     </div>
-  </Teleport>
+    <div
+      v-if="$slots.content"
+      class="flex-1"
+    >
+      <slot name="content" />
+    </div>
+    <div
+      v-if="$slots.footer"
+      class="border-t border-border-default p-4"
+    >
+      <slot name="footer" />
+    </div>
+  </div>
 </template>
 
 <script lang="ts" setup>
-import { onMounted, onUnmounted, provide, ref, watch } from "vue";
+import { onMounted, onUnmounted, ref, watch } from "vue";
 import type { PopoverProps } from "./types";
 
-let timeout: NodeJS.Timeout;
 const popover = ref<HTMLDivElement | null>(null);
 const popoverStyle = ref({});
 const disable = ref(false);
@@ -46,15 +42,15 @@ const disable = ref(false);
 const props = withDefaults(defineProps<PopoverProps>(), {
   showClose: false,
   position: "bottom",
-  top: 73
+  top: 65
 });
 
-const target = ref<HTMLElement | null>(null);
+const target = ref<InstanceType<typeof props.parent | null>>(props.parent);
 
-const emit = defineEmits(["close-popover", "unmounted"]);
+const emit = defineEmits(["close", "unmounted"]);
 
 onMounted(() => {
-  const element = popover.value;
+  calculatePopoverPosition();
 
   document.addEventListener("keyup", escapeClicked);
   window.addEventListener("popstate", backButtonClicked);
@@ -77,36 +73,11 @@ function backButtonClicked(event: Event) {
   close();
 }
 
-function close() {
-  const element = popover.value as HTMLDivElement;
-
-  if (element) {
-    element.style.opacity = "0";
-
-    timeout = setTimeout(() => {
-      emit("close-popover");
-      element.style.visibility = "hidden";
-    }, 200);
-  }
-}
-
-const show = () => {
-  if (timeout) {
-    clearTimeout(timeout);
-  }
-
-  const element = popover.value as HTMLDivElement;
-
-  calculatePopoverPosition();
-
-  element.style.visibility = "visible";
-  element.style.opacity = "1";
-};
-
 const calculatePopoverPosition = () => {
   if (!target.value || !popover.value) return;
 
-  const rect = target.value.getBoundingClientRect();
+  const parent = target.value.$el;
+  const rect = parent.getBoundingClientRect();
   const popoverWidth = popover.value.offsetWidth;
   const popoverHeight = popover.value.offsetHeight;
 
@@ -161,26 +132,22 @@ const calculatePopoverPosition = () => {
   }
 };
 
-watch(() => [target, props.position], calculatePopoverPosition);
+watch(() => [props.parent, props.position], calculatePopoverPosition);
+
+const close = () => {
+  emit("close");
+};
 
 const handleClickOutside = (event: MouseEvent) => {
   if (
-    target.value &&
-    !target.value.contains(event.target as Node) &&
+    target.value.$el &&
+    !target.value.$el.contains(event.target as Node) &&
     popover.value &&
     !popover.value.contains(event.target as Node)
   ) {
     close();
   }
 };
-
-provide("show", show);
-provide("close", close);
-
-defineExpose({
-  show,
-  close
-});
 </script>
 
 <style lang="scss" scoped>

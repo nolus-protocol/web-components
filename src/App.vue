@@ -175,19 +175,30 @@
       :variant="StepperVariant.MEDIUM"
     />
 
+    <Button
+      ref="popoverParent"
+      class="h-10 w-10 rounded-full !p-0"
+      icon="icon-bell text-[20px]"
+      severity="secondary"
+      size="small"
+      @click="
+        () => {
+          isOpen = !isOpen;
+        }
+      "
+    ></Button>
+
     <Popover
-      ref="popoverRef"
+      v-if="isOpen"
+      :parent="popoverParent"
       position="top-left"
       title="Test"
+      @close="
+        () => {
+          isOpen = !isOpen;
+        }
+      "
     >
-      <template #parent>
-        <Button
-          class="h-10 w-10 rounded-full !p-0"
-          icon="icon-bell text-[20px]"
-          severity="secondary"
-          size="small"
-        ></Button>
-      </template>
       <template #footer>
         <Button
           label="Close"
@@ -195,7 +206,7 @@
           size="small"
           @click="
             () => {
-              popoverRef?.close();
+              isOpen = !isOpen;
             }
           "
         ></Button>
@@ -272,11 +283,16 @@ import {
   ProposalStatus,
   StepperVariant
 } from "./components/types";
-import { h, ref } from "vue";
+import { h, onMounted, ref } from "vue";
 import { iconsExternalUrl } from "@/shared/utils/types";
 
-const popoverRef = ref<typeof Popover | null>(null);
+const isOpen = ref(false);
+const popoverParent = ref<HTMLElement>();
 const dialogRef = ref<typeof Dialog | null>(null);
+
+onMounted(() => {
+  console.info({ popoverParent });
+});
 
 const columns = [
   { label: "Tx hash" },

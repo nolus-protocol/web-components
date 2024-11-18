@@ -8,7 +8,9 @@ const meta = {
   title: "Components/Molecules/Popover",
   component: Popover,
   argTypes: {},
-  args: {} // default value
+  args: {
+    parent: ""
+  } // default value
 } satisfies Meta<typeof Popover>;
 
 export default meta;
@@ -26,16 +28,8 @@ export const WithClose: Story = {
     components: { Popover, Button },
     template: `
       <Popover v-bind="args">
-        <template #parent>
-          <Button
-              icon="icon-bell text-[20px]"
-              severity="secondary"
-              size="small"
-              class="rounded-full !p-0 w-10 h-10"
-          ></Button>
-        </template>
         <template #content>
-          <p class="text-typography-default">Child Component</p>
+          <p class="text-typography-default p-4">Child Component</p>
         </template>
       </Popover>
     `
@@ -43,7 +37,8 @@ export const WithClose: Story = {
   args: {
     title: "Popover Title",
     showClose: true,
-    position: "bottom-left"
+    position: "bottom-left",
+    class: "md:w-full"
   }
 };
 
@@ -55,16 +50,8 @@ export const WithButtons: Story = {
     components: { Popover, Button },
     template: `
       <Popover v-bind="args">
-          <template #parent>
-            <Button
-                icon="icon-bell text-[20px]"
-                severity="secondary"
-                size="small"
-                class="rounded-full !p-0 w-10 h-10"
-            ></Button>
-          </template>
           <template #content>
-            <p class="text-typography-default">Child Component</p>
+            <p class="text-typography-default p-4">Child Component</p>
           </template>
           <template #footer>
             <div class="flex justify-end">
