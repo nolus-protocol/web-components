@@ -7,7 +7,7 @@
     <label
       v-if="props.label"
       :for="`dropdown-btn-${id}`"
-      class="field-label"
+      class="field-label mb-1"
       >{{ props.label }}</label
     >
     <button
