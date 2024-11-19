@@ -16,6 +16,9 @@ const props = withDefaults(defineProps<SvgProps>(), {
   defaultColor: true
 });
 
+const { loader } = createIconMap().get(props.name) ?? {};
+const IconComponent = loader ? defineAsyncComponent(loader) : null;
+
 const svgAttributes = computed(() => {
   switch (props.size) {
     case "xs":
@@ -32,9 +35,6 @@ const svgAttributes = computed(() => {
       return { width: "20", height: "20" };
   }
 });
-
-const { loader } = createIconMap().get(props.name) ?? {};
-const IconComponent = loader ? defineAsyncComponent(loader) : null;
 
 function getIconNameFromPath(path: string) {
   const pathSplit = path.split("/");

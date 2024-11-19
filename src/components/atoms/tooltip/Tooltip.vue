@@ -20,12 +20,12 @@
 </template>
 
 <script lang="ts" setup>
-import type { Tooltip } from "./types";
+import type { TooltipProps } from "./types";
 import { ref, watch } from "vue";
 
 let timeout: NodeJS.Timeout;
 
-const props = withDefaults(defineProps<Tooltip>(), {
+const props = withDefaults(defineProps<TooltipProps>(), {
   position: "top"
 });
 

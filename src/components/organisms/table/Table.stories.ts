@@ -67,7 +67,7 @@ export const History: StoryObj<typeof meta> = {
         },
         { value: `Leases`, bold: true },
         { value: `15m ago` },
-        { component: () => h<LabelProps>(Label, { value: "Complete", variant: "success" }) }
+        { component: h<LabelProps>(Label, { value: "Complete", variant: "success" }) }
       ]
     }))
   } as TableProps & { historyData: TableRowItemProps[] }
@@ -173,7 +173,7 @@ export const EarningAssets: Story = {
           class: "text-typography-success"
         },
         {
-          component: () => h<LabelProps>(Label, { value: "Complete", variant: "success" })
+          component: h<LabelProps>(Label, { value: "Complete", variant: "success" })
         }
       ],
       rowButton: { label: "Supply / Withdraw" }

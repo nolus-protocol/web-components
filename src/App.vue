@@ -292,7 +292,7 @@ const historyData: TableRowItemProps[] = [
       },
       { value: `Leases` },
       { value: `15m ago` },
-      { component: () => h<LabelProps>(Label, { value: "Complete", variant: "success" }) }
+      { component: h<LabelProps>(Label, { value: "Complete", variant: "success" }) }
     ]
   }
 ];
