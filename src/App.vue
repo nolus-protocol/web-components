@@ -205,7 +205,10 @@
       "
     ></Button>
 
-    <Dialog ref="dialogRef">
+    <Dialog
+      ref="dialogRef"
+      title="Test"
+    >
       <template #content>
         <p class="text-typography-default">Child Component</p>
       </template>

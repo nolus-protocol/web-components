@@ -25,7 +25,10 @@
         :selected="selectedCurrencyOption"
         class="min-w-[135px]"
       />
-      <div class="flex gap-2 text-14 font-normal text-typography-default">
+      <div
+        v-if="!hideBalance"
+        class="flex gap-2 text-14 font-normal text-typography-default"
+      >
         <span v-if="balanceLabel">{{ balanceLabel }}</span>
         <span
           v-if="selectedToken?.balance"
@@ -74,7 +77,9 @@ const comma = ",";
 const allowed = ["Delete", "Backspace", "ArrowLeft", "ArrowRight", "-", ".", "Enter", "Tab", "Control", "End", "Home"];
 const numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 
-const props = defineProps<AdvancedCurrencyFieldProps>();
+const props = withDefaults(defineProps<AdvancedCurrencyFieldProps>(), {
+  hideBalance: false
+});
 
 const numberValue = ref(props.value);
 const selectedToken = ref<AdvancedCurrencyFieldOption | null>(null);

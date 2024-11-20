@@ -1,12 +1,12 @@
 <template>
   <div
     ref="dialog"
-    class="invisible fixed bottom-0 left-0 right-0 top-0 z-[999999999] flex items-center justify-center bg-neutral-bg-inverted-1/50 opacity-0"
+    class="invisible absolute left-0 right-0 top-0 z-[999999999] flex items-center justify-center bg-neutral-bg-inverted-1/50 opacity-0 md:fixed md:bottom-0"
     @keydown.esc="close"
   >
     <div
       ref="dialogChild"
-      class="flex h-screen w-full flex-col overflow-hidden bg-neutral-bg-2 shadow-larger md:h-fit md:max-w-[512px] md:rounded-xl md:border md:border-border-default"
+      class="flex h-screen w-full flex-col bg-neutral-bg-2 shadow-larger md:h-fit md:max-w-[512px] md:rounded-xl md:border md:border-border-default"
     >
       <div class="flex items-center justify-between p-6">
         <span class="text-2xl font-semibold text-typography-default">{{ title }}</span>
@@ -31,9 +31,7 @@
             @click="handleParentClick(index)"
           />
         </div>
-        <div class="flex-1 px-6 pb-6">
-          <slot :name="'tab-content-' + activeTabIdx" />
-        </div>
+        <slot :name="'tab-content-' + activeTabIdx" />
       </template>
       <template v-else>
         <div class="flex-1 px-6 pb-6">
@@ -61,17 +59,15 @@ const radioRefs = ref<InstanceType<typeof Radio>[]>([]);
 export interface DialogProps {
   title: string;
   tabs?: string[];
-  activeTabIndex: number;
+  activeTabIndex?: number;
   showClose?: boolean;
 }
 
-const props = withDefaults(defineProps<DialogProps>(), {
-  activeTabIndex: 0
-});
+const props = withDefaults(defineProps<DialogProps>(), {});
 
 const emit = defineEmits(["close-dialog"]);
 const disable = ref(false);
-const activeTabIdx = ref(props.activeTabIndex);
+const activeTabIdx = ref(props.activeTabIndex ?? 0);
 
 onMounted(() => {
   const element = dialog.value;

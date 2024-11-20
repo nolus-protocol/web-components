@@ -16,6 +16,7 @@ export interface AdvancedCurrencyFieldProps {
   label?: string;
   balanceLabel?: string;
   calculatedBalance?: string;
+  hideBalance?: boolean;
   tooltip?: string;
   selectedCurrencyOption?: AdvancedCurrencyFieldOption;
   currencyOptions: AdvancedCurrencyFieldOption[];
