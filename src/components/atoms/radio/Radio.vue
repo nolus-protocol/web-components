@@ -1,22 +1,28 @@
 <template>
-  <div class="text-typography-default flex items-center gap-2 text-16 font-normal">
+  <div
+    class="flex items-center gap-2 text-16 font-normal text-typography-default"
+    @click="handleClick"
+  >
     <input
       :id="id"
+      ref="radioInput"
       :class="[inputClass]"
       :name="name"
-      class="border-border-dominant bg-secondary-default hover:bg-secondary-hover checked:border-primary-default checked:hover:border-primary-hover checked:bg-secondary-default nls-focus h-4 w-4 cursor-pointer appearance-none rounded-full border-[1px] checked:border-4"
+      class="nls-focus h-4 w-4 cursor-pointer appearance-none rounded-full border-[1px] border-border-dominant bg-secondary-default checked:border-4 checked:border-primary-default checked:bg-secondary-default hover:bg-secondary-hover checked:hover:border-primary-hover"
       type="radio"
     />
     <label
       :class="[labelClass]"
       :for="id"
       class="cursor-pointer"
-      >Checked state</label
+      >{{ label }}</label
     >
   </div>
 </template>
 
 <script lang="ts" setup>
+import { ref } from "vue";
+
 export interface CheckboxProps {
   id: string;
   label: string;
@@ -26,9 +32,16 @@ export interface CheckboxProps {
 }
 
 withDefaults(defineProps<CheckboxProps>(), {
-  label: "Connect Wallet",
-  id: "checkbox-1"
+  label: "Connect Wallet"
 });
+
+const radioInput = ref<HTMLElement | null>(null);
+
+const handleClick = () => {
+  if (radioInput.value) {
+    radioInput.value.click();
+  }
+};
 </script>
 
 <style lang="scss" scoped></style>

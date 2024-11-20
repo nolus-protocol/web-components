@@ -17,44 +17,71 @@
           @click="close"
         ></i>
       </div>
-      <div class="flex-1 px-6 pb-6">
-        <slot name="content" />
-      </div>
-      <div
-        v-if="$slots.footer"
-        class="border-t border-border-default p-6"
-      >
-        <slot name="footer" />
-      </div>
+      <template v-if="tabs?.length">
+        <div class="flex border-b border-t border-border-color">
+          <Radio
+            v-for="(tab, index) in tabs"
+            :id="`tab-${index}`"
+            :key="index"
+            ref="radioRefs"
+            :class="[{ 'border-l border-border-color': index > 0, 'bg-transparent': activeTabIdx === index }]"
+            :label="tab"
+            class="flex flex-1 cursor-pointer justify-center bg-neutral-bg-1 px-6 py-5 text-16 font-normal text-typography-default"
+            name="dialogTabsGroup"
+            @click="handleParentClick(index)"
+          />
+        </div>
+        <div class="flex-1 px-6 pb-6">
+          <slot :name="'tab-content-' + activeTabIdx" />
+        </div>
+      </template>
+      <template v-else>
+        <div class="flex-1 px-6 pb-6">
+          <slot name="content" />
+        </div>
+        <div
+          v-if="$slots.footer"
+          class="border-t border-border-default p-6"
+        >
+          <slot name="footer" />
+        </div>
+      </template>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { onMounted, onUnmounted, provide, ref } from "vue";
+import { Radio } from "@/components";
 
 const dialog = ref<HTMLDivElement>();
 const dialogChild = ref<HTMLDivElement>();
+const radioRefs = ref<InstanceType<typeof Radio>[]>([]);
 
-const props = defineProps({
-  title: {
-    type: String,
-    default: ""
-  },
-  showClose: {
-    type: Boolean,
-    default: false
-  }
+export interface DialogProps {
+  title: string;
+  tabs?: string[];
+  activeTabIndex: number;
+  showClose?: boolean;
+}
+
+const props = withDefaults(defineProps<DialogProps>(), {
+  activeTabIndex: 0
 });
 
 const emit = defineEmits(["close-dialog"]);
 const disable = ref(false);
+const activeTabIdx = ref(props.activeTabIndex);
 
 onMounted(() => {
   const element = dialog.value;
 
   if (element) {
     element.style.animation = "fadeInAnimation 200ms";
+  }
+
+  if (props.tabs) {
+    radioRefs.value[activeTabIdx.value].$el.querySelector('input[type="radio"]')?.click();
   }
 
   document.addEventListener("keyup", escapeClicked);
@@ -105,6 +132,14 @@ function close() {
 const handleClickOutside = (event: MouseEvent) => {
   if (event.target === dialog.value) {
     close();
+  }
+};
+
+const handleParentClick = (index: number) => {
+  const radioElement = radioRefs.value[index].$el.querySelector('input[type="radio"]');
+  if (radioElement) {
+    radioElement.click();
+    activeTabIdx.value = index;
   }
 };
 
