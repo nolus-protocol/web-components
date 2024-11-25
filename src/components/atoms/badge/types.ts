@@ -1,4 +1,4 @@
 export type IBadgeProps = {
-  base: boolean;
+  base?: boolean;
   content: string;
 };

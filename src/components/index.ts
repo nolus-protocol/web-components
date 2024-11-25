@@ -15,9 +15,7 @@ import Tooltip from "@/components/atoms/tooltip/Tooltip.vue";
 
 import AdvancedFormControl from "@/components/molecules/advanced-form-control/AdvancedFormControl.vue";
 import Alert from "@/components/molecules/alert/Alert.vue";
-import CurrencyField from "@/components/molecules/currency-field/CurrencyField.vue";
 import Dialog from "@/components/molecules/dialog/Dialog.vue";
-import MultilineCurrencyField from "@/components/molecules/multiline-currency-field/MultilineCurrencyField.vue";
 import Popover from "@/components/molecules/popover/Popover.vue";
 import Proposal from "@/components/molecules/proposal/Proposal.vue";
 import Slider from "@/components/molecules/slider/Slider.vue";
@@ -49,9 +47,7 @@ export {
   // molecules
   AdvancedFormControl,
   Alert,
-  CurrencyField,
   Dialog,
-  MultilineCurrencyField,
   Popover,
   Proposal,
   Slider,

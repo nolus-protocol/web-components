@@ -66,26 +66,6 @@
       @input="(e) => {}"
     />
 
-    <CurrencyField
-      id="test"
-      :balance="{ label: 'Test', value: '3123123', ticker: 'USDT' }"
-      :calculated-balance="'$0'"
-      :currency-options="options"
-      label="Test1"
-      placeholder="0"
-      @input="(value) => {}"
-      @on-selected-currency="(option) => {}"
-    />
-
-    <MultilineCurrencyField
-      id="multiline"
-      :balance="{ label: 'Test', value: '3123123', ticker: 'USDT' }"
-      :currency-options="options"
-      :on-swap="(e) => {}"
-      placeholder="0"
-      @on-first-change="(value) => {}"
-      @on-second-change="(value) => {}"
-    />
     <Proposal
       id="12"
       :status="ProposalStatus.PROPOSAL_STATUS_VOTING_PERIOD"
@@ -238,13 +218,11 @@ import {
   Alert,
   AssetItem,
   Button,
-  CurrencyField,
   Dialog,
   Dropdown,
   Input,
   Label,
   Lease,
-  MultilineCurrencyField,
   Popover,
   Proposal,
   Stepper,
