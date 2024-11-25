@@ -24,13 +24,14 @@
       />
       <div
         v-if="!item.button"
-        :class="[{ 'flex gap-4': item.image }]"
+        :class="[{ 'flex items-center gap-4': item.image }]"
       >
         <img
           v-if="item.image"
           :alt="item.value"
           :class="item.imageClass"
           :src="item.image"
+          class="h-8 w-8 object-contain"
         />
         <div
           :class="[{ 'justify-center': !item.subValue }]"

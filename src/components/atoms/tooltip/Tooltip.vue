@@ -12,7 +12,7 @@
       ref="tooltip"
       :class="[{ [`tooltip-cursor tooltip-cursor-${position}`]: position }]"
       :style="tooltipStyle"
-      class="rounded bg-neutral-bg-inverted-2 px-2 py-1 text-16 text-typography-inverted"
+      class="z-[9999] rounded bg-neutral-bg-inverted-2 px-2 py-1 text-16 text-typography-inverted"
     >
       {{ content }}
     </div>

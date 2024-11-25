@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col gap-2">
     <label
-      v-if="label"
+      v-if="label && !labelAdvanced"
       :for="id"
       class="flex items-center gap-1 text-16 font-semibold text-typography-default"
     >
@@ -18,6 +18,8 @@
     </label>
     <div class="flex items-center justify-between">
       <Dropdown
+        :id="id"
+        :class="{ hidden: labelAdvanced }"
         :disabled="disabledCurrencyPicker"
         :is-loading="isLoadingPicker"
         :on-select="onUpdateCurrency"
@@ -25,6 +27,22 @@
         :selected="selectedCurrencyOption"
         class="min-w-[135px]"
       />
+      <label
+        v-if="labelAdvanced"
+        :for="id"
+        class="flex items-center gap-1 text-16 font-semibold text-typography-default"
+      >
+        <slot name="label"></slot>
+        <Tooltip
+          v-if="tooltip && tooltip.length > 0"
+          :content="tooltip"
+        >
+          <span
+            class="mb-1 flex h-4 w-4 items-center justify-center rounded-full bg-icon-default text-10 text-typography-inverted"
+            >?</span
+          >
+        </Tooltip>
+      </label>
       <div
         v-if="!hideBalance"
         class="flex gap-2 text-14 font-normal text-typography-default"
@@ -82,7 +100,7 @@ const props = withDefaults(defineProps<AdvancedCurrencyFieldProps>(), {
 });
 
 const numberValue = ref(props.value);
-const selectedToken = ref<AdvancedCurrencyFieldOption | null>(null);
+const selectedToken = ref<AdvancedCurrencyFieldOption | undefined>(props.selectedCurrencyOption);
 
 onMounted(() => {
   setValue();

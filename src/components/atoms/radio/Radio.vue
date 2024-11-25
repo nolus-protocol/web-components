@@ -1,5 +1,6 @@
 <template>
   <div
+    :class="{ 'pointer-events-none': disabled }"
     class="flex items-center gap-2 text-16 font-normal text-typography-default"
     @click="handleClick"
   >
@@ -29,6 +30,7 @@ export interface CheckboxProps {
   name: string;
   labelClass?: string;
   inputClass?: string;
+  disabled?: boolean;
 }
 
 withDefaults(defineProps<CheckboxProps>(), {

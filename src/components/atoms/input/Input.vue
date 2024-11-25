@@ -26,13 +26,14 @@
       <input
         :id="`input-${id}`"
         v-model="inputValue"
-        :class="['field-input', 'w-full', 'px-[35px] pr-[25px] focus:px-[34px] focus:pr-[24px]', classes]"
+        :class="['field-input', 'w-full', 'px-[35px] pr-[25px] focus:px-[34px] focus:pr-[24px]', classes, inputClass]"
         :disabled="disabled"
+        :placeholder="placeholder"
         :type="type"
         @input="(e) => $emit('input', e)"
       />
       <i
-        v-if="inputValue?.length > 0"
+        v-if="inputValue"
         class="icon icon-close dark:text- absolute right-2 top-[50%] flex h-[18px] w-[18px] translate-y-[-50%] cursor-pointer items-center justify-center rounded-full bg-icon-default text-neutral-bg-2"
         @click="onSearchClear"
       />
@@ -41,8 +42,9 @@
       v-else
       :id="`input-${id}`"
       v-model="inputValue"
-      :class="['field-input', classes]"
+      :class="['field-input', classes, inputClass]"
       :disabled="disabled"
+      :placeholder="placeholder"
       :type="type"
       @input="(e) => $emit('input', e)"
     />
@@ -56,12 +58,12 @@ import { Size } from "@/shared/utils/types";
 import type { InputProps } from "./types";
 import { InputType } from "./types";
 
-// Create a ref for the input element
-const inputValue = ref("");
-
 const props = withDefaults(defineProps<InputProps>(), {
   size: Size.medium
 });
+
+// Create a ref for the input element
+const inputValue = ref(props.value);
 
 const classes = computed(() => ({
   "px-2 py-1 focus:px-[7px] focus:py-[3px]": props.size === Size.small,

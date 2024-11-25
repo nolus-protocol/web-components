@@ -14,6 +14,7 @@ export interface AdvancedCurrencyFieldProps {
   id: string;
   value?: string;
   label?: string;
+  labelAdvanced?: boolean;
   balanceLabel?: string;
   calculatedBalance?: string;
   hideBalance?: boolean;

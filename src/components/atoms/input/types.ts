@@ -12,8 +12,10 @@ export interface InputProps {
   size?: Size.small | Size.medium;
   label?: string;
   type: keyof typeof InputType;
-  value?: string | number;
+  inputClass?: string;
+  value?: string;
   error?: boolean;
   disabled?: boolean;
   valid?: boolean;
+  placeholder?: string;
 }

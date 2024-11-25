@@ -94,13 +94,13 @@ export default {
           100: "var(--color-background-100)",
           200: "var(--color-background-200)",
           300: "var(--color-background-300)",
-          "1": "var(--color-background-level-1)",
-          "2": "var(--color-background-level-2)",
-          "3": "var(--color-background-level-3)",
-          "4": "var(--color-background-level-4)",
+          1: "var(--color-background-level-1)",
+          2: "var(--color-background-level-2)",
+          3: "var(--color-background-level-3)",
+          4: "var(--color-background-level-4)",
           "inverted-2": "var(--color-background-level-inverted-2)",
           "inverted-1": "var(--color-background-level-inverted-1)",
-          "inverted-1/50": "var(--color-background-level-inverted-1-50)",
+          "inverted-1/50": "var(--color-background-level-inverted-1-50)"
         },
         typography: {
           default: "var(--color-typography-default)",
@@ -193,10 +193,10 @@ export default {
           50: "var(--color-typography-50)",
           100: "var(--color-typography-100)",
           200: "var(--color-typography-200)",
-          "link": "var(--color-typography-link)",
-          "error": "var(--color-typography-error)",
-          "success": "var(--color-typography-success)",
-          "brand": "var(--color-typography-brand)"
+          link: "var(--color-typography-link)",
+          error: "var(--color-typography-error)",
+          success: "var(--color-typography-success)",
+          brand: "var(--color-typography-brand)"
         },
         accent: "var(--color-brand-accent)",
         progress: {
@@ -211,7 +211,7 @@ export default {
         },
         dialogs: {
           swap: {
-            color: "var(--swap-confirmation-color)",
+            color: "var(--swap-confirmation-color)"
           }
         }
       }
@@ -236,7 +236,7 @@ export default {
       10: ["10px", "14px"],
       12: ["12px", "18px"],
       14: ["14px", "20px"],
-      16: ["16px", "24px"],
+      16: ["16px", "22px"],
       18: ["18px", "26px"],
       20: ["20px", "28px"],
       24: ["24px", "32px"],
