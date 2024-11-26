@@ -1,12 +1,12 @@
 <template>
   <div
     ref="dialog"
-    class="invisible absolute left-0 right-0 top-0 z-[9998] flex items-center justify-center bg-neutral-bg-inverted-1/50 opacity-0 md:fixed md:bottom-0"
+    class="invisible absolute left-0 right-0 top-0 z-[9998] flex min-h-dvh items-center justify-center bg-neutral-bg-inverted-1/50 opacity-0 md:fixed md:bottom-0"
     @keydown.esc="close"
   >
     <div
       ref="dialogChild"
-      class="flex min-h-screen w-full flex-col bg-neutral-bg-2 shadow-larger md:min-h-0 md:max-w-[512px] md:rounded-xl md:border md:border-border-default"
+      class="flex min-h-dvh w-full flex-col bg-neutral-bg-2 shadow-larger md:min-h-0 md:max-w-[512px] md:rounded-xl md:border md:border-border-default"
     >
       <div class="flex items-center justify-between p-6">
         <span class="text-2xl font-semibold text-typography-default">{{ title }}</span>
