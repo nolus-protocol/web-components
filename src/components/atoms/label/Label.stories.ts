@@ -1,6 +1,6 @@
 import Label from "./Label.vue";
 import type { Meta, StoryObj } from "@storybook/vue3";
-import { Variant } from "@/shared/utils/types";
+import { Variant } from "../../../shared/utils/types";
 
 const meta = {
   title: "Components/Atoms/Label",

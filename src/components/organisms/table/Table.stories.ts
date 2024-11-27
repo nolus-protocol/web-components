@@ -5,8 +5,8 @@ import Table from "./Table.vue";
 import TableRow from "./TableRow.vue";
 import Button from "../../atoms/button/Button.vue";
 import { TableProps, TableRowItemProps } from "./types";
-import Label from "../../atoms/label/Label.vue";
 import type { LabelProps } from "../../atoms/label/types";
+import { Label } from "../../index";
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories
 const meta = {

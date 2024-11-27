@@ -11,6 +11,7 @@ interface ProposalBase {
   id: string;
   title: string;
   summary: string;
+  summaryTitle: string;
   voted: boolean;
   readMoreButtonText: string;
 }

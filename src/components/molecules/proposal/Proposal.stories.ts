@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/vue3";
 
 import Proposal from "./Proposal.vue";
-import { ProposalStatus } from "@/components/molecules/proposal/types";
+import { ProposalStatus } from "./types";
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories
 const meta = {
@@ -12,6 +12,7 @@ const meta = {
   args: {
     id: "70",
     title: "Update Oracle Swap Tree (Astroport)",
+    summaryTitle: "Summary",
     summary:
       "This proposal aims to introduce several new assets to the Oracle swap tree of the Neutron axlUSDC protocol.swap tree of the Neutron axlUSDC protocol swap tree of the Neutron axlUSDC protocol.swap tree of the Neutron axlUSDC protocol",
     readMoreButtonText: "Read More",

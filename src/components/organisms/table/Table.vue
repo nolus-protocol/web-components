@@ -26,7 +26,10 @@
     </div>
     <slot></slot>
     <div class="flex flex-col">
-      <div :class="['flex border-b-[1px] border-border-color py-3', columnsClasses]">
+      <div
+        v-if="columns && columns.length > 0"
+        :class="['flex border-b-[1px] border-border-color py-3', columnsClasses]"
+      >
         <div
           v-for="column in columns"
           :key="column.label"

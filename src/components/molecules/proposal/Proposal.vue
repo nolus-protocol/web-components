@@ -1,118 +1,110 @@
 <template>
-  <div
-    class="shadow-lg flex w-full flex-col overflow-clip rounded-xl bg-neutral-bg-50 dark:border-[1px] dark:border-border-color"
-  >
-    <div class="mb-5 flex items-start justify-between gap-2.5 p-5 pb-0">
+  <Widget class="!gap-0 !p-0">
+    <div class="flex flex-col gap-y-6 p-6 pb-4">
+      <div class="flex flex-col gap-y-3">
+        <div class="text-20 font-semibold text-neutral-bg-inverted-1">&#35;{{ id }} {{ title }}</div>
+        <Label
+          :variant="variant.type as LabelProps['variant']"
+          class="flex items-center gap-1"
+        >
+          <SvgIcon
+            :class="variant.class"
+            :name="variant.icon"
+            size="xs"
+          />
+          <span>{{ variant.status }}</span>
+        </Label>
+      </div>
+      <hr class="border-border-color" />
       <div
-        class="basis-4/5 overflow-hidden break-words text-xl font-medium tracking-tight text-neutral-900 md:text-2xl dark:text-white"
+        v-if="isVotingPeriod"
+        class="flex flex-col gap-y-3"
       >
-        &#35;{{ id }} {{ title }}
+        <div class="flex gap-3">
+          <div>
+            <span class="block text-14">Turnout</span>
+            <span class="text-16 font-semibold text-typography-default">{{ turnout }}</span>
+          </div>
+          <div>
+            <span class="block text-14">Quorum</span>
+            <span class="text-16 font-semibold text-typography-default">{{ quorum }}</span>
+          </div>
+          <div>
+            <span class="block text-14">Voting ends</span>
+            <span class="text-16 font-semibold text-typography-default">{{ voting_end_time }}</span>
+          </div>
+        </div>
+
+        <ProposalVotingLine
+          v-if="isVotingPeriod && tally && Object.values(tally).filter((res) => !!Number(res)).length > 0"
+          :voting="tally"
+        />
       </div>
       <div
-        :class="{ [color.bg_parent]: color }"
-        class="flex items-center gap-2 rounded-md px-3 py-1"
+        v-if="summary"
+        class="flex flex-1 flex-col gap-y-2 text-typography-default"
       >
+        <span class="text-18 font-semibold text-neutral-bg-inverted-1">{{ summaryTitle }}</span>
         <div
-          :class="{ [color.bg]: color }"
-          class="h-2.5 w-2.5 rounded-full"
-        />
-        <div
-          :class="{ [color.text]: color }"
-          class="text-sm font-medium"
+          class="prose prose-h1:mb-2 prose-h1:text-lg prose-h1:font-medium prose-h2:my-1 prose-h2:text-lg prose-h2:font-medium text-16 font-normal"
         >
-          {{ ProposalStatus[status]?.split("_")[2] }}
+          {{ summary }}
         </div>
       </div>
     </div>
     <div
-      v-if="isVotingPeriod"
-      class="mb- mb-5 flex flex-col gap-y-4 border-b border-t px-5 py-4"
+      v-if="(summary && summary.length > 156) || isVotingPeriod"
+      class="flex justify-center rounded-b-xl border-t border-border-color bg-neutral-bg-1 p-3"
     >
-      <div class="flex flex-col items-center justify-between gap-2 md:flex-row md:gap-0 dark:text-white">
-        <div class="flex gap-4">
-          <div>
-            <span class="block text-sm">Turnout:</span> <span class="text-base font-medium">{{ turnout }}</span>
-          </div>
-          <div>
-            <span class="block text-sm">Quorum:</span> <span class="text-base font-medium">{{ quorum }}</span>
-          </div>
-          <div>
-            <span class="block text-sm">Voting ends:</span>
-            <span class="text-base font-medium">{{ voting_end_time }}</span>
-          </div>
-        </div>
-      </div>
-
-      <ProposalVotingLine
-        v-if="isVotingPeriod && tally && Object.values(tally).filter((res) => !!Number(res)).length > 0"
-        :voting="tally"
+      <Button
+        v-if="summary && summary.length > 156 && !isVotingPeriod"
+        :label="readMoreButtonText"
+        class="w-full"
+        severity="tertiary"
+        size="medium"
+        @click="$emit('vote', { id })"
+      />
+      <Button
+        v-if="isVotingPeriod"
+        :label="voteButtonText"
+        class="w-full"
+        severity="tertiary"
+        size="medium"
+        @click="$emit('vote', { id })"
       />
     </div>
-    <div
-      v-if="summary"
-      class="flex-1 px-5 text-neutral-900 dark:text-white"
-    >
-      <div
-        class="prose prose-h1:mb-2 prose-h1:text-lg prose-h1:font-medium prose-h2:my-1 prose-h2:text-lg prose-h2:font-medium"
-      >
-        {{ summary }}
-      </div>
-    </div>
-    <div
-      v-if="summary || isVotingPeriod"
-      :class="[{ 'border-t': summary && summary.length > 156 }]"
-      class="mt-5"
-    >
-      <button
-        v-if="summary && summary.length > 156"
-        class="flex w-full items-center justify-center bg-neutral-50 p-3 text-sm font-medium transition-colors hover:bg-neutral-100 hover:text-neutral-800"
-        @click="$emit('read-more', { title, summary })"
-      >
-        {{ readMoreButtonText }}
-        <ChevronRightSmallIcon
-          aria-hidden="true"
-          class="h-5 w-5"
-        />
-      </button>
-      <button
-        v-if="isVotingPeriod"
-        class="flex w-full items-center justify-center bg-primary-50 p-3 text-sm font-medium text-white hover:bg-primary-100 active:bg-primary-200"
-        @click="$emit('vote', { id })"
-      >
-        {{ voteButtonText }}
-      </button>
-    </div>
-  </div>
+  </Widget>
 </template>
 
 <script lang="ts" setup>
 import { computed } from "vue";
 import { type ProposalEmits, ProposalStatus, type ProposalType } from "./types";
+import type { LabelProps } from "@/components/atoms/label/types";
 
 import ProposalVotingLine from "./ProposalVotingLine.vue";
-import ChevronRightSmallIcon from "@/assets/icons/chevron-right-small.svg";
+import { Button, Label, SvgIcon, Widget } from "@/components";
 
 const props = defineProps<ProposalType>();
 
-const color = computed(() => {
-  switch (props.status) {
-    case ProposalStatus.PROPOSAL_STATUS_PASSED:
-      return { bg_parent: "bg-green-500/15", bg: "bg-green-500", text: "text-green-500" };
-    case ProposalStatus.PROPOSAL_STATUS_REJECTED || ProposalStatus.PROPOSAL_STATUS_FAILED:
-      return { bg_parent: "bg-blue-500/15", bg: "bg-blue-500", text: "text-blue-500" };
-    case ProposalStatus.PROPOSAL_STATUS_VOTING_PERIOD: {
-      if (props.voted) {
-        return { bg_parent: "", bg: "bg-dark-500", text: "text-dark-500" };
-      }
-      return { bg_parent: "bg-orange-400/15", bg: "bg-orange-400", text: "text-orange-400" };
-    }
-    default:
-      return { bg_parent: "bg-neutral-500/15", bg: "bg-neutral-800", text: "text-neutral-800" };
-  }
-});
-
 const isVotingPeriod = computed(() => {
   return props.status === ProposalStatus.PROPOSAL_STATUS_VOTING_PERIOD;
+});
+
+const variant = computed(() => {
+  let status = ProposalStatus[props.status]?.split("_")[2].toLowerCase();
+  status = status.charAt(0).toUpperCase() + status.slice(1);
+
+  switch (props.status) {
+    case ProposalStatus.PROPOSAL_STATUS_PASSED:
+      return { status, icon: "check", class: "!fill-success-emphasized", type: "success" };
+    case ProposalStatus.PROPOSAL_STATUS_REJECTED:
+    case ProposalStatus.PROPOSAL_STATUS_FAILED:
+      return { status, icon: "close", class: "!fill-error-emphasized", type: "error" };
+    case ProposalStatus.PROPOSAL_STATUS_VOTING_PERIOD:
+      return { status, icon: "hourglass", class: "!fill-warning-emphasized", type: "warning" };
+    default:
+      return { status, icon: "info", class: "!fill-icon-emphasized", type: "info" };
+  }
 });
 
 defineEmits<ProposalEmits>();

@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/vue3";
 
 import AdvancedFormControl from "./AdvancedFormControl.vue";
-import { iconsExternalUrl } from "@/shared/utils/types";
+import { iconsExternalUrl } from "../../../shared/utils/types";
 
 const meta = {
   title: "Components/Molecules/AdvancedFormControl",
