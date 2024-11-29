@@ -18,6 +18,7 @@ import Alert from "@/components/molecules/alert/Alert.vue";
 import Dialog from "@/components/molecules/dialog/Dialog.vue";
 import Popover from "@/components/molecules/popover/Popover.vue";
 import Proposal from "@/components/molecules/proposal/Proposal.vue";
+import ProposalVotingLine from "@/components/molecules/proposal/ProposalVotingLine.vue";
 import Slider from "@/components/molecules/slider/Slider.vue";
 import Stepper from "@/components/molecules/stepper/Stepper.vue";
 import Toast from "@/components/molecules/toast/Toast.vue";
@@ -50,6 +51,7 @@ export {
   Dialog,
   Popover,
   Proposal,
+  ProposalVotingLine,
   Slider,
   Stepper,
   Toast,

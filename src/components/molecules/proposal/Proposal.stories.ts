@@ -12,7 +12,6 @@ const meta = {
   args: {
     id: "70",
     title: "Update Oracle Swap Tree (Astroport)",
-    summaryTitle: "Summary",
     summary:
       "This proposal aims to introduce several new assets to the Oracle swap tree of the Neutron axlUSDC protocol.swap tree of the Neutron axlUSDC protocol swap tree of the Neutron axlUSDC protocol.swap tree of the Neutron axlUSDC protocol",
     readMoreButtonText: "Read More",

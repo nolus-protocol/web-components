@@ -41,15 +41,15 @@
         />
       </div>
       <div
-        v-if="summary"
-        class="flex flex-1 flex-col gap-y-2 text-typography-default"
+        v-if="isHtml(summary)"
+        class="prose prose-h1:mb-2 prose-h1:text-lg prose-h1:font-medium prose-h2:my-1 prose-h2:text-lg prose-h2:font-medium text-16 font-normal"
+        v-html="summary"
+      ></div>
+      <div
+        v-else
+        class="prose prose-h1:mb-2 prose-h1:text-lg prose-h1:font-medium prose-h2:my-1 prose-h2:text-lg prose-h2:font-medium text-16 font-normal"
       >
-        <span class="text-18 font-semibold text-neutral-bg-inverted-1">{{ summaryTitle }}</span>
-        <div
-          class="prose prose-h1:mb-2 prose-h1:text-lg prose-h1:font-medium prose-h2:my-1 prose-h2:text-lg prose-h2:font-medium text-16 font-normal"
-        >
-          {{ summary }}
-        </div>
+        {{ summary }}
       </div>
     </div>
     <div
@@ -62,7 +62,7 @@
         class="w-full"
         severity="tertiary"
         size="medium"
-        @click="$emit('vote', { id })"
+        @click="$emit('actionButton', props)"
       />
       <Button
         v-if="isVotingPeriod"
@@ -70,7 +70,7 @@
         class="w-full"
         severity="tertiary"
         size="medium"
-        @click="$emit('vote', { id })"
+        @click="$emit('actionButton', props)"
       />
     </div>
   </Widget>
@@ -106,6 +106,11 @@ const variant = computed(() => {
       return { status, icon: "info", class: "!fill-icon-emphasized", type: "info" };
   }
 });
+
+const isHtml = (str: string) => {
+  const doc = new DOMParser().parseFromString(str, "text/html");
+  return Array.from(doc.body.childNodes).some((node) => node.nodeType === 1);
+};
 
 defineEmits<ProposalEmits>();
 </script>

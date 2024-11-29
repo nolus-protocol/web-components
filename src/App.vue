@@ -74,12 +74,11 @@
       quorum="60%"
       read-more-button-text="Read more"
       summary="This proposal aims to introduce several new assets to the Oracle swap tree of the Neutron axlUSDC protocol. Neutron axlUSDC protocol. Neutron axlUSDC protoc..."
-      summary-title="Summary"
       title="Test"
       turnout="75%"
       voteButtonText="Vote now"
       voting_end_time="24-05-2024"
-      @vote="(e) => {}"
+      @actionButton="(e) => {}"
     />
 
     <Table :columns="columns">

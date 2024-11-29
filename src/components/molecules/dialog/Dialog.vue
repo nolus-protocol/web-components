@@ -1,7 +1,7 @@
 <template>
   <div
     ref="dialog"
-    class="invisible absolute left-0 right-0 top-0 z-[9998] flex min-h-dvh items-center justify-center bg-neutral-bg-inverted-1/50 opacity-0 md:fixed md:bottom-0"
+    class="invisible fixed left-0 right-0 top-0 z-[9998] flex min-h-dvh items-center justify-center bg-neutral-bg-inverted-1/50 opacity-0 md:fixed md:bottom-0"
     @keydown.esc="close"
   >
     <div

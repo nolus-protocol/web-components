@@ -11,7 +11,6 @@ interface ProposalBase {
   id: string;
   title: string;
   summary: string;
-  summaryTitle: string;
   voted: boolean;
   readMoreButtonText: string;
 }
@@ -44,6 +43,5 @@ export interface FinalTallyResult {
 }
 
 export interface ProposalEmits {
-  (e: "vote", data: { id: string }): void;
-  (e: "read-more", data: { title: string; summary: string }): void;
+  (e: "actionButton", data: ProposalType): void;
 }
