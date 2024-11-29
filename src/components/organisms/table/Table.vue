@@ -25,7 +25,7 @@
       <div v-if="filterable">TODO add filter here</div>
     </div>
     <slot></slot>
-    <div class="flex flex-col">
+    <div :class="['flex flex-col', tableClasses]">
       <div
         v-if="columns && columns.length > 0"
         :class="['flex border-b-[1px] border-border-color py-3', columnsClasses]"
