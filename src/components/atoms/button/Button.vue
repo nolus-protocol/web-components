@@ -50,9 +50,9 @@ const emit = defineEmits<{
 }>();
 
 const classes = computed(() => ({
-  "px-3 py-1 rounded-full text-12": props.size === Size.small,
-  "px-4 py-2 rounded-full text-14": props.size === Size.medium,
-  "px-6 py-2 rounded-full text-14": props.size === Size.large,
+  "px-3 py-1 rounded-full text-12 min-h-8": props.size === Size.small,
+  "px-4 py-2 rounded-full text-14 min-h-10": props.size === Size.medium,
+  "px-6 py-2 rounded-full text-14 min-h-11": props.size === Size.large,
 
   "button-loading": props.loading
 }));
