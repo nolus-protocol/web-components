@@ -73,7 +73,10 @@
         {{ calculatedBalance }}
       </span>
     </div>
-    <div class="items-start justify-between text-14 text-typography-error">
+    <div
+      v-if="errorMsg"
+      class="items-start justify-between text-14 text-typography-error"
+    >
       <span class="msg error"> &nbsp;{{ errorMsg }} </span>
     </div>
   </div>
