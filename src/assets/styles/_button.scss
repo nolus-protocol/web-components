@@ -17,8 +17,8 @@
 
   &-tertiary {
     @apply text-typography-default border-[1px] border-transparent shadow-transparent;
-    @apply hover:border-border-default hover:shadow-medium hover:bg-secondary-hover;
-    @apply active:bg-secondary-active active:border-border-emphasized;
+    @apply hover:bg-secondary-hover;
+    @apply active:bg-secondary-active;
   }
 
   &-danger {
