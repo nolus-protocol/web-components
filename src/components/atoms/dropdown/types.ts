@@ -12,6 +12,7 @@ export interface DropdownProps {
   size?: Size.small | Size.medium;
   dropdownLabel?: string;
   dropdownPosition?: "left" | "right";
+  dropdownClassName?: string;
   searchable?: boolean;
   label?: string;
   hideText?: boolean;
