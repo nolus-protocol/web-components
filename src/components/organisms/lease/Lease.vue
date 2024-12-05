@@ -252,7 +252,7 @@
       <template v-if="showHistory">
         <div class="mt-2 flex flex-row justify-between">
           <div class="uppercase text-neutral-400">{{ lease_history.actionText }}</div>
-          <div class="uppercase text-neutral-400">{{ lease_history.hideText }}</div>
+          <div class="uppercase text-neutral-400">{{ lease_history.timeText }}</div>
         </div>
         <template v-for="item of lease_history.items">
           <div class="mt-2 flex flex-row justify-between">
