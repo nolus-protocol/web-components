@@ -67,7 +67,7 @@ export interface CurrencyFieldBalance {
   ticker: string;
 }
 
-interface CurrencyFieldOption extends DropdownOption {
+export interface CurrencyFieldOption extends DropdownOption {
   price?: string;
 }
 

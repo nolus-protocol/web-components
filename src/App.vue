@@ -268,6 +268,18 @@ const leaseProps: LeaseProps = {
     },
     value: "#daeqw21e"
   },
+  lease_history: {
+    showText: "showText",
+    hideText: "hideText",
+    actionText: "actionText",
+    timeText: "timeText",
+    items: [
+      {
+        action: "Liquidate 189,819.904143 OSMO",
+        time: "2 hours ago"
+      }
+    ]
+  },
   title: { value: "Buy position" },
   share: {
     label: "Share Position"
