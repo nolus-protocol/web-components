@@ -41,6 +41,16 @@ export type LeaseProgressBarProps = { title: string; value: string[] | LeaseOpen
 
 export interface LeaseProps {
   title: { value: string; class?: string };
+  lease_history: {
+    showText: string;
+    hideText: string;
+    actionText: string;
+    timeText: string;
+    items: {
+      time: string;
+      action: string;
+    }[];
+  };
   history: {
     click?: () => void;
     value: string;

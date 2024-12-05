@@ -17,6 +17,18 @@ const meta = {
       value: "$00.00",
       status: LeasePnlStatus.NEUTRAL
     },
+    lease_history: {
+      showText: "showText",
+      hideText: "hideText",
+      actionText: "actionText",
+      timeText: "timeText",
+      items: [
+        {
+          action: "Liquidate 189,819.904143 OSMO",
+          time: "2 hours ago"
+        }
+      ]
+    },
     tabs: [
       { button: { icon: "icon-stats" }, content: "Some content 1" },
       { button: { icon: "icon-lease-1" }, content: "Some content 2" }

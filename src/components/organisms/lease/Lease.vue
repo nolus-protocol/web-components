@@ -239,6 +239,29 @@
         }"
       />
     </div>
+    <div v-if="lease_history.items.length > 0">
+      <hr class="my-4 border-border-color" />
+      <div class="mt-5 flex justify-center">
+        <button
+          class="font-[500] normal-case text-primary-50"
+          @click="showHistory = !showHistory"
+        >
+          {{ showHistory ? lease_history.hideText : lease_history.showText }}
+        </button>
+      </div>
+      <template v-if="showHistory">
+        <div class="mt-2 flex flex-row justify-between">
+          <div class="uppercase text-neutral-400">{{ lease_history.actionText }}</div>
+          <div class="uppercase text-neutral-400">{{ lease_history.hideText }}</div>
+        </div>
+        <template v-for="item of lease_history.items">
+          <div class="mt-2 flex flex-row justify-between">
+            <div class="text-neutral-typography-600 text-16 font-[500]">{{ item.action }}</div>
+            <div class="text-14 text-neutral-400">{{ item.time }}</div>
+          </div>
+        </template>
+      </template>
+    </div>
   </div>
 </template>
 
@@ -253,6 +276,7 @@ import ArrowDown from "@/shared/components/arrow-down.vue";
 import { type LeaseEmits, LeaseOpeningBarStatuses, LeasePnlStatus, type LeaseProps, LeaseStatus } from "./types";
 
 const selectedTab = ref(0);
+const showHistory = ref(false);
 
 onMounted(() => {
   if (props.tabs.length > 0) {
