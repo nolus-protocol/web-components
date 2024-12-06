@@ -257,7 +257,7 @@
         <template v-for="item of lease_history.items">
           <div class="mt-2 flex flex-row justify-between text-12">
             <div class="font-[500] text-neutral-typography-200">{{ item.action }}</div>
-            <div class="text-14 text-neutral-400">{{ item.time }}</div>
+            <div class="text-neutral-400">{{ item.time }}</div>
           </div>
         </template>
       </template>
