@@ -102,8 +102,7 @@ export default {
           50: "var(--color-primary-50)",
           "50/10": "#2868e11a",
           100: "var(--color-primary-100)",
-          200: "var(--color-primary-200)",
-          300: "var(--color-primary-300)"
+          200: "var(--color-primary-200)"
         },
         danger: {
           50: "var(--color-danger-50)",
