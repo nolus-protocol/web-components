@@ -2,14 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
-@import "styles/fonts";
-@import "styles/icons";
-@import "styles/root";
-@import "styles/custom";
-@import "styles/variables";
-@import "styles/button";
-@import "styles/inputs";
-@import "styles/tables";
+@use "styles/fonts";
+@use "styles/icons";
+@use "styles/root";
+@use "styles/custom";
+@use "styles/variables";
+@use "styles/button";
+@use "styles/inputs";
+@use "styles/tables";
 
 html,
 body {
