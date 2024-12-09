@@ -78,7 +78,10 @@ onMounted(() => {
   }
 
   if (props.tabs) {
-    radioRefs.value[activeTabIdx.value].$el.querySelector('input[type="radio"]')?.click();
+    const el = radioRefs.value[activeTabIdx.value].$el.querySelector('input[type="radio"]') as HTMLElement;
+    if (el) {
+      el!.click();
+    }
   }
 
   document.addEventListener("keyup", escapeClicked);
@@ -133,7 +136,7 @@ const handleClickOutside = (event: MouseEvent) => {
 };
 
 const handleParentClick = (index: number) => {
-  const radioElement = radioRefs.value[index].$el.querySelector('input[type="radio"]');
+  const radioElement = radioRefs.value[index].$el.querySelector('input[type="radio"]') as HTMLElement;
   if (radioElement) {
     radioElement.click();
     activeTabIdx.value = index;

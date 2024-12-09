@@ -1,12 +1,12 @@
+@use "fonts";
+@use "icons";
+@use "root";
+@use "custom";
+@use "variables";
+@use "button";
+@use "inputs";
+@use "tables";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-@import "fonts";
-@import "icons";
-@import "root";
-@import "custom";
-@import "variables";
-@import "button";
-@import "inputs";
-@import "tables";
