@@ -39,7 +39,7 @@
         >
           <div
             :class="[
-              'flex justify-end text-typography-default',
+              'flex justify-end',
               { '!justify-start': item.variant === 'left' },
               { '!justify-center': item.variant === 'center' }
             ]"

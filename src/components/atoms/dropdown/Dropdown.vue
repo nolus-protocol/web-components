@@ -126,7 +126,7 @@
 </template>
 
 <script generic="T extends DropdownOption" lang="ts" setup>
-import { computed, ref, Transition, watch } from "vue";
+import { computed, ref, watch } from "vue";
 import type { DropdownOption, DropdownProps } from "./types";
 import Spinner from "../spinner/Spinner.vue";
 import { Size } from "@/shared/utils/types";
@@ -161,7 +161,7 @@ const classes = computed(() => ({
   "px-2 py-1 focus:px-[7px] focus:py-[3px]": props.size === Size.small,
   "px-3 py-2 focus:px-[11px] focus:py-[7px]": props.size === Size.medium,
 
-  "border-primary-50": isOpen,
+  "border-primary-50": isOpen.value,
   "!border-danger-100": props.error
 }));
 

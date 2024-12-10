@@ -35,9 +35,9 @@
         <slot :name="'tab-content-' + activeTabIdx" />
       </template>
       <template v-else>
-        <div class="flex-1 px-6 pb-6">
-          <slot name="content" />
-        </div>
+        <!--        <div class="flex-1 px-6 pb-6">-->
+        <slot name="content" />
+        <!--        </div>-->
         <div
           v-if="$slots.footer"
           class="border-t border-border-default p-6"
