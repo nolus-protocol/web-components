@@ -71,7 +71,7 @@
           <div
             v-if="item.subValue"
             :class="[
-              'flex flex-1 text-12',
+              'flex flex-1 text-12 font-normal',
               { '!justify-end': item.variant === 'right' },
               { '!justify-center': item.variant === 'center' }
             ]"
