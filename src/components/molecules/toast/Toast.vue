@@ -2,23 +2,24 @@
   <div
     v-if="showToast"
     :class="[classes]"
-    class="relative flex items-center justify-between rounded-xl p-3 text-typography-inverted"
+    class="relative flex items-center justify-between rounded-xl p-3 text-white"
   >
-    <div class="flex items-center gap-2 text-14 font-normal text-typography-inverted">
-      <i class="icon icon-success cursor-pointer text-[18px] leading-none text-typography-inverted"></i>
+    <div class="flex items-center gap-2 text-14 font-normal text-white">
+      <i class="icon icon-success cursor-pointer text-[18px] leading-none text-white"></i>
       <slot></slot>
     </div>
     <div class="flex items-center gap-3">
       <Button
-        class="!text-typography-inverted hover:!text-typography-default"
+        class="!text-white hover:!text-typography-default"
         label="Undo"
         severity="tertiary"
         size="small"
         v-bind="undoBtnProps"
+        v-if="undoBtnProps"
         @click="onUndoClick"
       />
       <i
-        class="icon icon-close cursor-pointer text-[18px] leading-none text-typography-inverted"
+        class="icon icon-close cursor-pointer text-[18px] leading-none text-white"
         @click="onCloseAlert"
       ></i>
     </div>
