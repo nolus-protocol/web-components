@@ -9,6 +9,10 @@ export interface TableProps {
   inputSearch?: InputProps;
   size?: string;
   toggle?: ToggleProps;
+  hideValues?: {
+    text: string;
+    value: boolean;
+  };
   filterable?: boolean;
   filters?: {};
   columns?: TableColumnProps[];

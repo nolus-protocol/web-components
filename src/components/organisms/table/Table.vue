@@ -20,7 +20,17 @@
         <Toggle
           v-if="toggle"
           v-bind="toggle"
+          v-model="toggle.value"
+          @input="onChangeToggle"
         />
+        <button
+          v-if="hideValues"
+          class="flex gap-2"
+          @click="onClick"
+        >
+          <SvgIcon name="eye-open" />
+          <span class="text-14 font-medium">{{ hideValues.text }}</span>
+        </button>
       </div>
       <div v-if="filterable">TODO add filter here</div>
     </div>
@@ -70,10 +80,23 @@ import { Input, SvgIcon, Toggle, Tooltip } from "@/components";
 import { type TableProps } from "./types";
 import { computed } from "vue";
 
+function onClick() {
+  props.hideValues!.value = !props.hideValues!.value;
+  emit("hideValue", props.hideValues!.value);
+}
+
+function onChangeToggle(data: boolean) {
+  emit("togleValue", data);
+}
+
 const props = withDefaults(defineProps<TableProps>(), {});
+const emit = defineEmits<{
+  (e: "hideValue", value: boolean | undefined): void;
+  (e: "togleValue", value: boolean | undefined): void;
+}>();
 
 const showAttributes = computed(() => {
-  return props.searchable || props.size || props.toggle;
+  return props.searchable || props.size || props.toggle || props.hideValues;
 });
 </script>
 

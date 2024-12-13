@@ -20,23 +20,23 @@
     <span
       :class="[
         {
-          'bg-primary-default border-primary-default hover:bg-primary-hover hover:border-primary-hover': model
+          'border-primary-default bg-primary-default hover:border-primary-hover hover:bg-primary-hover': model
         }
       ]"
-      class="border-border-dominant block h-6 w-10 rounded-full border-[1px] px-[3px] py-1 transition-all duration-200 ease-in-out"
+      class="block h-6 w-10 rounded-full border-[1px] border-border-dominant px-[3px] py-1 transition-all duration-200 ease-in-out"
     >
       <span
         :class="[
           {
-            'bg-static-light translate-x-[79%]': model
+            'translate-x-[79%] bg-static-light': model
           }
         ]"
-        class="bg-border-dominant absolute top-[50%] h-[18px] w-[18px] translate-y-[-50%] rounded-full transition-all duration-200 ease-in-out"
+        class="absolute top-[50%] h-[18px] w-[18px] translate-y-[-50%] rounded-full bg-border-dominant transition-all duration-200 ease-in-out"
       ></span>
     </span>
     <span
       v-if="label"
-      class="text-typography-default text-16"
+      class="text-16 text-typography-default"
       >{{ label }}</span
     >
   </label>
@@ -63,6 +63,6 @@ const emit = defineEmits<{
 
 <style lang="scss" scoped>
 input:focus-visible + span {
-  @apply focus-visible:outline-primary-hover focus-visible:outline focus-visible:outline-offset-1 active:outline-none;
+  @apply focus-visible:outline focus-visible:outline-offset-1 focus-visible:outline-primary-hover active:outline-none;
 }
 </style>

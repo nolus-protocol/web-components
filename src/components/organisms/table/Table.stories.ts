@@ -37,7 +37,11 @@ export const History: StoryObj<typeof meta> = {
     },
     components: { Table, TableRow },
     template: `
-      <Table v-bind="args">
+      <Table v-bind="args"
+          @hide-value="
+            (data) => {
+              console.info(data);
+          }">
         <template v-slot:body>
           <TableRow
             v-for="(row, index) in args.historyData"
@@ -53,8 +57,11 @@ export const History: StoryObj<typeof meta> = {
     columnsClasses: "hidden md:flex",
     searchable: true,
     size: "123 asstes",
+    hideValues: { text: "Toggle values", value: false },
     toggle: {
-      label: "Show small balances"
+      label: "Show small balances",
+      id: "1",
+      value: true
     },
     historyData: Array.from({ length: 10 }).map((n, i) => ({
       items: [

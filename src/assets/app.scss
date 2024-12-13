@@ -1,7 +1,3 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
 @use "styles/fonts";
 @use "styles/icons";
 @use "styles/root";
@@ -11,13 +7,17 @@
 @use "styles/inputs";
 @use "styles/tables";
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 html,
 body {
   width: 100%;
   height: 100%;
 
   & {
-    scrollbar-color: #5664794C transparent;
+    scrollbar-color: #5664794c transparent;
   }
 
   //&::-webkit-scrollbar-track {
@@ -40,7 +40,9 @@ body {
 html {
   @apply bg-neutral-bg-1;
 
-  &.dark { @apply bg-neutral-bg-1; }
+  &.dark {
+    @apply bg-neutral-bg-1;
+  }
   &.sync {
     @media (prefers-color-scheme: dark) {
       @apply bg-neutral-bg-1;
