@@ -1,13 +1,13 @@
 <template>
   <div class="flex items-center gap-4">
     <img
-      alt="Cosmos"
-      class="h-8 w-8 object-contain"
       :src="icon"
+      alt=""
+      class="h-8 w-8 object-contain"
     />
     <div class="flex flex-col">
-      <div class="flex !justify-start justify-end">{{ amount }}</div>
-      <div class="flex flex-1 text-12 font-normal">{{ stableAmount }}</div>
+      <div class="text-16 font-semibold">{{ amount }}</div>
+      <div class="text-12 font-normal">{{ stableAmount }}</div>
     </div>
   </div>
 </template>
