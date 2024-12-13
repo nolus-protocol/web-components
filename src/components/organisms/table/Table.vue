@@ -91,8 +91,8 @@ function onChangeToggle(data: boolean) {
 
 const props = withDefaults(defineProps<TableProps>(), {});
 const emit = defineEmits<{
-  (e: "hideValue", value: boolean | undefined): void;
-  (e: "togleValue", value: boolean | undefined): void;
+  (e: "hideValue", value: boolean): void;
+  (e: "togleValue", value: boolean): void;
 }>();
 
 const showAttributes = computed(() => {

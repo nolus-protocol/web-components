@@ -9,6 +9,7 @@ export * from "@/components/atoms/label/types";
 export * from "@/components/atoms/svg-icon/types";
 export * from "@/components/atoms/toggle/types";
 export * from "@/components/atoms/tooltip/types";
+export * from "@/components/atoms/asset/types";
 
 export * from "@/components/molecules/advanced-form-control/types";
 export * from "@/components/molecules/alert/types";

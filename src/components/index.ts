@@ -1,3 +1,4 @@
+import Asset from "@/components/atoms/asset/Asset.vue";
 import AssetItem from "@/components/atoms/asset-list-item/AssetItem.vue";
 import Badge from "@/components/atoms/badge/Badge.vue";
 import HelpText from "@/components/atoms/help-text/HelpText.vue";
@@ -44,7 +45,7 @@ export {
   SvgIcon,
   Toggle,
   Tooltip,
-
+  Asset,
   // molecules
   AdvancedFormControl,
   Alert,
