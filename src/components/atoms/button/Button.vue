@@ -4,7 +4,6 @@
     :disabled="disabled"
     :style="style"
     type="button"
-    @click="onClick"
   >
     <SvgIcon
       v-if="icon && iconPosition === 'left'"
@@ -45,10 +44,6 @@ import type { ButtonProps } from "@/components/atoms/button/types";
 
 const props = defineProps<ButtonProps>();
 
-const emit = defineEmits<{
-  (e: "click"): void;
-}>();
-
 const classes = computed(() => ({
   "px-3 py-1 rounded-full text-12 min-h-8": props.size === Size.small,
   "px-4 py-2 rounded-full text-14 min-h-10": props.size === Size.medium,
@@ -66,8 +61,4 @@ const iconSize = computed(() => {
 });
 
 const style = computed(() => ({}));
-
-const onClick = () => {
-  emit("click");
-};
 </script>

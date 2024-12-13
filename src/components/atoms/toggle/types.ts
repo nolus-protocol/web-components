@@ -1,5 +1,5 @@
 export interface ToggleProps {
-  id: string;
+  id?: string;
   label?: string;
   value?: boolean;
   disabled?: boolean;
