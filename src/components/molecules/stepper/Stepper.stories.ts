@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/vue3";
 
 import Stepper from "./Stepper.vue";
 import { StepperVariant } from "./types";
-import { iconsExternalUrl } from "@/shared/utils/types";
+import { iconsExternalUrl } from "../../../shared/utils/types";
 import { h } from "vue";
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories

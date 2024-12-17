@@ -10,12 +10,14 @@
   <Teleport to="body">
     <div
       ref="tooltip"
-      :class="[{ [`tooltip-cursor tooltip-cursor-${position}`]: position }]"
+      :class="[
+        'z-[9999] rounded bg-neutral-bg-inverted-2 px-2 py-1 text-xs text-typography-inverted',
+        { [`tooltip-cursor tooltip-cursor-${position}`]: position },
+        $attrs.class
+      ]"
       :style="tooltipStyle"
-      class="z-[9999] rounded bg-neutral-bg-inverted-2 px-2 py-1 text-16 text-typography-inverted"
-    >
-      {{ content }}
-    </div>
+      v-html="content"
+    ></div>
   </Teleport>
 </template>
 

@@ -5,27 +5,30 @@
     :style="style"
     type="button"
   >
-    <SvgIcon
-      v-if="icon && iconPosition === 'left'"
-      :default-color="false"
-      :name="icon"
-      :size="iconSize"
-    />
-    {{ label }}
-    <SvgIcon
-      v-if="icon && iconPosition === 'right'"
-      :default-color="false"
-      :name="icon"
-      :size="iconSize"
-    />
+    <template v-if="!$slots.default">
+      <SvgIcon
+        v-if="icon && iconPosition === 'left'"
+        :default-color="false"
+        :name="icon"
+        :size="iconSize"
+      />
+      {{ label }}
+      <SvgIcon
+        v-if="icon && iconPosition === 'right'"
+        :default-color="false"
+        :name="icon"
+        :size="iconSize"
+      />
 
-    <SvgIcon
-      v-if="icon && !iconPosition"
-      :default-color="false"
-      :name="icon"
-      :size="iconSize"
-      class="flex"
-    />
+      <SvgIcon
+        v-if="icon && !iconPosition"
+        :default-color="false"
+        :name="icon"
+        :size="iconSize"
+        class="flex"
+      />
+    </template>
+    <template v-else><slot></slot></template>
     <span
       v-if="loading"
       class="absolute mx-auto my-0"
