@@ -1,0 +1,14 @@
+.nolus-container {
+    @apply bg-[#171C25] flex flex-col w-full justify-center items-center h-full gap-16;
+    font-family: "Garet", sans-serif !important;
+}
+
+#nolus-title {
+    @apply text-5xl text-white font-semibold;
+    font-family: "Garet", sans-serif !important;
+}
+
+#nolus-button {
+    @apply text-xl px-6 py-2 rounded-full bg-[#1E242F] text-white hover:bg-[#2A2F3A] transition-colors font-semibold;
+    font-family: "Garet", sans-serif !important;
+}

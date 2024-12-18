@@ -1,10 +1,8 @@
 <template>
   <div class="flex w-full flex-col border-[1px] border-border-color bg-neutral-bg-50 p-6 px-4 lg:rounded-xl lg:px-6">
     <div class="flex items-center justify-between">
-      <div class="flex items-center gap-2 text-12 font-[600] uppercase text-neutral-400">
-        <span :class="title.class">
-          {{ title.value }}
-        </span>
+      <div class="flex gap-2 text-12 font-[600] uppercase text-neutral-400">
+        {{ title }}
         <div
           :class="[{ 'cursor-pointer': history?.click }]"
           class="normal-case text-primary-50"
@@ -85,15 +83,15 @@
             <div class="flex h-full items-center justify-between gap-1">
               <div
                 :class="[{ '!bg-danger-100': +progressBar.value > 80 }]"
-                class="h-[10px] w-[24px] rounded bg-progress-color lg:w-[35px]"
+                class="bg-progress-color h-[10px] w-[24px] rounded lg:w-[35px]"
               ></div>
               <div
                 :class="[{ '!bg-warning-100': +progressBar.value > 65 && +progressBar.value <= 80 }]"
-                class="h-[10px] w-[24px] rounded bg-progress-color lg:w-[35px]"
+                class="bg-progress-color h-[10px] w-[24px] rounded lg:w-[35px]"
               ></div>
               <div
                 :class="[{ '!bg-success-100': +progressBar.value <= 65 }]"
-                class="h-[10px] w-[24px] rounded bg-progress-color lg:w-[35px]"
+                class="bg-progress-color h-[10px] w-[24px] rounded lg:w-[35px]"
               ></div>
             </div>
           </template>
@@ -104,7 +102,7 @@
                 v-for="(val, index) in progressBar.value"
                 :key="index"
                 :class="[
-                  'h-[10px] w-[24px] rounded bg-progress-color lg:w-[35px]',
+                  'bg-progress-color h-[10px] w-[24px] rounded lg:w-[35px]',
                   {
                     'pulse !bg-primary-50': val === LeaseOpeningBarStatuses.CURRENT,
                     '!bg-primary-50': val === LeaseOpeningBarStatuses.READY
@@ -166,7 +164,7 @@
         </template>
         <div
           v-if="interest || interestDue"
-          class="flex gap-8 rounded-md border-border-color lg:border-[1px] lg:p-3 dark:border-border-color"
+          class="flex gap-8 rounded-md border-[1px] border-border-color p-3 dark:border-border-color"
         >
           <template
             v-for="(item, index) in [interest, interestDue]"
@@ -239,29 +237,6 @@
         }"
       />
     </div>
-    <div v-if="lease_history.items.length > 0">
-      <hr class="my-4 border-border-color" />
-      <div class="mt-5 flex justify-center">
-        <button
-          class="text-12 font-[500] normal-case text-primary-50"
-          @click="showHistory = !showHistory"
-        >
-          {{ showHistory ? lease_history.hideText : lease_history.showText }}
-        </button>
-      </div>
-      <template v-if="showHistory">
-        <div class="mt-2 flex flex-row justify-between text-12">
-          <div class="uppercase text-neutral-400">{{ lease_history.actionText }}</div>
-          <div class="uppercase text-neutral-400">{{ lease_history.timeText }}</div>
-        </div>
-        <template v-for="item of lease_history.items">
-          <div class="mt-2 flex flex-row justify-between text-12">
-            <div class="font-[500] text-neutral-typography-200">{{ item.action }}</div>
-            <div class="font-[500] text-neutral-400">{{ item.time }}</div>
-          </div>
-        </template>
-      </template>
-    </div>
   </div>
 </template>
 
@@ -276,7 +251,6 @@ import ArrowDown from "@/shared/components/arrow-down.vue";
 import { type LeaseEmits, LeaseOpeningBarStatuses, LeasePnlStatus, type LeaseProps, LeaseStatus } from "./types";
 
 const selectedTab = ref(0);
-const showHistory = ref(false);
 
 onMounted(() => {
   if (props.tabs.length > 0) {
@@ -311,6 +285,6 @@ defineEmits<LeaseEmits>();
 }
 
 .box {
-  @apply h-[10px] w-[24px] rounded bg-progress-color lg:w-[35px];
+  @apply bg-progress-color h-[10px] w-[24px] rounded lg:w-[35px];
 }
 </style>

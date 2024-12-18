@@ -1,34 +1,66 @@
 <template>
-  <div
-    class="flex w-full flex-col gap-6 border-[1px] border-border-color bg-neutral-bg-50 p-6 shadow-field-normal md:rounded-xl"
-  >
-    <div
-      v-if="title || $slots.header"
-      :class="[{ 'items-center justify-between': $slots.header && title, 'justify-end': $slots.header && !title }]"
-      class="flex text-16 font-medium leading-none text-neutral-typography-200"
-    >
-      {{ title }}
-
-      <div v-if="$slots.header">
-        <slot name="header"></slot>
+  <div class="flex flex-col gap-y-6">
+    <div v-if="showAttributes || filterable">
+      <div
+        v-if="showAttributes"
+        class="flex items-center gap-2"
+      >
+        <Input
+          v-if="searchable"
+          id="dropdown-search"
+          class="flex-1"
+          type="search"
+          v-bind="inputSearch"
+        />
+        <span
+          v-if="size"
+          class="text-14 font-normal"
+          >{{ size }}</span
+        >
+        <Toggle
+          v-if="toggle"
+          v-bind="toggle"
+          v-model="toggle.value"
+          @input="onChangeToggle"
+        />
+        <button
+          v-if="hideValues"
+          class="flex gap-2"
+          @click="onClick"
+        >
+          <SvgIcon name="eye-open" />
+          <span class="text-14 font-medium">{{ hideValues.text }}</span>
+        </button>
       </div>
+      <div v-if="filterable">TODO add filter here</div>
     </div>
-    <div class="flex flex-col [&>*:last-child]:border-none">
-      <div :class="['flex border-b-[1px] border-border-color pb-2.5', columnsClasses]">
+    <slot></slot>
+    <div :class="['flex flex-col', tableClasses]">
+      <div
+        v-if="columns && columns.length > 0"
+        :class="['flex border-b-[1px] border-border-color py-3', columnsClasses]"
+      >
         <div
-          v-for="(column, index) in columns"
+          v-for="column in columns"
           :key="column.label"
           :class="[
-            'flex flex-1 items-center gap-0.5 text-12 font-medium uppercase text-neutral-400',
-            { 'justify-end': columns && index > 0 },
-            column.class
+            'flex flex-1 items-center justify-end gap-0.5 text-14 font-normal text-typography-default',
+            column.class,
+            { '!justify-start': column.variant === 'left' },
+            { '!justify-center': column.variant === 'center' }
           ]"
         >
           {{ column.label }}
           <Tooltip
-            v-if="column.tooltip && column.tooltip.length > 0"
-            :content="column.tooltip"
-            class="text-[23px]"
+            v-if="column.tooltip"
+            v-bind="column.tooltip"
+          >
+            <SvgIcon name="help" />
+          </Tooltip>
+          <SvgIcon
+            v-if="column.sortable"
+            class="cursor-pointer"
+            name="arrow"
           />
         </div>
       </div>
@@ -44,16 +76,28 @@
 </template>
 
 <script lang="ts" setup>
-import { Tooltip } from "@/components";
+import { Input, SvgIcon, Toggle, Tooltip } from "@/components";
+import { type TableProps } from "./types";
+import { computed } from "vue";
 
-const props = defineProps<{
-  title?: string;
-  columns?: {
-    label: string;
-    class?: string;
-    tooltip?: string;
-  }[];
-  columnsClasses?: string;
-  footerClasses?: string;
+function onClick() {
+  props.hideValues!.value = !props.hideValues!.value;
+  emit("hideValue", props.hideValues!.value);
+}
+
+function onChangeToggle(data: boolean) {
+  emit("togleValue", data);
+}
+
+const props = withDefaults(defineProps<TableProps>(), {});
+const emit = defineEmits<{
+  (e: "hideValue", value: boolean): void;
+  (e: "togleValue", value: boolean): void;
 }>();
+
+const showAttributes = computed(() => {
+  return props.searchable || props.size || props.toggle || props.hideValues;
+});
 </script>
+
+<style lang="scss" scoped></style>

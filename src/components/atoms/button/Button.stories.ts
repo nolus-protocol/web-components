@@ -8,8 +8,8 @@ const meta = {
   title: "Components/Atoms/Button",
   component: Button,
   argTypes: {
-    severity: { control: "select", options: ["primary", "secondary"] },
-    size: { control: "select", options: ["small", "medium", "large"] },
+    severity: { control: "select", options: [Type.primary, Type.danger, Type.tertiary, Type.secondary] },
+    size: { control: "select", options: [Size.small, Size.medium, Size.large] },
     iconPosition: { control: "select", options: ["left", "right"] },
     onClick: { action: "clicked" }
   },
@@ -39,12 +39,23 @@ export const Secondary: Story = {
   }
 };
 
+export const Tertiary: Story = {
+  args: {
+    severity: "tertiary"
+  }
+};
+
+export const Danger: Story = {
+  args: {
+    severity: "danger"
+  }
+};
+
 export const Medium: Story = {
   args: {
     size: "medium"
   }
 };
-
 export const Small: Story = {
   args: {
     size: "small"
@@ -54,8 +65,16 @@ export const Small: Story = {
 export const WithIcon: Story = {
   args: {
     ...Primary.args,
-    icon: "icon-hub",
+    icon: "arrow-up",
     iconPosition: "left"
+  }
+};
+
+export const Icon: Story = {
+  args: {
+    ...Primary.args,
+    label: "",
+    icon: "arrow-up"
   }
 };
 

@@ -12,22 +12,10 @@ const meta = {
     history: {
       value: "#dsaj3252"
     },
-    title: { value: "Buy position" },
+    title: "Buy position",
     pnl: {
       value: "$00.00",
       status: LeasePnlStatus.NEUTRAL
-    },
-    lease_history: {
-      showText: "showText",
-      hideText: "hideText",
-      actionText: "actionText",
-      timeText: "timeText",
-      items: [
-        {
-          action: "Liquidate 189,819.904143 OSMO",
-          time: "2 hours ago"
-        }
-      ]
     },
     tabs: [
       { button: { icon: "icon-stats" }, content: "Some content 1" },

@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/vue3";
 
 import Proposal from "./Proposal.vue";
-import { ProposalStatus } from "@/components/molecules/proposal/types";
+import { ProposalStatus } from "./types";
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories
 const meta = {

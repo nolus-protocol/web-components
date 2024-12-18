@@ -4,25 +4,54 @@
       label="test"
       severity="primary"
       size="large"
-      @click="
-        () => {
-          console.info('dsadsadasdadsada');
-        }
-      "
+      @click="() => {}"
     />
-    <NotificationButton />
-    <Close class="" />
-    <Dropdown
-      :on-select="onSelect"
-      :options="options"
+    <Toggle
+      id="nolus-toggle"
+      @input="(value) => {}"
     />
+    <Label
+      value="Label"
+      variant="secondary"
+    />
+    <Button
+      label="test"
+      severity="secondary"
+      size="large"
+      @click="() => {}"
+    />
+    <Alert
+      :on-close="() => {}"
+      :show-close="true"
+      :type="AlertType.warning"
+    >
+      <template v-slot:content>
+        <span>Alert content</span>
+      </template>
+    </Alert>
+
+    <Tooltip
+      content="150%"
+      position="bottom"
+    >
+      <div>Hover me</div>
+    </Tooltip>
+    <Alert
+      :on-close="() => {}"
+      :show-close="true"
+      :type="AlertType.error"
+    >
+      <template v-slot:content>
+        <span>Alert content</span>
+      </template>
+    </Alert>
     <Dropdown
-      :on-select="
-        (option) => {
-          console.info(option);
-        }
-      "
-      :options="options"
+      :item-template="(item: any) => h<AssetItemProps>(AssetItem, { name: item.label, ...item })"
+      :items-headline="['Asset', 'Your balance']"
+      :on-select="(data) => {}"
+      :options="options2"
+      dropdown-label="Select token"
+      searchable
     />
     <Button
       label="Secondary button"
@@ -32,54 +61,11 @@
 
     <Input
       id="test-input"
-      :on-change="
-        (e) => {
-          console.info((e.target as HTMLInputElement).value);
-        }
-      "
+      label="Test Input"
       type="text"
+      @input="(e) => {}"
     />
 
-    <CurrencyField
-      id="test"
-      :balance="{ label: 'Test', value: '3123123', ticker: 'USDT' }"
-      :calculated-balance="'$0'"
-      :currency-options="options"
-      label="Test1"
-      placeholder="0"
-      @input="
-        (value) => {
-          console.info(value);
-        }
-      "
-      @on-selected-currency="
-        (option) => {
-          console.info(option);
-        }
-      "
-    />
-
-    <MultilineCurrencyField
-      id="multiline"
-      :balance="{ label: 'Test', value: '3123123', ticker: 'USDT' }"
-      :currency-options="options"
-      :on-swap="
-        (e) => {
-          console.info('swap', e);
-        }
-      "
-      placeholder="0"
-      @on-first-change="
-        (value) => {
-          console.info(value);
-        }
-      "
-      @on-second-change="
-        (value) => {
-          console.info(value);
-        }
-      "
-    />
     <Proposal
       id="12"
       :status="ProposalStatus.PROPOSAL_STATUS_VOTING_PERIOD"
@@ -92,21 +78,12 @@
       turnout="75%"
       voteButtonText="Vote now"
       voting_end_time="24-05-2024"
-      @vote="
-        (e) => {
-          console.info(e);
-        }
-      "
+      @actionButton="(e) => {}"
     />
 
-    <Table
-      :columns="columns"
-      class="p-4 md:p-6"
-      columnsClasses="hidden md:flex"
-      title="History"
-    >
+    <Table :columns="columns">
       <template v-slot:body>
-        <HistoryTableRow
+        <TableRow
           v-for="(row, index) in historyData"
           :key="index"
           :items="row.items"
@@ -114,116 +91,264 @@
       </template>
     </Table>
 
-    <Table
-      :columns="assetsColumns"
-      class="p-4 md:p-6"
-      footerClasses="flex justify-center"
-      title="Assets"
-    >
-      <template v-slot:header>Search or button</template>
+    <Table :columns="assetsColumns">
       <template v-slot:body>
-        <EarningAssetsTableRow
+        <TableRow
           v-for="(row, index) in assetsData"
           :key="index"
           :items="row.items"
           :rowButton="row.rowButton"
-          @button-click="
-            (data) => {
-              console.info(data);
-            }
-          "
+          @button-click="(data) => {}"
         />
       </template>
-
-      <template v-slot:footer
-        ><Button
-          label="Show Small Balances"
-          severity="secondary"
-          size="medium"
-          @click="
-            () => {
-              console.info('dsadsadasdadsada');
-            }
-          "
-      /></template>
     </Table>
 
     <Lease
       v-bind="leaseProps"
-      @on-collect="
-        (data) => {
-          console.info(data);
+      @on-collect="(data) => {}"
+    />
+
+    <Stepper
+      :active-step="1"
+      :steps="[
+        { label: 'Step 1', icon: `${iconsExternalUrl}/osmosis-nls.svg` },
+        { label: 'Step 1', icon: `${iconsExternalUrl}/osmosis-nls.svg`, approval: true },
+        { label: 'Step 1', icon: `${iconsExternalUrl}/osmosis-nls.svg` }
+      ]"
+      :variant="StepperVariant.SMALL"
+    />
+    <Stepper
+      :active-step="1"
+      :steps="[
+        {
+          label: 'Transfer',
+          icon: `${iconsExternalUrl}/osmosis-nls.svg`,
+          token: { balance: 100, symbol: 'NLS' },
+          meta: () => h('div', `Osmosis > Nolus (#ac34aadf) Nolus`)
+        },
+        {
+          label: 'Transfer',
+          icon: `${iconsExternalUrl}/osmosis-atom.svg`,
+          token: { balance: 100, symbol: 'NLS' }
+        },
+        { label: 'Transfer', icon: `${iconsExternalUrl}/osmosis-atom.svg`, token: { balance: 100, symbol: 'NLS' } }
+      ]"
+      :variant="StepperVariant.MEDIUM"
+    />
+
+    <Button
+      ref="popoverParent"
+      class="h-10 w-10 rounded-full !p-0"
+      icon="icon-bell text-[20px]"
+      severity="secondary"
+      size="small"
+      @click="
+        () => {
+          isOpen = !isOpen;
         }
       "
+    ></Button>
+
+    <Popover
+      v-if="isOpen"
+      :parent="popoverParent"
+      position="top-left"
+      title="Test"
+      @close="
+        () => {
+          isOpen = !isOpen;
+        }
+      "
+    >
+      <template #footer>
+        <Button
+          label="Close"
+          severity="secondary"
+          size="small"
+          @click="
+            () => {
+              isOpen = !isOpen;
+            }
+          "
+        ></Button>
+      </template>
+    </Popover>
+
+    <Button
+      label="Show Dialog"
+      severity="secondary"
+      size="large"
+      @click="
+        () => {
+          dialogRef?.show();
+        }
+      "
+    ></Button>
+
+    <Dialog
+      ref="dialogRef"
+      title="Test"
+    >
+      <template #content>
+        <p class="text-typography-default">Child Component</p>
+      </template>
+      <template #footer>
+        <Button
+          label="Close"
+          severity="secondary"
+          size="small"
+          @click="
+            () => {
+              dialogRef?.close();
+            }
+          "
+        ></Button>
+      </template>
+    </Dialog>
+
+    <SvgIcon
+      class="fill-icon-error"
+      name="slider"
     />
   </div>
 </template>
 
 <script lang="ts" setup>
 import {
+  Alert,
+  AssetItem,
   Button,
-  Close,
-  CurrencyField,
+  Dialog,
   Dropdown,
-  EarningAssetsTableRow,
-  HistoryTableRow,
   Input,
+  Label,
   Lease,
-  MultilineCurrencyField,
-  NotificationButton,
+  Popover,
   Proposal,
-  Table
+  Stepper,
+  SvgIcon,
+  Table,
+  TableRow,
+  Toggle,
+  Tooltip
 } from "@/components";
 import {
-  type EarningAssetsTableRowItemProps,
-  type HistoryTableRowItemProps,
+  AlertType,
+  type AssetItemProps,
+  type DropdownOption,
+  type LabelProps,
   LeasePnlStatus,
   type LeaseProps,
   LeaseStatus,
-  ProposalStatus
+  ProposalStatus,
+  StepperVariant
 } from "./components/types";
+import { h, onMounted, ref } from "vue";
+import { iconsExternalUrl } from "@/shared/utils/types";
+import type { TableColumnProps, TableRowItemProps } from "@/components/organisms/table/types";
 
-const columns = [
-  { label: "Tx hash" },
-  { label: "Action", tooltip: "Action tooltip" },
-  { label: "Fee" },
-  { label: "Time" }
+const isOpen = ref(false);
+const popoverParent = ref<HTMLElement>();
+const dialogRef = ref<typeof Dialog | null>(null);
+
+onMounted(() => {
+  console.info({ popoverParent });
+});
+
+const columns: TableColumnProps[] = [
+  { label: "Transaction", variant: "left" },
+  { label: "Category" },
+  { label: "Time" },
+  { label: "Status" }
 ];
 
-const assetsColumns = [
-  { label: "Asset" },
-  { label: "balance", class: "hidden md:flex" },
-  { label: "yield", tooltip: "Yield tooltip" },
-  { label: "lease up to", tooltip: "Lease up to tooltip" },
-  { label: "receive/send", class: "hidden md:flex" }
-];
-
-const historyData: HistoryTableRowItemProps[] = [
+const historyData: TableRowItemProps[] = [
   {
     items: [
-      { value: "0x123", url: "https://google.com" },
-      { value: "Swap", bold: true },
-      { value: "0.0001" },
-      { value: "12:00" }
+      {
+        value: `Collect tokens from lease position nolus1...kwjklf`,
+        url: "https://google.com",
+        variant: "left",
+        class: "font-semibold"
+      },
+      { value: `Leases` },
+      { value: `15m ago` },
+      { component: h<LabelProps>(Label, { value: "Complete", variant: "success" }) }
     ]
   }
 ];
 
-const assetsData: EarningAssetsTableRowItemProps[] = [
+const assetsColumns: TableColumnProps[] = [
+  { label: "Asset", variant: "left" },
+  { label: "Price" },
+  { label: "Balance" },
+  { label: "Yield", tooltip: { position: "top", content: "Yield tooltip" } }
+];
+
+const assetsData: TableRowItemProps[] = [
   {
     items: [
       {
-        value: "BTC",
-        subValue: "$29,836.42",
+        value: "Cosmos",
+        subValue: "ATOM",
         image:
-          "https://raw.githubusercontent.com/nolus-protocol/webapp/main/src/config/currencies/icons/neutron-usdc.svg"
+          "https://raw.githubusercontent.com/nolus-protocol/webapp/main/src/config/currencies/icons/neutron-usdc.svg",
+        variant: "left"
       },
-      { value: "32,430.22", subValue: "$222,000.00", class: "hidden md:flex" },
-      { value: "-" },
-      { value: "32,430.22" },
-      { value: "" }
+      { value: "$43.23" },
+      { value: "5.123", subValue: "$42.32" },
+      { value: "5.96%", subValue: "+15.00% NLS", class: "text-typography-success" }
     ],
     rowButton: { label: "Deposit" }
+  }
+];
+
+interface OptionsProps extends DropdownOption {
+  abbreviation: string;
+  balance: string;
+  price: string;
+}
+
+const options2: OptionsProps[] = [
+  {
+    value: "nolus",
+    label: "Nolus",
+    abbreviation: "NLS",
+    icon: `${iconsExternalUrl}/osmosis-nls.svg`,
+    balance: "1.234",
+    price: "$123"
+  },
+  {
+    value: "osmosis",
+    abbreviation: "OSMO",
+    label: "Osmosis",
+    icon: `${iconsExternalUrl}/osmosis-osmo.svg`,
+    balance: "1.234",
+    price: "$123"
+  },
+  {
+    value: "cosmos",
+    abbreviation: "ATOM",
+    label: "Cosmos",
+    icon: `${iconsExternalUrl}/osmosis-atom.svg`,
+    balance: "1.234",
+    price: "$123"
+  },
+  {
+    value: "stOSMO",
+    abbreviation: "stOSMO",
+    label: "Stride Staked Osmo",
+    icon: `${iconsExternalUrl}/osmosis-stosmo.svg`,
+    balance: "1.234",
+    price: "$123"
+  },
+  {
+    value: "stATOM",
+    abbreviation: "stATOM",
+    label: "Stride Staked Atom",
+    icon: `${iconsExternalUrl}/osmosis-statom.svg`,
+    balance: "1.234",
+    price: "$123"
   }
 ];
 
@@ -254,12 +379,11 @@ const options = [
     label: "Strawberry",
     icon: "https://raw.githubusercontent.com/nolus-protocol/webapp/main/src/config/currencies/icons/osmosis-usdc.svg"
   },
+  { value: "watermelon", label: "Watermelon" },
+  { value: "watermelon", label: "Watermelon" },
+  { value: "watermelon", label: "Watermelon" },
   { value: "watermelon", label: "Watermelon" }
 ];
-
-const onSelect = (option: any) => {
-  console.info(option);
-};
 
 const leaseProps: LeaseProps = {
   history: {
@@ -268,19 +392,7 @@ const leaseProps: LeaseProps = {
     },
     value: "#daeqw21e"
   },
-  lease_history: {
-    showText: "showText",
-    hideText: "hideText",
-    actionText: "actionText",
-    timeText: "timeText",
-    items: [
-      {
-        action: "Liquidate 189,819.904143 OSMO",
-        time: "2 hours ago"
-      }
-    ]
-  },
-  title: { value: "Buy position" },
+  title: "Buy position",
   share: {
     label: "Share Position"
   },

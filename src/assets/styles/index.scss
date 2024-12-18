@@ -1,26 +1,12 @@
+@use "fonts";
+@use "icons";
+@use "root";
+@use "custom";
+@use "variables";
+@use "button";
+@use "inputs";
+@use "tables";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-@import "fonts";
-@import "icons";
-@import "root";
-@import "variables";
-@import "button";
-@import "inputs";
-@import "tables";
-
-html,
-body {
-  width: 100%;
-  height: 100%;
-}
-
-html {
-  background: var(--color-background-300);
-
-  &.dark,
-  &.sync {
-      background: #07162c;
-  }
-}

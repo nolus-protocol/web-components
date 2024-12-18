@@ -6,7 +6,12 @@ import Tooltip from "./Tooltip.vue";
 const meta = {
   title: "Components/Atoms/Tooltip",
   component: Tooltip,
-  argTypes: {},
+  argTypes: {
+    position: {
+      control: "select",
+      options: ["top", "bottom", "left", "right"]
+    }
+  },
   args: {}, // default value
   parameters: {
     layout: "centered"
@@ -21,9 +26,22 @@ type Story = StoryObj<typeof meta>;
  * See https://storybook.js.org/docs/api/csf
  * to learn how to use render functions.
  */
-export const Primary: Story = {
+export const Default: Story = {
+  render: (args) => ({
+    data() {
+      return { args };
+    },
+    components: { Tooltip },
+    template: `
+        <div class="flex gap-10">
+          <Tooltip v-bind="args">
+            <div>Hover me</div>
+          </Tooltip>
+        </div>
+    `
+  }),
   args: {
-    content: "This is a tooltip",
-    class: "text-32"
+    content: "150%",
+    position: "top"
   }
 };

@@ -87,42 +87,120 @@ export default {
           900: "#581e10",
           950: "#341109"
         },
+
+        // new
         "neutral-bg": {
           50: "var(--color-background-50)",
           100: "var(--color-background-100)",
           200: "var(--color-background-200)",
-          300: "var(--color-background-300)"
+          300: "var(--color-background-300)",
+          1: "var(--color-background-level-1)",
+          2: "var(--color-background-level-2)",
+          3: "var(--color-background-level-3)",
+          4: "var(--color-background-level-4)",
+          "inverted-2": "var(--color-background-level-inverted-2)",
+          "inverted-1": "var(--color-background-level-inverted-1)",
+          "inverted-1/50": "var(--color-background-level-inverted-1-50)"
         },
-        "neutral-typography": {
-          50: "var(--color-typography-50)",
-          100: "var(--color-typography-100)",
-          200: "var(--color-typography-200)"
+        typography: {
+          default: "var(--color-typography-default)",
+          secondary: "var(--color-typography-secondary)",
+          disabled: "var(--color-typography-disabled)",
+          success: "var(--color-typography-success)",
+          warning: "var(--color-typography-warning)",
+          error: "var(--color-typography-error)",
+          "error-heavy": "var(--color-typography-error-heavy)",
+          link: "var(--color-typography-link)",
+          brand: "var(--color-typography-brand)",
+          inverted: "var(--color-inverted)",
+          "static-light": "var(--color-static-light)",
+          "static-dark": "var(--color-static-dark)"
+        },
+        icon: {
+          default: "var(--color-icon-default)",
+          secondary: "var(--color-icon-secondary)",
+          disabled: "var(--color-icon-disabled)",
+          link: "var(--color-icon-link)",
+          error: "var(--color-icon-error)",
+          success: "var(--color-icon-success)",
+          brand: "var(--color-icon-brand)",
+          inverted: "var(--color-inverted)",
+          "static-light": "var(--color-static-light)",
+          "static-dark": "var(--color-static-dark)"
         },
         primary: {
           50: "var(--color-primary-50)",
-          "50/10": "#2868e11a",
+          "50/10": "rgba(193, 202, 215, 0.35)",
           100: "var(--color-primary-100)",
-          200: "var(--color-primary-200)"
+          200: "var(--color-primary-200)",
+          default: "var(--color-primary-default)",
+          hover: "var(--color-primary-hover)",
+          active: "var(--color-primary-active)"
+        },
+        secondary: {
+          default: "var(--color-secondary-default)",
+          hover: "var(--color-secondary-hover)",
+          active: "var(--color-secondary-active)"
         },
         danger: {
           50: "var(--color-danger-50)",
-          100: "var(--color-danger-100)"
+          100: "var(--color-danger-100)",
+          default: "var(--color-danger-default)",
+          hover: "var(--color-danger-hover)",
+          active: "var(--color-danger-active)"
         },
+        disabled: "var(--color-disabled)",
+        "static-light": "var(--color-static-light)",
+        "info-muted": "var(--color-info-muted)",
         success: {
           50: "var(--color-success-50)",
-          100: "var(--color-success-100)"
+          100: "var(--color-success-100)",
+          muted: "var(--color-success-muted)",
+          emphasized: "var(--color-success-emphasized)"
         },
         warning: {
           50: "var(--color-warning-50)",
-          100: "var(--color-warning-100)"
+          100: "var(--color-warning-100)",
+          muted: "var(--color-warning-muted)",
+          emphasized: "var(--color-warning-emphasized)"
+        },
+        error: {
+          muted: "var(--color-error-muted)",
+          emphasized: "var(--color-error-emphasized)"
+        },
+        logo: "var(--color-logo)",
+        scrollbar: "var(--color-scrollbar)",
+        border: {
+          color: "var(--border-color)",
+          "hover-color": "var(--border-color-emphasized)",
+          muted: "var(--color-border-muted)",
+          default: "var(--color-border-default)",
+          emphasized: "var(--color-border-emphasized)",
+          dominant: "var(--color-border-dominant)",
+          focus: "var(--color-border-focus)",
+          success: "var(--color-border-success)",
+          error: "var(--color-border-error)",
+          warning: "var(--color-border-warning)"
+        },
+        shadow: {
+          default: "var(--color-shadow-default)",
+          light: "var(--color-shadow-light)",
+          lighter: "var(--color-shadow-lighter)"
+        },
+
+        // old
+        "neutral-typography": {
+          50: "var(--color-typography-50)",
+          100: "var(--color-typography-100)",
+          200: "var(--color-typography-200)",
+          link: "var(--color-typography-link)",
+          error: "var(--color-typography-error)",
+          success: "var(--color-typography-success)",
+          brand: "var(--color-typography-brand)"
         },
         accent: "var(--color-brand-accent)",
         progress: {
           color: "var(--color-progress)"
-        },
-        border: {
-          color: "var(--border-color)",
-          "hover-color": "var(--border-hover-color)"
         },
         spinner: {
           color: "var(--spinner-color)",
@@ -133,9 +211,7 @@ export default {
         },
         dialogs: {
           swap: {
-            color: "var(--swap-confirmation-color)",
-            inactive: "var(--swap-header-inactive-color)",
-            stroke: "var(--swap-header-stroke)"
+            color: "var(--swap-confirmation-color)"
           }
         }
       }
@@ -158,11 +234,12 @@ export default {
       "8xl": ["6rem", { lineHeight: "1" }],
       "9xl": ["8rem", { lineHeight: "1" }],
       10: ["10px", "14px"],
-      12: ["12px", "normal"],
-      14: ["14px", "normal"],
-      16: ["16px", "23px"],
+      12: ["12px", "18px"],
+      14: ["14px", "20px"],
+      16: ["16px", "22px"],
       18: ["18px", "26px"],
-      20: ["20px", "29px"],
+      20: ["20px", "28px"],
+      24: ["24px", "32px"],
       28: ["28px", "46px"],
       32: ["32px", "46px"],
       40: ["40px", "58px"],
@@ -175,6 +252,9 @@ export default {
       "50%": "15%"
     },
     boxShadow: {
+      small: "0px 1px 2px 0px var(--color-shadow-default)",
+      medium: "0px 4px 6px -1px var(--color-shadow-default), 0px 2px 4px -2px var(--color-shadow-default)",
+      larger: "0px 12px 20px 0px var(--color-shadow-light), 0px 2px 4px 0px var(--color-shadow-lighter)",
       dialog: "0 8px 48px #072d6326",
       "field-heavy": "0px 8px 48px 0px rgba(7, 45, 99, 0.15)",
       "field-normal": "0px 12px 32px 0px rgba(7, 45, 99, 0.06)"

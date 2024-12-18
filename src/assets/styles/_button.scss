@@ -1,45 +1,39 @@
 .button {
-  @apply flex items-center justify-center gap-1;
+  @apply flex items-center justify-center gap-1 shadow-medium transition duration-150 ease-out;
+  @apply disabled:bg-disabled disabled:text-typography-disabled disabled:border-none disabled:hover:bg-disabled disabled:shadow-transparent;
+  @apply focus-visible:outline focus-visible:outline-offset-1 focus-visible:outline-primary-hover active:outline-none;
 
   &-primary {
-    @apply bg-primary-50 text-white hover:bg-primary-100 active:bg-primary-200 disabled:bg-neutral-100 disabled:text-neutral-typography-50 disabled:border-neutral-100;
-
-    &-loading {
-      @apply pointer-events-none bg-neutral-100 text-neutral-100 #{!important};
-    }
+    @apply bg-primary-default text-static-light;
+    @apply hover:bg-primary-hover;
+    @apply active:bg-primary-active;
   }
 
   &-secondary {
-    @apply border-[1px] border-border-color text-neutral-typography-200 bg-neutral-bg-50 dark:hover:border-neutral-typography-100 dark:active:bg-neutral-bg-50 hover:bg-hover-btn hover:border-neutral-typography-50 active:text-primary-50 active:border-primary-50 dark:active:border-primary-50 active:bg-primary-50/10 disabled:bg-neutral-100 disabled:border-neutral-100 disabled:text-neutral-typography-50 dark:disabled:bg-neutral-bg-50 dark:disabled:text-neutral-typography-50 dark:disabled:border-border-color;
-
-
-
-    &-loading {
-      @apply pointer-events-none bg-neutral-100 text-neutral-100 border-neutral-100 dark:bg-neutral-bg-50 dark:text-neutral-bg-50 dark:border-border-color #{!important};
-    }
+    @apply border-[1px] border-border-default text-typography-default bg-secondary-default;
+    @apply hover:bg-secondary-hover;
+    @apply active:bg-secondary-active active:border-border-emphasized;
   }
 
-  &-active {
-    @apply dark:bg-neutral-bg-50 dark:border-primary-50 text-primary-50 border-primary-50  bg-primary-50/10;
+  &-tertiary {
+    @apply text-typography-default border-[1px] border-transparent shadow-transparent;
+    @apply hover:bg-secondary-hover;
+    @apply active:bg-secondary-active;
+  }
+
+  &-danger {
+    @apply bg-danger-default text-typography-error border-[1px] border-border-error;
+    @apply hover:bg-danger-hover;
+    @apply active:bg-danger-active;
+  }
+
+  &-loading {
+    @apply pointer-events-none bg-disabled text-disabled border-none shadow-transparent #{!important};
   }
 }
 
 :root[class~="sync"] {
   @media (prefers-color-scheme: dark) {
-    .button {
-      &-primary {
-        &-loading {
-          @apply bg-neutral-800 text-neutral-800 border-border-color #{!important};
-        }
-      }
-
-      &-secondary {
-        @apply disabled:bg-neutral-bg-50 disabled:text-neutral-typography-50 disabled:border-border-color;
-
-        &-loading {
-          @apply pointer-events-none bg-neutral-bg-50 text-neutral-bg-50 border-border-color #{!important};
-        }
-      }
-    }
+    .button {}
   }
 }

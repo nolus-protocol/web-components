@@ -9,53 +9,89 @@
       class="field-label"
       >{{ label }}</label
     >
+    <div
+      v-if="type === InputType.search"
+      class="relative"
+    >
+      <SearchIcon
+        id="search-close"
+        :class="[
+          {
+            'left-2': size === Size.small,
+            'left-3': size === Size.medium
+          }
+        ]"
+        class="absolute top-[50%] translate-y-[-50%] text-icon-default"
+      />
+      <input
+        :id="`input-${id}`"
+        v-model="inputValue"
+        :class="['field-input', 'w-full', 'px-[35px] pr-[25px] focus:px-[34px] focus:pr-[24px]', classes, inputClass]"
+        :disabled="disabled"
+        :placeholder="placeholder"
+        :type="type"
+        @input="(e) => $emit('input', e)"
+      />
+      <i
+        v-if="inputValue"
+        class="icon icon-close dark:text- absolute right-2 top-[50%] flex h-[18px] w-[18px] translate-y-[-50%] cursor-pointer items-center justify-center rounded-full bg-icon-default text-neutral-bg-2"
+        @click="onSearchClear"
+      />
+    </div>
     <input
+      v-else
       :id="`input-${id}`"
-      :class="['field-input', classes]"
+      v-model="inputValue"
+      :class="['field-input', classes, inputClass]"
       :disabled="disabled"
+      :placeholder="placeholder"
       :type="type"
-      :value="value"
-      @input="updateInputValue"
+      @input="(e) => $emit('input', e)"
     />
   </div>
 </template>
 
 <script lang="ts" setup>
-import { computed } from "vue";
-import { debounce } from "@/shared/helpers";
+import { computed, ref } from "vue";
+import SearchIcon from "@/assets/icons/search.svg";
+import { Size } from "@/shared/utils/types";
+import type { InputProps } from "./types";
+import { InputType } from "./types";
 
-export interface InputProps {
-  id: string;
-  label?: string;
-  type: "text" | "password" | "email";
-  value?: string | number;
-  error?: boolean;
-  disabled?: boolean;
-  onChange?: (event: Event) => void;
-}
+const props = withDefaults(defineProps<InputProps>(), {
+  size: Size.medium
+});
 
-const props = defineProps<InputProps>();
+// Create a ref for the input element
+const inputValue = ref(props.value);
 
 const classes = computed(() => ({
+  "px-2 py-1 focus:px-[7px] focus:py-[3px]": props.size === Size.small,
+  "px-3 py-2 focus:px-[11px] focus:py-[7px]": props.size === Size.medium,
+
+  "!border-border-success": props.valid,
   "!border-danger-100": props.error,
-  password: props.type === "password"
+
+  password: props.type === InputType.password
 }));
 
 const emit = defineEmits<{
-  (e: "input", value: string | number): void;
+  (e: "input", event: Event): void;
+  (e: "onSearchClear", event: Event): void;
 }>();
 
-const updateInputValue = debounce((event: Event) => {
-  const inputValue = (event.target as HTMLInputElement).value;
-  emit("input", inputValue);
-
-  if (props.onChange) {
-    props.onChange(event);
-  }
-}, 300);
+const onSearchClear = (e: Event) => {
+  emit("onSearchClear", e);
+  inputValue.value = "";
+};
 </script>
 
 <style lang="scss" scoped>
+.field-wrapper {
+  .icon-close:before {
+    font-size: 10px;
+  }
+}
 .rotate-180 {
   transform: rotateX(180deg);
 }
@@ -67,5 +103,13 @@ const updateInputValue = debounce((event: Event) => {
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
+}
+
+#search-close {
+  path {
+    @apply fill-neutral-bg-2;
+    stroke: white;
+    fill: white;
+  }
 }
 </style>

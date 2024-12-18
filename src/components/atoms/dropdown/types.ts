@@ -1,17 +1,23 @@
-export interface DropdownOption {
+import type { Size } from "@/shared/utils/types";
+
+export type DropdownOption = {
   value: string | number;
   label: string;
   icon?: string;
-}
+  [key: string]: any;
+};
 
 export interface DropdownProps {
   id?: string;
+  size?: Size.small | Size.medium;
+  dropdownLabel?: string;
+  dropdownPosition?: "left" | "right";
+  dropdownClassName?: string;
+  searchable?: boolean;
   label?: string;
+  hideText?: boolean;
   placeholder?: string;
-  options: DropdownOption[];
-  selected?: DropdownOption;
   error?: boolean;
   disabled?: boolean;
-  onSelect: (option: DropdownOption) => void;
   isLoading?: boolean;
 }

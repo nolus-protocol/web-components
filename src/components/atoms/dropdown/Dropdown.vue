@@ -5,86 +5,163 @@
     class="field-wrapper"
   >
     <label
-      v-if="label"
+      v-if="props.label"
       :for="`dropdown-btn-${id}`"
-      class="field-label"
-      >{{ label }}</label
+      class="field-label mb-1"
+      >{{ props.label }}</label
     >
     <button
       :id="`dropdown-btn-${id}`"
-      :class="['field-dropdown', classes]"
+      :class="['field-dropdown', classes, $attrs.class]"
       :disabled="disabled"
       type="button"
       @click="toggleDropdown"
     >
       <span class="flex flex-1 items-center">
         <img
-          v-if="selectedOption && selectedOption.icon"
-          :alt="selectedOption?.label"
-          :src="selectedOption?.icon"
+          v-if="selectedOption?.icon"
+          :alt="selectedOption.label"
+          :src="selectedOption.icon"
           class="mr-1 h-4 w-4"
         />
-        <span class="relative w-full">
-          <input
-            id="search-input"
-            ref="searchInputRef"
-            v-model="searchInput"
-            :placeholder="selectedOption ? selectedOption?.label : placeholder"
-            class="w-full cursor-pointer border-none bg-transparent placeholder-neutral-typography-200 outline-none"
-            type="text"
-            @focusout="focusOut"
-          />
+        <span v-if="selectedOption && selectedOption?.label && !hideText">
+          {{ selectedOption.label }}
         </span>
+        <span v-if="!selectedOption">{{ placeholder }}</span>
       </span>
       <Spinner v-if="isLoading" />
       <i
         :class="{ 'rotate-180': isOpen }"
-        class="icon icon-picker leading-1 transform text-[20px] text-neutral-400 transition duration-300 ease-in-out"
+        class="icon icon-picker leading-1 flex transform items-center text-[20px] text-icon-default transition duration-300 ease-in-out"
       />
     </button>
     <Transition name="fade">
       <div
         v-if="isOpen"
-        class="shadow-lg absolute top-full z-10 mt-1 w-full rounded-md border-[1px] border-border-color bg-neutral-bg-50 text-neutral-typography-200 shadow-field-heavy dark:hover:border-neutral-typography-100"
-        @focus="searchInputRef?.focus()"
+        :class="[
+          'shadow-lg absolute top-full z-10 mt-3 w-full min-w-48 overflow-hidden rounded-lg border-[1px] border-border-default bg-neutral-bg-2 text-typography-default shadow-shadow-lighter',
+          dropdownPosition === 'right' ? 'right-0' : 'left-0',
+          dropdownClassName
+        ]"
       >
-        <ul class="max-h-[160px] overflow-y-auto p-2">
-          <li
-            v-for="option in filteredOptions"
-            :key="option.value"
-            :class="{ 'bg-neutral-bg-100': selectedOption?.value === option.value }"
-            class="mb-1 flex cursor-pointer items-center rounded-md px-1 py-2 hover:bg-neutral-bg-100"
-            @click="selectOption(option)"
+        <div
+          v-if="dropdownLabel || searchable"
+          class="flex flex-col gap-4 border-b-[1px] border-border-default p-4"
+        >
+          <div
+            v-if="dropdownLabel"
+            class="flex justify-between"
           >
-            <img
-              v-if="option.icon"
-              :alt="option.label"
-              :src="option.icon"
-              class="mr-1 h-4 w-4"
+            <span class="flex-1 font-semibold">{{ dropdownLabel }}</span>
+            <i
+              class="icon icon-close leading-1 flex cursor-pointer items-center text-[15px] text-icon-default"
+              @click="isOpen = !isOpen"
             />
-            {{ option.label }}
-          </li>
+          </div>
+          <Input
+            v-if="searchable"
+            id="search-input"
+            ref="searchInputRef"
+            :size="Size.medium"
+            :type="InputType.search"
+            :value="searchInput"
+            @input="
+              (e) => {
+                searchInput = (e.target as HTMLInputElement).value;
+              }
+            "
+            @on-search-clear="
+              (e) => {
+                e.stopPropagation();
+                searchInput = '';
+              }
+            "
+          />
+        </div>
+        <div
+          v-if="itemsHeadline"
+          class="flex border-b-[1px] border-border-default bg-neutral-bg-1 p-3"
+        >
+          <span
+            v-for="headline in itemsHeadline"
+            :key="headline"
+            class="flex-1 text-14 font-normal text-typography-default last-of-type:text-right"
+            >{{ headline }}</span
+          >
+        </div>
+        <ul class="flex max-h-[250px] flex-col overflow-y-auto rounded-b-lg">
+          <template v-if="filteredItemTemplates.length > 0">
+            <div class="flex flex-col gap-3">
+              <component
+                :is="itemTemplate?.(option)"
+                v-for="option in filteredItemTemplates"
+                :key="option.value"
+                :class="{ 'bg-primary-default text-typography-static-light': selectedOption?.value === option.value }"
+                class="min-h-10 cursor-pointer hover:bg-primary-default hover:text-typography-static-light"
+                @click="selectOption(option)"
+              ></component>
+            </div>
+          </template>
+          <template v-else>
+            <li
+              v-for="option in filteredOptions"
+              :key="option.value"
+              :class="{ 'bg-primary-default text-typography-static-light': selectedOption?.value === option.value }"
+              class="flex min-h-10 cursor-pointer items-center px-4 py-2 hover:bg-primary-default hover:text-typography-static-light"
+              @click="selectOption(option)"
+            >
+              <img
+                v-if="option.icon"
+                :alt="option.label"
+                :src="option.icon"
+                class="mr-3 h-6 w-6"
+              />
+              <span class="flex-1">{{ option.label }}</span>
+            </li>
+          </template>
         </ul>
       </div>
     </Transition>
   </div>
 </template>
 
-<script lang="ts" setup>
-import { computed, ref, Transition, watch } from "vue";
+<script generic="T extends DropdownOption" lang="ts" setup>
+import { computed, ref, watch } from "vue";
 import type { DropdownOption, DropdownProps } from "./types";
 import Spinner from "../spinner/Spinner.vue";
+import { Size } from "@/shared/utils/types";
+import { InputType } from "@/components/atoms/input/types";
+import Input from "../input/Input.vue";
 
 const dropdownRef = ref<HTMLElement | null>(null);
 const isOpen = ref(false);
 const selectedOption = ref<DropdownOption | null>(null);
 const searchInputRef = ref<HTMLInputElement>();
 
-const props = defineProps<DropdownProps>();
+const props = withDefaults(
+  defineProps<
+    DropdownProps & {
+      options: T[];
+      selected?: T;
+      onSelect: (option: T) => void;
+      itemsHeadline?: string[];
+      itemTemplate?: (option?: T) => any;
+    }
+  >(),
+  {
+    placeholder: "Select an option",
+    size: Size.medium,
+    hideText: false,
+    dropdownPosition: "left"
+  }
+);
 
 const searchInput = ref("");
 const classes = computed(() => ({
-  "border-primary-50": isOpen,
+  "px-2 py-1 focus:px-[7px] focus:py-[3px]": props.size === Size.small,
+  "px-3 py-2 focus:px-[11px] focus:py-[7px]": props.size === Size.medium,
+
+  "border-primary-50": isOpen.value,
   "!border-danger-100": props.error
 }));
 
@@ -93,11 +170,10 @@ const emit = defineEmits<{
 }>();
 
 const toggleDropdown = () => {
-  searchInputRef.value?.focus();
   isOpen.value = !isOpen.value;
 };
 
-const selectOption = (option: DropdownOption) => {
+const selectOption = (option: T) => {
   searchInput.value = "";
   selectedOption.value = option;
 
@@ -147,18 +223,19 @@ const filteredOptions = computed(() => {
   return props.options;
 });
 
+const filteredItemTemplates = computed(() => {
+  if (props.itemTemplate?.length) {
+    return props.options;
+  }
+  return [];
+});
+
 // Close dropdown when clicking outside
 const handleClickOutside = (event: MouseEvent) => {
   if (dropdownRef.value && !dropdownRef.value.contains(event.target as Node)) {
     isOpen.value = false;
   }
 };
-
-function focusOut() {
-  setTimeout(() => {
-    searchInput.value = "";
-  }, 200);
-}
 
 // Listen for clicks outside the dropdown
 window.addEventListener("click", handleClickOutside);
