@@ -89,7 +89,7 @@
             >{{ headline }}</span
           >
         </div>
-        <ul class="flex max-h-[250px] flex-col overflow-y-auto rounded-b-lg">
+        <ul class="scroll-bar flex max-h-[250px] flex-col overflow-y-auto rounded-b-lg">
           <template v-if="filteredItemTemplates.length > 0">
             <div class="flex flex-col gap-3">
               <component

@@ -25,6 +25,7 @@
         :on-select="onUpdateCurrency"
         :options="currencyOptions"
         :selected="selectedCurrencyOption"
+        :searchable="searchable"
         class="min-w-[135px]"
       />
       <label

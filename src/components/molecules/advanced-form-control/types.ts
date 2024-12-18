@@ -31,4 +31,5 @@ export interface AdvancedCurrencyFieldProps {
   positive?: boolean;
   placeholder: string;
   isLoadingPicker?: boolean;
+  searchable?: boolean;
 }
