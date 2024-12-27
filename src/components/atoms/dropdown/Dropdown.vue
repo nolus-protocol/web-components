@@ -41,7 +41,8 @@
         :class="[
           'shadow-lg absolute top-full z-10 mt-3 w-full min-w-48 overflow-hidden rounded-lg border-[1px] border-border-default bg-neutral-bg-2 text-typography-default shadow-shadow-lighter',
           dropdownPosition === 'right' ? 'right-0' : 'left-0',
-          dropdownClassName
+          dropdownClassName,
+          itemTemplate ? 'min-w-[275px]' : ''
         ]"
       >
         <div
@@ -91,12 +92,15 @@
         </div>
         <ul class="scroll-bar flex max-h-[250px] flex-col overflow-y-auto rounded-b-lg">
           <template v-if="filteredItemTemplates.length > 0">
-            <div class="flex flex-col gap-3">
+            <div class="flex flex-col">
               <component
                 :is="itemTemplate?.(option)"
                 v-for="option in filteredItemTemplates"
                 :key="option.value"
-                :class="{ 'bg-primary-default text-typography-static-light': selectedOption?.value === option.value }"
+                :class="{
+                  'bg-primary-default text-typography-static-light': selectedOption?.value === option.value,
+                  'pointer-events-none': option.disabled
+                }"
                 class="min-h-10 cursor-pointer hover:bg-primary-default hover:text-typography-static-light"
                 @click="selectOption(option)"
               ></component>
@@ -126,7 +130,7 @@
 </template>
 
 <script generic="T extends DropdownOption" lang="ts" setup>
-import { computed, ref, watch } from "vue";
+import { computed, onMounted, ref, watch } from "vue";
 import type { DropdownOption, DropdownProps } from "./types";
 import Spinner from "../spinner/Spinner.vue";
 import { Size } from "@/shared/utils/types";
@@ -184,6 +188,13 @@ const selectOption = (option: T) => {
   isOpen.value = false;
 };
 
+onMounted(() => {
+  const option = props.options.find((option) => option.value === props.selected?.value);
+  if (option) {
+    selectedOption.value = option;
+  }
+});
+
 // Watch for changes in selectedValue prop and update selectedOption accordingly
 watch(
   () => props.selected,
@@ -203,8 +214,7 @@ watch(
     if (option) {
       selectedOption.value = option;
     }
-  },
-  { immediate: true }
+  }
 );
 
 watch(

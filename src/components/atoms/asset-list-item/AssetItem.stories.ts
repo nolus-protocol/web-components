@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from "@storybook/vue3";
 
 import AssetItem from "./AssetItem.vue";
 import { iconsExternalUrl } from "../../../shared/utils/types";
+import { h } from "vue";
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories
 const meta = {
@@ -13,7 +14,8 @@ const meta = {
     name: "Apple",
     abbreviation: "AP",
     balance: "0.000000",
-    price: "$0.000000"
+    price: "$0.000000",
+    disabled: true
   } // default value
 } satisfies Meta<typeof AssetItem>;
 

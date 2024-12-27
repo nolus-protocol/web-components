@@ -1,52 +1,55 @@
 <template>
-  <div
-    ref="dialog"
-    class="invisible fixed left-0 right-0 top-0 z-[9998] flex min-h-dvh items-center justify-center bg-neutral-bg-inverted-1/50 opacity-0 md:fixed md:bottom-0"
-    @keydown.esc="close"
-  >
+  <Teleport to="body">
     <div
-      ref="dialogChild"
-      class="flex min-h-dvh w-full flex-col bg-neutral-bg-2 shadow-larger md:min-h-0 md:max-w-[512px] md:rounded-xl md:border md:border-border-default"
+      ref="dialog"
+      class="invisible fixed left-0 right-0 top-0 z-[9998] flex min-h-dvh items-center justify-center bg-neutral-bg-inverted-1/50 opacity-0 md:fixed md:bottom-0"
+      @keydown.esc="close"
+      telepo
     >
-      <div class="flex items-center justify-between p-6">
-        <span class="text-2xl font-semibold text-typography-default">{{ title }}</span>
-        <slot name="header" />
-        <i
-          v-if="showClose"
-          class="icon icon-close cursor-pointer text-[22px] leading-none text-icon-default"
-          @click="close"
-        ></i>
+      <div
+        ref="dialogChild"
+        class="flex min-h-dvh w-full flex-col bg-neutral-bg-2 shadow-larger md:min-h-0 md:max-w-[512px] md:rounded-xl md:border md:border-border-default"
+      >
+        <div class="flex items-center justify-between p-6">
+          <span class="text-2xl font-semibold text-typography-default">{{ title }}</span>
+          <slot name="header" />
+          <i
+            v-if="showClose"
+            class="icon icon-close cursor-pointer text-[22px] leading-none text-icon-default"
+            @click="close"
+          ></i>
+        </div>
+        <template v-if="tabs?.length">
+          <div class="flex border-b border-t border-border-color">
+            <Radio
+              v-for="(tab, index) in tabs"
+              :id="`tab-${index}`"
+              :key="index"
+              ref="radioRefs"
+              :class="[{ 'border-l border-border-color': index > 0, 'bg-transparent': activeTabIdx === index }]"
+              :disabled="tab.disabled"
+              :label="tab.label"
+              class="flex flex-1 cursor-pointer justify-center bg-neutral-bg-1 px-6 py-5 text-16 font-normal text-typography-default"
+              name="dialogTabsGroup"
+              @click="handleParentClick(index)"
+            />
+          </div>
+          <slot :name="'tab-content-' + activeTabIdx" />
+        </template>
+        <template v-else>
+          <!--        <div class="flex-1 px-6 pb-6">-->
+          <slot name="content" />
+          <!--        </div>-->
+          <div
+            v-if="$slots.footer"
+            class="border-t border-border-default p-6"
+          >
+            <slot name="footer" />
+          </div>
+        </template>
       </div>
-      <template v-if="tabs?.length">
-        <div class="flex border-b border-t border-border-color">
-          <Radio
-            v-for="(tab, index) in tabs"
-            :id="`tab-${index}`"
-            :key="index"
-            ref="radioRefs"
-            :class="[{ 'border-l border-border-color': index > 0, 'bg-transparent': activeTabIdx === index }]"
-            :disabled="tab.disabled"
-            :label="tab.label"
-            class="flex flex-1 cursor-pointer justify-center bg-neutral-bg-1 px-6 py-5 text-16 font-normal text-typography-default"
-            name="dialogTabsGroup"
-            @click="handleParentClick(index)"
-          />
-        </div>
-        <slot :name="'tab-content-' + activeTabIdx" />
-      </template>
-      <template v-else>
-        <!--        <div class="flex-1 px-6 pb-6">-->
-        <slot name="content" />
-        <!--        </div>-->
-        <div
-          v-if="$slots.footer"
-          class="border-t border-border-default p-6"
-        >
-          <slot name="footer" />
-        </div>
-      </template>
     </div>
-  </div>
+  </Teleport>
 </template>
 
 <script lang="ts" setup>
@@ -116,7 +119,6 @@ const show = () => {
 
 function close() {
   const element = dialog.value;
-
   if (element) {
     element.style.animation = "fadeOutAnimation 200ms";
     element.style.opacity = "0";

@@ -10,9 +10,10 @@ export interface AdvancedCurrencyFieldOption extends DropdownOption {
   balance?: AdvancedCurrencyFieldBalance;
 }
 
-export interface AdvancedCurrencyFieldProps {
+export interface AdvancedCurrencyFieldProps<T extends DropdownOption> {
   id: string;
   value?: string;
+  valueOnly?: string;
   label?: string;
   labelAdvanced?: boolean;
   balanceLabel?: string;
@@ -30,6 +31,9 @@ export interface AdvancedCurrencyFieldProps {
   onPaste?: (e: ClipboardEvent) => void;
   positive?: boolean;
   placeholder: string;
+  pickerPlacehodler?: string;
   isLoadingPicker?: boolean;
   searchable?: boolean;
+  itemsHeadline?: string[];
+  itemTemplate?: (option?: T) => any;
 }

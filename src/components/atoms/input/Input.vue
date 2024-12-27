@@ -24,7 +24,6 @@
         class="absolute top-[50%] translate-y-[-50%] text-icon-default"
       />
       <input
-        :id="`input-${id}`"
         v-model="inputValue"
         :class="['field-input', 'w-full', 'px-[35px] pr-[25px] focus:px-[34px] focus:pr-[24px]', classes, inputClass]"
         :disabled="disabled"
@@ -40,7 +39,6 @@
     </div>
     <input
       v-else
-      :id="`input-${id}`"
       v-model="inputValue"
       :class="['field-input', classes, inputClass]"
       :disabled="disabled"
@@ -52,7 +50,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref } from "vue";
+import { computed, ref, watch } from "vue";
 import SearchIcon from "@/assets/icons/search.svg";
 import { Size } from "@/shared/utils/types";
 import type { InputProps } from "./types";
@@ -74,6 +72,13 @@ const classes = computed(() => ({
 
   password: props.type === InputType.password
 }));
+
+watch(
+  () => props.value,
+  () => {
+    inputValue.value = props.value;
+  }
+);
 
 const emit = defineEmits<{
   (e: "input", event: Event): void;

@@ -26,6 +26,9 @@
         :options="currencyOptions"
         :selected="selectedCurrencyOption"
         :searchable="searchable"
+        :item-template="itemTemplate"
+        :items-headline="itemsHeadline"
+        :placeholder="pickerPlacehodler"
         class="min-w-[135px]"
       />
       <label
@@ -87,6 +90,7 @@
 import { onMounted, ref, watch } from "vue";
 import { Dropdown, Tooltip } from "@/components";
 import type { AdvancedCurrencyFieldOption, AdvancedCurrencyFieldProps } from "./types";
+import type { DropdownOption } from "@/components/types";
 
 const emit = defineEmits<{
   (e: "on-selected-currency", value: AdvancedCurrencyFieldOption): void;
@@ -99,7 +103,7 @@ const comma = ",";
 const allowed = ["Delete", "Backspace", "ArrowLeft", "ArrowRight", "-", ".", "Enter", "Tab", "Control", "End", "Home"];
 const numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 
-const props = withDefaults(defineProps<AdvancedCurrencyFieldProps>(), {
+const props = withDefaults(defineProps<AdvancedCurrencyFieldProps<DropdownOption>>(), {
   hideBalance: false
 });
 
@@ -115,6 +119,14 @@ watch(
   () => {
     numberValue.value = props.value;
     setValue();
+  }
+);
+
+watch(
+  () => props.valueOnly,
+  () => {
+    numberValue.value = props.valueOnly;
+    setValue(true);
   }
 );
 
@@ -139,6 +151,10 @@ const setValue = (stopEmit?: boolean) => {
     return false;
   }
 
+  if (value.startsWith(".")) {
+    value = `0${value}`;
+  }
+
   emit("input", value);
 };
 
@@ -151,7 +167,7 @@ const setBalance = () => {
 
 const onUpdateCurrency = (value: AdvancedCurrencyFieldOption) => {
   selectedToken.value = value;
-  numberValue.value = "";
+  // numberValue.value = "";
   emit("on-selected-currency", value);
 };
 

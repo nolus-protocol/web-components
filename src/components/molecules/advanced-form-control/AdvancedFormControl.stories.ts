@@ -2,6 +2,9 @@ import type { Meta, StoryObj } from "@storybook/vue3";
 
 import AdvancedFormControl from "./AdvancedFormControl.vue";
 import { iconsExternalUrl } from "../../../shared/utils/types";
+import { AssetItemProps } from "../../atoms/asset-list-item/types";
+import AssetItem from "../../atoms/asset-list-item/AssetItem.vue";
+import { h } from "vue";
 
 const meta = {
   title: "Components/Molecules/AdvancedFormControl",
@@ -18,25 +21,27 @@ const meta = {
     calculatedBalance: "$0",
     currencyOptions: [
       {
-        value: "usdc",
-        label: "USDC",
-        icon: `${iconsExternalUrl}/osmosis-usdc.svg`,
-        balance: { value: "123.234", ticker: "USDC" }
+        value: "osmosis",
+        abbreviation: "OSMO",
+        label: "Osmosis",
+        icon: `${iconsExternalUrl}/osmosis-osmo.svg`,
+        balance: { value: "1111.234", ticker: "stOSMO" },
+        price: "$123"
       },
       {
-        value: "nls",
-        label: "Nolus",
-        icon: `${iconsExternalUrl}/osmosis-nls.svg`,
-        balance: { value: "555.234", ticker: "NLS" }
-      },
-      {
-        value: "stOSMO",
-        label: "stOSMO",
-        icon: `${iconsExternalUrl}/osmosis-stosmo.svg`,
-        balance: { value: "1111.234", ticker: "stOSMO" }
+        value: "osmosis2",
+        abbreviation: "OSMO2",
+        label: "Osmosis2",
+        icon: `${iconsExternalUrl}/osmosis-osmo.svg`,
+        balance: { value: "1111.234", ticker: "stOSMO" },
+        price: "$123",
+        disabled: true
       }
     ],
-    tooltip: "Some tooltip text"
+    tooltip: "Some tooltip text",
+    itemsHeadline: ["Assets", "Your balance"],
+    itemTemplate: (item: any) =>
+      h<AssetItemProps>(AssetItem, { name: item.label, ...item, balance: item.balance.value })
   } // default value
 } satisfies Meta<typeof AdvancedFormControl>;
 
