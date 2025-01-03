@@ -32,8 +32,8 @@ const isNegative = computed(() => !isNaN(Number(props.content)) && Number(props.
 const isZero = computed(() => !isNaN(Number(props.content)) && Number(props.content) === 0);
 
 const classes = computed(() => ({
-  "text-typography-default text-[12px] leading-[12px] p-1 ": props.base || isZero.value,
-  "!bg-success-muted p-0.5": !props.base && isPositive.value,
+  "text-typography-default text-[12px] leading-[12px] p-1 ": props.base,
+  "!bg-success-muted p-0.5": !props.base && (isPositive.value || isZero.value),
   "!bg-error-muted p-0.5": !props.base && isNegative.value
 }));
 </script>

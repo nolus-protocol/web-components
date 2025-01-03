@@ -69,7 +69,7 @@ export interface DialogProps {
 
 const props = withDefaults(defineProps<DialogProps>(), {});
 
-const emit = defineEmits(["close-dialog"]);
+const emit = defineEmits(["close-dialog", "change-tab"]);
 const disable = ref(false);
 const activeTabIdx = ref(props.activeTabIndex ?? 0);
 
@@ -81,9 +81,9 @@ onMounted(() => {
   }
 
   if (props.tabs) {
-    const el = radioRefs.value[activeTabIdx.value].$el.querySelector('input[type="radio"]') as HTMLElement;
+    const el = radioRefs.value[activeTabIdx.value].$el.querySelector('input[type="radio"]') as HTMLInputElement;
     if (el) {
-      el!.click();
+      el!.checked = true;
     }
   }
 
@@ -138,11 +138,8 @@ const handleClickOutside = (event: MouseEvent) => {
 };
 
 const handleParentClick = (index: number) => {
-  const radioElement = radioRefs.value[index].$el.querySelector('input[type="radio"]') as HTMLElement;
-  if (radioElement) {
-    radioElement.click();
-    activeTabIdx.value = index;
-  }
+  activeTabIdx.value = index;
+  emit("change-tab", index);
 };
 
 provide("show", show);

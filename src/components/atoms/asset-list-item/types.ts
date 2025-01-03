@@ -5,6 +5,7 @@ export interface AssetItemProps {
   abbreviation: string;
   name: string;
   balance: string;
+  max_decimals?: number;
   price: string;
   disabled?: true;
   info?: Component;

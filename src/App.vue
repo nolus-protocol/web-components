@@ -210,6 +210,14 @@
       class="fill-icon-error"
       name="slider"
     />
+
+    <Slider
+      :min-position="25"
+      :max-position="150"
+      :positions="5"
+      v-on:ondrag="() => ({})"
+      v-on:drag="() => ({})"
+    />
   </div>
 </template>
 
@@ -230,7 +238,8 @@ import {
   Table,
   TableRow,
   Toggle,
-  Tooltip
+  Tooltip,
+  Slider
 } from "@/components";
 import {
   AlertType,

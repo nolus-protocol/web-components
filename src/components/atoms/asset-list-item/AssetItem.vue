@@ -17,7 +17,7 @@
         </div>
       </div>
       <div class="flex flex-1 flex-col items-end">
-        <span class="text-16 font-semibold">{{ balance }}</span>
+        <span class="text-16 font-semibold">{{ max_decimals ? Number(balance).toFixed(max_decimals) : balance }}</span>
         <span class="text-12 font-normal">{{ price }}</span>
       </div>
     </li>

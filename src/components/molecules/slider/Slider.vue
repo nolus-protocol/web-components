@@ -18,28 +18,40 @@
               width: container?.offsetWidth + 'px'
             }
           ]"
-          class="flex h-full items-center justify-between px-1"
+          class="flex h-full px-1"
         >
           <span
             v-for="index in props.positions"
             :key="index"
-            class="h-[4px] w-[4px] rounded-full bg-white"
-          ></span>
+            class="flex items-center"
+            :style="{ width: `calc(100%/${props.positions})` }"
+          >
+            <span class="h-[4px] w-[4px] rounded-full bg-white"> </span>
+          </span>
+          <span class="flex items-center">
+            <span class="h-[4px] w-[4px] rounded-full bg-white"> </span>
+          </span>
         </div>
       </div>
       <div class="relative flex w-full">
-        <div class="absolute flex h-full w-full items-center justify-between px-1">
+        <div class="absolute flex h-full w-full px-1">
           <span
             v-for="index in props.positions"
             :key="index"
-            class="h-[4px] w-[4px] rounded-full bg-neutral-bg-4"
-          ></span>
+            :style="{ width: `calc(100%/${props.positions})` }"
+            class="flex items-center"
+          >
+            <span class="h-[4px] w-[4px] rounded-full bg-neutral-bg-4"> </span>
+          </span>
+          <span class="flex items-center">
+            <span class="h-[4px] w-[4px] rounded-full bg-neutral-bg-4"> </span>
+          </span>
         </div>
       </div>
     </div>
     <button
       ref="button"
-      class="absolute left-[18px] top-1/2 z-[2] flex h-[36px] w-[36px] -translate-y-1/2 transform items-center justify-center gap-0.5 rounded-full bg-primary-default"
+      class="absolute left-[18px] top-1/2 z-[2] flex h-[36px] w-[36px] -translate-y-1/2 transform items-center justify-center gap-0.5 rounded-full border-[1px] border-white bg-primary-default"
       draggable="true"
       type="button"
     >
@@ -73,6 +85,7 @@ const percentPosition = 100 / props.positions;
 let position = defaultPosition;
 let dragStart = false;
 let scalePercent = 150;
+let leasePercent = 0;
 
 const button = ref<HTMLButtonElement>();
 const container = ref<HTMLDivElement>();
@@ -191,11 +204,10 @@ function setPercent(draggable: HTMLButtonElement, xPos: number, parentRect: DOMR
     const prc = ((x + draggableRect.width / 2) / parentRect.width) * 100;
     const percent = ((x + draggableRect.width / 2) / parentRect.width) * 100;
     const scale = Math.round(percent / percentPosition);
-    const leasePercent = scale * props.maxPosition + props.minPosition;
 
+    leasePercent = scale * props.minPosition + props.minPosition;
     scalePercent = Math.round(scale * percentPosition);
     draggable.style.left = `${x}px`;
-    emits("onDrag", leasePercent);
 
     if (background.value) {
       background.value.style.width = `${prc}%`;
@@ -214,6 +226,7 @@ function release() {
     btnElement.style.left = `calc( ${scalePercent > 100 ? 100 : scalePercent}% - 18px )`;
     btnElement.style.transition = "ease 200ms";
   }
+  emits("onDrag", leasePercent);
 }
 
 function removeAnimations() {

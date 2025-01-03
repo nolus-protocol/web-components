@@ -24,10 +24,17 @@
           :src="selectedOption.icon"
           class="mr-1 h-4 w-4"
         />
-        <span v-if="selectedOption && selectedOption?.label && !hideText">
+        <span
+          v-if="selectedOption && selectedOption?.label && !hideText"
+          class="leading-[15px]"
+        >
           {{ selectedOption.label }}
         </span>
-        <span v-if="!selectedOption">{{ placeholder }}</span>
+        <span
+          v-if="!selectedOption"
+          class="leading-[15px]"
+          >{{ placeholder }}</span
+        >
       </span>
       <Spinner v-if="isLoading" />
       <i
@@ -153,7 +160,6 @@ const props = withDefaults(
     }
   >(),
   {
-    placeholder: "Select an option",
     size: Size.medium,
     hideText: false,
     dropdownPosition: "left"
