@@ -1,90 +1,110 @@
 <template>
-  <div
-    ref="container"
-    class="relative mr-[16px] cursor-pointer sm:mr-[0px]"
-    @mousedown="onMouseDown"
-    @touchend="onMouseLeave"
-    @touchstart.passive="onMouseDown"
-    @touchmove.passive="onMouseMove"
-  >
-    <div class="relative flex h-[12px] w-full overflow-hidden rounded-full bg-neutral-bg-3">
-      <div
-        ref="background"
-        class="absolute left-0 top-0 z-[2] h-[12px] w-[15%] overflow-hidden bg-primary-default"
-      >
-        <div
-          :style="[
-            {
-              width: container?.offsetWidth + 'px'
-            }
-          ]"
-          class="flex h-full px-1"
-        >
-          <span
-            v-for="index in props.positions"
-            :key="index"
-            class="flex items-center"
-            :style="{ width: `calc(100%/${props.positions})` }"
-          >
-            <span class="h-[4px] w-[4px] rounded-full bg-white"> </span>
-          </span>
-          <span class="flex items-center">
-            <span class="h-[4px] w-[4px] rounded-full bg-white"> </span>
-          </span>
-        </div>
-      </div>
-      <div class="relative flex w-full">
-        <div class="absolute flex h-full w-full px-1">
-          <span
-            v-for="index in props.positions"
-            :key="index"
-            :style="{ width: `calc(100%/${props.positions})` }"
-            class="flex items-center"
-          >
-            <span class="h-[4px] w-[4px] rounded-full bg-neutral-bg-4"> </span>
-          </span>
-          <span class="flex items-center">
-            <span class="h-[4px] w-[4px] rounded-full bg-neutral-bg-4"> </span>
-          </span>
-        </div>
-      </div>
-    </div>
-    <button
-      ref="button"
-      class="absolute left-[18px] top-1/2 z-[2] flex h-[36px] w-[36px] -translate-y-1/2 transform items-center justify-center gap-0.5 rounded-full border-[1px] border-white bg-primary-default"
-      draggable="true"
-      type="button"
+  <div>
+    <div
+      ref="container"
+      class="relative mr-[16px] cursor-pointer sm:mr-[0px]"
+      @mousedown="onMouseDown"
+      @touchend="onMouseLeave"
+      @touchstart.passive="onMouseDown"
+      @touchmove.passive="onMouseMove"
     >
-      <span class="triangle triangle-right bg-white"></span>
-      <span class="triangle triangle-left bg-white"></span>
-    </button>
+      <div class="relative flex h-[12px] w-full overflow-hidden rounded-full bg-neutral-bg-3">
+        <div
+          ref="background"
+          class="absolute left-0 top-0 z-[2] h-[12px] w-[15%] overflow-hidden bg-primary-default"
+        >
+          <div
+            :style="[
+              {
+                width: container?.offsetWidth + 'px'
+              }
+            ]"
+            class="flex h-full px-1"
+          >
+            <span
+              v-for="index in positions_data"
+              :key="index"
+              class="flex items-center"
+              :style="{ width: `calc(100%/${positions_data})` }"
+            >
+              <span class="h-[4px] w-[4px] rounded-full bg-white"> </span>
+            </span>
+            <span class="flex items-center">
+              <span class="h-[4px] w-[4px] rounded-full bg-white"> </span>
+            </span>
+          </div>
+        </div>
+        <div class="relative flex w-full">
+          <div class="absolute flex h-full w-full px-1">
+            <span
+              v-for="index in positions_data"
+              :key="index"
+              :style="{ width: `calc(100%/${positions_data})` }"
+              class="flex items-center"
+            >
+              <span class="h-[4px] w-[4px] rounded-full bg-neutral-bg-4"> </span>
+            </span>
+            <span class="flex items-center">
+              <span class="h-[4px] w-[4px] rounded-full bg-neutral-bg-4"> </span>
+            </span>
+          </div>
+        </div>
+      </div>
+      <button
+        ref="button"
+        class="absolute left-[18px] top-1/2 z-[2] flex h-[36px] w-[36px] -translate-y-1/2 transform items-center justify-center gap-0.5 rounded-full border-[1px] border-white bg-primary-default"
+        draggable="true"
+        type="button"
+      >
+        <span class="triangle triangle-right bg-white"></span>
+        <span class="triangle triangle-left bg-white"></span>
+      </button>
+    </div>
+    <div class="mt-4 flex justify-between">
+      <span
+        class="cursor-pointer select-none text-14 text-typography-secondary"
+        @click="onClickLeftLabel?.()"
+      >
+        {{ labelLeft }}
+      </span>
+      <span
+        class="cursor-pointer select-none text-14 text-typography-secondary"
+        @click="onClickRightLabel?.()"
+      >
+        {{ labelRight }}
+      </span>
+    </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { onMounted, onUnmounted, ref } from "vue";
+import { computed, onMounted, onUnmounted, ref, watch } from "vue";
 
 export interface RangeProps {
-  positions: number;
+  labelLeft?: string;
+  labelRight?: string;
+  positions?: number;
   minPosition: number;
   maxPosition: number;
   disabled?: boolean;
+  value?: number;
+  onClickRightLabel?: Function;
+  onClickLeftLabel?: Function;
 }
 
 const props = withDefaults(defineProps<RangeProps>(), {
   minPosition: 25,
   maxPosition: 150,
-  positions: 5,
   disabled: false
 });
 
 const emits = defineEmits(["onDrag"]);
 const defaultPosition = 100;
-const percentPosition = 100 / props.positions;
+const percentPosition = props.positions ? 100 / props.positions : 1;
 
 let position = defaultPosition;
 let dragStart = false;
-let scalePercent = 150;
+let scalePercent = props.maxPosition;
 let leasePercent = 0;
 
 const button = ref<HTMLButtonElement>();
@@ -92,7 +112,7 @@ const container = ref<HTMLDivElement>();
 const background = ref<HTMLDivElement>();
 
 onMounted(() => {
-  setDefault();
+  setPosition(props.value);
   window.addEventListener("mousemove", onMouseMove);
   window.addEventListener("mouseup", onMouseLeave);
 });
@@ -102,16 +122,27 @@ onUnmounted(() => {
   window.removeEventListener("mouseup", onMouseLeave);
 });
 
-function setDefault() {
+watch(
+  () => props.value,
+  () => {
+    setPosition(props.value);
+  }
+);
+
+const positions_data = computed(() => {
+  return props.positions ?? 1;
+});
+
+function setPosition(position?: number) {
   const element = background.value;
   const btnElement = button.value;
   if (element) {
-    element.style.width = "100%";
+    element.style.width = position != null ? `${position}%` : "100%";
   }
   if (btnElement) {
-    btnElement.style.left = `calc( ${defaultPosition}% - 18px )`;
+    btnElement.style.left = `calc( ${position != null ? position : defaultPosition}% - 18px )`;
   }
-  position = defaultPosition;
+  position = position ?? defaultPosition;
 }
 
 function onMouseLeave(event: MouseEvent | TouchEvent) {
@@ -204,8 +235,11 @@ function setPercent(draggable: HTMLButtonElement, xPos: number, parentRect: DOMR
     const prc = ((x + draggableRect.width / 2) / parentRect.width) * 100;
     const percent = ((x + draggableRect.width / 2) / parentRect.width) * 100;
     const scale = Math.round(percent / percentPosition);
-
-    leasePercent = scale * props.minPosition + props.minPosition;
+    if (props.positions) {
+      leasePercent = scale * props.minPosition + props.minPosition;
+    } else {
+      leasePercent = scale;
+    }
     scalePercent = Math.round(scale * percentPosition);
     draggable.style.left = `${x}px`;
 

@@ -215,8 +215,17 @@
       :min-position="25"
       :max-position="150"
       :positions="5"
-      v-on:ondrag="() => ({})"
-      v-on:drag="() => ({})"
+      :value="0"
+      @on-drag="(p) => console.log(p)"
+    />
+
+    <Slider
+      class="mt-10"
+      :min-position="0"
+      :max-position="100"
+      :label-left="'$0.00'"
+      :label-right="'$100.00'"
+      @on-drag="(p) => console.log(p)"
     />
   </div>
 </template>

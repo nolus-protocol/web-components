@@ -37,9 +37,7 @@
           <slot :name="'tab-content-' + activeTabIdx" />
         </template>
         <template v-else>
-          <!--        <div class="flex-1 px-6 pb-6">-->
           <slot name="content" />
-          <!--        </div>-->
           <div
             v-if="$slots.footer"
             class="border-t border-border-default p-6"
@@ -65,6 +63,7 @@ export interface DialogProps {
   tabs?: { label: string; disabled?: boolean }[];
   activeTabIndex?: number;
   showClose?: boolean;
+  disableClose?: boolean;
 }
 
 const props = withDefaults(defineProps<DialogProps>(), {});
@@ -74,12 +73,6 @@ const disable = ref(false);
 const activeTabIdx = ref(props.activeTabIndex ?? 0);
 
 onMounted(() => {
-  const element = dialog.value;
-
-  if (element) {
-    element.style.animation = "fadeInAnimation 200ms";
-  }
-
   if (props.tabs) {
     const el = radioRefs.value[activeTabIdx.value].$el.querySelector('input[type="radio"]') as HTMLInputElement;
     if (el) {
@@ -110,28 +103,41 @@ function backButtonClicked(event: Event) {
 
 const show = () => {
   const element = dialog.value as HTMLDivElement;
-
-  document.body.style.overflowY = "hidden";
-
+  element.style.animation = "fadeInAnimation 200ms forwards";
+  // document.body.style.position = "fixed";
+  if (document.body.scrollHeight > document.body.clientHeight) {
+    const scroll = window.scrollY;
+    document.body.style.overflowY = "scroll";
+    document.body.style.position = "fixed";
+    document.body.style.top = `-${scroll}px`;
+  } else {
+    document.body.style.overflowY = "hidden";
+  }
   element.style.visibility = "visible";
-  element.style.opacity = "1";
 };
 
 function close() {
-  const element = dialog.value;
-  if (element) {
-    element.style.animation = "fadeOutAnimation 200ms";
-    element.style.opacity = "0";
-    element.style.visibility = "hidden";
+  const element = dialog.value as HTMLDivElement;
+  element.style.animation = "fadeOutAnimation 200ms forwards";
+  document.body.style.position = "unset";
+  document.body.style.overflowY = "auto";
+
+  if (document.body.style.top) {
+    const scroll = Math.abs(parseInt(document.body.style.top));
+    window.scroll({ top: scroll });
+    document.body.style.removeProperty("top");
   }
 
   setTimeout(() => {
     emit("close-dialog");
-    document.body.style.overflowY = "auto";
-  }, 100);
+    element.style.visibility = "hidden";
+  }, 200);
 }
 
 const handleClickOutside = (event: MouseEvent) => {
+  if (props.disableClose) {
+    return false;
+  }
   if (event.target === dialog.value) {
     close();
   }

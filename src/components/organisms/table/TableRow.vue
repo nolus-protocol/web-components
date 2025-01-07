@@ -12,6 +12,7 @@
         { '!justify-start': item.variant === 'left' },
         { '!justify-center': item.variant === 'center' }
       ]"
+      @click="item.click?.()"
     >
       <Button
         v-if="item.button"

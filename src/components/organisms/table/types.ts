@@ -40,6 +40,7 @@ export interface TableRowItem {
   button?: boolean;
   class?: string;
   url?: string;
+  click?: Function;
 }
 
 export interface TableRowItemProps {
