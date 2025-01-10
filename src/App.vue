@@ -223,6 +223,8 @@
       class="mt-10"
       :min-position="0"
       :max-position="100"
+      :mid-position="30"
+      :label-mid="'$25.00'"
       :label-left="'$0.00'"
       :label-right="'$100.00'"
       @on-drag="(p) => console.log(p)"

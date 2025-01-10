@@ -24,11 +24,20 @@
             <span
               v-for="index in positions_data"
               :key="index"
-              class="flex items-center"
-              :style="{ width: `calc(100%/${positions_data})` }"
+              class="test flex items-center"
+              :style="{ width: `calc(${midPosition ?? 100 / positions_data}%)` }"
             >
               <span class="h-[4px] w-[4px] rounded-full bg-white"> </span>
             </span>
+
+            <span
+              v-if="midPosition"
+              class="flex items-center"
+              :style="{ width: `calc(${100 - midPosition}%)` }"
+            >
+              <span class="h-[4px] w-[4px] rounded-full bg-white"> </span>
+            </span>
+
             <span class="flex items-center">
               <span class="h-[4px] w-[4px] rounded-full bg-white"> </span>
             </span>
@@ -39,8 +48,15 @@
             <span
               v-for="index in positions_data"
               :key="index"
-              :style="{ width: `calc(100%/${positions_data})` }"
+              :style="{ width: `calc(${midPosition ?? 100 / positions_data}%)` }"
               class="flex items-center"
+            >
+              <span class="h-[4px] w-[4px] rounded-full bg-neutral-bg-4"> </span>
+            </span>
+            <span
+              v-if="midPosition"
+              class="flex items-center"
+              :style="{ width: `calc(${100 - midPosition}%)` }"
             >
               <span class="h-[4px] w-[4px] rounded-full bg-neutral-bg-4"> </span>
             </span>
@@ -60,12 +76,25 @@
         <span class="triangle triangle-left bg-white"></span>
       </button>
     </div>
-    <div class="mt-4 flex justify-between">
+    <div class="relative mt-4 flex justify-between">
       <span
         class="cursor-pointer select-none text-14 text-typography-secondary"
         @click="onClickLeftLabel?.()"
       >
         {{ labelLeft }}
+      </span>
+      <span
+        v-if="labelMid && midPosition"
+        class="absolute cursor-pointer select-none text-14 text-typography-secondary"
+        :style="[
+          {
+            top: `-64px`,
+            left: `calc(${midPosition ?? 100 / positions_data}% - 15px)`
+          }
+        ]"
+        @click="onClickMidLabel?.()"
+      >
+        {{ labelMid }}
       </span>
       <span
         class="cursor-pointer select-none text-14 text-typography-secondary"
@@ -83,13 +112,16 @@ import { computed, onMounted, onUnmounted, ref, watch } from "vue";
 export interface RangeProps {
   labelLeft?: string;
   labelRight?: string;
+  labelMid?: string;
   positions?: number;
   minPosition: number;
+  midPosition?: number;
   maxPosition: number;
   disabled?: boolean;
   value?: number;
   onClickRightLabel?: Function;
   onClickLeftLabel?: Function;
+  onClickMidLabel?: Function;
 }
 
 const props = withDefaults(defineProps<RangeProps>(), {
