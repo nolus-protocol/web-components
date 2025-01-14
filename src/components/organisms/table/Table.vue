@@ -11,6 +11,8 @@
           class="flex-1"
           type="search"
           v-bind="inputSearch"
+          @onSearchClear="emit('onSearchClear')"
+          @input="(e) => emit('onInput', e)"
         />
         <span
           v-if="size"
@@ -28,7 +30,13 @@
           class="flex gap-2"
           @click="onClick"
         >
-          <SvgIcon name="eye-open" />
+          <SvgIcon
+            v-if="props.hideValues!.value"
+            name="eye-slash"
+          />
+          <template v-else>
+            <SvgIcon name="eye-open" />
+          </template>
           <span class="text-14 font-medium">{{ hideValues.text }}</span>
         </button>
       </div>
@@ -91,8 +99,10 @@ function onChangeToggle(data: boolean) {
 
 const props = withDefaults(defineProps<TableProps>(), {});
 const emit = defineEmits<{
+  (e: "onInput", value: Event): void;
   (e: "hideValue", value: boolean): void;
   (e: "togleValue", value: boolean): void;
+  (e: "onSearchClear"): void;
 }>();
 
 const showAttributes = computed(() => {

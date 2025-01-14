@@ -38,6 +38,10 @@ export const History: StoryObj<typeof meta> = {
     components: { Table, TableRow },
     template: `
       <Table v-bind="args"
+          @onSearchClear="
+            (data) => {
+              console.log(data);
+          }"
           @hide-value="
             (data) => {
               console.info(data);
@@ -138,6 +142,10 @@ export const EarningAssets: Story = {
     template: `
       <Table
         v-bind="args"
+        @onSearchClear="
+            (data) => {
+              console.info(data);
+          }"
       >
       <template v-slot:body>
         <TableRow

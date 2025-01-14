@@ -35,6 +35,7 @@ export interface TableRowItem {
   value?: string;
   component?: Component;
   subValue?: string;
+  subValueClass?: string;
   image?: string;
   imageClass?: string;
   button?: boolean;

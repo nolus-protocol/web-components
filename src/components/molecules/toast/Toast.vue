@@ -19,7 +19,7 @@
         @click="onUndoClick"
       />
       <i
-        class="icon icon-close cursor-pointer text-[18px] leading-none text-white"
+        class="icon icon-close ml-2 cursor-pointer text-[18px] leading-none text-white"
         @click="onCloseAlert"
       ></i>
     </div>
