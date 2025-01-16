@@ -79,6 +79,12 @@
       voteButtonText="Vote now"
       voting_end_time="24-05-2024"
       @actionButton="(e) => {}"
+      :labels="{
+        yes_count: `Yes`,
+        abstain_count: 'Abstain',
+        no_count: 'No',
+        no_with_veto_count: 'Veto'
+      }"
     />
 
     <Table :columns="columns">

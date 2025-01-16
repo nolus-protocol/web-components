@@ -38,6 +38,7 @@
         <ProposalVotingLine
           v-if="isVotingPeriod && tally && Object.values(tally).filter((res) => !!Number(res)).length > 0"
           :voting="tally"
+          :labels="labels"
         />
       </div>
       <div

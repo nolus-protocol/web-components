@@ -3,7 +3,7 @@
     <div
       v-for="(res, index) in result"
       :key="index"
-      :class="[colors[res.label].bg, colors[res.label].before]"
+      :class="[colors[res.key].bg, colors[res.key].before]"
       :style="{
         width: `calc(${res.percent}%)`,
         zIndex: result.length - index
@@ -14,10 +14,10 @@
     >
       <div
         v-show="showTooltips[index]"
-        class="absolute -top-[100%] left-[50%] flex translate-x-[-50%] translate-y-[calc(-50%-10px)] gap-1 rounded-md border-[#C1CAD7] bg-white p-2 text-[8px] font-medium"
+        class="absolute -top-[100%] left-[50%] flex translate-x-[-50%] translate-y-[calc(-50%-10px)] gap-1 rounded-md border-[#C1CAD7] bg-white p-2 text-[8px] font-medium text-black"
       >
         <span
-          :class="[colors[res.label].text]"
+          :class="[colors[res.key].text]"
           class="font-bold uppercase"
           >{{ res.label }}</span
         >
@@ -35,7 +35,8 @@ const props = defineProps({
   voting: {
     type: Object as PropType<FinalTallyResult>,
     required: true
-  }
+  },
+  labels: { type: Object as PropType<{ [key: string]: string }>, required: true }
 });
 
 const showTooltips = ref(Array(Object.values(props.voting).length).fill(false));
@@ -69,13 +70,14 @@ const result = computed(() =>
     .reduce(
       (acc, [key, value]) => {
         acc.push({
-          label: key,
+          key,
+          label: props.labels[key],
           percent: ((Number(value) / total.value) * 100).toFixed(2)
         });
 
         return acc;
       },
-      [] as { label: string; percent: string }[]
+      [] as { key: string; label: string; percent: string }[]
     )
     .filter((item) => !!Number(item.percent))
     .reverse()

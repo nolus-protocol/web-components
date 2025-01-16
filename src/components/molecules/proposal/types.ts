@@ -33,13 +33,22 @@ export interface ProposalVoted extends ProposalBase {
   voteButtonText: string;
 }
 
-export type ProposalType = ProposalNotVoted | ProposalVoted;
+export type ProposalType = (ProposalNotVoted | ProposalVoted) & Labels;
 
 export interface FinalTallyResult {
   yes_count: string;
   abstain_count: string;
   no_count: string;
   no_with_veto_count: string;
+}
+
+export interface Labels {
+  labels: {
+    yes_count: string;
+    abstain_count: string;
+    no_count: string;
+    no_with_veto_count: string;
+  };
 }
 
 export interface ProposalEmits {
