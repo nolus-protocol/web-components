@@ -19,7 +19,7 @@
         <span
           :class="[colors[res.label].text]"
           class="font-bold uppercase"
-          >res.label</span
+          >{{ res.label }}</span
         >
         {{ res.percent }}%
       </div>
