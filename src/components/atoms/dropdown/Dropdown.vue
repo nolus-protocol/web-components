@@ -223,17 +223,8 @@ watch(
   }
 );
 
-watch(
-  () => searchInput.value,
-  (newVal) => {
-    if (newVal) {
-      selectedOption.value = null;
-    }
-  }
-);
-
 const filteredOptions = computed(() => {
-  if (searchInput.value) {
+  if (searchInput.value.length > 0) {
     return props.options.filter((option) => option.label.toLowerCase().includes(searchInput.value.toLowerCase()));
   }
   return props.options;
@@ -241,8 +232,22 @@ const filteredOptions = computed(() => {
 
 const filteredItemTemplates = computed(() => {
   if (props.itemTemplate?.length) {
+    if (searchInput.value.length > 0) {
+      return props.options.filter((option) => {
+        return (
+          option.label.toLowerCase().includes(searchInput.value.toLowerCase()) ||
+          option.value.toString().toLowerCase().includes(searchInput.value.toLowerCase()) ||
+          option.ticker?.toString().toLowerCase().includes(searchInput.value.toLowerCase()) ||
+          option.name?.toString().toLowerCase().includes(searchInput.value.toLowerCase()) ||
+          option.shortName?.toString().toLowerCase().includes(searchInput.value.toLowerCase()) ||
+          option.ibcData?.toString().toLowerCase().includes(searchInput.value.toLowerCase())
+        );
+      });
+    }
+
     return props.options;
   }
+
   return [];
 });
 

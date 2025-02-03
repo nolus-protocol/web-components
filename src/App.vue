@@ -221,11 +221,12 @@
       :min-position="25"
       :max-position="150"
       :positions="5"
-      :value="0"
+      :value="20"
       @on-drag="(p) => console.log(p)"
     />
 
     <Slider
+      :value="20"
       class="mt-10"
       :min-position="0"
       :max-position="100"

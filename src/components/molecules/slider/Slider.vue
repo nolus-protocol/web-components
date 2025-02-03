@@ -71,6 +71,7 @@
         class="absolute left-[18px] top-1/2 z-[2] flex h-[36px] w-[36px] -translate-y-1/2 transform items-center justify-center gap-0.5 rounded-full border-[1px] border-white bg-primary-default"
         draggable="true"
         type="button"
+        :data-count="`${leasePercent}%`"
       >
         <span class="triangle triangle-right bg-white"></span>
         <span class="triangle triangle-left bg-white"></span>
@@ -137,7 +138,7 @@ const percentPosition = props.positions ? 100 / props.positions : 1;
 let position = defaultPosition;
 let dragStart = false;
 let scalePercent = props.maxPosition;
-let leasePercent = 0;
+let leasePercent = ref(0);
 
 const button = ref<HTMLButtonElement>();
 const container = ref<HTMLDivElement>();
@@ -175,6 +176,10 @@ function setPosition(position?: number) {
     btnElement.style.left = `calc( ${position != null ? position : defaultPosition}% - 18px )`;
   }
   position = position ?? defaultPosition;
+
+  const diff = props.maxPosition - props.minPosition;
+  const percent = (position * diff) / 100 + props.minPosition;
+  leasePercent.value = percent;
 }
 
 function onMouseLeave(event: MouseEvent | TouchEvent) {
@@ -268,9 +273,9 @@ function setPercent(draggable: HTMLButtonElement, xPos: number, parentRect: DOMR
     const percent = ((x + draggableRect.width / 2) / parentRect.width) * 100;
     const scale = Math.round(percent / percentPosition);
     if (props.positions) {
-      leasePercent = scale * props.minPosition + props.minPosition;
+      leasePercent.value = scale * props.minPosition + props.minPosition;
     } else {
-      leasePercent = scale;
+      leasePercent.value = scale;
     }
     scalePercent = Math.round(scale * percentPosition);
     draggable.style.left = `${x}px`;
@@ -292,7 +297,7 @@ function release() {
     btnElement.style.left = `calc( ${scalePercent > 100 ? 100 : scalePercent}% - 18px )`;
     btnElement.style.transition = "ease 200ms";
   }
-  emits("onDrag", leasePercent);
+  emits("onDrag", leasePercent.value);
 }
 
 function removeAnimations() {
@@ -335,5 +340,34 @@ function removeAnimations() {
 }
 .triangle:after {
   transform: rotate(135deg) skewY(-45deg) scale(0.707, 1.414) translate(50%);
+}
+
+button {
+  &::after {
+    content: attr(data-count);
+    @apply invisible absolute top-[-25px] rounded bg-neutral-bg-inverted-2 px-2 py-1 text-xs text-typography-inverted;
+  }
+  &::before {
+    content: "";
+    @apply invisible absolute;
+    height: 0.5rem;
+    width: 0.5rem;
+    --tw-rotate: 45deg;
+    transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x))
+      skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+    background-color: var(--color-background-level-inverted-2);
+    left: 50%;
+    top: -3px;
+    --tw-translate-x: -50%;
+    --tw-translate-y: -50%;
+    transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x))
+      skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+  }
+  &:hover {
+    &::after,
+    &::before {
+      @apply visible;
+    }
+  }
 }
 </style>

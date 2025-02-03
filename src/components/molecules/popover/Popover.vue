@@ -2,7 +2,7 @@
   <div
     ref="popover"
     :class="[
-      'fixed z-[9997] flex h-screen w-full flex-col bg-neutral-bg-2 shadow-larger transition duration-200 md:h-fit md:w-auto md:max-w-[512px] md:rounded-xl md:border md:border-border-default',
+      'fixed z-[9997] flex h-screen max-h-[calc(100%-65px)] w-full flex-col overflow-y-hidden bg-neutral-bg-2 shadow-larger transition duration-200 md:h-fit md:w-auto md:max-w-[512px] md:rounded-xl md:border md:border-border-default',
       $attrs.class
     ]"
     :style="[popoverStyle]"
@@ -18,7 +18,7 @@
     </div>
     <div
       v-if="$slots.content"
-      class="flex-1"
+      class="max-h-[100%] flex-1 overflow-y-hidden"
     >
       <slot name="content" />
     </div>
