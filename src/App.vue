@@ -30,12 +30,12 @@
       </template>
     </Alert>
 
-    <Tooltip
-      content="150%"
-      position="bottom"
-    >
-      <div>Hover me</div>
-    </Tooltip>
+    <!--    <Tooltip-->
+    <!--      content="150%"-->
+    <!--      position="bottom"-->
+    <!--    >-->
+    <!--      <div>Hover me</div>-->
+    <!--    </Tooltip>-->
     <Alert
       :on-close="() => {}"
       :show-close="true"
@@ -148,7 +148,7 @@
     <Button
       ref="popoverParent"
       class="h-10 w-10 rounded-full !p-0"
-      icon="icon-bell text-[20px]"
+      icon="bell"
       severity="secondary"
       size="small"
       @click="
@@ -254,13 +254,12 @@ import {
   Lease,
   Popover,
   Proposal,
+  Slider,
   Stepper,
   SvgIcon,
   Table,
   TableRow,
-  Toggle,
-  Tooltip,
-  Slider
+  Toggle
 } from "@/components";
 import {
   AlertType,
@@ -273,17 +272,13 @@ import {
   ProposalStatus,
   StepperVariant
 } from "./components/types";
-import { h, onMounted, ref } from "vue";
+import { h, ref } from "vue";
 import { iconsExternalUrl } from "@/shared/utils/types";
 import type { TableColumnProps, TableRowItemProps } from "@/components/organisms/table/types";
 
 const isOpen = ref(false);
 const popoverParent = ref<HTMLElement>();
 const dialogRef = ref<typeof Dialog | null>(null);
-
-onMounted(() => {
-  console.info({ popoverParent });
-});
 
 const columns: TableColumnProps[] = [
   { label: "Transaction", variant: "left" },
@@ -428,9 +423,9 @@ const leaseProps: LeaseProps = {
   },
   status: LeaseStatus.PAID,
   tabs: [
-    { button: { icon: "icon-assets" }, content: "Some content 1" },
-    { button: { icon: "icon-assets" }, content: "Some content 2" },
-    { button: { icon: "icon-assets" }, content: "Some content 3" }
+    { button: { icon: "assets" }, content: "Some content 1" },
+    { button: { icon: "assets" }, content: "Some content 2" },
+    { button: { icon: "assets" }, content: "Some content 3" }
   ],
   actionButtons: {
     repay: { label: "Repay" },

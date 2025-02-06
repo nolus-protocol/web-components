@@ -3,7 +3,7 @@
     ref="target"
     class="relative flex w-fit flex-col items-center text-typography-default"
     @mouseleave="mouseleave"
-    @mouseover="mouseover"
+    @mouseenter="mouseenter"
   >
     <slot></slot>
   </div>
@@ -11,13 +11,18 @@
     <div
       ref="tooltip"
       :class="[
-        'z-[9999] rounded bg-neutral-bg-inverted-2 px-2 py-1 text-xs text-typography-inverted',
+        'z-[9999] max-w-[200px] rounded bg-neutral-bg-inverted-2 px-2 py-1 text-xs text-typography-inverted',
         { [`tooltip-cursor tooltip-cursor-${position}`]: position },
         $attrs.class
       ]"
       :style="tooltipStyle"
-      v-html="content"
-    ></div>
+    >
+      <div v-html="content" />
+      <div
+        ref="pointer"
+        class="pointer"
+      ></div>
+    </div>
   </Teleport>
 </template>
 
@@ -33,9 +38,10 @@ const props = withDefaults(defineProps<TooltipProps>(), {
 
 const tooltip = ref(null as HTMLDivElement | null);
 const target = ref(null as HTMLDivElement | null);
+const pointer = ref(null as HTMLDivElement | null);
 const tooltipStyle = ref({});
 
-const mouseover = () => {
+const mouseenter = (event: Event) => {
   if (timeout) {
     clearTimeout(timeout);
   }
@@ -48,7 +54,7 @@ const mouseover = () => {
   element.style.opacity = "1";
 };
 
-const mouseleave = () => {
+const mouseleave = (event: Event) => {
   const element = tooltip.value as HTMLDivElement;
   if (element) {
     element.style.opacity = "0";
@@ -58,40 +64,92 @@ const mouseleave = () => {
   }
 };
 
+const setPositionValue = (value: string) => {
+  return value === "auto" ? "auto" : `${value}px`;
+};
+
 const calculateTooltipPosition = () => {
   if (!target.value || !tooltip.value) return;
 
   const rect = target.value.getBoundingClientRect();
-  const tooltipWidth = tooltip.value.offsetWidth;
-  const tooltipHeight = tooltip.value.offsetHeight;
+  const tooltipRect = tooltip.value.getBoundingClientRect();
+  const viewportWidth = window.innerWidth;
 
-  let top, left;
+  let top: any, left: any, right: any;
 
   switch (props.position) {
     case "top":
-      top = rect.top - tooltipHeight - 10; // 10 is the offset
-      left = rect.left + rect.width / 2 - tooltipWidth / 2;
+      top = rect.top - tooltipRect.height - 10; // 10 is the offset
+      left = rect.left + rect.width / 2 - tooltipRect.width / 2;
+      right = "auto";
+
+      if (tooltipRect.width + rect.x > viewportWidth) {
+        left = "auto";
+        right = viewportWidth - rect.right;
+      }
+
       break;
     case "bottom":
       top = rect.bottom + 10; // 10 is the offset
-      left = rect.left + rect.width / 2 - tooltipWidth / 2;
+      left = rect.left + rect.width / 2 - tooltipRect.width / 2;
+      right = "auto";
+
+      if (tooltipRect.width + rect.x > viewportWidth) {
+        left = "auto";
+        right = viewportWidth - rect.right;
+      }
       break;
     case "left":
-      top = rect.top + rect.height / 2 - tooltipHeight / 2;
-      left = rect.left - tooltipWidth - 10; // 10 is the offset
+      top = rect.top + rect.height / 2 - tooltipRect.height / 2;
+      left = rect.left - tooltipRect.width - 10; // 10 is the offset
       break;
     case "right":
-      top = rect.top + rect.height / 2 - tooltipHeight / 2;
+      top = rect.top + rect.height / 2 - tooltipRect.height / 2;
       left = rect.right + 10; // 10 is the offset
       break;
   }
 
+  positionPointer();
+
   tooltipStyle.value = {
-    top: `${top}px`,
-    left: `${left}px`,
+    top: setPositionValue(top),
+    left: setPositionValue(left),
+    right: setPositionValue(right),
     position: "fixed"
   };
 };
+
+function positionPointer() {
+  if (!target.value || !pointer.value) return;
+
+  const parent = target.value as HTMLDivElement;
+  const child = pointer.value as HTMLDivElement;
+  const targetRect = parent.getBoundingClientRect();
+
+  let pointerTop, pointerLeft;
+
+  switch (props.position) {
+    case "top":
+      pointerTop = targetRect.top - child.offsetHeight - 5;
+      pointerLeft = targetRect.left + targetRect.width / 2 - child.offsetWidth / 2;
+      break;
+    case "bottom":
+      pointerTop = targetRect.bottom + 5;
+      pointerLeft = targetRect.left + targetRect.width / 2 - child.offsetWidth / 2;
+      break;
+    case "left":
+      pointerTop = targetRect.top + targetRect.height / 2 - child.offsetHeight / 2;
+      pointerLeft = targetRect.left - child.offsetWidth - 5;
+      break;
+    case "right":
+      pointerTop = targetRect.top + targetRect.height / 2 - child.offsetHeight / 2;
+      pointerLeft = targetRect.right + 5;
+      break;
+  }
+
+  child.style.top = `${pointerTop}px`;
+  child.style.left = `${pointerLeft}px`;
+}
 
 watch(() => [target.value, props.position], calculateTooltipPosition);
 </script>
@@ -100,30 +158,37 @@ watch(() => [target.value, props.position], calculateTooltipPosition);
 .tooltip-cursor {
   @apply invisible opacity-0;
 
-  &:before {
-    content: "";
-    @apply absolute h-2 w-2 rotate-45 bg-neutral-bg-inverted-2;
-  }
+  //&:before {
+  //  content: "";
+  //  @apply absolute h-2 w-2 rotate-45 bg-neutral-bg-inverted-2;
+  //}
+  //
+  //&-top {
+  //  &:before {
+  //    @apply bottom-0 left-[50%] translate-x-[-50%] translate-y-[50%];
+  //  }
+  //}
+  //
+  //&-bottom {
+  //  &:before {
+  //    @apply left-[50%] top-0 translate-x-[-50%] translate-y-[-50%];
+  //  }
+  //}
+  //
+  //&-left {
+  //  &:before {
+  //    @apply right-0 top-[50%] translate-x-[50%] translate-y-[-50%];
+  //  }
+  //}
+  //
+  //&-right {
+  //  &:before {
+  //    @apply left-0 top-[50%] translate-x-[-50%] translate-y-[-50%];
+  //  }
+  //}
+}
 
-  &-top {
-    &:before {
-      @apply bottom-0 left-[50%] translate-x-[-50%] translate-y-[50%];
-    }
-  }
-  &-bottom {
-    &:before {
-      @apply left-[50%] top-0 translate-x-[-50%] translate-y-[-50%];
-    }
-  }
-  &-left {
-    &:before {
-      @apply right-0 top-[50%] translate-x-[50%] translate-y-[-50%];
-    }
-  }
-  &-right {
-    &:before {
-      @apply left-0 top-[50%] translate-x-[-50%] translate-y-[-50%];
-    }
-  }
+.pointer {
+  @apply fixed -bottom-1 left-0 right-0 h-3 w-3 rotate-45 bg-neutral-bg-inverted-2;
 }
 </style>

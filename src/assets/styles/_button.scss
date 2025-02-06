@@ -17,7 +17,7 @@
 
   &-tertiary {
     @apply text-typography-default border-[1px] border-transparent shadow-transparent;
-    @apply hover:bg-secondary-hover;
+    @apply hover:bg-secondary-hover hover:border-border-default hover:shadow-medium;
     @apply active:bg-secondary-active;
   }
 

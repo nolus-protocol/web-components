@@ -13,11 +13,14 @@
         <div class="flex items-center justify-between p-6">
           <span class="text-2xl font-semibold text-typography-default">{{ title }}</span>
           <slot name="header" />
-          <i
+          <Button
             v-if="showClose"
-            class="icon icon-close cursor-pointer text-[22px] leading-none text-icon-default"
+            severity="tertiary"
+            icon="close"
+            size="small"
+            class="!p-2.5 text-icon-default"
             @click="close"
-          ></i>
+          />
         </div>
         <template v-if="tabs?.length">
           <div class="flex border-b border-t border-border-color">
@@ -53,6 +56,7 @@
 <script lang="ts" setup>
 import { onMounted, onUnmounted, provide, ref } from "vue";
 import { Radio } from "@/components";
+import Button from "../../atoms/button/Button.vue";
 
 const dialog = ref<HTMLDivElement>();
 const dialogChild = ref<HTMLDivElement>();
