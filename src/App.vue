@@ -83,7 +83,10 @@
         yes_count: `Yes`,
         abstain_count: 'Abstain',
         no_count: 'No',
-        no_with_veto_count: 'Veto'
+        no_with_veto_count: 'Veto',
+        turnoutLabel: 'turn out',
+        quorumLabel: 'quorumLabel',
+        votingEndsLabel: 'votingEndsLabel'
       }"
     />
 

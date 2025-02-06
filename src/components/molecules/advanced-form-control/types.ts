@@ -3,6 +3,7 @@ import type { DropdownOption } from "@/components/atoms/dropdown/types";
 export interface AdvancedCurrencyFieldBalance {
   value: string;
   ticker: string;
+  customLabel?: string;
 }
 
 export interface AdvancedCurrencyFieldOption extends DropdownOption {

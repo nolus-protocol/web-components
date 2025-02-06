@@ -48,6 +48,9 @@ export interface Labels {
     abstain_count: string;
     no_count: string;
     no_with_veto_count: string;
+    turnoutLabel: string;
+    quorumLabel: string;
+    votingEndsLabel: string;
   };
 }
 

@@ -49,7 +49,7 @@
           'shadow-lg absolute top-full z-10 mt-3 w-full min-w-48 overflow-hidden rounded-lg border-[1px] border-border-default bg-neutral-bg-2 text-typography-default shadow-shadow-lighter',
           dropdownPosition === 'right' ? 'right-0' : 'left-0',
           dropdownClassName,
-          itemTemplate ? 'min-w-[275px]' : ''
+          itemTemplate ? 'min-w-[325px]' : ''
         ]"
       >
         <div

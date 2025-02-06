@@ -56,8 +56,11 @@
           v-if="selectedToken?.balance"
           class="cursor-pointer text-typography-link"
           @click="setBalance"
-          >{{ selectedToken?.balance?.value }} {{ selectedToken?.balance?.ticker }}</span
         >
+          {{
+            selectedToken?.balance?.customLabel ?? `${selectedToken?.balance?.value} ${selectedToken?.balance?.ticker}`
+          }}
+        </span>
       </div>
     </div>
     <div class="flex flex-col">

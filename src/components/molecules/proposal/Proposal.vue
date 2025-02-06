@@ -22,15 +22,15 @@
       >
         <div class="flex gap-3">
           <div>
-            <span class="block text-14 text-typography-secondary">Turnout</span>
-            <span class="text-16 font-semibold text-typography-default">{{ turnout }}</span>
+            <span class="block text-14 text-typography-secondary">{{ labels.turnoutLabel }}</span>
+            <span class="text-16 font-semibold text-typography-default">{{ turnout }}%</span>
           </div>
           <div>
-            <span class="block text-14 text-typography-secondary">Quorum</span>
-            <span class="text-16 font-semibold text-typography-default">{{ quorum }}</span>
+            <span class="block text-14 text-typography-secondary">{{ labels.quorumLabel }}</span>
+            <span class="text-16 font-semibold text-typography-default">{{ quorum }}%</span>
           </div>
           <div>
-            <span class="block text-14 text-typography-secondary">Voting ends</span>
+            <span class="block text-14 text-typography-secondary">{{ labels.votingEndsLabel }}</span>
             <span class="text-16 font-semibold text-typography-default">{{ voting_end_time }}</span>
           </div>
         </div>
