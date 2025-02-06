@@ -107,14 +107,14 @@
           :key="index"
           :items="row.items"
           :rowButton="row.rowButton"
-          @button-click="(data) => {}"
+          @button-click="() => {}"
         />
       </template>
     </Table>
 
     <Lease
       v-bind="leaseProps"
-      @on-collect="(data) => {}"
+      @on-collect="() => {}"
     />
 
     <Stepper
