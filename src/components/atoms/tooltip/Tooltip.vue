@@ -18,10 +18,6 @@
       :style="tooltipStyle"
     >
       <div v-html="content" />
-      <div
-        ref="pointer"
-        class="pointer"
-      ></div>
     </div>
   </Teleport>
 </template>
@@ -38,7 +34,6 @@ const props = withDefaults(defineProps<TooltipProps>(), {
 
 const tooltip = ref(null as HTMLDivElement | null);
 const target = ref(null as HTMLDivElement | null);
-const pointer = ref(null as HTMLDivElement | null);
 const tooltipStyle = ref({});
 
 const mouseenter = (event: Event) => {
@@ -109,8 +104,6 @@ const calculateTooltipPosition = () => {
       break;
   }
 
-  positionPointer();
-
   tooltipStyle.value = {
     top: setPositionValue(top),
     left: setPositionValue(left),
@@ -118,38 +111,6 @@ const calculateTooltipPosition = () => {
     position: "fixed"
   };
 };
-
-function positionPointer() {
-  if (!target.value || !pointer.value) return;
-
-  const parent = target.value as HTMLDivElement;
-  const child = pointer.value as HTMLDivElement;
-  const targetRect = parent.getBoundingClientRect();
-
-  let pointerTop, pointerLeft;
-
-  switch (props.position) {
-    case "top":
-      pointerTop = targetRect.top - child.offsetHeight - 5;
-      pointerLeft = targetRect.left + targetRect.width / 2 - child.offsetWidth / 2;
-      break;
-    case "bottom":
-      pointerTop = targetRect.bottom + 5;
-      pointerLeft = targetRect.left + targetRect.width / 2 - child.offsetWidth / 2;
-      break;
-    case "left":
-      pointerTop = targetRect.top + targetRect.height / 2 - child.offsetHeight / 2;
-      pointerLeft = targetRect.left - child.offsetWidth - 5;
-      break;
-    case "right":
-      pointerTop = targetRect.top + targetRect.height / 2 - child.offsetHeight / 2;
-      pointerLeft = targetRect.right + 5;
-      break;
-  }
-
-  child.style.top = `${pointerTop}px`;
-  child.style.left = `${pointerLeft}px`;
-}
 
 watch(() => [target.value, props.position], calculateTooltipPosition);
 </script>
