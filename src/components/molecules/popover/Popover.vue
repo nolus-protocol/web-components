@@ -7,7 +7,10 @@
     ]"
     :style="[popoverStyle]"
   >
-    <div class="flex items-center justify-between p-4">
+    <div
+      class="flex items-center justify-between p-4"
+      v-if="title"
+    >
       <span class="text-24 font-semibold text-typography-default">{{ title }}</span>
       <slot name="header" />
       <i
