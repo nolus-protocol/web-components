@@ -17,7 +17,7 @@
           ...(share ?? {}),
           severity: 'secondary',
           size: 'small',
-          icon: 'icon-share',
+          icon: 'share',
           iconPosition: 'left',
           onClick: () => {
             $emit('on-share', { ...props });
@@ -83,15 +83,15 @@
             <div class="flex h-full items-center justify-between gap-1">
               <div
                 :class="[{ '!bg-danger-100': +progressBar.value > 80 }]"
-                class="bg-progress-color h-[10px] w-[24px] rounded lg:w-[35px]"
+                class="h-[10px] w-[24px] rounded bg-progress-color lg:w-[35px]"
               ></div>
               <div
                 :class="[{ '!bg-warning-100': +progressBar.value > 65 && +progressBar.value <= 80 }]"
-                class="bg-progress-color h-[10px] w-[24px] rounded lg:w-[35px]"
+                class="h-[10px] w-[24px] rounded bg-progress-color lg:w-[35px]"
               ></div>
               <div
                 :class="[{ '!bg-success-100': +progressBar.value <= 65 }]"
-                class="bg-progress-color h-[10px] w-[24px] rounded lg:w-[35px]"
+                class="h-[10px] w-[24px] rounded bg-progress-color lg:w-[35px]"
               ></div>
             </div>
           </template>
@@ -102,7 +102,7 @@
                 v-for="(val, index) in progressBar.value"
                 :key="index"
                 :class="[
-                  'bg-progress-color h-[10px] w-[24px] rounded lg:w-[35px]',
+                  'h-[10px] w-[24px] rounded bg-progress-color lg:w-[35px]',
                   {
                     'pulse !bg-primary-50': val === LeaseOpeningBarStatuses.CURRENT,
                     '!bg-primary-50': val === LeaseOpeningBarStatuses.READY
@@ -285,6 +285,6 @@ defineEmits<LeaseEmits>();
 }
 
 .box {
-  @apply bg-progress-color h-[10px] w-[24px] rounded lg:w-[35px];
+  @apply h-[10px] w-[24px] rounded bg-progress-color lg:w-[35px];
 }
 </style>

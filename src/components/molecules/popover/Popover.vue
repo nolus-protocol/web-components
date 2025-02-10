@@ -13,11 +13,14 @@
     >
       <span class="text-24 font-semibold text-typography-default">{{ title }}</span>
       <slot name="header" />
-      <i
+      <Button
         v-if="showClose"
-        class="icon icon-close cursor-pointer text-[22px] leading-none text-icon-default"
+        severity="tertiary"
+        icon="close"
+        size="small"
+        class="!p-2.5 text-icon-default"
         @click="close"
-      ></i>
+      />
     </div>
     <div
       v-if="$slots.content"
@@ -37,6 +40,7 @@
 <script lang="ts" setup>
 import { onMounted, onUnmounted, ref, watch } from "vue";
 import type { PopoverProps } from "./types";
+import Button from "../../atoms/button/Button.vue";
 
 const popover = ref<HTMLDivElement | null>(null);
 const popoverStyle = ref({});
