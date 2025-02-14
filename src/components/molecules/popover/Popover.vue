@@ -127,6 +127,8 @@ const calculatePopoverPosition = () => {
 
   // check if is on mobile
   if (window.innerWidth < 768) {
+    document.body.style.overflowY = "hidden";
+
     popoverStyle.value = {
       top: `${props.top}px`,
       left: `0`
@@ -142,6 +144,7 @@ const calculatePopoverPosition = () => {
 watch(() => [props.parent, props.position], calculatePopoverPosition);
 
 const close = () => {
+  document.body.style.overflowY = "auto";
   emit("close");
 };
 
