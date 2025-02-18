@@ -17,7 +17,11 @@ export interface TableProps {
   filterable?: boolean;
   filters?: {};
   columns?: TableColumnProps[];
+<<<<<<< HEAD
   headerClasses?: string;
+=======
+  tableWrapperClasses?: string;
+>>>>>>> 3025093e3c47c1d8e80bcf0bf16c4a6ed04e0681
   tableClasses?: string;
   columnsClasses?: string;
   footerClasses?: string;

@@ -65,6 +65,8 @@ onMounted(() => {
 });
 
 onUnmounted(() => {
+  document.body.style.removeProperty("overflow-y");
+
   document.removeEventListener("keyup", escapeClicked);
   window.removeEventListener("popstate", backButtonClicked);
   window.removeEventListener("click", handleClickOutside);
@@ -127,6 +129,8 @@ const calculatePopoverPosition = () => {
 
   // check if is on mobile
   if (window.innerWidth < 768) {
+    document.body.style.overflow = "hidden";
+
     popoverStyle.value = {
       top: `${props.top}px`,
       left: `0`
@@ -142,6 +146,7 @@ const calculatePopoverPosition = () => {
 watch(() => [props.parent, props.position], calculatePopoverPosition);
 
 const close = () => {
+  document.body.style.removeProperty("overflow-y");
   emit("close");
 };
 

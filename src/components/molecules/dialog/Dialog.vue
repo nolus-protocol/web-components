@@ -2,13 +2,12 @@
   <Teleport to="body">
     <div
       ref="dialog"
-      class="invisible fixed left-0 right-0 top-0 z-[9998] flex min-h-dvh items-center justify-center bg-neutral-bg-inverted-1/50 opacity-0 md:fixed md:bottom-0"
+      class="invisible fixed left-0 right-0 top-0 z-[9998] flex items-center justify-center bg-neutral-bg-inverted-1/50 opacity-0 md:fixed md:bottom-0 md:h-auto"
       @keydown.esc="close"
-      telepo
     >
       <div
         ref="dialogChild"
-        class="flex min-h-dvh w-full flex-col bg-neutral-bg-2 shadow-larger md:min-h-0 md:max-w-[512px] md:rounded-xl md:border md:border-border-default"
+        class="flex min-h-full w-full flex-col bg-neutral-bg-2 shadow-larger md:min-h-0 md:max-w-[512px] md:rounded-xl md:border md:border-border-default"
       >
         <div class="flex items-center justify-between p-6">
           <span class="text-2xl font-semibold text-typography-default">{{ title }}</span>
@@ -37,15 +36,19 @@
               @click="handleParentClick(index)"
             />
           </div>
-          <slot :name="'tab-content-' + activeTabIdx" />
+          <div class="h-[calc(100dvh-152px)] overflow-y-auto md:h-auto">
+            <slot :name="'tab-content-' + activeTabIdx" />
+          </div>
         </template>
         <template v-else>
-          <slot name="content" />
-          <div
-            v-if="$slots.footer"
-            class="border-t border-border-default p-6"
-          >
-            <slot name="footer" />
+          <div class="h-[calc(100dvh-80px)] overflow-y-auto md:h-auto">
+            <slot name="content" />
+            <div
+              v-if="$slots.footer"
+              class="border-t border-border-default p-6"
+            >
+              <slot name="footer" />
+            </div>
           </div>
         </template>
       </div>
@@ -109,9 +112,8 @@ const show = () => {
   const element = dialog.value as HTMLDivElement;
   element.style.animation = "fadeInAnimation 200ms forwards";
   // document.body.style.position = "fixed";
-  if (document.body.scrollHeight > document.body.clientHeight) {
+  if (document.body.clientWidth > 768 && document.body.scrollHeight > document.body.clientHeight) {
     const scroll = window.scrollY;
-    document.body.style.overflowY = "scroll";
     document.body.style.position = "fixed";
     document.body.style.top = `-${scroll}px`;
   } else {
@@ -123,13 +125,13 @@ const show = () => {
 function close() {
   const element = dialog.value as HTMLDivElement;
   element.style.animation = "fadeOutAnimation 200ms forwards";
-  document.body.style.position = "unset";
-  document.body.style.overflowY = "auto";
+  document.body.style.removeProperty("overflow-y");
 
   if (document.body.style.top) {
     const scroll = Math.abs(parseInt(document.body.style.top));
     window.scroll({ top: scroll });
     document.body.style.removeProperty("top");
+    document.body.style.removeProperty("position");
   }
 
   setTimeout(() => {
