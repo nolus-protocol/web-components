@@ -4,6 +4,7 @@
       <div
         v-if="showAttributes"
         class="flex items-center gap-2"
+        :class="headerClasses"
       >
         <Input
           v-if="searchable"
