@@ -24,7 +24,7 @@
     </div>
     <div
       v-if="$slots.content"
-      class="max-h-[100%] flex-1 overflow-y-hidden"
+      class="h-[calc(100dvh-121px)] flex-1 overflow-y-auto md:h-auto md:!overflow-y-visible"
     >
       <slot name="content" />
     </div>

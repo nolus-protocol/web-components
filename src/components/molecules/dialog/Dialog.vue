@@ -36,12 +36,12 @@
               @click="handleParentClick(index)"
             />
           </div>
-          <div class="h-[calc(100dvh-152px)] overflow-y-auto md:h-auto">
+          <div class="h-[calc(100dvh-152px)] overflow-y-auto md:h-auto md:!overflow-y-visible">
             <slot :name="'tab-content-' + activeTabIdx" />
           </div>
         </template>
         <template v-else>
-          <div class="h-[calc(100dvh-80px)] overflow-y-auto md:h-auto">
+          <div class="h-[calc(100dvh-80px)] overflow-y-auto md:h-auto md:!overflow-y-visible">
             <slot name="content" />
             <div
               v-if="$slots.footer"
