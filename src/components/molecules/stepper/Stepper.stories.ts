@@ -43,16 +43,16 @@ export const Medium: Story = {
       {
         label: "Transfer",
         icon: `${iconsExternalUrl}/osmosis-nls.svg`,
-        token: { balance: 100, symbol: "NLS" },
+        token: { balance: "100", symbol: "NLS" },
         meta: () => h("div", `Osmosis > Nolus (#ac34aadf) Nolus`)
       },
       {
         label: "Transfer",
         icon: `${iconsExternalUrl}/osmosis-atom.svg`,
-        token: { balance: 100, symbol: "NLS" }
+        token: { balance: "100", symbol: "NLS" }
       },
-      { label: "Transfer", icon: `${iconsExternalUrl}/osmosis-atom.svg`, token: { balance: 100, symbol: "NLS" } },
-      { label: "Transfer", icon: `${iconsExternalUrl}/osmosis-atom.svg`, token: { balance: 100, symbol: "NLS" } }
+      { label: "Transfer", icon: `${iconsExternalUrl}/osmosis-atom.svg`, token: { balance: "100", symbol: "NLS" } },
+      { label: "Transfer", icon: `${iconsExternalUrl}/osmosis-atom.svg`, token: { balance: "100", symbol: "NLS" } }
     ]
   }
 };

@@ -5,10 +5,11 @@ type Step = {
 };
 
 export type MediumStep = {
-  token: {
+  token?: {
     symbol: string;
-    balance: number;
+    balance: string;
   };
+  tokenComponent?: () => any;
   meta?: () => any;
 } & Step;
 
