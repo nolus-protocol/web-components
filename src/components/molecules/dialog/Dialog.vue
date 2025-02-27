@@ -112,13 +112,13 @@ const show = () => {
   const element = dialog.value as HTMLDivElement;
   element.style.animation = "fadeInAnimation 200ms forwards";
   // document.body.style.position = "fixed";
-  if (document.body.clientWidth > 768 && document.body.scrollHeight > document.body.clientHeight) {
-    const scroll = window.scrollY;
-    document.body.style.position = "fixed";
-    document.body.style.top = `-${scroll}px`;
-  } else {
-    document.body.style.overflowY = "hidden";
-  }
+  // if (document.body.clientWidth > 768 && document.body.scrollHeight > document.body.clientHeight) {
+  //   const scroll = window.scrollY;
+  //   document.body.style.position = "fixed";
+  //   document.body.style.top = `-${scroll}px`;
+  // } else {
+  //   document.body.style.overflowY = "hidden";
+  // }
   element.style.visibility = "visible";
 };
 
