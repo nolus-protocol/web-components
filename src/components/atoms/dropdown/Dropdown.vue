@@ -42,97 +42,100 @@
         class="icon icon-picker leading-1 flex transform items-center text-[20px] text-icon-default transition duration-300 ease-in-out"
       />
     </button>
-    <Transition name="fade">
-      <div
-        v-if="isOpen"
-        :class="[
-          'shadow-lg absolute top-full z-[12] mt-3 w-full min-w-48 overflow-hidden rounded-lg border-[1px] border-border-default bg-neutral-bg-2 text-typography-default shadow-shadow-lighter',
-          dropdownPosition === 'right' ? 'right-0' : 'left-0',
-          dropdownClassName,
-          itemTemplate ? 'min-w-[325px]' : ''
-        ]"
-      >
+    <Teleport to="body">
+      <Transition name="fade">
         <div
-          v-if="dropdownLabel || searchable"
-          class="flex flex-col gap-4 border-b-[1px] border-border-default p-4"
+          v-if="isOpen"
+          ref="elements"
+          :style="[`top: ${position.y}px`, `left: ${position.x}px`]"
+          :class="[
+            'shadow-lg fixed z-[9999] mt-3 min-w-48 overflow-hidden rounded-lg border-[1px] border-border-default bg-neutral-bg-2 text-typography-default shadow-shadow-lighter',
+            dropdownClassName,
+            itemTemplate ? 'min-w-[325px]' : ''
+          ]"
         >
           <div
-            v-if="dropdownLabel"
-            class="flex justify-between"
+            v-if="dropdownLabel || searchable"
+            class="flex flex-col gap-4 border-b-[1px] border-border-default p-4"
           >
-            <span class="flex-1 font-semibold">{{ dropdownLabel }}</span>
-            <i
-              class="icon icon-close leading-1 flex cursor-pointer items-center text-[15px] text-icon-default"
-              @click="isOpen = !isOpen"
+            <div
+              v-if="dropdownLabel"
+              class="flex justify-between"
+            >
+              <span class="flex-1 font-semibold">{{ dropdownLabel }}</span>
+              <i
+                class="icon icon-close leading-1 flex cursor-pointer items-center text-[15px] text-icon-default"
+                @click="isOpen = !isOpen"
+              />
+            </div>
+            <Input
+              v-if="searchable"
+              id="search-input"
+              ref="searchInputRef"
+              :size="Size.medium"
+              :type="InputType.search"
+              :value="searchInput"
+              @input="
+                (e) => {
+                  searchInput = (e.target as HTMLInputElement).value;
+                }
+              "
+              @on-search-clear="
+                (e) => {
+                  e.stopPropagation();
+                  searchInput = '';
+                }
+              "
             />
           </div>
-          <Input
-            v-if="searchable"
-            id="search-input"
-            ref="searchInputRef"
-            :size="Size.medium"
-            :type="InputType.search"
-            :value="searchInput"
-            @input="
-              (e) => {
-                searchInput = (e.target as HTMLInputElement).value;
-              }
-            "
-            @on-search-clear="
-              (e) => {
-                e.stopPropagation();
-                searchInput = '';
-              }
-            "
-          />
-        </div>
-        <div
-          v-if="itemsHeadline"
-          class="flex border-b-[1px] border-border-default bg-neutral-bg-1 p-3"
-        >
-          <span
-            v-for="headline in itemsHeadline"
-            :key="headline"
-            class="flex-1 text-14 font-normal text-typography-default last-of-type:text-right"
-            >{{ headline }}</span
+          <div
+            v-if="itemsHeadline"
+            class="flex border-b-[1px] border-border-default bg-neutral-bg-1 p-3"
           >
-        </div>
-        <ul class="scroll-bar flex max-h-[250px] flex-col overflow-y-auto rounded-b-lg">
-          <template v-if="filteredItemTemplates.length > 0">
-            <div class="flex flex-col">
-              <component
-                :is="itemTemplate?.(option)"
-                v-for="option in filteredItemTemplates"
-                :key="option.value"
-                :class="{
-                  'bg-primary-default text-typography-static-light': selectedOption?.value === option.value,
-                  'pointer-events-none': option.disabled
-                }"
-                class="min-h-10 cursor-pointer hover:bg-primary-default hover:text-typography-static-light"
-                @click="selectOption(option)"
-              ></component>
-            </div>
-          </template>
-          <template v-else>
-            <li
-              v-for="option in filteredOptions"
-              :key="option.value"
-              :class="{ 'bg-primary-default text-typography-static-light': selectedOption?.value === option.value }"
-              class="flex min-h-10 cursor-pointer items-center px-4 py-2 hover:bg-primary-default hover:text-typography-static-light"
-              @click="selectOption(option)"
+            <span
+              v-for="headline in itemsHeadline"
+              :key="headline"
+              class="flex-1 text-14 font-normal text-typography-default last-of-type:text-right"
+              >{{ headline }}</span
             >
-              <img
-                v-if="option.icon"
-                :alt="option.label"
-                :src="option.icon"
-                class="mr-3 h-6 w-6"
-              />
-              <span class="flex-1">{{ option.label }}</span>
-            </li>
-          </template>
-        </ul>
-      </div>
-    </Transition>
+          </div>
+          <ul class="scroll-bar flex max-h-[250px] flex-col overflow-y-auto rounded-b-lg">
+            <template v-if="filteredItemTemplates.length > 0">
+              <div class="flex flex-col">
+                <component
+                  :is="itemTemplate?.(option)"
+                  v-for="option in filteredItemTemplates"
+                  :key="option.value"
+                  :class="{
+                    'bg-primary-default text-typography-static-light': selectedOption?.value === option.value,
+                    'pointer-events-none': option.disabled
+                  }"
+                  class="min-h-10 cursor-pointer hover:bg-primary-default hover:text-typography-static-light"
+                  @click="selectOption(option)"
+                ></component>
+              </div>
+            </template>
+            <template v-else>
+              <li
+                v-for="option in filteredOptions"
+                :key="option.value"
+                :class="{ 'bg-primary-default text-typography-static-light': selectedOption?.value === option.value }"
+                class="flex min-h-10 cursor-pointer items-center px-4 py-2 hover:bg-primary-default hover:text-typography-static-light"
+                @click="selectOption(option)"
+              >
+                <img
+                  v-if="option.icon"
+                  :alt="option.label"
+                  :src="option.icon"
+                  class="mr-3 h-6 w-6"
+                />
+                <span class="flex-1">{{ option.label }}</span>
+              </li>
+            </template>
+          </ul>
+        </div>
+      </Transition>
+    </Teleport>
   </div>
 </template>
 
@@ -145,9 +148,12 @@ import { InputType } from "@/components/atoms/input/types";
 import Input from "../input/Input.vue";
 
 const dropdownRef = ref<HTMLElement | null>(null);
+const elements = ref<HTMLElement | null>(null);
+
 const isOpen = ref(false);
 const selectedOption = ref<DropdownOption | null>(null);
 const searchInputRef = ref<HTMLInputElement>();
+const position = ref<{ x: number; y: number }>({ x: 0, y: 0 });
 
 const props = withDefaults(
   defineProps<
@@ -161,15 +167,14 @@ const props = withDefaults(
   >(),
   {
     size: Size.medium,
-    hideText: false,
-    dropdownPosition: "left"
+    hideText: false
   }
 );
 
 const searchInput = ref("");
 const classes = computed(() => ({
-  "px-2 py-1 focus:px-[7px] focus:py-[3px]": props.size === Size.small,
-  "px-3 py-2 focus:px-[11px] focus:py-[7px]": props.size === Size.medium,
+  "px-2 py-1 focus:py-[3px]": props.size === Size.small,
+  "px-3 py-2 focus:py-[7px]": props.size === Size.medium,
 
   "border-primary-50": isOpen.value,
   "!border-danger-100": props.error
@@ -179,7 +184,17 @@ const emit = defineEmits<{
   (e: "unmounted", func: () => void): void;
 }>();
 
-const toggleDropdown = () => {
+const toggleDropdown = (event: MouseEvent) => {
+  if (dropdownRef.value) {
+    const rect = dropdownRef.value.getBoundingClientRect();
+    const x = rect.left;
+    const y = rect.top + rect.height;
+
+    position.value = {
+      x,
+      y
+    };
+  }
   isOpen.value = !isOpen.value;
 };
 
@@ -253,6 +268,9 @@ const filteredItemTemplates = computed(() => {
 
 // Close dropdown when clicking outside
 const handleClickOutside = (event: MouseEvent) => {
+  if (elements.value && (elements.value == event.target || elements.value.contains(event.target as Node))) {
+    return;
+  }
   if (dropdownRef.value && !dropdownRef.value.contains(event.target as Node)) {
     isOpen.value = false;
   }

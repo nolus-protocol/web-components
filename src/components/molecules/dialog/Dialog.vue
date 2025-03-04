@@ -7,7 +7,7 @@
     >
       <div
         ref="dialogChild"
-        class="flex min-h-full w-full flex-col bg-neutral-bg-2 shadow-larger md:min-h-0 md:max-w-[512px] md:rounded-xl md:border md:border-border-default"
+        class="flex h-[100vh] max-h-[100dvh] w-full flex-col bg-neutral-bg-2 shadow-larger md:h-auto md:min-h-0 md:max-w-[512px] md:rounded-xl md:border md:border-border-default"
       >
         <div class="flex items-center justify-between p-6">
           <span class="text-2xl font-semibold text-typography-default">{{ title }}</span>
@@ -36,12 +36,12 @@
               @click="handleParentClick(index)"
             />
           </div>
-          <div class="h-[calc(100dvh-152px)] overflow-y-auto md:h-auto md:!overflow-y-visible">
+          <div class="flex h-[calc(100%-152px)] flex-col overflow-y-auto">
             <slot :name="'tab-content-' + activeTabIdx" />
           </div>
         </template>
         <template v-else>
-          <div class="h-[calc(100dvh-80px)] overflow-y-auto md:h-auto md:!overflow-y-visible">
+          <div class="flex h-[calc(100%-80px)] flex-col overflow-y-auto">
             <slot name="content" />
             <div
               v-if="$slots.footer"
@@ -111,14 +111,6 @@ function backButtonClicked(event: Event) {
 const show = () => {
   const element = dialog.value as HTMLDivElement;
   element.style.animation = "fadeInAnimation 200ms forwards";
-  // document.body.style.position = "fixed";
-  // if (document.body.clientWidth > 768 && document.body.scrollHeight > document.body.clientHeight) {
-  //   const scroll = window.scrollY;
-  //   document.body.style.position = "fixed";
-  //   document.body.style.top = `-${scroll}px`;
-  // } else {
-  //   document.body.style.overflowY = "hidden";
-  // }
   element.style.visibility = "visible";
 };
 
