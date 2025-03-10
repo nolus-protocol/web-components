@@ -21,7 +21,7 @@
           :class="[
             {
               'border-border-warning': activeStep === index,
-              '!border-solid !border-border-success': activeStep > index,
+              '!border-border-success-emphasized !border-solid': activeStep > index,
               relative: step.approval
             }
           ]"
@@ -58,7 +58,7 @@
             :class="[
               {
                 'border-border-warning': activeStep === index,
-                '!border-solid !border-border-success': activeStep > index,
+                '!border-border-success-emphasized !border-solid': activeStep > index,
                 relative: step.approval
               }
             ]"

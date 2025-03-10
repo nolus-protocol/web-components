@@ -7,7 +7,8 @@
     >
       <div
         ref="dialogChild"
-        class="flex h-[100vh] max-h-[80dvh] w-full flex-col bg-neutral-bg-2 shadow-larger md:h-auto md:min-h-0 md:max-w-[512px] md:rounded-xl md:border md:border-border-default"
+        class="flex h-[100dvh] max-h-[100dvh] w-full flex-col bg-neutral-bg-2 shadow-larger md:h-[800px] md:min-h-0 md:max-w-[512px] md:rounded-xl md:border md:border-border-default"
+        :class="classList"
       >
         <div class="flex items-center justify-between p-6">
           <span class="text-2xl font-semibold text-typography-default">{{ title }}</span>
@@ -71,6 +72,7 @@ export interface DialogProps {
   activeTabIndex?: number;
   showClose?: boolean;
   disableClose?: boolean;
+  classList?: string;
 }
 
 const props = withDefaults(defineProps<DialogProps>(), {});

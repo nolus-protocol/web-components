@@ -176,6 +176,7 @@ export default {
           muted: "var(--color-border-muted)",
           default: "var(--color-border-default)",
           emphasized: "var(--color-border-emphasized)",
+          "success-emphasized": "var(--color-border-success-emphasized)",
           dominant: "var(--color-border-dominant)",
           focus: "var(--color-border-focus)",
           success: "var(--color-border-success)",

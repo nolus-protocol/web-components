@@ -1,17 +1,17 @@
 @layer base {
   :root {
     --color-background-50: #ffffff;
-    --color-background-100: #F7F9FC;
-    --color-background-200: #C1CAD7;
-    --color-background-300: #EBEFF5;
+    --color-background-100: #f7f9fc;
+    --color-background-200: #c1cad7;
+    --color-background-300: #ebeff5;
 
-    --color-typography-50: #8396B1;
-    --color-typography-100: #4C5A6E;
+    --color-typography-50: #8396b1;
+    --color-typography-100: #4c5a6e;
     --color-typography-200: #273141;
 
-    --color-primary-50: #3470E2;
-    --color-primary-100: #245DC8;
-    --color-primary-200: #2054B5;
+    --color-primary-50: #3470e2;
+    --color-primary-100: #245dc8;
+    --color-primary-200: #2054b5;
 
     --color-danger-50: #e4292926;
     --color-danger-100: #e42929;
@@ -24,10 +24,10 @@
 
     --color-brand-accent: #ff562e;
 
-    --border-color: #C1CAD7;
-    --border-color-emphasized: #A4B2C5;
+    --border-color: #c1cad7;
+    --border-color-emphasized: #a4b2c5;
 
-    --spinner-color: #3470E2;
+    --spinner-color: #3470e2;
     --spinner-border-color: #c1cad7;
     --color-progress: #ebeff5;
 
@@ -43,7 +43,7 @@
 
     // new colors
     --color-typography-default: #273141;
-    --color-typography-secondary: #4C5A6E;
+    --color-typography-secondary: #4c5a6e;
     --color-typography-disabled: #8396b1;
     --color-typography-success: #0f6641;
     --color-typography-warning: #73530f;
@@ -61,8 +61,8 @@
     --color-icon-brand: #ff5f3a;
 
     // same for typography and icon
-    --color-inverted: #FFFFFF;
-    --color-static-light: #FFFFFF;
+    --color-inverted: #ffffff;
+    --color-static-light: #ffffff;
     --color-static-dark: #273141;
 
     --color-background-level-1: #f7f9fc;
@@ -74,14 +74,14 @@
     --color-background-level-inverted-1-50: rgba(23, 28, 37, 0.5);
 
     --color-primary-default: #3470e2;
-    --color-primary-hover: #245DC8;
-    --color-primary-active: #2054B5;
+    --color-primary-hover: #245dc8;
+    --color-primary-active: #2054b5;
 
-    --color-secondary-default: #FFFFFF;
-    --color-secondary-hover: #F7F9FC;
-    --color-secondary-active: #C1CAD7;
+    --color-secondary-default: #ffffff;
+    --color-secondary-hover: #f7f9fc;
+    --color-secondary-active: #c1cad7;
 
-    --color-danger-default: #FFFFFF;
+    --color-danger-default: #ffffff;
     --color-danger-hover: #fceaee;
     --color-danger-active: #f6b9c5;
 
@@ -89,7 +89,7 @@
 
     --color-info-muted: #e8effc;
 
-    --color-success-muted: #DDF3EA;
+    --color-success-muted: #ddf3ea;
     --color-success-emphasized: #148555;
 
     --color-warning-muted: #ffeec9;
@@ -98,7 +98,7 @@
     --color-error-muted: #fceaee;
     --color-error-emphasized: #ab1f3b;
 
-    --color-logo: #072D63;
+    --color-logo: #072d63;
 
     --color-dackdrop: rgba(23, 28, 37, 0.5);
 
@@ -110,31 +110,32 @@
     --color-border-dominant: #8396b1;
     --color-border-focus: #3470e2;
     --color-border-success: #148555;
+    --color-border-success-emphasized: #148555;
     --color-border-error: #df294d;
     --color-border-warning: #c08b1a;
 
-    --color-shadow-default: rgba(0, 0, 0, 0.10);
+    --color-shadow-default: rgba(0, 0, 0, 0.1);
     --color-shadow-light: rgba(0, 0, 0, 0.075);
     --color-shadow-lighter: rgba(0, 0, 0, 0.05);
   }
 
   :root[class~="sync"] {
     @media (prefers-color-scheme: dark) {
-      --color-background-50: #171C25;
+      --color-background-50: #171c25;
       --color-background-100: #273141;
       --color-background-200: #384354;
 
-      --color-typography-50: #66768E;
-      --color-typography-100: #C1CAD7;
-      --color-typography-200: #F7F9FC;
+      --color-typography-50: #66768e;
+      --color-typography-100: #c1cad7;
+      --color-typography-200: #f7f9fc;
 
-      --color-primary-100: #6793EA;
-      --color-primary-200: #245DC8;
+      --color-primary-100: #6793ea;
+      --color-primary-200: #245dc8;
 
       --border-color: #384354;
-      --border-color-emphasized: #66768E;
+      --border-color-emphasized: #66768e;
 
-      --spinner-color: #3470E2;
+      --spinner-color: #3470e2;
       --spinner-border-color: #2b384b;
       --color-progress: #2b384b;
 
@@ -163,18 +164,18 @@
 
       // same for typography and icon
       --color-inverted: #273141;
-      --color-static-light: #FFFFFF;
+      --color-static-light: #ffffff;
       --color-static-dark: #273141;
 
       --color-background-level-1: #171c25;
-      --color-background-level-2: #1E242F;
+      --color-background-level-2: #1e242f;
       --color-background-level-3: #273141;
       --color-background-level-4: #4c5a6e;
       --color-background-level-inverted-2: #ebeff5;
       --color-background-level-inverted-1: #ffffff;
       --color-background-level-inverted-1-50: rgba(255, 255, 255, 0.5);
 
-      --color-primary-default: #3470E2;
+      --color-primary-default: #3470e2;
       --color-primary-hover: #6793ea;
       --color-primary-active: #245dc8;
 
@@ -211,31 +212,32 @@
       --color-border-dominant: #8396b1;
       --color-border-focus: #6793ea;
       --color-border-success: #19a96c;
+      --color-border-success-emphasized: #148555;
       --color-border-error: #ed6983;
       --color-border-warning: #c08b1a;
 
-      --color-shadow-default: rgba(0, 0, 0, 0.20);
+      --color-shadow-default: rgba(0, 0, 0, 0.2);
       --color-shadow-light: rgba(0, 0, 0, 0.15);
-      --color-shadow-lighter: rgba(0, 0, 0, 0.10);
+      --color-shadow-lighter: rgba(0, 0, 0, 0.1);
     }
   }
 
   :root[class~="dark"] {
-    --color-background-50: #171C25;
+    --color-background-50: #171c25;
     --color-background-100: #273141;
     --color-background-200: #384354;
 
-    --color-typography-50: #66768E;
-    --color-typography-100: #C1CAD7;
-    --color-typography-200: #F7F9FC;
+    --color-typography-50: #66768e;
+    --color-typography-100: #c1cad7;
+    --color-typography-200: #f7f9fc;
 
-    --color-primary-100: #6793EA;
-    --color-primary-200: #245DC8;
+    --color-primary-100: #6793ea;
+    --color-primary-200: #245dc8;
 
     --border-color: #384354;
-    --border-color-emphasized: #66768E;
+    --border-color-emphasized: #66768e;
 
-    --spinner-color: #3470E2;
+    --spinner-color: #3470e2;
     --spinner-border-color: #2b384b;
     --color-progress: #2b384b;
 
@@ -264,18 +266,18 @@
 
     // same for typography and icon
     --color-inverted: #273141;
-    --color-static-light: #FFFFFF;
+    --color-static-light: #ffffff;
     --color-static-dark: #273141;
 
     --color-background-level-1: #171c25;
-    --color-background-level-2: #1E242F;
+    --color-background-level-2: #1e242f;
     --color-background-level-3: #273141;
     --color-background-level-4: #4c5a6e;
     --color-background-level-inverted-2: #ebeff5;
     --color-background-level-inverted-1: #ffffff;
     --color-background-level-inverted-1-50: rgba(255, 255, 255, 0.5);
 
-    --color-primary-default: #3470E2;
+    --color-primary-default: #3470e2;
     --color-primary-hover: #6793ea;
     --color-primary-active: #245dc8;
 
@@ -312,11 +314,12 @@
     --color-border-dominant: #8396b1;
     --color-border-focus: #6793ea;
     --color-border-success: #19a96c;
+    --color-border-success-emphasized: #148555;
     --color-border-error: #ed6983;
     --color-border-warning: #c08b1a;
 
-    --color-shadow-default: rgba(0, 0, 0, 0.20);
+    --color-shadow-default: rgba(0, 0, 0, 0.2);
     --color-shadow-light: rgba(0, 0, 0, 0.15);
-    --color-shadow-lighter: rgba(0, 0, 0, 0.10);
+    --color-shadow-lighter: rgba(0, 0, 0, 0.1);
   }
 }
