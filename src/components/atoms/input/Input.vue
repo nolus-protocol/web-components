@@ -58,7 +58,7 @@ import { InputType } from "./types";
 
 const props = withDefaults(defineProps<InputProps>(), {
   size: Size.medium,
-  type: InputType.number
+  type: InputType.text
 });
 
 // Create a ref for the input element

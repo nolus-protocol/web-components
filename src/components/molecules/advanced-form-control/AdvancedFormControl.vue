@@ -109,7 +109,7 @@ const numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 
 const props = withDefaults(defineProps<AdvancedCurrencyFieldProps<DropdownOption>>(), {
   hideBalance: false,
-  type: InputType.number
+  type: InputType.text
 });
 
 const numberValue = ref(props.value);
@@ -143,9 +143,8 @@ watch(
 );
 
 const setValue = (stopEmit?: boolean) => {
-  let value = removeComma(numberValue.value ?? "");
+  let value = removeComma(numberValue.value?.toString() ?? "");
   let numValue = Number(value);
-
   numberValue.value = commify(value.toString());
 
   if (isNaN(numValue)) {
