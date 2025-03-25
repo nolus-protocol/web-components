@@ -4,7 +4,8 @@ export enum InputType {
   text = "text",
   password = "password",
   search = "search",
-  email = "email"
+  email = "email",
+  number = "number"
 }
 
 export interface InputProps {

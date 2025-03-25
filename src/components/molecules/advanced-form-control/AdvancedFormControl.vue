@@ -75,6 +75,7 @@
         @keydown="inputValue"
         @keyup="setValue()"
         @paste="onPaste"
+        :type="type"
       />
       <span class="text-right text-14 font-normal text-typography-secondary">
         {{ calculatedBalance }}
@@ -93,7 +94,7 @@
 import { onMounted, ref, watch } from "vue";
 import { Dropdown, Tooltip } from "@/components";
 import type { AdvancedCurrencyFieldOption, AdvancedCurrencyFieldProps } from "./types";
-import type { DropdownOption } from "@/components/types";
+import { InputType, type DropdownOption } from "@/components/types";
 
 const emit = defineEmits<{
   (e: "on-selected-currency", value: AdvancedCurrencyFieldOption): void;
@@ -107,7 +108,8 @@ const allowed = ["Delete", "Backspace", "ArrowLeft", "ArrowRight", "-", ".", "En
 const numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 
 const props = withDefaults(defineProps<AdvancedCurrencyFieldProps<DropdownOption>>(), {
-  hideBalance: false
+  hideBalance: false,
+  type: InputType.number
 });
 
 const numberValue = ref(props.value);
@@ -162,6 +164,9 @@ const setValue = (stopEmit?: boolean) => {
 };
 
 const setBalance = () => {
+  if (props.disabledInputField) {
+    return;
+  }
   const value = selectedToken?.value?.balance?.value || "";
 
   numberValue.value = commify(value);

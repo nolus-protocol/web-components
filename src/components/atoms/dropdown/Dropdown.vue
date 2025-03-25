@@ -49,7 +49,7 @@
           ref="elements"
           :style="[`top: ${position.y}px`, `left: ${position.x}px`]"
           :class="[
-            'shadow-lg fixed z-[9999] mt-3 min-w-48 overflow-hidden rounded-lg border-[1px] border-border-default bg-neutral-bg-2 text-typography-default shadow-shadow-lighter',
+            'shadow-lg fixed z-[9999] mt-3 min-w-48 max-w-full overflow-hidden rounded-lg border-[1px] border-border-default bg-neutral-bg-2 text-typography-default shadow-shadow-lighter',
             dropdownClassName,
             itemTemplate ? 'min-w-[325px]' : ''
           ]"
@@ -140,7 +140,7 @@
 </template>
 
 <script generic="T extends DropdownOption" lang="ts" setup>
-import { computed, onMounted, ref, watch } from "vue";
+import { computed, onBeforeUnmount, onMounted, ref, watch } from "vue";
 import type { DropdownOption, DropdownProps } from "./types";
 import Spinner from "../spinner/Spinner.vue";
 import { Size } from "@/shared/utils/types";
@@ -185,6 +185,18 @@ const emit = defineEmits<{
 }>();
 
 const toggleDropdown = (event: MouseEvent) => {
+  setPosition();
+  isOpen.value = !isOpen.value;
+  if (isOpen.value) {
+    window.addEventListener("scroll", setPosition);
+    document.getElementById("dialog-scroll")?.addEventListener("scroll", setPosition);
+  } else {
+    window.removeEventListener("scroll", setPosition);
+    document.getElementById("dialog-scroll")?.removeEventListener("scroll", setPosition);
+  }
+};
+
+function setPosition() {
   if (dropdownRef.value) {
     const rect = dropdownRef.value.getBoundingClientRect();
     const x = rect.left;
@@ -195,8 +207,7 @@ const toggleDropdown = (event: MouseEvent) => {
       y
     };
   }
-  isOpen.value = !isOpen.value;
-};
+}
 
 const selectOption = (option: T) => {
   searchInput.value = "";
@@ -214,6 +225,10 @@ onMounted(() => {
   if (option) {
     selectedOption.value = option;
   }
+});
+
+onBeforeUnmount(() => {
+  cleanup();
 });
 
 // Watch for changes in selectedValue prop and update selectedOption accordingly
@@ -281,7 +296,9 @@ window.addEventListener("click", handleClickOutside);
 
 // Cleanup event listener on component unmount
 const cleanup = () => {
+  window.removeEventListener("scroll", setPosition);
   window.removeEventListener("click", handleClickOutside);
+  document.getElementById("dialog-scroll")?.removeEventListener("scroll", setPosition);
 };
 
 // Emit cleanup function on component unmount

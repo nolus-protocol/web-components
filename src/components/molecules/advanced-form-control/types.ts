@@ -1,4 +1,5 @@
 import type { DropdownOption } from "@/components/atoms/dropdown/types";
+import type { InputType } from "@/components/types";
 
 export interface AdvancedCurrencyFieldBalance {
   value: string;
@@ -12,6 +13,7 @@ export interface AdvancedCurrencyFieldOption extends DropdownOption {
 }
 
 export interface AdvancedCurrencyFieldProps<T extends DropdownOption> {
+  type?: InputType;
   id: string;
   value?: string;
   valueOnly?: string;

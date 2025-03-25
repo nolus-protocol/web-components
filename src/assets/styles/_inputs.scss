@@ -4,12 +4,12 @@
   }
 
   &-label {
-      @apply text-14 font-normal cursor-pointer text-typography-default w-max;
+    @apply w-max cursor-pointer text-14 font-normal text-typography-default;
   }
 
   &-input,
   &-dropdown {
-    @apply flex items-center border-[1px] border-border-dominant bg-neutral-bg-2 shadow-shadow-default text-typography-default rounded-md text-16 h-10 font-normal;
+    @apply flex h-10 items-center rounded-md border-[1px] border-border-dominant bg-neutral-bg-2 text-16 font-normal text-typography-default shadow-shadow-default;
     @apply focus:border-[2px] focus:border-border-focus focus:outline-none;
   }
 
@@ -21,7 +21,7 @@
 }
 
 .field-currency {
-  @apply transition hover:border-border-hover-color rounded-md border-[1px] border-border-color bg-neutral-bg-50 px-3 py-4 pl-4 pr-3 text-neutral-typography-200 outline-none focus:border-primary-50 disabled:bg-neutral-bg-100 disabled:text-neutral-typography-50 disabled:hover:border-border-color dark:disabled:bg-neutral-bg-50;
+  @apply rounded-md border-[1px] border-border-color bg-neutral-bg-50 px-3 py-4 pl-4 pr-3 text-neutral-typography-200 outline-none transition hover:border-border-hover-color focus:border-primary-50 disabled:bg-neutral-bg-100 disabled:text-neutral-typography-50 disabled:hover:border-border-color dark:disabled:bg-neutral-bg-50;
   @apply focus-within:border-primary-50 #{!important};
 
   &-wrapper {
@@ -37,11 +37,11 @@
   }
 
   &-balance {
-    @apply text-12 font-medium cursor-pointer text-neutral-400;
+    @apply cursor-pointer text-12 font-medium text-neutral-400;
   }
 
   &-error {
-    @apply text-12 text-danger-100 font-medium;
+    @apply text-12 font-medium text-danger-100;
   }
 }
 
@@ -49,5 +49,14 @@ input[type="search"]::-webkit-search-decoration,
 input[type="search"]::-webkit-search-cancel-button,
 input[type="search"]::-webkit-search-results-button,
 input[type="search"]::-webkit-search-results-decoration {
-  -webkit-appearance:none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
 }
