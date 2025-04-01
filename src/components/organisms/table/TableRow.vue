@@ -41,6 +41,7 @@
           <div
             :class="[
               'flex justify-end',
+              item.textClass,
               { '!justify-start': item.variant === 'left' },
               { '!justify-center': item.variant === 'center' }
             ]"

@@ -38,6 +38,7 @@ export interface TableRowItem {
   value?: string;
   component?: Component;
   subValue?: string;
+  textClass?: string;
   subValueClass?: string;
   image?: string;
   imageClass?: string;
