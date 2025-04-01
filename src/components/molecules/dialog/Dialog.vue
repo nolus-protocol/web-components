@@ -118,20 +118,22 @@ const show = () => {
 
 function close() {
   const element = dialog.value as HTMLDivElement;
-  element.style.animation = "fadeOutAnimation 200ms forwards";
-  document.body.style.removeProperty("overflow-y");
+  if (element) {
+    element.style.animation = "fadeOutAnimation 200ms forwards";
+    document.body.style.removeProperty("overflow-y");
 
-  if (document.body.style.top) {
-    const scroll = Math.abs(parseInt(document.body.style.top));
-    window.scroll({ top: scroll });
-    document.body.style.removeProperty("top");
-    document.body.style.removeProperty("position");
+    if (document.body.style.top) {
+      const scroll = Math.abs(parseInt(document.body.style.top));
+      window.scroll({ top: scroll });
+      document.body.style.removeProperty("top");
+      document.body.style.removeProperty("position");
+    }
+
+    setTimeout(() => {
+      emit("close-dialog");
+      element.style.visibility = "hidden";
+    }, 200);
   }
-
-  setTimeout(() => {
-    emit("close-dialog");
-    element.style.visibility = "hidden";
-  }, 200);
 }
 
 const handleClickOutside = (event: MouseEvent) => {
