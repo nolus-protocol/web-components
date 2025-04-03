@@ -104,6 +104,7 @@ const emit = defineEmits<{
 const dot = ".";
 const minus = "-";
 const comma = ",";
+const space = "Space";
 const allowed = ["Delete", "Backspace", "ArrowLeft", "ArrowRight", "-", ".", "Enter", "Tab", "Control", "End", "Home"];
 const numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 
@@ -143,7 +144,7 @@ watch(
 );
 
 const setValue = (stopEmit?: boolean) => {
-  let value = removeComma(numberValue.value?.toString() ?? "");
+  let value = removeSpace(removeComma(numberValue.value?.toString() ?? ""));
   let numValue = Number(value);
   numberValue.value = commify(value.toString());
 
@@ -167,9 +168,8 @@ const setBalance = () => {
     return;
   }
   const value = selectedToken?.value?.balance?.value || "";
-
-  numberValue.value = commify(value);
-  emit("input", removeComma(value));
+  numberValue.value = removeSpace(commify(value));
+  emit("input", numberValue.value);
 };
 
 const onUpdateCurrency = (value: AdvancedCurrencyFieldOption) => {
@@ -191,6 +191,11 @@ const inputValue = (event: KeyboardEvent) => {
       event.preventDefault();
       return false;
     }
+  }
+
+  if (charCode == space) {
+    event.preventDefault();
+    return false;
   }
 
   if (charCode == minus && value.includes(minus)) {
@@ -229,6 +234,10 @@ const commify = (n: string) => {
 const removeComma = (n: string) => {
   const re = new RegExp(comma, "g");
   return n.replace(re, "");
+};
+
+const removeSpace = (n: string) => {
+  return n.replace(" ", "");
 };
 </script>
 
