@@ -169,7 +169,10 @@ const setBalance = () => {
   }
   const value = selectedToken?.value?.balance?.value || "";
   numberValue.value = removeSpace(commify(value));
-  emit("input", numberValue.value);
+
+  let balance = removeSpace(removeComma(numberValue.value?.toString() ?? ""));
+
+  emit("input", balance);
 };
 
 const onUpdateCurrency = (value: AdvancedCurrencyFieldOption) => {
