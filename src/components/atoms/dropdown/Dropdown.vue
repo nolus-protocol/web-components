@@ -45,13 +45,13 @@
     <Teleport to="body">
       <Transition name="fade">
         <div
-          v-if="isOpen"
           ref="elements"
           :style="[`top: ${position.y}px`, `left: ${position.x}px`]"
           :class="[
             'shadow-lg fixed z-[9999] mt-3 min-w-48 max-w-full overflow-hidden rounded-lg border-[1px] border-border-default bg-neutral-bg-2 text-typography-default shadow-shadow-lighter',
             dropdownClassName,
-            itemTemplate ? 'min-w-[325px]' : ''
+            itemTemplate ? 'min-w-[325px]' : '',
+            isOpen ? '' : 'pointer-events-none opacity-0'
           ]"
         >
           <div
@@ -142,9 +142,9 @@
 <script generic="T extends DropdownOption" lang="ts" setup>
 import { computed, onBeforeUnmount, onMounted, ref, watch } from "vue";
 import type { DropdownOption, DropdownProps } from "./types";
-import Spinner from "../spinner/Spinner.vue";
 import { Size } from "@/shared/utils/types";
 import { InputType } from "@/components/atoms/input/types";
+import Spinner from "../spinner/Spinner.vue";
 import Input from "../input/Input.vue";
 
 const dropdownRef = ref<HTMLElement | null>(null);
@@ -167,7 +167,8 @@ const props = withDefaults(
   >(),
   {
     size: Size.medium,
-    hideText: false
+    hideText: false,
+    position: "left"
   }
 );
 
@@ -197,10 +198,15 @@ const toggleDropdown = (event: MouseEvent) => {
 };
 
 function setPosition() {
-  if (dropdownRef.value) {
+  if (dropdownRef.value && elements.value) {
     const rect = dropdownRef.value.getBoundingClientRect();
-    const x = rect.left;
-    const y = rect.top + rect.height;
+    const elementsRect = elements.value.getBoundingClientRect();
+
+    let x = rect.left;
+    let y = rect.top + rect.height;
+    if (props.position === "right") {
+      x = rect.right - elementsRect.width;
+    }
 
     position.value = {
       x,

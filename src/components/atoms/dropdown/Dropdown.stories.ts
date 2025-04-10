@@ -11,7 +11,8 @@ const meta = {
   title: "Components/Atoms/Dropdown",
   component: Dropdown,
   argTypes: {
-    size: { control: "select", options: [Size.small, Size.medium] }
+    size: { control: "select", options: [Size.small, Size.medium] },
+    position: { control: "select", options: ["left", "right"] }
   },
   args: {
     id: "1",

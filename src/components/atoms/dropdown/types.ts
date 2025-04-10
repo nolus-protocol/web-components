@@ -19,4 +19,5 @@ export interface DropdownProps {
   error?: boolean;
   disabled?: boolean;
   isLoading?: boolean;
+  position?: "left" | "right";
 }
