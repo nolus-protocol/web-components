@@ -51,11 +51,12 @@ const classes = computed(() => ({
   "px-3 py-1 rounded-full text-12 min-h-8": props.size === Size.small,
   "px-4 py-2 rounded-full text-14 min-h-10": props.size === Size.medium,
   "px-6 py-2 rounded-full text-14 min-h-11": props.size === Size.large,
-
+  "p-2 rounded-full text-12 h-12 w-12": props.size === Size.icon,
   "button-loading": props.loading
 }));
 
 const iconSize = computed(() => {
+  if (props.size === Size.icon) return "s";
   if (props.size === Size.small) return "s";
   if (props.size === Size.medium) return "m";
   if (props.size === Size.large) return "l";

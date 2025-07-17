@@ -1,7 +1,8 @@
 export enum Size {
   small = "small",
   medium = "medium",
-  large = "large"
+  large = "large",
+  icon = "icon"
 }
 
 export enum Type {

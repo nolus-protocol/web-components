@@ -11,7 +11,9 @@
       class="flex items-center justify-between p-4"
       v-if="title"
     >
-      <span class="text-24 font-semibold text-typography-default">{{ title }}</span>
+      <span class="flex w-full justify-between text-24 font-semibold text-typography-default"
+        >{{ title }} <slot name="title-content" />
+      </span>
       <slot name="header" />
       <Button
         v-if="showClose"
