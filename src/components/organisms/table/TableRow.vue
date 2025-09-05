@@ -10,7 +10,10 @@
         'flex flex-1 items-center justify-end gap-0.5 text-16 font-normal text-typography-default',
         item.class,
         { '!justify-start': item.variant === 'left' },
-        { '!justify-center': item.variant === 'center' }
+        { '!justify-center': item.variant === 'center' },
+        index === 0
+          ? 'sticky left-0 z-20 mr-[12px] bg-neutral-bg-2 after:absolute after:right-0 after:top-[-0.75rem] after:h-[calc(0.75rem+0.75rem+100%)] after:w-px after:bg-border-color md:after:bg-transparent'
+          : ''
       ]"
       @click="item.click?.()"
     >

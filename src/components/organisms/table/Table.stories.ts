@@ -93,7 +93,9 @@ export const Asset: Story = {
     template: `
       <Table
         v-bind="args"
+        tableClasses="min-w-[1000px]"
       >
+      <div>Test data</div>
       <template v-slot:body>
         <TableRow
           v-for="(row, index) in args.assetsData"

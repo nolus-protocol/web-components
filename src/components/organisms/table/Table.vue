@@ -43,39 +43,44 @@
       </div>
       <div v-if="filterable">TODO add filter here</div>
     </div>
-    <div class="scroll-bar w-full overflow-auto">
+    <div class="w-full">
       <div :class="tableWrapperClasses">
         <slot></slot>
-        <div :class="['flex flex-col', tableClasses]">
-          <div
-            v-if="columns && columns.length > 0"
-            :class="['flex border-b-[1px] border-border-color py-3', columnsClasses]"
-          >
+        <div class="scroll-bar overflow-auto">
+          <div :class="['flex flex-col', tableClasses]">
             <div
-              v-for="column in columns"
-              :key="column.label"
-              :class="[
-                'flex flex-1 items-center justify-end gap-0.5 text-14 font-normal text-typography-default',
-                column.class,
-                { '!justify-start': column.variant === 'left' },
-                { '!justify-center': column.variant === 'center' }
-              ]"
+              v-if="columns && columns.length > 0"
+              :class="['flex border-b-[1px] border-border-color py-3', columnsClasses]"
             >
-              {{ column.label }}
-              <Tooltip
-                v-if="column.tooltip"
-                v-bind="column.tooltip"
+              <div
+                v-for="(column, i) in columns"
+                :key="column.label"
+                :class="[
+                  'flex flex-1 items-center justify-end gap-0.5 text-14 font-normal text-typography-default',
+                  column.class,
+                  { '!justify-start': column.variant === 'left' },
+                  { '!justify-center': column.variant === 'center' },
+                  i === 0
+                    ? 'sticky left-0 z-20 mr-[12px] bg-neutral-bg-2 after:absolute after:right-0 after:top-[-0.75rem] after:h-[calc(0.75rem+0.75rem+100%)] after:w-px after:bg-border-color md:after:bg-transparent'
+                    : ''
+                ]"
               >
-                <SvgIcon name="help" />
-              </Tooltip>
-              <SvgIcon
-                v-if="column.sortable"
-                class="cursor-pointer"
-                name="arrow"
-              />
+                {{ column.label }}
+                <Tooltip
+                  v-if="column.tooltip"
+                  v-bind="column.tooltip"
+                >
+                  <SvgIcon name="help" />
+                </Tooltip>
+                <SvgIcon
+                  v-if="column.sortable"
+                  class="cursor-pointer"
+                  name="arrow"
+                />
+              </div>
             </div>
+            <slot name="body"></slot>
           </div>
-          <slot name="body"></slot>
         </div>
         <div
           v-if="$slots.footer"

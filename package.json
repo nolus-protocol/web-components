@@ -1,6 +1,6 @@
 {
   "name": "web-components",
-  "version": "2.0.31",
+  "version": "2.0.32",
   "private": false,
   "sideEffects": [
     "*.vue",
@@ -45,6 +45,7 @@
     "@storybook/addon-interactions": "^8.4.7",
     "@storybook/addon-links": "^8.4.7",
     "@storybook/addon-themes": "^8.4.7",
+    "@storybook/addon-viewport": "^8.4.7",
     "@storybook/blocks": "^8.4.7",
     "@storybook/manager-api": "^8.4.7",
     "@storybook/test": "^8.4.7",
