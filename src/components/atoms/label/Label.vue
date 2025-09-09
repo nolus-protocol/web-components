@@ -5,11 +5,26 @@
   >
     <slot v-if="!value"></slot>
     <span v-else>{{ value }}</span>
+    <Tooltip
+      v-if="tooltip && tooltip.length > 0"
+      position="right"
+      :content="tooltip"
+    >
+      <SvgIcon
+        class="ml-1"
+        size="s"
+        name="info"
+        :class="[`label-${variant}`]"
+        :defaultColor="false"
+      />
+    </Tooltip>
   </div>
 </template>
 
 <script lang="ts" setup>
 import type { LabelProps } from "@/components/atoms/label/types";
+import { Tooltip } from "@/components";
+import SvgIcon from "../svg-icon/SvgIcon.vue";
 
 const props = defineProps<LabelProps>();
 </script>

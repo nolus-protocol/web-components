@@ -6,4 +6,5 @@ export interface LabelProps {
   value?: string;
   variant: LabelVariant;
   id?: any;
+  tooltip?: string;
 }

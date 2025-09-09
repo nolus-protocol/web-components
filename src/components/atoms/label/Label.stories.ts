@@ -12,7 +12,8 @@ const meta = {
   },
   args: {
     value: "Label",
-    variant: Variant.info
+    variant: Variant.info,
+    tooltip: "sgtra"
   } // default value
 } satisfies Meta<typeof Label>;
 
