@@ -60,7 +60,7 @@
                   column.class,
                   { '!justify-start': column.variant === 'left' },
                   { '!justify-center': column.variant === 'center' },
-                  i === 0
+                  i === 0 && scrollable
                     ? 'sticky left-0 z-20 mr-[12px] bg-neutral-bg-2 after:absolute after:right-0 after:top-[-0.75rem] after:h-[calc(0.75rem+0.75rem+100%)] after:w-px after:bg-border-color md:after:bg-transparent'
                     : ''
                 ]"
@@ -107,7 +107,9 @@ function onChangeToggle(data: boolean) {
   emit("togleValue", data);
 }
 
-const props = withDefaults(defineProps<TableProps>(), {});
+const props = withDefaults(defineProps<TableProps>(), {
+  scrollable: true
+});
 const emit = defineEmits<{
   (e: "onInput", value: Event): void;
   (e: "hideValue", value: boolean): void;

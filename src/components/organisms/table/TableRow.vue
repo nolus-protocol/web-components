@@ -11,7 +11,7 @@
         item.class,
         { '!justify-start': item.variant === 'left' },
         { '!justify-center': item.variant === 'center' },
-        index === 0
+        index === 0 && scrollable
           ? 'sticky left-0 z-20 mr-[12px] bg-neutral-bg-2 after:absolute after:right-0 after:top-[-0.75rem] after:h-[calc(0.75rem+0.75rem+100%)] after:w-px after:bg-border-color md:after:bg-transparent'
           : ''
       ]"
@@ -103,7 +103,9 @@
 import { Button } from "@/components";
 import { CURRENCY_VIEW_TYPES, type TableRowItem, type TableRowItemProps } from "./types";
 
-defineProps<TableRowItemProps>();
+withDefaults(defineProps<TableRowItemProps>(), {
+  scrollable: true
+});
 
 const emit = defineEmits<{
   (e: "button-click", data: { items: TableRowItem[] }): void;

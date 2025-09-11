@@ -9,6 +9,7 @@ export interface TableProps {
   inputSearch?: InputProps;
   size?: string;
   toggle?: ToggleProps;
+  scrollable?: boolean;
   hideValues?: {
     text: string;
     value: boolean;
@@ -50,6 +51,7 @@ export interface TableRowItem {
 
 export interface TableRowItemProps {
   items: TableRowItem[];
+  scrollable?: boolean;
   rowButton?: ButtonProps | null | undefined;
 }
 
