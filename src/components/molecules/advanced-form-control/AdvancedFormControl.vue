@@ -49,7 +49,7 @@
       </label>
       <div
         v-if="!hideBalance"
-        class="flex gap-2 text-14 font-normal text-typography-default"
+        class="flex flex-col gap-2 text-14 font-normal text-typography-default md:flex-row"
       >
         <span v-if="balanceLabel">{{ balanceLabel }}</span>
         <span
