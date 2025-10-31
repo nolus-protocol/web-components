@@ -92,7 +92,7 @@ const isVotingPeriod = computed(() => {
 });
 
 const variant = computed(() => {
-  let status = ProposalStatus[props.status]?.split("_")[2].toLowerCase();
+  let status = ProposalStatus[props.status]!.split?.("_")[2]!.toLowerCase();
   status = status.charAt(0).toUpperCase() + status.slice(1);
 
   switch (props.status) {

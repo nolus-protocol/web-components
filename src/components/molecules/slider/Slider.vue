@@ -220,7 +220,7 @@ function onMouseDown(event: MouseEvent | TouchEvent) {
     }
     case TouchEvent: {
       const [touche] = (event as TouchEvent).touches;
-      xPos = touche.clientX;
+      xPos = touche!.clientX;
       break;
     }
   }
@@ -255,7 +255,7 @@ function onMouseMove(event: MouseEvent | TouchEvent) {
       }
       case TouchEvent: {
         const [touche] = (event as TouchEvent).touches;
-        xPos = touche.clientX;
+        xPos = touche!.clientX;
         break;
       }
     }

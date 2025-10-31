@@ -71,7 +71,7 @@ const result = computed(() =>
       (acc, [key, value]) => {
         acc.push({
           key,
-          label: props.labels[key],
+          label: props.labels[key]!,
           percent: ((Number(value) / total.value) * 100).toFixed(2)
         });
 

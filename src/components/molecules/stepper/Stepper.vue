@@ -21,7 +21,7 @@
           :class="[
             {
               'border-border-warning': activeStep === index,
-              '!border-border-success-emphasized !border-solid': activeStep > index,
+              '!border-solid !border-border-success-emphasized': activeStep > index,
               relative: step.approval
             }
           ]"
@@ -58,11 +58,11 @@
             :class="[
               {
                 'border-border-warning': activeStep === index,
-                '!border-border-success-emphasized !border-solid': activeStep > index,
+                '!border-solid !border-border-success-emphasized': activeStep > index,
                 relative: step.approval
               }
             ]"
-            :style="{ height: stepContainerHeights[index] - 40 + 'px' }"
+            :style="{ height: stepContainerHeights[index]! - 40 + 'px' }"
             class="z-[1] min-h-10 border-l-[2px] border-dashed border-border-emphasized"
           >
             <ApprovalIcon

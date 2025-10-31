@@ -1,6 +1,5 @@
 import type { Preview } from "@storybook/vue3";
 import { withThemeByClassName } from "@storybook/addon-themes";
-import { MINIMAL_VIEWPORTS } from "@storybook/addon-viewport";
 
 import "../src/assets/styles/index.scss";
 
@@ -51,7 +50,6 @@ const preview: Preview = {
     },
     viewport: {
       viewports: {
-        ...MINIMAL_VIEWPORTS,
         ...customViewports
       },
       defaultViewport: "iphone14" // <- start stories in mobile size

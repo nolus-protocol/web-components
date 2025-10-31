@@ -232,7 +232,7 @@ const commify = (n: string) => {
   const hasDot = n.includes(dot);
   const thousands = /\B(?=(\d{3})+(?!\d))/g;
 
-  return numberPart.replace(thousands, comma) + (hasDot ? `.${decimalPart}` : "");
+  return numberPart?.replace(thousands, comma) + (hasDot ? `.${decimalPart}` : "");
 };
 
 const removeComma = (n: string) => {

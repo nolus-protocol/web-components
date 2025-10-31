@@ -83,7 +83,7 @@ const activeTabIdx = ref(props.activeTabIndex ?? 0);
 
 onMounted(() => {
   if (props.tabs) {
-    const el = radioRefs.value[activeTabIdx.value].$el.querySelector('input[type="radio"]') as HTMLInputElement;
+    const el = radioRefs.value?.[activeTabIdx.value]?.$el.querySelector('input[type="radio"]') as HTMLInputElement;
     if (el) {
       el!.checked = true;
     }

@@ -242,10 +242,10 @@ watch(
   () => props.selected,
   (newVal) => {
     if (!newVal) {
-      selectedOption.value = props.options[0];
+      selectedOption.value = props.options[0] as T;
 
       if (props.onSelect) {
-        props.onSelect(props.options[0]);
+        props.onSelect(props.options[0] as T);
       }
 
       return;
