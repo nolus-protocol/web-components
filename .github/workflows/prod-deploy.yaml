@@ -16,7 +16,7 @@ jobs:
   build:
     name: Build static files
     runs-on: ubuntu-22.04 # Use updated Ubuntu version for better compatibility
-    container: node:20.20.0 # Node.js container stays the same
+    container: node:22.15.0 # Node.js container stays the same
 
     steps:
       - uses: actions/checkout@v3
