@@ -19,6 +19,17 @@ export default defineConfig({
     }
   },
   build: {
+    cssMinify: "lightningcss",
+    minify: "terser",
+    terserOptions: {
+      compress: {
+        drop_console: true,
+        drop_debugger: true
+      },
+      format: {
+        comments: false
+      }
+    },
     lib: {
       entry: {
         main: "lib/main.ts",
@@ -38,8 +49,5 @@ export default defineConfig({
         }
       }
     }
-  },
-  optimizeDeps: {
-    exclude: ["storybook-addon-links"]
   }
 });
