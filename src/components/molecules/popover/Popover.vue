@@ -1,6 +1,7 @@
 <template>
   <div
     ref="popover"
+    @click.stop
     :class="[
       'fixed z-[9997] flex h-screen max-h-[calc(100%-65px)] w-full flex-col overflow-y-hidden bg-neutral-bg-2 shadow-larger transition duration-200 md:h-fit md:max-w-[512px] md:rounded-xl md:border md:border-border-default',
       $attrs.class
@@ -11,8 +12,9 @@
       class="flex items-center justify-between p-4"
       v-if="title"
     >
-      <span class="flex w-full justify-between text-24 font-semibold text-typography-default"
-        >{{ title }} <slot name="title-content" />
+      <span class="flex w-full justify-between text-24 font-semibold text-typography-default">
+        {{ title }}
+        <slot name="title-content" />
       </span>
       <slot name="header" />
       <Button
@@ -24,12 +26,14 @@
         @click="close"
       />
     </div>
+
     <div
       v-if="$slots.content"
       class="h-[calc(100dvh-121px)] flex-1 overflow-y-auto md:h-auto md:!overflow-y-visible"
     >
       <slot name="content" />
     </div>
+
     <div
       v-if="$slots.footer"
       class="border-t border-border-default p-4"
@@ -45,7 +49,7 @@ import type { PopoverProps } from "./types";
 import Button from "../../atoms/button/Button.vue";
 
 const popover = ref<HTMLDivElement | null>(null);
-const popoverStyle = ref({});
+const popoverStyle = ref<Record<string, string>>({});
 const disable = ref(false);
 
 const props = withDefaults(defineProps<PopoverProps>(), {
@@ -54,88 +58,97 @@ const props = withDefaults(defineProps<PopoverProps>(), {
   top: 65
 });
 
-const target = ref<InstanceType<typeof props.parent | null>>(props.parent);
-
 const emit = defineEmits(["close", "unmounted"]);
 
 onMounted(() => {
   calculatePopoverPosition();
-
+  window.addEventListener("scroll", calculatePopoverPosition);
   document.addEventListener("keyup", escapeClicked);
   window.addEventListener("popstate", backButtonClicked);
   window.addEventListener("click", handleClickOutside);
 });
 
 onUnmounted(() => {
-  document.body.style.removeProperty("overflow-y");
-
+  window.removeEventListener("scroll", calculatePopoverPosition);
   document.removeEventListener("keyup", escapeClicked);
   window.removeEventListener("popstate", backButtonClicked);
   window.removeEventListener("click", handleClickOutside);
 });
 
 function escapeClicked(event: KeyboardEvent) {
-  if (event.key == "Escape" && !disable.value) {
+  if (event.key === "Escape" && !disable.value) {
     close();
   }
 }
 
-function backButtonClicked(event: Event) {
+function backButtonClicked() {
   close();
 }
 
+const getParentEl = (): HTMLElement | null => {
+  const parent = props.parent as any;
+  if (!parent) return null;
+
+  if (parent.$el) return parent.$el as HTMLElement;
+
+  if (parent instanceof HTMLElement) return parent;
+
+  return null;
+};
+
 const calculatePopoverPosition = () => {
-  if (!target.value || !popover.value) return;
+  const parentEl = getParentEl();
+  const popEl = popover.value;
 
-  const parent = target.value.$el;
-  const rect = parent.getBoundingClientRect();
-  const popoverWidth = popover.value.offsetWidth;
-  const popoverHeight = popover.value.offsetHeight;
+  if (!parentEl || !popEl) return;
 
-  let top, left;
+  const rect = parentEl.getBoundingClientRect();
+  const popoverWidth = popEl.offsetWidth;
+  const popoverHeight = popEl.offsetHeight;
+
+  let top = 0;
+  let left = 0;
 
   switch (props.position) {
     case "top":
-      top = rect.top - popoverHeight - 10; // 10 is the offset
+      top = rect.top - popoverHeight - 10;
       left = rect.left + rect.width / 2 - popoverWidth / 2;
       break;
     case "bottom":
-      top = rect.bottom + 10; // 10 is the offset
+      top = rect.bottom + 10;
       left = rect.left + rect.width / 2 - popoverWidth / 2;
       break;
     case "left":
       top = rect.top + rect.height / 2 - popoverHeight / 2;
-      left = rect.left - popoverWidth - 10; // 10 is the offset
+      left = rect.left - popoverWidth - 10;
       break;
     case "right":
       top = rect.top + rect.height / 2 - popoverHeight / 2;
-      left = rect.right + 10; // 10 is the offset
+      left = rect.right + 10;
       break;
     case "top-left":
-      top = rect.top - popoverHeight - 10; // 10 is the offset
+      top = rect.top - popoverHeight - 10;
       left = rect.left;
       break;
     case "top-right":
-      top = rect.top - popoverHeight - 10; // 10 is the offset
+      top = rect.top - popoverHeight - 10;
       left = rect.right - popoverWidth;
       break;
     case "bottom-left":
-      top = rect.bottom + 10; // 10 is the offset
+      top = rect.bottom + 10;
       left = rect.left;
       break;
     case "bottom-right":
-      top = rect.bottom + 10; // 10 is the offset
+      top = rect.bottom + 10;
       left = rect.right - popoverWidth;
       break;
   }
 
-  // check if is on mobile
   if (window.innerWidth < 768) {
     document.body.style.overflow = "hidden";
-
     popoverStyle.value = {
       top: `${props.top}px`,
-      left: `0`
+      left: "0"
     };
   } else {
     popoverStyle.value = {
@@ -145,32 +158,28 @@ const calculatePopoverPosition = () => {
   }
 };
 
-watch(() => [props.parent, props.position], calculatePopoverPosition);
-
 const close = () => {
   document.body.style.removeProperty("overflow-y");
   emit("close");
 };
 
 const handleClickOutside = (event: MouseEvent) => {
-  if (
-    target.value.$el &&
-    !target.value.$el.contains(event.target as Node) &&
-    popover.value &&
-    !popover.value.contains(event.target as Node)
-  ) {
+  const parentEl = getParentEl();
+  const popEl = popover.value;
+  if (!parentEl || !popEl) return;
+
+  const target = event.target as Node;
+
+  const clickedInsideParent = parentEl.contains(target);
+  const clickedInsidePopover = popEl.contains(target);
+
+  if (!clickedInsideParent && !clickedInsidePopover) {
     close();
   }
 };
-</script>
 
-<style lang="scss" scoped>
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.5s ease-in-out;
-}
-.fade-enter,
-.fade-leave-to {
-  opacity: 0;
-}
-</style>
+watch(
+  () => [props.parent, props.position],
+  () => calculatePopoverPosition
+);
+</script>

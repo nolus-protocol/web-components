@@ -62,8 +62,9 @@
     <Input
       id="test-input"
       label="Test Input"
-      type="text"
+      type="search"
       @input="(e) => {}"
+      @on-search-clear=""
     />
 
     <Proposal

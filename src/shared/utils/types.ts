@@ -9,7 +9,8 @@ export enum Type {
   primary = "primary",
   secondary = "secondary",
   tertiary = "tertiary",
-  danger = "danger"
+  danger = "danger",
+  badge = "badge"
 }
 
 export enum Variant {

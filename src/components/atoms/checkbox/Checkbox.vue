@@ -1,22 +1,26 @@
 <template>
   <label
     :for="id"
-    class="text-typography-default relative flex cursor-pointer items-center gap-2 text-16 font-normal"
+    class="relative flex cursor-pointer select-none items-center gap-2 text-16 font-normal text-typography-default"
   >
     <input
       :id="id"
       v-model="model"
       class="sr-only"
       type="checkbox"
+      :disabled="disabled"
+      @input.stop
     />
     <span
       :class="[
         {
-          '!bg-primary-default border-primary-default hover:!bg-primary-hover hover:border-primary-hover': model
+          'border-primary-default !bg-primary-default hover:border-primary-hover hover:!bg-primary-hover': model,
+          'cursor-not-allowed opacity-60': disabled
         }
       ]"
-      class="bg-secondary-default border-border-dominant hover:bg-secondary-hover checked:bg-primary-default checked:hover:bg-primary-hover nls-focus flex h-5 w-5 cursor-pointer appearance-none items-center justify-center rounded-md border-[1px] transition-colors duration-200 ease-in-out"
-      ><CheckedIcon
+      class="nls-focus flex h-5 w-5 cursor-pointer appearance-none items-center justify-center rounded-md border-[1px] border-border-dominant bg-secondary-default transition-colors duration-200 ease-in-out checked:bg-primary-default hover:bg-secondary-hover checked:hover:bg-primary-hover"
+    >
+      <CheckedIcon
         v-if="model"
         class="transition-all duration-200 ease-in-out"
       />
@@ -26,29 +30,27 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, watch } from "vue";
+import { computed } from "vue";
 import CheckedIcon from "@/assets/icons/checked.svg";
 
 export interface CheckboxProps {
   id: string;
   label?: string;
-  value?: boolean;
+  modelValue?: boolean;
   disabled?: boolean;
 }
 
 const props = withDefaults(defineProps<CheckboxProps>(), {
-  value: false
-});
-
-const model = ref(props.value);
-
-watch(model, (newValue) => {
-  emit("input", newValue);
+  modelValue: false,
+  disabled: false
 });
 
 const emit = defineEmits<{
-  (e: "input", value: boolean): void;
+  (e: "update:modelValue", value: boolean): void;
 }>();
-</script>
 
-<style lang="scss" scoped></style>
+const model = computed({
+  get: () => props.modelValue,
+  set: (value: boolean) => emit("update:modelValue", value)
+});
+</script>

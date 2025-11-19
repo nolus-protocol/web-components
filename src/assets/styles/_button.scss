@@ -1,6 +1,6 @@
 .button {
   @apply flex items-center justify-center gap-1 shadow-medium transition duration-150 ease-out;
-  @apply disabled:bg-disabled disabled:text-typography-disabled disabled:border-none disabled:hover:bg-disabled disabled:shadow-transparent;
+  @apply disabled:border-none disabled:bg-disabled disabled:text-typography-disabled disabled:shadow-transparent disabled:hover:bg-disabled;
   @apply focus-visible:outline focus-visible:outline-offset-1 focus-visible:outline-primary-hover active:outline-none;
 
   &-primary {
@@ -10,30 +10,35 @@
   }
 
   &-secondary {
-    @apply border-[1px] border-border-default text-typography-default bg-secondary-default;
+    @apply border-[1px] border-border-default bg-secondary-default text-typography-default;
     @apply hover:bg-secondary-hover;
-    @apply active:bg-secondary-active active:border-border-emphasized;
+    @apply active:border-border-emphasized active:bg-secondary-active;
   }
 
   &-tertiary {
-    @apply text-typography-default border-[1px] border-transparent shadow-transparent;
-    @apply hover:bg-secondary-hover hover:border-border-default hover:shadow-medium;
+    @apply border-[1px] border-transparent text-typography-default shadow-transparent;
+    @apply hover:border-border-default hover:bg-secondary-hover hover:shadow-medium;
     @apply active:bg-secondary-active;
   }
 
   &-danger {
-    @apply bg-danger-default text-typography-error border-[1px] border-border-error;
+    @apply border-[1px] border-border-error bg-danger-default text-typography-error;
     @apply hover:bg-danger-hover;
     @apply active:bg-danger-active;
   }
 
   &-loading {
-    @apply pointer-events-none bg-disabled text-disabled border-none shadow-transparent #{!important};
+    @apply pointer-events-none border-none bg-disabled text-disabled shadow-transparent #{!important};
+  }
+
+  &-badge {
+    @apply bg-neutral-bg-3 font-light text-typography-default shadow-transparent hover:bg-neutral-bg-4 active:bg-neutral-bg-4 #{!important};
   }
 }
 
 :root[class~="sync"] {
   @media (prefers-color-scheme: dark) {
-    .button {}
+    .button {
+    }
   }
 }

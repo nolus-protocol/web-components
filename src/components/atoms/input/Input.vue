@@ -25,7 +25,13 @@
       />
       <input
         v-model="inputValue"
-        :class="['field-input', 'w-full', 'px-[35px] pr-[25px] focus:px-[34px] focus:pr-[24px]', classes, inputClass]"
+        :class="[
+          'field-input',
+          'w-full',
+          '!focus:px-[34px] !focus:pr-[24px] !px-[35px] !pr-[25px]',
+          classes,
+          inputClass
+        ]"
         :disabled="disabled"
         :placeholder="placeholder"
         :type="type"

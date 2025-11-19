@@ -51,6 +51,12 @@ export const Danger: Story = {
   }
 };
 
+export const Badge: Story = {
+  args: {
+    severity: "badge"
+  }
+};
+
 export const Medium: Story = {
   args: {
     size: "medium"
