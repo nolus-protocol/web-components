@@ -71,7 +71,7 @@
         :name="name"
         :placeholder="placeholder"
         autocomplete="off"
-        inputmode="numeric"
+        inputmode="text"
         class="bg-transparent text-right text-32 font-semibold text-typography-default placeholder-typography-default focus:outline-none"
         @keydown="inputValue"
         @keyup="setValue()"
