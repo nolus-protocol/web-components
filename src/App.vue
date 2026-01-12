@@ -203,7 +203,7 @@
       :activeTabIndex="Number(0)"
     >
       <template #tab-content-0>
-        <p class="text-typography-default">Child Component</p>
+        <p class="text-typography-default">Child Component 1</p>
         <p>
           What is Lorem Ipsum? Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum
           has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of
@@ -240,7 +240,7 @@
         ></Button>
       </template>
       <template #tab-content-1>
-        <p class="text-typography-default">Child Component</p>
+        <p class="text-typography-default">Child Component 2</p>
         <p>
           What is Lorem Ipsum? Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum
           has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of
@@ -277,7 +277,7 @@
         ></Button>
       </template>
       <template #tab-content-2>
-        <p class="text-typography-default">Child Component</p>
+        <p class="text-typography-default">Child Component 3</p>
         <p>
           What is Lorem Ipsum? Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum
           has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of
