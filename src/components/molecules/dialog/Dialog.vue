@@ -4,9 +4,10 @@
       ref="dialog"
       aria-modal="true"
       :aria-label="title"
+      :style="{ '--dialog-transition-duration': `${dialogTransition.transitionDuration}ms` }"
       class="
         flex-col bg-neutral-bg-2 md:border md:border-border-default shadow-larger md:rounded-xl overscroll-contain
-        h-[100dvh] max-h-[100dvh] md:h-[800px] md:min-h-0 md:max-w-[512px] margin-0 w-full z-[9998]
+        h-[100dvh] max-h-[100dvh] md:h-[800px] md:min-h-0 w-full max-w-[100vw] md:max-w-[512px] z-[9998] m-0
         hidden opacity-0
         open:flex open:opacity-100 open:scale-100 open:translate-y-0
         open:backdrop:bg-neutral-bg-inverted-1/50
@@ -68,6 +69,9 @@ import Button from "../../atoms/button/Button.vue";
 import { spring } from "motion-v";
 
 const dialog = ref<HTMLDialogElement>();
+const dialogTransition = {
+  transitionDuration: 200,
+}
 const radioRefs = ref<InstanceType<typeof Radio>[]>([]);
 
 export interface DialogProps {
@@ -133,7 +137,7 @@ const close = () => {
   }
   setTimeout(() => {
     emit("close-dialog");
-  }, 200);
+  }, dialogTransition.transitionDuration);
 }
 
 const handleClickOutside = (event: MouseEvent) => {
@@ -162,14 +166,8 @@ defineExpose({
 <style scoped>
 /* TODO: Replace with Tailwind once we update to a Tailwind version that supports @starting-style */
 dialog {
-  transition: all 200ms ease-out allow-discrete;
+  transition: all var(--dialog-transition-duration) ease-out allow-discrete;
   transition-timing-function: var(--ease-out);
-}
-
-@supports (@starting-style: {}) {
-  dialog {
-    background:red;
-  }
 }
 
 @starting-style {
@@ -181,7 +179,7 @@ dialog {
 
 dialog::backdrop {
   background-color: transparent;
-  transition: all 200ms ease-out allow-discrete;
+  transition: all var(--dialog-transition-duration) ease-out allow-discrete;
 }
 @starting-style {
   dialog:open::backdrop {
