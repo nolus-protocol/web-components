@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/vue3";
-
+import { ref } from "vue";
 import Dialog, { DialogProps } from "./Dialog.vue";
 import Button from "../../atoms/button/Button.vue";
 
@@ -18,6 +18,34 @@ type Story = StoryObj<typeof meta>;
  * See https://storybook.js.org/docs/api/csf
  * to learn how to use render functions.
  */
+export const DialogReveal: Story = {
+  render: (args) => ({
+    setup() {
+      const dialogRef = ref<InstanceType<typeof Dialog> | null>(null);
+      return { args, dialogRef };
+    },
+    components: { Dialog, Button },
+    template: `
+      <Button
+        label="Show Dialog"
+        severity="secondary"
+        size="large"
+        @click="dialogRef?.show()"
+      ></Button>
+      <Dialog v-bind="args" ref="dialogRef">
+          <template #content>
+            <p class="text-typography-default">Child Component</p>
+          </template>
+      </Dialog>
+    `
+  }),
+  args: {
+    title: "Dialog Title",
+    showClose: true,
+    classList: ""
+  } as DialogProps
+};
+
 export const WithClose: Story = {
   render: (args) => ({
     data() {
@@ -35,7 +63,7 @@ export const WithClose: Story = {
   args: {
     title: "Dialog Title",
     showClose: true,
-    class: "!visible !opacity-[1]"
+    classList: "!block opacity-100"
   } as DialogProps
 };
 
@@ -59,7 +87,7 @@ export const WithTabs: Story = {
   args: {
     title: "Dialog Title",
     showClose: true,
-    class: "!visible !opacity-[1]",
+    classList: "!block opacity-100",
     tabs: ["Long", "Short"]
   } as DialogProps
 };
@@ -104,6 +132,6 @@ export const WithButtons: Story = {
   }),
   args: {
     title: "Dialog Title",
-    class: "!visible !opacity-[1]"
+    classList: "!block opacity-100"
   }
 };
