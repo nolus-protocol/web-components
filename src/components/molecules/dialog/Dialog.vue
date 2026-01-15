@@ -7,7 +7,7 @@
       :style="{ '--dialog-transition-duration': `${dialogTransition.transitionDuration}ms` }"
       class="
         flex-col bg-neutral-bg-2 md:border md:border-border-default shadow-larger md:rounded-xl overscroll-contain
-        h-[100dvh] max-h-[100dvh] md:h-[800px] md:min-h-0 w-full max-w-[100vw] md:max-w-[512px] z-[9998] m-0
+        h-[100dvh] max-h-[100dvh] md:h-[800px] md:min-h-0 w-full max-w-[100vw] md:max-w-[512px] z-[9998] m-0 md:m-auto
         hidden opacity-0
         open:flex open:opacity-100 open:scale-100 open:translate-y-0
         open:backdrop:bg-neutral-bg-inverted-1/50
