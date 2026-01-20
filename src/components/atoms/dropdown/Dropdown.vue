@@ -42,13 +42,14 @@
         class="icon icon-picker leading-1 flex transform items-center text-[20px] text-icon-default transition duration-300 ease-in-out"
       />
     </button>
-    <Teleport to="body">
+    <Teleport :to="teleportTarget">
       <Transition name="fade">
         <div
           ref="elements"
           :style="[`top: ${position.y}px`, `left: ${position.x}px`]"
           :class="[
-            'shadow-lg fixed z-[9999] mt-3 min-w-48 max-w-full overflow-hidden rounded-lg border-[1px] border-border-default bg-neutral-bg-2 text-typography-default shadow-shadow-lighter',
+            'shadow-lg z-[9999] mt-3 min-w-48 max-w-full overflow-hidden rounded-lg border-[1px] border-border-default bg-neutral-bg-2 text-typography-default shadow-shadow-lighter',
+            isInsideDialog ? 'absolute' : 'fixed',
             dropdownClassName,
             itemTemplate ? 'min-w-[325px]' : '',
             isOpen ? '' : 'pointer-events-none opacity-0'
@@ -140,7 +141,7 @@
 </template>
 
 <script generic="T extends DropdownOption" lang="ts" setup>
-import { computed, onBeforeUnmount, onMounted, ref, watch } from "vue";
+import { computed, inject, onBeforeUnmount, onMounted, ref, type Ref, watch } from "vue";
 import type { DropdownOption, DropdownProps } from "./types";
 import { Size } from "@/shared/utils/types";
 import { InputType } from "@/components/atoms/input/types";
@@ -149,6 +150,11 @@ import Input from "../input/Input.vue";
 
 const dropdownRef = ref<HTMLElement | null>(null);
 const elements = ref<HTMLElement | null>(null);
+
+// Inject dialog teleport target if dropdown is inside a dialog
+const dialogTeleportTarget = inject<Ref<HTMLElement | undefined>>("dialogTeleportTarget", ref(undefined));
+const isInsideDialog = computed(() => !!dialogTeleportTarget.value);
+const teleportTarget = computed(() => dialogTeleportTarget.value || "body");
 
 const isOpen = ref(false);
 const selectedOption = ref<DropdownOption | null>(null);
@@ -204,8 +210,18 @@ function setPosition() {
 
     let x = rect.left;
     let y = rect.top + rect.height;
+
+    // When inside dialog, calculate position relative to the dialog teleport target
+    if (isInsideDialog.value && dialogTeleportTarget.value) {
+      const dialogRect = dialogTeleportTarget.value.getBoundingClientRect();
+      x = rect.left - dialogRect.left;
+      y = rect.top + rect.height - dialogRect.top;
+    }
+
     if (props.position === "right") {
-      x = rect.right - elementsRect.width;
+      x = isInsideDialog.value && dialogTeleportTarget.value
+        ? rect.right - elementsRect.width - dialogTeleportTarget.value.getBoundingClientRect().left
+        : rect.right - elementsRect.width;
     }
 
     position.value = {

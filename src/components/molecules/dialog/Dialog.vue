@@ -58,6 +58,7 @@
           </div>
         </div>
       </template>
+      <div ref="dialogTeleportTarget" class="relative"></div>
     </dialog>
   </Teleport>
 </template>
@@ -69,6 +70,7 @@ import Button from "../../atoms/button/Button.vue";
 import { spring } from "motion-v";
 
 const dialog = ref<HTMLDialogElement>();
+const dialogTeleportTarget = ref<HTMLElement>();
 const dialogTransition = {
   transitionDuration: 200,
 }
@@ -156,6 +158,7 @@ const handleParentClick = (index: number) => {
 
 provide("show", show);
 provide("close", close);
+provide("dialogTeleportTarget", dialogTeleportTarget);
 
 defineExpose({
   show,
