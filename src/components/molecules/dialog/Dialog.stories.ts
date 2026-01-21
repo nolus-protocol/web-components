@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/vue3";
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import Dialog, { DialogProps } from "./Dialog.vue";
 import Button from "../../atoms/button/Button.vue";
 
@@ -48,12 +48,14 @@ export const DialogReveal: Story = {
 
 export const WithClose: Story = {
   render: (args) => ({
-    data() {
-      return { args };
+    setup() {
+      const dialogRef = ref<InstanceType<typeof Dialog> | null>(null);
+      onMounted(() => dialogRef.value?.show());
+      return { args, dialogRef };
     },
     components: { Dialog },
     template: `
-      <Dialog v-bind="args">
+      <Dialog v-bind="args" ref="dialogRef">
           <template #content>
             <p class="text-typography-default">Child Component</p>
           </template>
@@ -62,19 +64,20 @@ export const WithClose: Story = {
   }),
   args: {
     title: "Dialog Title",
-    showClose: true,
-    classList: "!block opacity-100"
+    showClose: true
   } as DialogProps
 };
 
 export const WithTabs: Story = {
   render: (args) => ({
-    data() {
-      return { args };
+    setup() {
+      const dialogRef = ref<InstanceType<typeof Dialog> | null>(null);
+      onMounted(() => dialogRef.value?.show());
+      return { args, dialogRef };
     },
     components: { Dialog },
     template: `
-      <Dialog v-bind="args">
+      <Dialog v-bind="args" ref="dialogRef">
           <template #tab-content-0>
             <p class="text-typography-default">Child Component 1</p>
           </template>
@@ -94,12 +97,14 @@ export const WithTabs: Story = {
 
 export const WithButtons: Story = {
   render: (args) => ({
-    data() {
-      return { args };
+    setup() {
+      const dialogRef = ref<InstanceType<typeof Dialog> | null>(null);
+      onMounted(() => dialogRef.value?.show());
+      return { args, dialogRef };
     },
     components: { Dialog, Button },
     template: `
-      <Dialog v-bind="args">
+      <Dialog v-bind="args" ref="dialogRef">
           <template #content>
             <p class="text-typography-default">Child Component</p>
           </template>
