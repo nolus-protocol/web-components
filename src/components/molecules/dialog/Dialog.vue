@@ -20,70 +20,75 @@
         :aria-label="title"
         :initial="{ opacity: 0, scale: 0.97, y: 24 }"
         :animate="{ opacity: 1, scale: 1, y: 0, transition: { duration: transitionDurationDecimal, ease: 'easeOut' } }"
-        :exit="{ opacity: 0, scale: 0.98, y: 24, transition: { duration: transitionDurationDecimal * 0.8, ease: 'easeIn' } }"
+        :exit="{
+          opacity: 0,
+          scale: 0.98,
+          y: 24,
+          transition: { duration: transitionDurationDecimal * 0.8, ease: 'easeIn' }
+        }"
         :class="[
-          'fixed inset-0 z-[9998] m-auto pointer-events-auto flex flex-col bg-neutral-bg-2 md:border md:border-border-default shadow-larger md:rounded-xl overscroll-contain',
-          'h-[100dvh] max-h-[100dvh] md:h-[800px] md:min-h-0 w-full max-w-[100vw] md:max-w-[512px]',
+          'pointer-events-auto fixed inset-0 z-[9998] m-auto flex flex-col overscroll-contain bg-neutral-bg-2 shadow-larger md:rounded-xl md:border md:border-border-default',
+          'h-[100dvh] max-h-[100dvh] w-full max-w-[100vw] md:h-[800px] md:min-h-0 md:max-w-[512px]',
           classList
         ]"
       >
-          <header class="flex items-center justify-between p-6">
-            <h2 class="text-2xl font-semibold text-typography-default">{{ title }}</h2>
-            <slot name="header" />
-            <Button
-              v-if="showClose"
-              severity="tertiary"
-              icon="close"
-              size="small"
-              class="!p-2.5 text-icon-default"
-              aria-label="Close"
-              @click="close"
+        <header class="flex items-center justify-between p-6">
+          <h2 class="text-2xl font-semibold text-typography-default">{{ title }}</h2>
+          <slot name="header" />
+          <Button
+            v-if="showClose"
+            severity="tertiary"
+            icon="close"
+            size="small"
+            class="!p-2.5 text-icon-default"
+            aria-label="Close"
+            @click="close"
+          />
+        </header>
+        <template v-if="tabs?.length">
+          <div class="flex border-b border-t border-border-color">
+            <Radio
+              v-for="(tab, index) in tabs"
+              :id="`tab-${index}`"
+              :key="index"
+              ref="radioRefs"
+              :class="[{ 'border-l border-border-color': index > 0, 'bg-transparent': activeTabIdx === index }]"
+              :disabled="tab.disabled"
+              :label="tab.label"
+              class="flex flex-1 cursor-pointer justify-center bg-neutral-bg-1 px-6 py-5 text-16 font-normal text-typography-default"
+              name="dialogTabsGroup"
+              @click="handleParentClick(index)"
             />
-          </header>
-          <template v-if="tabs?.length">
-            <div class="flex border-b border-t border-border-color">
-              <Radio
-                v-for="(tab, index) in tabs"
-                :id="`tab-${index}`"
-                :key="index"
-                ref="radioRefs"
-                :class="[{ 'border-l border-border-color': index > 0, 'bg-transparent': activeTabIdx === index }]"
-                :disabled="tab.disabled"
-                :label="tab.label"
-                class="flex flex-1 cursor-pointer justify-center bg-neutral-bg-1 px-6 py-5 text-16 font-normal text-typography-default"
-                name="dialogTabsGroup"
-                @click="handleParentClick(index)"
-              />
+          </div>
+          <div class="flex h-[calc(100%-152px)] flex-col overflow-y-auto overscroll-contain">
+            <slot :name="'tab-content-' + activeTabIdx" />
+          </div>
+        </template>
+        <template v-else>
+          <div class="flex h-[calc(100%-80px)] flex-col overflow-y-auto overscroll-contain">
+            <slot name="content" />
+            <div
+              v-if="$slots.footer"
+              class="border-t border-border-default p-6"
+            >
+              <slot name="footer" />
             </div>
-            <div class="flex h-[calc(100%-152px)] flex-col overflow-y-auto overscroll-contain">
-              <slot :name="'tab-content-' + activeTabIdx" />
-            </div>
-          </template>
-          <template v-else>
-            <div class="flex h-[calc(100%-80px)] flex-col overflow-y-auto overscroll-contain">
-              <slot name="content" />
-              <div
-                v-if="$slots.footer"
-                class="border-t border-border-default p-6"
-              >
-                <slot name="footer" />
-              </div>
-            </div>
-          </template>
+          </div>
+        </template>
       </Motion>
     </AnimatePresence>
   </Teleport>
 </template>
 
 <script lang="ts" setup>
-import { computed, onMounted, onUnmounted, provide, ref } from "vue";
+import { onMounted, onUnmounted, provide, ref } from "vue";
 import { Motion, AnimatePresence } from "motion-v";
 import { Radio } from "@/components";
 import Button from "../../atoms/button/Button.vue";
 
 const isOpen = ref(false);
 const transitionDuration = 200;
-const transitionDurationDecimal = computed(() => transitionDuration / 1000);
+const transitionDurationDecimal = transitionDuration / 1000;
 const radioRefs = ref<InstanceType<typeof Radio>[]>([]);
 
 export interface DialogProps {
@@ -101,13 +106,14 @@ const emit = defineEmits(["close-dialog", "change-tab"]);
 const disable = ref(false);
 const activeTabIdx = ref(props.activeTabIndex ?? 0);
 
-
 onMounted(() => {
   if (props.tabs) {
-    const el = radioRefs.value?.[activeTabIdx.value]?.$el.querySelector('input[type="radio"]') as HTMLInputElement;
-    if (el) {
-      el!.checked = true;
-    }
+    setTimeout(() => {
+      const el = radioRefs.value?.[activeTabIdx.value]?.$el.querySelector('input[type="radio"]') as HTMLInputElement;
+      if (el) {
+        el!.checked = true;
+      }
+    }, transitionDurationDecimal);
   }
 
   document.addEventListener("keyup", escapeClicked);
@@ -147,11 +153,10 @@ const close = () => {
     document.body.style.removeProperty("top");
     document.body.style.removeProperty("position");
   }
-
   setTimeout(() => {
     emit("close-dialog");
   }, transitionDuration);
-}
+};
 
 const handleBackdropClick = () => {
   if (!props.disableClose) {
