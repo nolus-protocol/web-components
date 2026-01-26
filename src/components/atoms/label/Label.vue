@@ -1,7 +1,7 @@
 <template>
   <div
     :class="[`label-${variant}`]"
-    class="inline-flex min-h-6 w-fit items-center rounded border-[1px] px-2 py-1 text-[13px] font-medium"
+    class="inline-flex min-h-6 w-fit items-center rounded border px-2 text-xs font-medium leading-[24px]"
   >
     <slot v-if="!value"></slot>
     <span v-else>{{ value }}</span>
