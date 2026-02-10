@@ -1,6 +1,7 @@
 <template>
   <button
     :class="['font-semibold', 'button', classes, `button-${severity}`, props.class]"
+    class="active:scale-[98%]"
     :disabled="disabled"
     :style="style"
     type="button"
