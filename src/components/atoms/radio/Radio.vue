@@ -50,7 +50,6 @@ const handleClick = () => {
   if (radioInput.value) {
     radioInput.value.checked = true;
   }
-  console.log('radio click');
   emit("click");
 };
 
