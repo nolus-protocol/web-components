@@ -1,7 +1,8 @@
 <template>
-  <template
+  <label
+    :for="id"
     :class="{ 'pointer-events-none': disabled }"
-    class="flex items-center gap-2 text-16 font-normal text-typography-default"
+    class="inline-flex items-center gap-2 text-16 font-normal text-typography-default cursor-pointer"
     @click="handleClick"
   >
     <input
@@ -9,17 +10,19 @@
       ref="radioInput"
       :class="[inputClass]"
       :name="name"
-      class="nls-focus pointer-events-none h-4 w-4 cursor-pointer appearance-none rounded-full border-[1px] border-border-dominant bg-secondary-default checked:border-4 checked:border-primary-default checked:bg-secondary-default hover:bg-secondary-hover checked:hover:border-primary-hover"
+      class="
+        appearance-none  
+        pointer-events-none h-6 w-6 min-w-6 cursor-pointer rounded-full 
+        border-[1px] border-border-dominant bg-secondary-default outline-none outline-2 outline-offset-2
+        checked:border-[6px] checked:border-primary-default checked:bg-secondary-default hover:bg-secondary-hover checked:hover:border-primary-hover
+        focus-visible:outline focus-visible:outline-typography-link
+        "
+      style="transition: border 100ms ease-out"
       type="radio"
       :checked="isChecked"
     />
-    <label
-      :class="[labelClass]"
-      :for="id"
-      class="pointer-events-none cursor-pointer"
-      >{{ label }}</label
-    >
-  </template>
+    {{ label }}
+  </label>
 </template>
 
 <script lang="ts" setup>
@@ -47,6 +50,7 @@ const handleClick = () => {
   if (radioInput.value) {
     radioInput.value.checked = true;
   }
+  console.log('radio click');
   emit("click");
 };
 
