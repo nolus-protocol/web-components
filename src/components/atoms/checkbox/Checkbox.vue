@@ -50,12 +50,9 @@
 </template>
 
 <script lang="ts" setup>
-import CheckedIcon from "@/assets/icons/checked.svg";
-
 export interface CheckboxProps {
   id: string;
   label?: string;
-  modelValue?: boolean;
   disabled?: boolean;
 }
 
