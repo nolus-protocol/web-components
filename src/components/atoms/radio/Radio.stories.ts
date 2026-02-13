@@ -24,3 +24,15 @@ export const Primary: Story = {
     name: 'radio',
   },
 };
+
+export const RadioGroup: Story = {
+  render: () => ({
+    components: { Radio },
+    template: `
+      <div class="flex flex-col gap-2">
+        <Radio id="radio-1" label="Option A" name="group" :checked="true" />
+        <Radio id="radio-2" label="Option B" name="group" />
+      </div>
+    `,
+  }),
+};
