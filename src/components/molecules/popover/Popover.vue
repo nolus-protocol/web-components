@@ -3,7 +3,10 @@
     ref="popover"
     @click.stop
     :class="[
-      'fixed z-[9997] flex h-screen max-h-[calc(100%-65px)] w-full flex-col overflow-y-hidden bg-neutral-bg-2 shadow-larger transition duration-200 md:h-fit md:max-w-[512px] md:rounded-xl md:border md:border-border-default',
+      'fixed z-[9997] flex flex-col overflow-y-hidden bg-neutral-bg-2 shadow-larger transition duration-200',
+      fullscreenOnMobile
+        ? 'h-screen max-h-[calc(100%-65px)] w-full md:h-fit md:max-w-[512px] md:rounded-xl md:border md:border-border-default'
+        : 'h-fit max-w-[512px] rounded-xl border border-border-default',
       $attrs.class
     ]"
     :style="[popoverStyle]"
@@ -55,7 +58,8 @@ const disable = ref(false);
 const props = withDefaults(defineProps<PopoverProps>(), {
   showClose: false,
   position: "bottom",
-  top: 65
+  top: 65,
+  fullscreenOnMobile: true
 });
 
 const emit = defineEmits(["close", "unmounted"]);
@@ -144,7 +148,7 @@ const calculatePopoverPosition = () => {
       break;
   }
 
-  if (window.innerWidth < 768) {
+  if (window.innerWidth < 768 && props.fullscreenOnMobile) {
     document.body.style.overflow = "hidden";
     popoverStyle.value = {
       top: `${props.top}px`,

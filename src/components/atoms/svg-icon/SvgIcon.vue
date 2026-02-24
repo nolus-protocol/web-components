@@ -1,6 +1,6 @@
 <template>
   <IconComponent
-    :class="[{ 'fill-icon-default': defaultColor }]"
+    :class="[{ 'fill-icon-default text-icon-default': defaultColor }]"
     v-bind="svgAttributes"
     viewBox="0 0 24 24"
   />

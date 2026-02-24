@@ -45,7 +45,12 @@ export const History: StoryObj<typeof meta> = {
           @hide-value="
             (data) => {
               console.info(data);
-          }">
+          }"
+          @togle-value="
+            (data) => {
+              console.info(data);
+          }"
+      >
         <template v-slot:body>
           <TableRow
             v-for="(row, index) in args.historyData"
@@ -60,8 +65,8 @@ export const History: StoryObj<typeof meta> = {
     columns: [{ label: "Transaction", variant: "left" }, { label: "Category" }, { label: "Time" }, { label: "Status" }],
     columnsClasses: "hidden md:flex",
     searchable: true,
-    size: "123 asstes",
-    hideValues: { text: "Toggle values", value: false },
+    size: "123 assets",
+    hideValues: { text: "Hide values", value: false },
     toggle: {
       label: "Show small balances",
       id: "1",
@@ -128,7 +133,7 @@ export const Asset: Story = {
       ]
     })),
     searchable: true,
-    size: "123 asstes",
+    size: "123 assets",
     toggle: {
       label: "Show small balances"
     }
@@ -167,7 +172,7 @@ export const EarningAssets: Story = {
   }),
   args: {
     searchable: true,
-    size: "123 asstes",
+    size: "123 assets",
     columns: [
       { label: "Asset", variant: "left" },
       { label: "Deposit", tooltip: { content: "Deposit tooltip" } },

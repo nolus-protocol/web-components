@@ -4,17 +4,18 @@ import type { TooltipProps } from "@/components/atoms/tooltip/types";
 import type { ButtonProps } from "@/components/atoms/button/types";
 import type { Component } from "vue";
 
-export interface TableProps {
-  searchable?: boolean;
-  inputSearch?: InputProps;
-  size?: string;
+export interface TableSettingsProps {
   toggle?: ToggleProps;
-  scrollable?: boolean;
   hideValues?: {
     text: string;
     value: boolean;
   };
-
+}
+export interface TableProps extends TableSettingsProps {
+  searchable?: boolean;
+  inputSearch?: InputProps;
+  size?: string;
+  scrollable?: boolean;
   filterable?: boolean;
   filters?: {};
   columns?: TableColumnProps[];
