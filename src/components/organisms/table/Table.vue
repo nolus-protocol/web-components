@@ -3,43 +3,32 @@
     <div v-if="showAttributes || filterable">
       <div
         v-if="showAttributes"
-        class="flex items-center gap-2"
+        class="flex items-center justify-between gap-2"
         :class="headerClasses"
       >
-        <Input
-          v-if="searchable"
-          id="dropdown-search"
-          class="flex-1"
-          type="search"
-          v-bind="inputSearch"
-          @onSearchClear="emit('onSearchClear')"
-          @input="(e) => emit('onInput', e)"
-        />
-        <span
-          v-if="size"
-          class="text-14 font-normal"
-          >{{ size }}</span
-        >
-        <Toggle
-          v-if="toggle"
-          v-bind="toggle"
-          v-model="toggle.value"
-          @input="onChangeToggle"
-        />
-        <button
-          v-if="hideValues"
-          class="flex gap-2"
-          @click="onClick"
-        >
-          <SvgIcon
-            v-if="props.hideValues!.value"
-            name="eye-slash"
+        <div class="flex items-center gap-2 flex-1 md:flex-none">
+          <Input
+            v-if="searchable"
+            id="dropdown-search"
+            class="w-full md:w-96"
+            type="search"
+            v-bind="inputSearch"
+            @onSearchClear="emit('onSearchClear')"
+            @input="(e) => emit('onInput', e)"
           />
-          <template v-else>
-            <SvgIcon name="eye-open" />
-          </template>
-          <span class="text-14 font-medium">{{ hideValues.text }}</span>
-        </button>
+          <span
+            v-if="size"
+            class="hidden md:block text-14 font-normal"
+            >{{ size }}</span
+          >
+        </div>
+        <TableSettings
+          v-if="toggle || hideValues"
+          :toggle="toggle"
+          :hideValues="hideValues"
+          @togle-value="(data) => emit('togle-value', data)"
+          @hide-value="(data) => emit('hide-value', data)"
+        />
       </div>
       <div v-if="filterable">TODO add filter here</div>
     </div>
@@ -94,27 +83,19 @@
 </template>
 
 <script lang="ts" setup>
-import { Input, SvgIcon, Toggle, Tooltip } from "@/components";
+import { Input, SvgIcon, Tooltip } from "@/components";
 import { type TableProps } from "./types";
+import TableSettings from "./TableSettings.vue";
 import { computed } from "vue";
-
-function onClick() {
-  props.hideValues!.value = !props.hideValues!.value;
-  emit("hideValue", props.hideValues!.value);
-}
-
-function onChangeToggle(data: boolean) {
-  emit("togleValue", data);
-}
 
 const props = withDefaults(defineProps<TableProps>(), {
   scrollable: true
 });
 const emit = defineEmits<{
   (e: "onInput", value: Event): void;
-  (e: "hideValue", value: boolean): void;
-  (e: "togleValue", value: boolean): void;
   (e: "onSearchClear"): void;
+  (e: "hide-value", value: boolean): void;
+  (e: "togle-value", value: boolean): void;
 }>();
 
 const showAttributes = computed(() => {

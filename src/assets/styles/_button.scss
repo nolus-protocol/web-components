@@ -7,24 +7,36 @@
     @apply bg-primary-default text-static-light;
     @apply hover:bg-primary-hover;
     @apply active:bg-primary-active;
+    &.active {
+      @apply bg-primary-active;
+    }
   }
 
   &-secondary {
     @apply border-[1px] border-border-default bg-secondary-default text-typography-default;
     @apply hover:bg-secondary-hover;
     @apply active:border-border-emphasized active:bg-secondary-active;
+    &.active {
+      @apply border-border-emphasized bg-secondary-active;
+    }
   }
 
   &-tertiary {
     @apply border-[1px] border-transparent text-typography-default shadow-transparent;
     @apply hover:border-border-default hover:bg-secondary-hover hover:shadow-medium;
     @apply active:bg-secondary-active;
+    &.active {
+      @apply bg-secondary-active;
+    }
   }
 
   &-danger {
     @apply border-[1px] border-border-error bg-danger-default text-typography-error;
     @apply hover:bg-danger-hover;
     @apply active:bg-danger-active;
+    &.active {
+      @apply bg-danger-active;
+    }
   }
 
   &-loading {
