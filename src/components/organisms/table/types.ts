@@ -16,8 +16,6 @@ export interface TableProps extends TableSettingsProps {
   inputSearch?: InputProps;
   size?: string;
   scrollable?: boolean;
-  filterable?: boolean;
-  filters?: {};
   columns?: TableColumnProps[];
   headerClasses?: string;
   tableWrapperClasses?: string;

@@ -21,8 +21,8 @@
       class="flex h-6 w-6 min-w-6 cursor-pointer appearance-none items-center justify-center rounded-md border-[1px] border-border-dominant bg-secondary-default transition-colors duration-200 ease-out
       peer-checked:border-primary-default peer-checked:bg-primary-default
       group-hover:bg-secondary-hover
-      peer-focus-visible:outline peer-focus-visible:outline-typography-link
-      outline-2 outline-offset-2
+      outline-2 outline-offset-2 outline-transparent
+      peer-focus-visible:outline-typography-link
       "
     >
       <svg xmlns="http://www.w3.org/2000/svg" 
@@ -50,11 +50,7 @@
 </template>
 
 <script lang="ts" setup>
-export interface CheckboxProps {
-  id: string;
-  label?: string;
-  disabled?: boolean;
-}
+import type { CheckboxProps } from "./types";
 
 withDefaults(defineProps<CheckboxProps>(), {
   disabled: false

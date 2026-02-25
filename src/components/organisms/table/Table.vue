@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col gap-y-6">
-    <div v-if="showAttributes || filterable">
+    <div v-if="showAttributes">
       <div
         v-if="showAttributes"
         class="flex items-center justify-between gap-2"
@@ -30,7 +30,6 @@
           @hide-value="(data) => emit('hide-value', data)"
         />
       </div>
-      <div v-if="filterable">TODO add filter here</div>
     </div>
     <div class="w-full">
       <div :class="tableWrapperClasses">

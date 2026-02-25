@@ -91,14 +91,7 @@ const transitionDuration = 200;
 const transitionDurationDecimal = transitionDuration / 1000;
 const radioRefs = ref<InstanceType<typeof Radio>[]>([]);
 
-export interface DialogProps {
-  title: string;
-  tabs?: { label: string; disabled?: boolean }[];
-  activeTabIndex?: number;
-  showClose?: boolean;
-  disableClose?: boolean;
-  classList?: string;
-}
+import type { DialogProps } from "./types";
 
 const props = withDefaults(defineProps<DialogProps>(), {});
 

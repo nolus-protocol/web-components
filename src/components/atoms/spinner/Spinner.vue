@@ -22,13 +22,7 @@
 
 <script lang="ts" setup>
 import { computed } from "vue";
-import { Type } from "@/shared/utils/types";
-
-export interface SpinnerProps {
-  width?: string;
-  height?: string;
-  severity?: keyof typeof Type;
-}
+import type { SpinnerProps } from "./types";
 
 const props = withDefaults(defineProps<SpinnerProps>(), {
   width: "20",

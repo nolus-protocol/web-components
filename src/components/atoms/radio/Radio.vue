@@ -27,19 +27,10 @@
 
 <script lang="ts" setup>
 import { ref, watch } from "vue";
-
-export interface CheckboxProps {
-  id: string;
-  label: string;
-  name: string;
-  labelClass?: string;
-  inputClass?: string;
-  disabled?: boolean;
-  checked?: boolean;
-}
+import type { RadioProps } from "./types";
 
 const emit = defineEmits(["click"]);
-const props = withDefaults(defineProps<CheckboxProps>(), {
+const props = withDefaults(defineProps<RadioProps>(), {
   checked: false
 });
 const isChecked = ref(props.checked);

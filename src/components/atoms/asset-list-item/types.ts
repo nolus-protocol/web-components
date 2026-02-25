@@ -7,6 +7,6 @@ export interface AssetItemProps {
   balance: string;
   max_decimals?: number;
   price: string;
-  disabled?: true;
+  disabled?: boolean;
   info?: Component;
 }

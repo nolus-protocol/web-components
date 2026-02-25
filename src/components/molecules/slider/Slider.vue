@@ -109,21 +109,7 @@
 
 <script lang="ts" setup>
 import { computed, onMounted, onUnmounted, ref, watch } from "vue";
-
-export interface RangeProps {
-  labelLeft?: string;
-  labelRight?: string;
-  labelMid?: string;
-  positions?: number;
-  minPosition: number;
-  midPosition?: number;
-  maxPosition: number;
-  disabled?: boolean;
-  value?: number;
-  onClickRightLabel?: Function;
-  onClickLeftLabel?: Function;
-  onClickMidLabel?: Function;
-}
+import type { RangeProps } from "./types";
 
 const props = withDefaults(defineProps<RangeProps>(), {
   minPosition: 25,

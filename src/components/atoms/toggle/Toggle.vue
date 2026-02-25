@@ -23,7 +23,7 @@
           'border-primary-default bg-primary-default hover:border-primary-hover hover:bg-primary-hover': model
         }
       ]"
-      class="block h-6 w-10 rounded-full border-[1px] border-border-dominant px-[3px] py-1 transition-all duration-200 ease-in-out"
+      class="relative block h-6 w-10 rounded-full border-[1px] border-border-dominant px-[3px] py-1 transition-all duration-200 ease-in-out"
     >
       <span
         :class="[

@@ -7,7 +7,6 @@ export interface ButtonProps {
   label?: string;
   size?: ButtonSize;
   severity?: ButtonType;
-  outlined?: boolean;
   icon?: string;
   iconPosition?: "left" | "right";
   loading?: boolean;
