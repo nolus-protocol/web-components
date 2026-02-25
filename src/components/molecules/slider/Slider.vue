@@ -313,6 +313,8 @@ function removeAnimations() {
 </script>
 
 <style lang="scss" scoped>
+@reference "../../../assets/styles/theme.css";
+
 .triangle {
   @apply relative text-left;
 }

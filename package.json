@@ -9,10 +9,19 @@
   "type": "module",
   "files": [
     "dist",
-    "dist/src"
+    "dist/src",
+    "src/assets/styles/theme.css"
   ],
   "main": "./dist/main.js",
   "types": "./dist/lib/main.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/main.js",
+      "types": "./dist/lib/main.d.ts"
+    },
+    "./theme.css": "./src/assets/styles/theme.css",
+    "./dist/*": "./dist/*"
+  },
   "scripts": {
     "dev": "vite",
     "build": "run-p \"build-only {@}\" --",
@@ -35,21 +44,21 @@
     "@storybook/addon-themes": "^10.0.2",
     "@storybook/vue3": "^10.0.2",
     "@storybook/vue3-vite": "^10.0.2",
+    "@tailwindcss/postcss": "^4.2.1",
     "@tsconfig/node22": "^22.0.2",
     "@types/node": "^22.13.14",
     "@vitejs/plugin-vue": "^6.0.1",
     "@vue/tsconfig": "^0.8.1",
-    "autoprefixer": "^10.4.21",
     "husky": "^9.1.6",
     "npm-run-all2": "^6.2.0",
     "postcss": "^8.4.35",
     "prettier": "^3.3.1",
-    "prettier-plugin-tailwindcss": "^0.7.1",
+    "prettier-plugin-tailwindcss": "^0.7.2",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "sass": "^1.82.0",
     "storybook": "^10.0.2",
-    "tailwindcss": "^3.4.16",
+    "tailwindcss": "^4.2.1",
     "terser": "^5.44.0",
     "tsx": "^4.19.2",
     "typescript": "~5.8.3",

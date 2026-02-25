@@ -116,37 +116,10 @@ watch(() => [target.value, props.position], calculateTooltipPosition);
 </script>
 
 <style lang="scss" scoped>
+@reference "../../../assets/styles/theme.css";
+
 .tooltip-cursor {
   @apply invisible opacity-0;
-
-  //&:before {
-  //  content: "";
-  //  @apply absolute h-2 w-2 rotate-45 bg-neutral-bg-inverted-2;
-  //}
-  //
-  //&-top {
-  //  &:before {
-  //    @apply bottom-0 left-[50%] translate-x-[-50%] translate-y-[50%];
-  //  }
-  //}
-  //
-  //&-bottom {
-  //  &:before {
-  //    @apply left-[50%] top-0 translate-x-[-50%] translate-y-[-50%];
-  //  }
-  //}
-  //
-  //&-left {
-  //  &:before {
-  //    @apply right-0 top-[50%] translate-x-[50%] translate-y-[-50%];
-  //  }
-  //}
-  //
-  //&-right {
-  //  &:before {
-  //    @apply left-0 top-[50%] translate-x-[-50%] translate-y-[-50%];
-  //  }
-  //}
 }
 
 .pointer {

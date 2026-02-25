@@ -13,7 +13,7 @@
       class="
         appearance-none  
         pointer-events-none h-6 w-6 min-w-6 cursor-pointer rounded-full 
-        border-[1px] border-border-dominant bg-secondary-default outline-none outline-2 outline-offset-2
+        border-[1px] border-border-dominant bg-secondary-default outline-hidden outline-2 outline-offset-2
         checked:border-[6px] checked:border-primary-default checked:bg-secondary-default hover:bg-secondary-hover checked:hover:border-primary-hover
         focus-visible:outline focus-visible:outline-typography-link
         "

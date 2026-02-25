@@ -7,6 +7,4 @@
 @use "inputs";
 @use "tables";
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@reference "./theme.css";

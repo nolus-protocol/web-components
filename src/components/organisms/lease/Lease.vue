@@ -268,6 +268,8 @@ defineEmits<LeaseEmits>();
 </script>
 
 <style lang="scss" scoped>
+@reference "../../../assets/styles/theme.css";
+
 @keyframes pulse {
   0% {
     opacity: 1;

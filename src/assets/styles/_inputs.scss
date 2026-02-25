@@ -9,8 +9,8 @@
 
   &-input,
   &-dropdown {
-    @apply flex h-10 items-center rounded-md border-[1px] border-border-dominant bg-neutral-bg-2 text-16 font-normal text-typography-default shadow-shadow-default;
-    @apply focus:border-[2px] focus:border-border-focus focus:outline-none;
+    @apply flex h-10 items-center rounded-md border-[1px] border-border-dominant bg-neutral-bg-2 text-16 font-normal text-typography-default shadow-small;
+    @apply focus:border-[2px] focus:border-border-focus focus:outline-hidden;
   }
 
   &-input {
@@ -21,15 +21,17 @@
 }
 
 .field-currency {
-  @apply rounded-md border-[1px] border-border-color bg-neutral-bg-50 px-3 py-4 pl-4 pr-3 text-neutral-typography-200 outline-none transition hover:border-border-hover-color focus:border-primary-50 disabled:bg-neutral-bg-100 disabled:text-neutral-typography-50 disabled:hover:border-border-color dark:disabled:bg-neutral-bg-50;
-  @apply focus-within:border-primary-50 #{!important};
+  @apply rounded-md border-[1px] border-border-color bg-neutral-bg-50 px-3 py-4 pl-4 pr-3 text-neutral-typography-200 outline-hidden transition hover:border-border-hover-color focus:border-primary-50 disabled:bg-neutral-bg-100 disabled:text-neutral-typography-50 disabled:hover:border-border-color dark:disabled:bg-neutral-bg-50;
+  &:focus-within {
+    border-color: var(--color-primary-50) !important;
+  }
 
   &-wrapper {
     @apply flex flex-col gap-1;
   }
 
   &-label {
-    @apply field-label flex gap-1 text-14;
+    @apply w-max cursor-pointer flex gap-1 text-14 font-normal text-typography-default;
 
     span {
       @apply text-[20px];

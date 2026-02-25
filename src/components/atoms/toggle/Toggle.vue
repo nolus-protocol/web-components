@@ -62,7 +62,9 @@ const emit = defineEmits<{
 </script>
 
 <style lang="scss" scoped>
+@reference "../../../assets/styles/theme.css";
+
 input:focus-visible + span {
-  @apply focus-visible:outline focus-visible:outline-offset-1 focus-visible:outline-primary-hover active:outline-none;
+  @apply focus-visible:outline focus-visible:outline-offset-1 focus-visible:outline-primary-hover active:outline-hidden;
 }
 </style>

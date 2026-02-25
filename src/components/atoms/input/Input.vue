@@ -39,7 +39,7 @@
       />
       <i
         v-if="inputValue"
-        class="icon icon-close dark:text- absolute right-2 top-[50%] flex h-[18px] w-[18px] translate-y-[-50%] cursor-pointer items-center justify-center rounded-full bg-icon-default text-neutral-bg-2"
+        class="icon icon-close absolute right-2 top-[50%] flex h-[18px] w-[18px] translate-y-[-50%] cursor-pointer items-center justify-center rounded-full bg-icon-default text-neutral-bg-2"
         @click="onSearchClear"
       />
     </div>
@@ -99,6 +99,8 @@ const onSearchClear = (e: Event) => {
 </script>
 
 <style lang="scss" scoped>
+@reference "../../../assets/styles/theme.css";
+
 .field-wrapper {
   .icon-close:before {
     font-size: 10px;

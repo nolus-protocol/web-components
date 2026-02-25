@@ -48,7 +48,7 @@
           ref="elements"
           :style="[`top: ${position.y}px`, `left: ${position.x}px`]"
           :class="[
-            'shadow-lg fixed z-[9999] mt-3 min-w-48 max-w-full overflow-hidden rounded-lg border-[1px] border-border-default bg-neutral-bg-2 text-typography-default shadow-shadow-lighter',
+            'shadow-lg fixed z-[9999] mt-3 min-w-48 max-w-full overflow-hidden rounded-lg border-[1px] border-border-default bg-neutral-bg-2 text-typography-default shadow-lighter',
             dropdownClassName,
             itemTemplate ? 'min-w-[325px]' : '',
             isOpen ? '' : 'pointer-events-none opacity-0'

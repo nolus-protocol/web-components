@@ -72,7 +72,7 @@
         :placeholder="placeholder"
         autocomplete="off"
         inputmode="text"
-        class="bg-transparent text-right text-32 font-semibold text-typography-default placeholder-typography-default focus:outline-none"
+        class="bg-transparent text-right text-32 font-semibold text-typography-default placeholder-typography-default focus:outline-hidden"
         @keydown="inputValue"
         @keyup="setValue()"
         @paste="onPaste"

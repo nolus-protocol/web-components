@@ -32,8 +32,7 @@ export default defineConfig({
     },
     lib: {
       entry: {
-        main: "lib/main.ts",
-        "tailwind.config": "tailwind.config.cjs"
+        main: "lib/main.ts"
       },
       name: "web-components",
       formats: ["es"]

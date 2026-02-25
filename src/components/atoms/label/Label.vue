@@ -30,6 +30,8 @@ const props = defineProps<LabelProps>();
 </script>
 
 <style lang="scss" scoped>
+@reference "../../../assets/styles/theme.css";
+
 .label {
   &-secondary {
     @apply border-border-default bg-secondary-default text-typography-default;
