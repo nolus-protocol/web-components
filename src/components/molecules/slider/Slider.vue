@@ -16,7 +16,7 @@
           <div
             :style="[
               {
-                width: container?.offsetWidth + 'px'
+                width: containerWidth + 'px'
               }
             ]"
             class="flex h-full px-1"
@@ -108,7 +108,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, onMounted, onUnmounted, ref, watch } from "vue";
+import { computed, nextTick, onMounted, onUnmounted, ref, watch } from "vue";
 import type { RangeProps } from "./types";
 
 const props = withDefaults(defineProps<RangeProps>(), {
@@ -119,7 +119,7 @@ const props = withDefaults(defineProps<RangeProps>(), {
 
 const emits = defineEmits(["onDrag"]);
 const defaultPosition = 100;
-const percentPosition = props.positions ? 100 / props.positions : 1;
+const percentPosition = computed(() => (props.positions ? 100 / props.positions : 1));
 
 let position = defaultPosition;
 let dragStart = false;
@@ -129,14 +129,29 @@ let leasePercent = ref(0);
 const button = ref<HTMLButtonElement>();
 const container = ref<HTMLDivElement>();
 const background = ref<HTMLDivElement>();
+const containerWidth = ref(0);
+
+function updateContainerWidth() {
+  if (container.value) {
+    containerWidth.value = container.value.offsetWidth;
+  }
+}
+
+let resizeObserver: ResizeObserver | null = null;
 
 onMounted(() => {
   setPosition(props.value);
+  nextTick(() => updateContainerWidth());
+  if (container.value) {
+    resizeObserver = new ResizeObserver(() => updateContainerWidth());
+    resizeObserver.observe(container.value);
+  }
   window.addEventListener("mousemove", onMouseMove);
   window.addEventListener("mouseup", onMouseLeave);
 });
 
 onUnmounted(() => {
+  resizeObserver?.disconnect();
   window.removeEventListener("mousemove", onMouseMove);
   window.removeEventListener("mouseup", onMouseLeave);
 });
@@ -257,13 +272,13 @@ function setPercent(draggable: HTMLButtonElement, xPos: number, parentRect: DOMR
   if (x > -widthDragable && x < parentRect.width - widthDragable) {
     const prc = ((x + draggableRect.width / 2) / parentRect.width) * 100;
     const percent = ((x + draggableRect.width / 2) / parentRect.width) * 100;
-    const scale = Math.round(percent / percentPosition);
+    const scale = Math.round(percent / percentPosition.value);
     if (props.positions) {
       leasePercent.value = scale * props.minPosition + props.minPosition;
     } else {
       leasePercent.value = scale;
     }
-    scalePercent = Math.round(scale * percentPosition);
+    scalePercent = Math.round(scale * percentPosition.value);
     draggable.style.left = `${x}px`;
 
     if (background.value) {
