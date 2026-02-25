@@ -99,8 +99,6 @@ const onSearchClear = (e: Event) => {
 </script>
 
 <style lang="scss" scoped>
-@reference "../../../assets/styles/theme.css";
-
 .field-wrapper {
   .icon-close:before {
     font-size: 10px;
@@ -121,7 +119,6 @@ const onSearchClear = (e: Event) => {
 
 #search-close {
   path {
-    @apply fill-neutral-bg-2;
     stroke: white;
     fill: white;
   }

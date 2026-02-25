@@ -7,10 +7,6 @@
 @use "styles/inputs";
 @use "styles/tables";
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
 html,
 body {
   width: 100%;
@@ -22,15 +18,10 @@ body {
 }
 
 html {
-  @apply bg-neutral-bg-1;
+  background-color: var(--color-background-level-1);
 
   &.dark,
   &.sync {
-    @apply bg-neutral-bg-1;
+    background-color: var(--color-background-level-1);
   }
-  // &.sync {
-  //   @media (prefers-color-scheme: dark) {
-  //     @apply bg-neutral-bg-1;
-  //   }
-  // }
 }

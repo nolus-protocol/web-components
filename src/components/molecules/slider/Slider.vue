@@ -313,19 +313,23 @@ function removeAnimations() {
 </script>
 
 <style lang="scss" scoped>
-@reference "../../../assets/styles/theme.css";
-
 .triangle {
-  @apply relative text-left;
+  position: relative;
+  text-align: left;
 }
 .triangle:before,
 .triangle:after {
-  @apply absolute bg-inherit content-[""];
+  position: absolute;
+  background-color: inherit;
+  content: "";
 }
 .triangle,
 .triangle:before,
 .triangle:after {
-  @apply mb-[2px] h-[5px] w-[5px] rounded-tr-[60%];
+  margin-bottom: 2px;
+  height: 5px;
+  width: 5px;
+  border-top-right-radius: 60%;
 }
 
 .triangle {
@@ -347,28 +351,31 @@ function removeAnimations() {
 button {
   &::after {
     content: attr(data-count);
-    @apply invisible absolute top-[-25px] rounded bg-neutral-bg-inverted-2 px-2 py-1 text-xs text-typography-inverted;
+    visibility: hidden;
+    position: absolute;
+    top: -25px;
+    border-radius: 0.25rem;
+    background-color: var(--color-background-level-inverted-2);
+    padding: 0.25rem 0.5rem;
+    font-size: 0.8125rem;
+    line-height: 1rem;
+    color: var(--color-inverted);
   }
   &::before {
     content: "";
-    @apply invisible absolute;
+    visibility: hidden;
+    position: absolute;
     height: 0.5rem;
     width: 0.5rem;
-    --tw-rotate: 45deg;
-    transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x))
-      skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
     background-color: var(--color-background-level-inverted-2);
     left: 50%;
     top: -3px;
-    --tw-translate-x: -50%;
-    --tw-translate-y: -50%;
-    transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x))
-      skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+    transform: translate(-50%, -50%) rotate(45deg);
   }
   &:hover {
     &::after,
     &::before {
-      @apply visible;
+      visibility: visible;
     }
   }
 }

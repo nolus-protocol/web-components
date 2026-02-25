@@ -268,8 +268,6 @@ defineEmits<LeaseEmits>();
 </script>
 
 <style lang="scss" scoped>
-@reference "../../../assets/styles/theme.css";
-
 @keyframes pulse {
   0% {
     opacity: 1;
@@ -287,6 +285,13 @@ defineEmits<LeaseEmits>();
 }
 
 .box {
-  @apply h-[10px] w-[24px] rounded bg-progress-color lg:w-[35px];
+  height: 10px;
+  width: 24px;
+  border-radius: 0.25rem;
+  background-color: var(--color-progress);
+
+  @media (min-width: 1024px) {
+    width: 35px;
+  }
 }
 </style>

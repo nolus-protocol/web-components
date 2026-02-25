@@ -116,13 +116,19 @@ watch(() => [target.value, props.position], calculateTooltipPosition);
 </script>
 
 <style lang="scss" scoped>
-@reference "../../../assets/styles/theme.css";
-
 .tooltip-cursor {
-  @apply invisible opacity-0;
+  visibility: hidden;
+  opacity: 0;
 }
 
 .pointer {
-  @apply fixed -bottom-1 left-0 right-0 h-3 w-3 rotate-45 bg-neutral-bg-inverted-2;
+  position: fixed;
+  bottom: -0.25rem;
+  left: 0;
+  right: 0;
+  height: 0.75rem;
+  width: 0.75rem;
+  transform: rotate(45deg);
+  background-color: var(--color-background-level-inverted-2);
 }
 </style>

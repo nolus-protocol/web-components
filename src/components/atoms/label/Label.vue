@@ -30,23 +30,31 @@ const props = defineProps<LabelProps>();
 </script>
 
 <style lang="scss" scoped>
-@reference "../../../assets/styles/theme.css";
-
 .label {
   &-secondary {
-    @apply border-border-default bg-secondary-default text-typography-default;
+    border-color: var(--color-border-default);
+    background-color: var(--color-secondary-default);
+    color: var(--color-typography-default);
   }
   &-info {
-    @apply border-border-focus bg-info-muted text-typography-link;
+    border-color: var(--color-border-focus);
+    background-color: var(--color-info-muted);
+    color: var(--color-typography-link);
   }
   &-success {
-    @apply border-border-success bg-success-muted text-typography-success;
+    border-color: var(--color-border-success);
+    background-color: var(--color-success-muted);
+    color: var(--color-typography-success);
   }
   &-warning {
-    @apply border-border-warning bg-warning-muted text-typography-warning;
+    border-color: var(--color-border-warning);
+    background-color: var(--color-warning-muted);
+    color: var(--color-typography-warning);
   }
   &-error {
-    @apply border-border-error bg-error-muted text-typography-error;
+    border-color: var(--color-border-error);
+    background-color: var(--color-error-muted);
+    color: var(--color-typography-error);
   }
 }
 </style>
