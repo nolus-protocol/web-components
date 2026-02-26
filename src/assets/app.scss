@@ -1,11 +1,4 @@
-@use "styles/fonts";
-@use "styles/icons";
-@use "styles/root";
-@use "styles/custom";
-@use "styles/variables";
-@use "styles/button";
-@use "styles/inputs";
-@use "styles/tables";
+@use "styles/index";
 
 html,
 body {
@@ -19,9 +12,4 @@ body {
 
 html {
   background-color: var(--color-background-level-1);
-
-  &.dark,
-  &.sync {
-    background-color: var(--color-background-level-1);
-  }
 }

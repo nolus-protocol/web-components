@@ -7,7 +7,7 @@
         :initial="{ opacity: 0 }"
         :animate="{ opacity: 1, transition: { duration: transitionDurationDecimal } }"
         :exit="{ opacity: 0, transition: { duration: transitionDurationDecimal, ease: 'easeIn' } }"
-        class="fixed inset-0 z-[9997] bg-neutral-bg-inverted-1/50"
+        class="fixed inset-0 z-[9997] bg-neutral-bg-1/75"
         @click="handleBackdropClick"
       />
     </AnimatePresence>
