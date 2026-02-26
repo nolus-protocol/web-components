@@ -10,8 +10,7 @@ const outputPath = path.join(__dirname, "../components/atoms/svg-icon/types.ts")
 
 fs.readdir(directoryPath, (err, files) => {
   if (err) {
-    console.error("Unable to scan directory: " + err);
-    process.exit(1);
+    return console.error("Unable to scan directory: " + err);
   }
 
   const iconNames = files.filter((file) => file.endsWith(".svg")).map((file) => `"${file.replace(".svg", "")}"`);
@@ -20,8 +19,7 @@ fs.readdir(directoryPath, (err, files) => {
 
   fs.readFile(outputPath, "utf8", (err, data) => {
     if (err) {
-      console.error("Unable to read file: " + err);
-      process.exit(1);
+      return console.error("Unable to read file: " + err);
     }
 
     const iconNamesRegex = /export const iconNames = \[[^\]]+\] as const;/;
@@ -35,8 +33,7 @@ fs.readdir(directoryPath, (err, files) => {
 
     fs.writeFile(outputPath, newData, (err) => {
       if (err) {
-        console.error("Unable to write file: " + err);
-        process.exit(1);
+        return console.error("Unable to write file: " + err);
       }
       console.log("IconNames type updated successfully.");
     });
