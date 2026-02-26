@@ -7,7 +7,7 @@
       }
     ]"
     :for="id"
-    class="relative inline-block cursor-pointer"
+    class="relative cursor-pointer"
   >
     <input
       :id="id"
