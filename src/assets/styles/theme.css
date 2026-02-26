@@ -450,21 +450,9 @@
   --color-shadow-light: var(--color-shadow-light);
   --color-shadow-lighter: var(--color-shadow-lighter);
 
-  /* Legacy tokens */
-  --color-neutral-typography-50: var(--color-typography-50);
-  --color-neutral-typography-100: var(--color-typography-100);
+  /* Consumer-shared tokens */
   --color-neutral-typography-200: var(--color-typography-200);
-  --color-neutral-typography-link: var(--color-typography-link);
-  --color-neutral-typography-error: var(--color-typography-error);
-  --color-neutral-typography-success: var(--color-typography-success);
-  --color-neutral-typography-brand: var(--color-typography-brand);
-
-  --color-accent: var(--color-brand-accent);
   --color-progress-color: var(--color-progress);
-  --color-spinner-color: var(--spinner-color);
-  --color-spinner-border-color: var(--spinner-border-color);
-  --color-hover-btn: var(--color-hover);
-  --color-dialogs-swap-color: var(--swap-confirmation-color);
 
   /* Box shadows */
   --shadow-small: 0px 1px 2px 0px var(--color-shadow-default);
