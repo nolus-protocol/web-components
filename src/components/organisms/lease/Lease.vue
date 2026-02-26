@@ -116,7 +116,7 @@
           <div class="text-12 font-medium text-neutral-400">{{ progressDate.title }}</div>
           <div
             :class="[{ pulse: status === LeaseStatus.OPENING }]"
-            class="flex h-full items-center text-16 font-medium text-neutral-typography-200"
+            class="flex h-full items-center text-16 font-medium text-typography-default"
           >
             <div>{{ progressDate.value }}</div>
           </div>
@@ -149,7 +149,7 @@
             </div>
             <div
               :class="[
-                'text-16 font-medium text-neutral-typography-200',
+                'text-16 font-medium text-typography-default',
                 debt?.class,
                 { pulse: status === LeaseStatus.OPENING }
               ]"
@@ -180,7 +180,7 @@
               </div>
               <div
                 :class="[
-                  'text-16 font-medium text-neutral-typography-200',
+                  'text-16 font-medium text-typography-default',
                   item?.class,
                   { pulse: status === LeaseStatus.OPENING }
                 ]"
@@ -282,16 +282,5 @@ defineEmits<LeaseEmits>();
 
 .pulse {
   animation: pulse 1s infinite;
-}
-
-.box {
-  height: 10px;
-  width: 24px;
-  border-radius: 0.25rem;
-  background-color: var(--color-progress);
-
-  @media (min-width: 1024px) {
-    width: 35px;
-  }
 }
 </style>

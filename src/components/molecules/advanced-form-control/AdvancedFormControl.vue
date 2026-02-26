@@ -178,7 +178,6 @@ const setBalance = () => {
 
 const onUpdateCurrency = (value: AdvancedCurrencyFieldOption) => {
   selectedToken.value = value;
-  // numberValue.value = "";
   emit("on-selected-currency", value);
 };
 
