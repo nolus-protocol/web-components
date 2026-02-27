@@ -13,7 +13,7 @@
     :parent="popoverParent"
     @close="isOpen = !isOpen"
     class="md:w-[17rem]"
-    :isMobileFullscreen="false"
+    :fullscreen-on-mobile="false"
   >
     <template #content>
         <div class="flex flex-col gap-2 p-4">
