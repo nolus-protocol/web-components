@@ -3,11 +3,11 @@
     :class="[
       {
         'pointer-events-none': disabled,
-        'flex items-center gap-2': label
+        'gap-2': label
       }
     ]"
     :for="id"
-    class="relative inline-block cursor-pointer"
+    class="relative inline-flex cursor-pointer items-center"
   >
     <input
       :id="id"
