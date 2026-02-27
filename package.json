@@ -1,6 +1,6 @@
 {
   "name": "web-components",
-  "version": "2.0.52",
+  "version": "2.0.53",
   "private": false,
   "sideEffects": [
     "*.vue",
