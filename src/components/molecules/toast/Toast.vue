@@ -1,5 +1,5 @@
 <template>
-  <AnimatePresence>
+  <AnimatePresence @exit-complete="props.onClose?.()">
     <Motion
       v-if="showToast"
       :initial="{ opacity: 0, y: 8 }"
@@ -11,9 +11,9 @@
       <div class="flex items-center gap-2 text-sm font-normal">
         <SvgIcon
           :default-color="false"
-          :name="props.icon || 'check-solid'"
+          :name="props.icon || defaultIcon"
           size="s"
-          class="flex-shrink-0"
+          class="shrink-0"
         />
         <slot></slot>
       </div>
@@ -80,11 +80,17 @@ const classes = computed(() => ({
   "bg-neutral-800": props.type === ToastType.info
 }));
 
+const defaultIcon = computed(() => {
+  if (props.icon) return props.icon;
+  return {
+    [ToastType.success]: 'check-solid',
+    [ToastType.error]: 'warning',
+    [ToastType.info]: 'info'
+  }[props.type];
+});
+
 const onCloseAlert = () => {
   showToast.value = false;
-  setTimeout(() => {
-    if (props.onClose) props.onClose();
-  }, exitDuration);
 };
 
 const onUndoClick = () => {

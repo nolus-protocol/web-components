@@ -5,7 +5,7 @@
   gap: 0.25rem;
   box-shadow: 0px 4px 6px -1px var(--color-shadow-default), 0px 2px 4px -2px var(--color-shadow-default);
   transition-property: all;
-  transition-duration: 150ms;
+  transition-duration: 75ms;
   transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
 
   &:disabled {
@@ -70,8 +70,10 @@
         background-color: var(--color-static-light);
         border-color: transparent;
       }
-      &:active { background-color: var(--color-static-light-active); }
-      &.active { background-color: var(--color-static-light-active); }
+      &:active, &.active { 
+        background-color: var(--color-static-light);
+
+      }
     }
   }
 
