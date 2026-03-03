@@ -62,6 +62,17 @@
     }
     &:active { background-color: var(--color-secondary-active); }
     &.active { background-color: var(--color-secondary-active); }
+
+    &-static-light {
+      color: var(--color-static-light);
+      &:hover {
+        color: var(--color-static-dark);
+        background-color: var(--color-static-light);
+        border-color: transparent;
+      }
+      &:active { background-color: var(--color-static-light-active); }
+      &.active { background-color: var(--color-static-light-active); }
+    }
   }
 
   &-danger {
