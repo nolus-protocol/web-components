@@ -65,7 +65,7 @@ const props = withDefaults(defineProps<PopoverProps>(), {
 const emit = defineEmits(["close", "unmounted"]);
 
 onMounted(() => {
-  calculatePopoverPosition();
+  requestAnimationFrame(calculatePopoverPosition);
   window.addEventListener("scroll", calculatePopoverPosition);
   document.addEventListener("keyup", escapeClicked);
   window.addEventListener("popstate", backButtonClicked);
@@ -163,7 +163,7 @@ const calculatePopoverPosition = () => {
 };
 
 const close = () => {
-  document.body.style.removeProperty("overflow-y");
+  document.body.style.removeProperty("overflow");
   emit("close");
 };
 
@@ -184,6 +184,6 @@ const handleClickOutside = (event: MouseEvent) => {
 
 watch(
   () => [props.parent, props.position],
-  () => calculatePopoverPosition
+  () => calculatePopoverPosition()
 );
 </script>
