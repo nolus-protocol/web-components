@@ -72,6 +72,7 @@
         :placeholder="placeholder"
         autocomplete="off"
         inputmode="text"
+        :class="inputClass"
         class="bg-transparent text-right text-32 font-semibold text-typography-default placeholder-typography-default focus:outline-hidden"
         @keydown="inputValue"
         @keyup="setValue()"
@@ -82,20 +83,36 @@
         {{ calculatedBalance }}
       </span>
     </div>
-    <div
-      v-if="errorMsg"
-      class="items-start justify-between text-14 text-typography-error"
+    <AnimatePresence>
+    <Motion
+      v-if="errorMsg?.length"
+      :initial="{ opacity: 0, y: 4, overflow: 'hidden' }"
+      :animate="{ opacity: 1, y: 0, overflow: 'hidden', transition: { type: 'spring', stiffness: 400, damping: 20 } }"
+      :exit="{ opacity: 0, y: 4, overflow: 'hidden', transition: { type: 'spring', stiffness: 400, damping: 40 } }"
+      tag="div"
+      class="text-14 text-typography-error flex items-center gap-1"
     >
-      <span class="msg error"> &nbsp;{{ errorMsg }} </span>
-    </div>
+      <SvgIcon size="s" name="warning" class="fill-typography-error" />
+      <AnimatePresence mode="wait">
+        <Motion
+          :key="errorMsg"
+          :initial="{ opacity: 0, y: 4 }"
+          :animate="{ opacity: 1, y: 0, transition: { type: 'spring', stiffness: 400, damping: 20 } }"
+          :exit="{ opacity: 0, y: 4, transition: { type: 'spring', stiffness: 400, damping: 40 } }"
+          tag="span"
+        >{{ errorMsg }}</Motion>
+      </AnimatePresence>
+    </Motion>
+  </AnimatePresence>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { onMounted, ref, watch } from "vue";
-import { Dropdown, Tooltip } from "@/components";
+import { Dropdown, Tooltip, SvgIcon } from "@/components";
 import type { AdvancedCurrencyFieldOption, AdvancedCurrencyFieldProps } from "./types";
 import { InputType, type DropdownOption } from "@/components/types";
+import { AnimatePresence, Motion } from "motion-v";
 
 const emit = defineEmits<{
   (e: "on-selected-currency", value: AdvancedCurrencyFieldOption): void;

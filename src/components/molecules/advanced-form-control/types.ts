@@ -29,6 +29,7 @@ export interface AdvancedCurrencyFieldProps<T extends DropdownOption> {
   disabledInputField?: boolean;
   name?: string;
   errorMsg?: string;
+  inputClass?: string;
   isError?: boolean;
   numberValue?: string;
   onPaste?: (e: ClipboardEvent) => void;
