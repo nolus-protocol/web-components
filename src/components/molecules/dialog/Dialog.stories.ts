@@ -84,6 +84,9 @@ export const WithTabs: Story = {
           <template #tab-content-1>
             <p class="text-typography-default">Child Component 2</p>
           </template>
+          <template #tab-content-3>
+            <p class="text-typography-default">Child Component 3</p>
+          </template>
       </Dialog>
     `
   }),
@@ -91,7 +94,7 @@ export const WithTabs: Story = {
     title: "Dialog Title",
     showClose: true,
     classList: "!block opacity-100",
-    tabs: ["Long", "Short"]
+    tabs: ["Long", "Short", "Other"]
   } as DialogProps
 };
 

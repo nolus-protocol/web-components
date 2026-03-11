@@ -46,16 +46,21 @@
           />
         </header>
         <template v-if="tabs?.length">
-          <div class="flex border-b border-t border-border-color">
+          <div class="flex border-t border-border-color bg-border-color gap-px">
             <Radio
               v-for="(tab, index) in tabs"
               :id="`tab-${index}`"
               :key="index"
               ref="radioRefs"
-              :class="[{ 'border-l border-border-color': index > 0, 'bg-transparent': activeTabIdx === index }]"
+              :class="[
+                { 
+                  'border-transparent': index === activeTabIdx,
+                  'border-border-default': index !== activeTabIdx,
+                  'bg-neutral-bg-2': activeTabIdx === index }
+              ]"
               :disabled="tab.disabled"
               :label="tab.label"
-              class="flex flex-1 cursor-pointer justify-center bg-neutral-bg-1 px-6 py-5 text-16 font-normal text-typography-default"
+              class="flex flex-1 cursor-pointer justify-center border-b bg-neutral-bg-1 px-6 py-5 text-16 font-normal text-typography-default"
               name="dialogTabsGroup"
               @click="handleParentClick(index)"
             />
