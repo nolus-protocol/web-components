@@ -58,11 +58,11 @@
                   v-if="column.tooltip"
                   v-bind="column.tooltip"
                 >
-                  <SvgIcon name="help" />
+                  <SvgIcon name="help" size="m" class="hover:fill-icon-secondary cursor-pointer transition duration-200 ease-in-out" />
                 </Tooltip>
                 <SvgIcon
                   v-if="column.sortable"
-                  class="cursor-pointer"
+                  class="hover:fill-icon-secondary cursor-pointer transition duration-200 ease-in-out"
                   name="arrow"
                 />
               </div>

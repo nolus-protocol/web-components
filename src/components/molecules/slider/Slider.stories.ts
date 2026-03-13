@@ -10,6 +10,9 @@ const meta = {
     onOnDrag: { action: "dragged" }
   },
   args: {} // default value
+  parameters: {
+    layout: "centered"
+  }
 } satisfies Meta<typeof Slider>;
 
 export default meta;

@@ -8,106 +8,94 @@
     <slot></slot>
   </div>
   <Teleport to="body">
-    <div
+    <AnimatePresence>
+    <motion.div
+      v-if="isVisible"
       ref="tooltip"
       :class="[
-        'z-[9999] max-w-[200px] rounded bg-neutral-bg-inverted-2 px-2 py-1 text-xs text-typography-inverted',
+        'relative z-9999 max-w-50 rounded bg-neutral-bg-inverted-2 px-2 py-1 text-xs text-typography-inverted',
         { [`tooltip-cursor tooltip-cursor-${position}`]: position },
         $attrs.class
       ]"
+      :initial="{ opacity: 0, transform: 'translateY(4px) scale(0.95)' }"
+      :animate="{ opacity: 1, transform: 'translateY(0) scale(1)' }"
+      :exit="{ opacity: 0, transform: 'translateY(4px) scale(0.95)' }"
+      :transition="{ duration: 0.2, ease: 'easeOut' }"
       :style="tooltipStyle"
     >
       <div v-html="content" />
-    </div>
+      <div :class="['arrow', `arrow-${position}`]" :style="arrowStyle" />
+    </motion.div>
+    </AnimatePresence>
   </Teleport>
 </template>
 
 <script lang="ts" setup>
 import type { TooltipProps } from "./types";
-import { ref, watch } from "vue";
-
-let timeout: NodeJS.Timeout;
+import { ref, watch, nextTick, type ComponentPublicInstance } from "vue";
+import { motion, AnimatePresence } from "motion-v";
 
 const props = withDefaults(defineProps<TooltipProps>(), {
   position: "top"
 });
 
-const tooltip = ref(null as HTMLDivElement | null);
+const tooltip = ref(null as ComponentPublicInstance | null);
 const target = ref(null as HTMLDivElement | null);
-const tooltipStyle = ref({});
+const tooltipStyle = ref<Record<string, string>>({ position: "fixed", top: "-9999px", left: "-9999px" });
+const arrowStyle = ref<Record<string, string>>({});
+const isVisible = ref(false);
 
-const mouseenter = (event: Event) => {
-  if (timeout) {
-    clearTimeout(timeout);
-  }
-
-  const element = tooltip.value as HTMLDivElement;
-
-  calculateTooltipPosition();
-
-  element.style.visibility = "visible";
-  element.style.opacity = "1";
+const mouseenter = () => {
+  isVisible.value = true;
+  nextTick(() => requestAnimationFrame(calculateTooltipPosition));
 };
 
-const mouseleave = (event: Event) => {
-  const element = tooltip.value as HTMLDivElement;
-  if (element) {
-    element.style.opacity = "0";
-    timeout = setTimeout(() => {
-      element.style.visibility = "hidden";
-    }, 200);
-  }
+const mouseleave = () => {
+  isVisible.value = false;
 };
 
-const setPositionValue = (value: string) => {
-  return value === "auto" ? "auto" : `${value}px`;
-};
 
 const calculateTooltipPosition = () => {
+  const offset = 10; // Offset between the tooltip and the target element
+
   if (!target.value || !tooltip.value) return;
 
   const rect = target.value.getBoundingClientRect();
-  const tooltipRect = tooltip.value.getBoundingClientRect();
+  const tooltipEl = tooltip.value?.$el as HTMLElement;
+  const tooltipWidth = tooltipEl.offsetWidth;
+  const tooltipHeight = tooltipEl.offsetHeight;
   const viewportWidth = window.innerWidth;
 
-  let top: any, left: any, right: any;
+  const margin = 8;
+  let top: number, left: number;
 
   switch (props.position) {
     case "top":
-      top = rect.top - tooltipRect.height - 10; // 10 is the offset
-      left = rect.left + rect.width / 2 - tooltipRect.width / 2;
-      right = "auto";
-
-      if (tooltipRect.width + rect.x > viewportWidth) {
-        left = "auto";
-        right = viewportWidth - rect.right;
-      }
-
-      break;
     case "bottom":
-      top = rect.bottom + 10; // 10 is the offset
-      left = rect.left + rect.width / 2 - tooltipRect.width / 2;
-      right = "auto";
+      top = props.position === "top"
+        ? rect.top - tooltipHeight - offset
+        : rect.bottom + offset;
+      left = rect.left + rect.width / 2 - tooltipWidth / 2;
+      left = Math.max(margin, Math.min(left, viewportWidth - tooltipWidth - margin));
 
-      if (tooltipRect.width + rect.x > viewportWidth) {
-        left = "auto";
-        right = viewportWidth - rect.right;
-      }
+      // Shift arrow to point at the target center
+      arrowStyle.value = { left: `${rect.left + rect.width / 2 - left}px`, translate: "-50% 0" };
       break;
     case "left":
-      top = rect.top + rect.height / 2 - tooltipRect.height / 2;
-      left = rect.left - tooltipRect.width - 10; // 10 is the offset
+      top = rect.top + rect.height / 2 - tooltipHeight / 2;
+      left = rect.left - tooltipWidth - offset;
+      arrowStyle.value = {};
       break;
     case "right":
-      top = rect.top + rect.height / 2 - tooltipRect.height / 2;
-      left = rect.right + 10; // 10 is the offset
+      top = rect.top + rect.height / 2 - tooltipHeight / 2;
+      left = rect.right + offset;
+      arrowStyle.value = {};
       break;
   }
 
   tooltipStyle.value = {
-    top: setPositionValue(top),
-    left: setPositionValue(left),
-    right: setPositionValue(right),
+    top: `${top!}px`,
+    left: `${left!}px`,
     position: "fixed"
   };
 };
@@ -117,18 +105,19 @@ watch(() => [target.value, props.position], calculateTooltipPosition);
 
 <style lang="scss" scoped>
 .tooltip-cursor {
-  visibility: hidden;
   opacity: 0;
 }
 
-.pointer {
-  position: fixed;
-  bottom: -0.25rem;
-  left: 0;
-  right: 0;
-  height: 0.75rem;
-  width: 0.75rem;
+.arrow {
+  position: absolute;
+  width: 0.5rem;
+  height: 0.5rem;
+  background-color: var(--color-neutral-bg-inverted-2);
   transform: rotate(45deg);
-  background-color: var(--color-background-level-inverted-2);
+
+  &-top    { bottom: -0.25rem; left: 50%; translate: -50% 0; }
+  &-bottom { top: -0.25rem;    left: 50%; translate: -50% 0; }
+  &-left   { right: -0.25rem; top: 50%;  translate: 0 -50%; }
+  &-right  { left: -0.25rem;  top: 50%;  translate: 0 -50%; }
 }
 </style>
