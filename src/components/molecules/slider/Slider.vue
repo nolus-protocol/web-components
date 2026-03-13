@@ -68,7 +68,12 @@
       </div>
       <button
         ref="button"
-        class="absolute left-[18px] top-1/2 z-[2] flex h-[36px] w-[36px] -translate-y-1/2 transform items-center justify-center gap-0.5 rounded-full border-[1px] border-white bg-primary-default"
+        class="
+          absolute left-4.5 top-1/2 z-2 flex h-10 w-10 -translate-y-1/2 transform items-center justify-center gap-0.5 rounded-full border-2 border-neutral-bg-2 bg-primary-default cursor-pointer
+          origin-center transition duration-200 ease-out
+          hover:bg-primary-hover
+          active:bg-primary-active active:scale-110
+        "
         draggable="true"
         type="button"
         :data-count="`${leasePercent}%`"

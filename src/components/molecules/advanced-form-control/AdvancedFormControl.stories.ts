@@ -10,9 +10,6 @@ const meta = {
   title: "Components/Molecules/AdvancedFormControl",
   component: AdvancedFormControl,
   argTypes: {},
-  parameters: {
-    layout: "centered"
-  },
   args: {
     id: "currency-3",
     label: "Position Size",

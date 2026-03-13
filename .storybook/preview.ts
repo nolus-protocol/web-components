@@ -31,11 +31,19 @@ export const decorators = [
       sync: "sync"
     },
     defaultTheme: "light"
+  }),
+  () => ({
+    mounted() {
+      document.body.style.margin = "0";
+      document.body.style.padding = "0";
+    },
+    template: `<div style="background: var(--color-background-level-2); min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 2rem;"><story /></div>`
   })
 ];
 
 const preview: Preview = {
   parameters: {
+    backgrounds: { disable: true },
     actions: { argTypesRegex: "^on[A-Z].*" },
     controls: {
       matchers: {

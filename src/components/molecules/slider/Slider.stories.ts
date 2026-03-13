@@ -7,12 +7,18 @@ const meta = {
   title: "Components/Molecules/Slider",
   component: Slider,
   argTypes: {
-    onOnDrag: { action: "dragged" }
+    onOnDrag: { action: "dragged" },
+    labelLeft: { control: "text" },
+    labelRight: { control: "text" },
+    labelMid: { control: "text" },
+    positions: { control: "number" },
+    minPosition: { control: "number" },
+    midPosition: { control: "number" },
+    maxPosition: { control: "number" },
+    disabled: { control: "boolean" },
+    value: { control: "number" }
   },
-  args: {} // default value
-  parameters: {
-    layout: "centered"
-  }
+  args: {}, // default value
 } satisfies Meta<typeof Slider>;
 
 export default meta;
@@ -23,10 +29,21 @@ type Story = StoryObj<typeof meta>;
  * to learn how to use render functions.
  */
 export const Primary: Story = {
+  render: (args) => ({
+    components: { Slider },
+    setup: () => ({ args }),
+    template: `<Slider v-bind="args" />`
+  }),
   args: {
-    class: "max-w-[450px]",
+    class: "w-[450px]",
+    labelLeft: "Min",
+    labelRight: "Max",
+    labelMid: "",
+    positions: 5,
     minPosition: 25,
+    midPosition: undefined,
     maxPosition: 150,
-    positions: 5
+    disabled: false,
+    value: undefined
   }
 };

@@ -14,9 +14,6 @@ const meta = {
     }
   },
   args: {}, // default value
-  parameters: {
-    layout: "centered"
-  }
 } satisfies Meta<typeof Tooltip>;
 
 export default meta;
