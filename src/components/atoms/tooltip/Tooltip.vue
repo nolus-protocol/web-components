@@ -1,7 +1,7 @@
 <template>
   <div
     ref="target"
-    class="relative flex w-fit flex-col items-center text-typography-default"
+    class="flex w-fit flex-col items-center text-typography-default"
     @mouseleave="mouseleave"
     @mouseenter="mouseenter"
   >
@@ -32,7 +32,7 @@
 
 <script lang="ts" setup>
 import type { TooltipProps } from "./types";
-import { ref, watch, nextTick, type ComponentPublicInstance } from "vue";
+import { ref, watch, nextTick, onUnmounted, type ComponentPublicInstance } from "vue";
 import { motion, AnimatePresence } from "motion-v";
 
 const props = withDefaults(defineProps<TooltipProps>(), {
@@ -43,16 +43,55 @@ const tooltip = ref(null as ComponentPublicInstance | null);
 const target = ref(null as HTMLDivElement | null);
 const tooltipStyle = ref<Record<string, string>>({ position: "fixed", top: "-9999px", left: "-9999px" });
 const arrowStyle = ref<Record<string, string>>({});
+
+let unsubscribeRotation: (() => void) | null = null;
+watch(() => props.rotateValue, (mv) => {
+  unsubscribeRotation?.();
+  unsubscribeRotation = null;
+  if (!mv) return;
+  unsubscribeRotation = mv.on("change", (v) => {
+    const el = tooltip.value?.$el as HTMLElement | undefined;
+    if (el) {
+      el.style.transformOrigin = "50% calc(100% + 10px)";
+      el.style.rotate = `${v}deg`;
+    }
+  });
+}, { immediate: true });
 const isVisible = ref(false);
+const isHovered = ref(false);
+
+const MIN_VISIBLE_MS = 1000;
+
+let hideTimeout: ReturnType<typeof setTimeout> | null = null;
 
 const mouseenter = () => {
+  isHovered.value = true;
+  if (hideTimeout) { clearTimeout(hideTimeout); hideTimeout = null; }
   isVisible.value = true;
   nextTick(() => requestAnimationFrame(calculateTooltipPosition));
 };
 
 const mouseleave = () => {
-  isVisible.value = false;
+  isHovered.value = false;
+  if (!props.forceVisible && !hideTimeout) {
+    isVisible.value = false;
+  }
 };
+
+watch(() => props.forceVisible, (val) => {
+  if (val) {
+    if (hideTimeout) { clearTimeout(hideTimeout); hideTimeout = null; }
+    isVisible.value = true;
+    nextTick(() => requestAnimationFrame(calculateTooltipPosition));
+  } else {
+    if (hideTimeout) { clearTimeout(hideTimeout); hideTimeout = null; }
+    hideTimeout = setTimeout(() => { isVisible.value = false; hideTimeout = null; }, MIN_VISIBLE_MS);
+  }
+}, { flush: 'sync' });
+onUnmounted(() => {
+  unsubscribeRotation?.();
+  if (hideTimeout) clearTimeout(hideTimeout);
+});
 
 
 const calculateTooltipPosition = () => {
@@ -98,9 +137,18 @@ const calculateTooltipPosition = () => {
     left: `${left!}px`,
     position: "fixed"
   };
+
+  // Also set directly on the DOM element to avoid Vue's render-cycle lag
+  // (important when called from rAF loops during CSS transitions)
+  if (tooltipEl) {
+    tooltipEl.style.top = `${top!}px`;
+    tooltipEl.style.left = `${left!}px`;
+  }
 };
 
 watch(() => [target.value, props.position], calculateTooltipPosition);
+
+defineExpose({ recalculate: calculateTooltipPosition });
 </script>
 
 <style lang="scss" scoped>

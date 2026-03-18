@@ -39,7 +39,7 @@ export const Primary: Story = {
     labelLeft: "Min",
     labelRight: "Max",
     labelMid: "",
-    positions: 5,
+    positions: 2,
     minPosition: 25,
     midPosition: undefined,
     maxPosition: 150,

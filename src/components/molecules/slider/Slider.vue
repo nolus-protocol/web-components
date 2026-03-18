@@ -66,21 +66,19 @@
           </div>
         </div>
       </div>
-      <button
-        ref="button"
-        class="
-          absolute left-4.5 top-1/2 z-2 flex h-10 w-10 -translate-y-1/2 transform items-center justify-center gap-0.5 rounded-full border-2 border-neutral-bg-2 bg-primary-default cursor-pointer
-          origin-center transition duration-200 ease-out
-          hover:bg-primary-hover
-          active:bg-primary-active active:scale-110
-        "
-        draggable="true"
-        type="button"
-        :data-count="`${leasePercent}%`"
-      >
-        <span class="triangle triangle-right bg-white"></span>
-        <span class="triangle triangle-left bg-white"></span>
-      </button>
+      <div ref="buttonWrapper" class="absolute top-1/2 z-2 -translate-y-1/2">
+        <Tooltip ref="buttonTooltip" :content="`${Math.round(leasePercent)}%`" position="top" :rotate-value="rotateValue" :force-visible="dragStart">
+          <button
+            ref="button"
+            class="flex h-10 w-10 items-center justify-center gap-0.5 rounded-full border-2 border-neutral-bg-2 bg-primary-default cursor-pointer origin-center hover:bg-primary-hover active:bg-primary-active active:scale-[115%] transition duration-75 ease-out"
+            draggable="true"
+            type="button"
+          >
+            <span class="triangle triangle-right bg-white"></span>
+            <span class="triangle triangle-left bg-white"></span>
+          </button>
+        </Tooltip>
+      </div>
     </div>
     <div class="relative mt-4 flex justify-between">
       <span
@@ -113,8 +111,15 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, nextTick, onMounted, onUnmounted, ref, watch } from "vue";
+import { computed, nextTick, onMounted, onUnmounted, ref, watch, type ComponentPublicInstance } from "vue";
 import type { RangeProps } from "./types";
+import Tooltip from "@/components/atoms/tooltip/Tooltip.vue";
+import { useMotionValue, useVelocity, useSpring, useTransform } from "motion-v";
+
+const xPercent = useMotionValue(0);
+const xVelocity = useVelocity(xPercent);
+const smoothVelocity = useSpring(xVelocity, { damping: 30, stiffness: 200 });
+const rotateValue = useTransform(smoothVelocity, [-300, 300], [25, -25]);
 
 const props = withDefaults(defineProps<RangeProps>(), {
   minPosition: 25,
@@ -127,14 +132,19 @@ const defaultPosition = 100;
 const percentPosition = computed(() => (props.positions ? 100 / props.positions : 1));
 
 let position = defaultPosition;
-let dragStart = false;
+const dragStart = ref(false);
 let scalePercent = props.maxPosition;
 let leasePercent = ref(0);
 
 const button = ref<HTMLButtonElement>();
+const buttonWrapper = ref<HTMLDivElement>();
+const buttonTooltip = ref<ComponentPublicInstance & { recalculate: () => void }>();
 const container = ref<HTMLDivElement>();
 const background = ref<HTMLDivElement>();
 const containerWidth = ref(0);
+
+const wrapperEl = () => buttonWrapper.value;
+const buttonEl = () => button.value;
 
 function updateContainerWidth() {
   if (container.value) {
@@ -174,12 +184,12 @@ const positions_data = computed(() => {
 
 function setPosition(position?: number) {
   const element = background.value;
-  const btnElement = button.value;
+  const wrapper = wrapperEl();
   if (element) {
     element.style.width = position != null ? `${position}%` : "100%";
   }
-  if (btnElement) {
-    btnElement.style.left = `calc( ${position != null ? position : defaultPosition}% - 18px )`;
+  if (wrapper) {
+    wrapper.style.left = `calc( ${position != null ? position : defaultPosition}% - 18px )`;
   }
   position = position ?? defaultPosition;
 
@@ -190,10 +200,10 @@ function setPosition(position?: number) {
 
 function onMouseLeave(event: MouseEvent | TouchEvent) {
   event.preventDefault();
-  if (dragStart) {
+  if (dragStart.value) {
     release();
   }
-  dragStart = false;
+  dragStart.value = false;
 }
 
 function onMouseDown(event: MouseEvent | TouchEvent) {
@@ -205,7 +215,7 @@ function onMouseDown(event: MouseEvent | TouchEvent) {
     return false;
   }
 
-  const draggable = button.value!;
+  const draggable = buttonEl();
   const parentRect = container.value?.getBoundingClientRect();
 
   if (!draggable) {
@@ -216,7 +226,7 @@ function onMouseDown(event: MouseEvent | TouchEvent) {
     return false;
   }
 
-  const draggableRect = button.value!.getBoundingClientRect();
+  const draggableRect = buttonEl()!.getBoundingClientRect();
   let xPos = 0;
 
   switch (event.constructor) {
@@ -232,26 +242,25 @@ function onMouseDown(event: MouseEvent | TouchEvent) {
   }
 
   if (draggableRect) {
-    if (event.target != button.value) {
+    if (event.target != buttonEl()) {
       position = draggableRect.width / 2;
-      setPercent(draggable, xPos, parentRect!, draggableRect);
-      dragStart = true;
+      setPercent(xPos, parentRect!, draggableRect);
+      dragStart.value = true;
       return false;
     }
 
     position = xPos - draggableRect.x;
   }
 
-  dragStart = true;
+  dragStart.value = true;
 }
 
 function onMouseMove(event: MouseEvent | TouchEvent) {
-  const draggableRect = button.value?.getBoundingClientRect();
+  const draggableRect = buttonEl()?.getBoundingClientRect();
 
-  if (dragStart && draggableRect && container.value && button.value) {
+  if (dragStart.value && draggableRect && container.value && buttonEl()) {
     event.preventDefault();
     const parentRect = container.value?.getBoundingClientRect();
-    const draggable = button.value;
     let xPos = 0;
 
     switch (event.constructor) {
@@ -266,54 +275,63 @@ function onMouseMove(event: MouseEvent | TouchEvent) {
       }
     }
 
-    setPercent(draggable, xPos, parentRect, draggableRect);
+    setPercent(xPos, parentRect, draggableRect);
   }
 }
 
-function setPercent(draggable: HTMLButtonElement, xPos: number, parentRect: DOMRect, draggableRect: DOMRect) {
-  const x = xPos - parentRect.left - position;
+function setPercent(xPos: number, parentRect: DOMRect, draggableRect: DOMRect) {
   const widthDragable = draggableRect.width / 2;
+  const x = Math.max(-widthDragable, Math.min(xPos - parentRect.left - position, parentRect.width - widthDragable));
 
-  if (x > -widthDragable && x < parentRect.width - widthDragable) {
-    const prc = ((x + draggableRect.width / 2) / parentRect.width) * 100;
-    const percent = ((x + draggableRect.width / 2) / parentRect.width) * 100;
-    const scale = Math.round(percent / percentPosition.value);
-    if (props.positions) {
-      leasePercent.value = scale * props.minPosition + props.minPosition;
-    } else {
-      leasePercent.value = scale;
-    }
-    scalePercent = Math.round(scale * percentPosition.value);
-    draggable.style.left = `${x}px`;
+  const prc = ((x + draggableRect.width / 2) / parentRect.width) * 100;
+  const scale = Math.round(prc / percentPosition.value);
+  if (props.positions) {
+    leasePercent.value = scale * props.minPosition + props.minPosition;
+  } else {
+    leasePercent.value = scale;
+  }
+  scalePercent = Math.round(scale * percentPosition.value);
+  wrapperEl()!.style.left = `${x}px`;
+  xPercent.set(prc);
+  buttonTooltip.value?.recalculate();
 
-    if (background.value) {
-      background.value.style.width = `${prc}%`;
-    }
+  if (background.value) {
+    background.value.style.width = `${prc}%`;
   }
 }
 
 function release() {
   const element = background.value;
-  const btnElement = button.value;
+  const wrapper = wrapperEl();
+  const snapTrackDuration = 400;
   if (element) {
     element.style.width = `${scalePercent < 0 ? 0 : scalePercent}%`;
-    element.style.transition = "ease 200ms";
+    element.style.transition = `width ${snapTrackDuration}ms cubic-bezier(0.34, 1.56, 0.64, 1)`;
   }
-  if (btnElement) {
-    btnElement.style.left = `calc( ${scalePercent > 100 ? 100 : scalePercent}% - 18px )`;
-    btnElement.style.transition = "ease 200ms";
+  if (wrapper) {
+    wrapper.style.left = `calc( ${scalePercent > 100 ? 100 : scalePercent}% - 18px )`;
+    wrapper.style.transition = `left ${snapTrackDuration}ms cubic-bezier(0.34, 1.56, 0.64, 1)`;
   }
   emits("onDrag", leasePercent.value);
+
+  const startTime = performance.now();
+  const trackSnap = () => {
+    buttonTooltip.value?.recalculate();
+    if (performance.now() - startTime < snapTrackDuration) {
+      requestAnimationFrame(trackSnap);
+    }
+  };
+  requestAnimationFrame(trackSnap);
 }
 
 function removeAnimations() {
   const element = background.value;
-  const btnElement = button.value;
+  const wrapper = wrapperEl();
   if (element) {
     element.style.transition = "none";
   }
-  if (btnElement) {
-    btnElement.style.transition = "none";
+  if (wrapper) {
+    wrapper.style.transition = "none";
   }
 }
 </script>
@@ -332,10 +350,10 @@ function removeAnimations() {
 .triangle,
 .triangle:before,
 .triangle:after {
-  margin-bottom: 2px;
+  margin-bottom: 3px;
   height: 5px;
   width: 5px;
-  border-top-right-radius: 60%;
+  border-top-right-radius: 40%;
 }
 
 .triangle {
@@ -354,35 +372,4 @@ function removeAnimations() {
   transform: rotate(135deg) skewY(-45deg) scale(0.707, 1.414) translate(50%);
 }
 
-button {
-  &::after {
-    content: attr(data-count);
-    visibility: hidden;
-    position: absolute;
-    top: -25px;
-    border-radius: 0.25rem;
-    background-color: var(--color-background-level-inverted-2);
-    padding: 0.25rem 0.5rem;
-    font-size: 0.8125rem;
-    line-height: 1rem;
-    color: var(--color-inverted);
-  }
-  &::before {
-    content: "";
-    visibility: hidden;
-    position: absolute;
-    height: 0.5rem;
-    width: 0.5rem;
-    background-color: var(--color-background-level-inverted-2);
-    left: 50%;
-    top: -3px;
-    transform: translate(-50%, -50%) rotate(45deg);
-  }
-  &:hover {
-    &::after,
-    &::before {
-      visibility: visible;
-    }
-  }
-}
 </style>
