@@ -4,16 +4,26 @@
     ref="dropdownRef"
     class="field-wrapper"
   >
-    <label
-      v-if="props.label"
-      :for="`dropdown-btn-${id}`"
-      class="field-label mb-1"
-      >{{ props.label }}</label
-    >
+    <FieldLabel :label="label" :for-id="`dropdown-btn-${id}`" class="mb-1" />
     <button
       :id="`dropdown-btn-${id}`"
-      :class="['field-dropdown', classes, $attrs.class]"
+      class="
+        flex h-10 gap-2 items-center rounded-md border border-border-dominant bg-neutral-bg-2 text-16 font-normal text-typography-default shadow-small
+        outline-transparent focus-visible:outline focus-visible:outline-border-focus focus-visible:border-border-focus
+        transition duration-150 ease-out
+      "
+      :class="[{
+        'px-2 py-1': props.size === Size.small,
+        'px-3 py-2': props.size === Size.medium,
+
+        'border-border-focus bg-secondary-active': isOpen,
+        'border-border-error! text-typography-error': error
+      }, $attrs.class]"
       :disabled="disabled"
+      role="combobox"
+      :aria-expanded="isOpen"
+      :aria-controls="`dropdown-list-${id}`"
+      aria-haspopup="listbox"
       type="button"
       @click="toggleDropdown"
     >
@@ -26,46 +36,55 @@
         />
         <span
           v-if="selectedOption && selectedOption?.label && !hideText"
-          class="leading-[15px]"
+          class="leading-3.75"
         >
           {{ selectedOption.label }}
         </span>
         <span
           v-if="!selectedOption"
-          class="leading-[15px]"
+          class="leading-3.75"
           >{{ placeholder }}</span
         >
       </span>
       <Spinner v-if="isLoading" />
-      <i
-        :class="{ 'rotate-180': isOpen }"
-        class="icon icon-picker leading-1 flex transform items-center text-[20px] text-icon-default transition duration-300 ease-in-out"
-      />
+      <SvgIcon
+        name="chevron-small-down"
+        class="h-5 w-5 transition duration-150 ease-out"
+        :class="error ? 'fill-icon-error' : 'fill-icon-default'"
+      />  
     </button>
     <Teleport to="body">
-      <Transition name="fade">
-        <div
+      <AnimatePresence>
+        <motion.div
+          v-show="isOpen"
           ref="elements"
-          :style="[`top: ${position.y}px`, `left: ${position.x}px`]"
+          :style="{ top: `${position.y}px`, left: `${position.x}px` }"
           :class="[
-            'shadow-lg fixed z-[9999] mt-3 min-w-48 max-w-full overflow-hidden rounded-lg border-[1px] border-border-default bg-neutral-bg-2 text-typography-default shadow-lighter',
+            'shadow-lg fixed z-9999 mt-2 min-w-48 max-w-full overflow-hidden rounded-lg border border-border-default bg-neutral-bg-2 text-typography-default shadow-lighter outline-0 focus-visible:bg-red-500',
             dropdownClassName,
-            itemTemplate ? 'min-w-[325px]' : '',
+            itemTemplate ? 'min-w-81.25' : '',
             isOpen ? '' : 'pointer-events-none opacity-0'
           ]"
+          :initial="{ opacity: 0, transform: 'translateY(4px) scale(0.98)' }"
+          :animate="{ opacity: 1, transform: 'translateY(0) scale(1)' }"
+          :exit="{ opacity: 0, transform: 'translateY(4px) scale(0.98)' }"
+          :transition="{ duration: 0.15, ease: 'easeOut' }"
         >
           <div
             v-if="dropdownLabel || searchable"
-            class="flex flex-col gap-4 border-b-[1px] border-border-default p-4"
+            class="flex flex-col gap-4 border-b border-border-default p-4"
           >
             <div
               v-if="dropdownLabel"
               class="flex justify-between"
             >
               <span class="flex-1 font-semibold">{{ dropdownLabel }}</span>
-              <i
-                class="icon icon-close leading-1 flex cursor-pointer items-center text-[15px] text-icon-default"
+              <Button
                 @click="isOpen = !isOpen"
+                size="small"
+                severity="tertiary"
+                icon="close"
+                class="p-0 absolute top-2 right-2"
               />
             </div>
             <Input
@@ -99,7 +118,7 @@
               >{{ headline }}</span
             >
           </div>
-          <ul class="scroll-bar flex max-h-[250px] flex-col overflow-y-auto rounded-b-lg">
+          <ul :id="`dropdown-list-${id}`" role="listbox" class="scroll-bar flex max-h-62.5 flex-col overflow-y-auto rounded-b-lg" @keydown="onListKeydown">
             <template v-if="filteredItemTemplates.length > 0">
               <div class="flex flex-col">
                 <component
@@ -110,7 +129,7 @@
                     'bg-primary-default text-typography-static-light': selectedOption?.value === option.value,
                     'pointer-events-none': option.disabled
                   }"
-                  class="min-h-10 cursor-pointer hover:bg-primary-default hover:text-typography-static-light"
+                  class="min-h-10 cursor-pointer hover:bg-primary-default hover:text-typography-static-light transition duration-150 ease-out"
                   @click="selectOption(option)"
                 ></component>
               </div>
@@ -119,8 +138,11 @@
               <li
                 v-for="option in filteredOptions"
                 :key="option.value"
-                :class="{ 'bg-primary-default text-typography-static-light': selectedOption?.value === option.value }"
-                class="flex min-h-10 cursor-pointer items-center px-4 py-2 hover:bg-primary-default hover:text-typography-static-light"
+                :class="{ 'bg-primary-default text-typography-static-light focus-visible:outline-neutral-bg-2!': selectedOption?.value === option.value }"
+                class="flex min-h-10 cursor-pointer items-center px-4 py-2 hover:bg-primary-default hover:text-typography-static-light transition duration-150 ease-out outline-transparent 
+                focus-visible:outline-2 focus-visible:outline-primary-default focus-visible:-outline-offset-4"
+                role="option"
+                tabindex="-1"
                 @click="selectOption(option)"
               >
                 <img
@@ -128,31 +150,37 @@
                   :alt="option.label"
                   :src="option.icon"
                   class="mr-3 h-6 w-6"
+                  aria-hidden="true"
                 />
                 <span class="flex-1">{{ option.label }}</span>
               </li>
             </template>
           </ul>
-        </div>
-      </Transition>
+        </motion.div>
+      </AnimatePresence>
     </Teleport>
   </div>
 </template>
 
 <script generic="T extends DropdownOption" lang="ts" setup>
-import { computed, onBeforeUnmount, onMounted, ref, watch } from "vue";
+import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch, type ComponentPublicInstance } from "vue";
 import type { DropdownOption, DropdownProps } from "./types";
 import { Size } from "@/shared/utils/types";
 import { InputType } from "@/components/atoms/input/types";
 import Spinner from "../spinner/Spinner.vue";
 import Input from "../input/Input.vue";
+import FieldLabel from "../field-label/FieldLabel.vue";
+import { motion, AnimatePresence } from "motion-v";
+import SvgIcon from "../svg-icon/SvgIcon.vue";
+import Button from "../button/Button.vue";
 
 const dropdownRef = ref<HTMLElement | null>(null);
-const elements = ref<HTMLElement | null>(null);
+const elements = ref(null as ComponentPublicInstance | null);
+const elementsEl = computed(() => elements.value?.$el as HTMLElement | undefined);
 
 const isOpen = ref(false);
 const selectedOption = ref<DropdownOption | null>(null);
-const searchInputRef = ref<HTMLInputElement>();
+
 const position = ref<{ x: number; y: number }>({ x: 0, y: 0 });
 
 const props = withDefaults(
@@ -173,22 +201,21 @@ const props = withDefaults(
 );
 
 const searchInput = ref("");
-const classes = computed(() => ({
-  "px-2 py-1 focus:py-[3px]": props.size === Size.small,
-  "px-3 py-2 focus:py-[7px]": props.size === Size.medium,
-
-  "border-primary-50": isOpen.value,
-  "!border-danger-100": props.error
-}));
 
 const emit = defineEmits<{
   (e: "unmounted", func: () => void): void;
 }>();
 
-const toggleDropdown = (event: MouseEvent) => {
-  setPosition();
+const toggleDropdown = () => {
   isOpen.value = !isOpen.value;
   if (isOpen.value) {
+    nextTick(() => {
+      setPosition();
+      requestAnimationFrame(() => {
+        const list = document.getElementById(`dropdown-list-${props.id}`);
+        (list?.querySelector('li') as HTMLElement | null)?.focus();
+      })
+    });
     window.addEventListener("scroll", setPosition);
     document.getElementById("dialog-scroll")?.addEventListener("scroll", setPosition);
   } else {
@@ -197,10 +224,31 @@ const toggleDropdown = (event: MouseEvent) => {
   }
 };
 
+function onListKeydown(e: KeyboardEvent) {
+  const list = document.getElementById(`dropdown-list-${props.id}`);
+  if (!list) return;
+  const items = Array.from(list.querySelectorAll('li')) as HTMLElement[];
+  const current = document.activeElement as HTMLElement;
+  const index = items.indexOf(current);
+
+  if (e.key === 'ArrowDown') {
+    e.preventDefault();
+    items[(index + 1) % items.length]?.focus();
+  } else if (e.key === 'ArrowUp') {
+    e.preventDefault();
+    items[(index - 1 + items.length) % items.length]?.focus();
+  } else if (e.key === 'Escape') {
+    isOpen.value = false;
+    dropdownRef.value?.querySelector('button')?.focus();
+  } else if (e.key === 'Enter' || e.key === ' ') {
+    current.click();
+  }
+}
+
 function setPosition() {
-  if (dropdownRef.value && elements.value) {
+  if (dropdownRef.value && elementsEl.value) {
     const rect = dropdownRef.value.getBoundingClientRect();
-    const elementsRect = elements.value.getBoundingClientRect();
+    const elementsRect = elementsEl.value.getBoundingClientRect();
 
     let x = rect.left;
     let y = rect.top + rect.height;
@@ -289,7 +337,7 @@ const filteredItemTemplates = computed(() => {
 
 // Close dropdown when clicking outside
 const handleClickOutside = (event: MouseEvent) => {
-  if (elements.value && (elements.value == event.target || elements.value.contains(event.target as Node))) {
+  if (elementsEl.value && (elementsEl.value == event.target || elementsEl.value.contains(event.target as Node))) {
     return;
   }
   if (dropdownRef.value && !dropdownRef.value.contains(event.target as Node)) {
@@ -314,9 +362,6 @@ emit("unmounted", cleanup);
 </script>
 
 <style lang="scss" scoped>
-.rotate-180 {
-  transform: rotateX(180deg);
-}
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.15s ease-in-out;

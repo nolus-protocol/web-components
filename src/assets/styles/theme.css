@@ -3,6 +3,8 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
+  /* Semantic color tokens */
+
   --color-background-50: #ffffff;
   --color-background-100: #f7f9fc;
   --color-background-200: #c1cad7;
@@ -68,12 +70,12 @@
   --color-static-light: #ffffff;
   --color-static-dark: #273141;
 
-  --color-background-level-1: #f7f9fc;
-  --color-background-level-2: #ffffff;
-  --color-background-level-3: #ebeff5;
-  --color-background-level-4: #c1cad7;
-  --color-background-level-inverted-2: #384354;
-  --color-background-level-inverted-1: #171c25;
+  --color-background-level-1: var(--color-neutral-50);
+  --color-background-level-2: var(--color-neutral-0);
+  --color-background-level-3: var(--color-neutral-100);
+  --color-background-level-4: var(--color-neutral-200);
+  --color-background-level-inverted-2: var(--color-neutral-800);
+  --color-background-level-inverted-1:  var(--color-neutral-950);
 
   --color-primary-default: #3470e2;
   --color-primary-hover: #245dc8;
@@ -81,7 +83,7 @@
 
   --color-secondary-default: #ffffff;
   --color-secondary-hover: #f7f9fc;
-  --color-secondary-active: #c1cad7;
+  --color-secondary-active: var(--color-neutral-100);
 
   --color-danger-default: #ffffff;
   --color-danger-hover: #fceaee;
@@ -169,12 +171,12 @@
   --color-static-light: #ffffff;
   --color-static-dark: #273141;
 
-  --color-background-level-1: #171c25;
+  --color-background-level-1: var(--color-neutral-950);
   --color-background-level-2: #1e242f;
-  --color-background-level-3: #273141;
-  --color-background-level-4: #4c5a6e;
-  --color-background-level-inverted-2: #ebeff5;
-  --color-background-level-inverted-1: #ffffff;
+  --color-background-level-3: var(--color-neutral-900);
+  --color-background-level-4: var(--color-neutral-700);
+  --color-background-level-inverted-2: var(--color-neutral-100);
+  --color-background-level-inverted-1: var(--color-neutral-0);
 
   --color-primary-default: #3470e2;
   --color-primary-hover: #6793ea;
@@ -182,7 +184,7 @@
 
   --color-secondary-default: #171c25;
   --color-secondary-hover: #273141;
-  --color-secondary-active: #384354;
+  --color-secondary-active: var(--color-neutral-800);
 
   --color-danger-default: #171c25;
   --color-danger-hover: #81182c;
@@ -279,6 +281,7 @@
   --text-48--line-height: 70px;
 
   /* Static color scales */
+  --color-neutral-0: #ffffff;
   --color-neutral-50: #f7f9fc;
   --color-neutral-100: #ebeff5;
   --color-neutral-200: #c1cad7;

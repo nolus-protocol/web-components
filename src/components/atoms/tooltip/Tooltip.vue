@@ -17,10 +17,10 @@
         { [`tooltip-cursor tooltip-cursor-${position}`]: position },
         $attrs.class
       ]"
-      :initial="{ opacity: 0, transform: 'translateY(4px) scale(0.95)' }"
+      :initial="{ opacity: 0, transform: 'translateY(4px) scale(0.98)' }"
       :animate="{ opacity: 1, transform: 'translateY(0) scale(1)' }"
-      :exit="{ opacity: 0, transform: 'translateY(4px) scale(0.95)' }"
-      :transition="{ duration: 0.2, ease: 'easeOut' }"
+      :exit="{ opacity: 0, transform: 'translateY(4px) scale(0.98)' }"
+      :transition="{ duration: 0.15, ease: 'easeOut' }"
       :style="tooltipStyle"
     >
       <div v-html="content" />

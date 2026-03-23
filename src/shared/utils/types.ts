@@ -22,4 +22,4 @@ export enum Variant {
 }
 
 export const iconsExternalUrl =
-  "https://raw.githubusercontent.com/nolus-protocol/webapp/main/src/config/currencies/icons";
+  "https://raw.githubusercontent.com/nolus-protocol/webapp/refs/heads/main/public/assets/icons/currencies";

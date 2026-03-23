@@ -10,7 +10,7 @@ const meta = {
   component: AssetItem,
   argTypes: {},
   args: {
-    icon: `${iconsExternalUrl}/osmosis-usdc.svg`,
+    icon: `${iconsExternalUrl}/NTRN.svg`,
     name: "Apple",
     abbreviation: "AP",
     balance: "0.000000",

@@ -20,13 +20,14 @@ const meta = {
     size: Size.medium,
     error: false,
     searchable: false,
+    label: "Dropdown label",
     dropdownLabel: "",
     options: [
-      { value: "apple", label: "Apple", icon: `${iconsExternalUrl}/osmosis-usdc.svg` },
+      { value: "apple", label: "Apple" },
       { value: "banana", label: "Banana" },
-      { value: "orange", label: "Orange", icon: `${iconsExternalUrl}/osmosis-usdc.svg` },
       { value: "grape", label: "Grape" },
-      { value: "strawberry", label: "Strawberry", icon: `${iconsExternalUrl}/osmosis-usdc.svg` },
+      { value: "orange", label: "Orange", icon: `${iconsExternalUrl}/OSMO.svg` },
+      { value: "strawberry", label: "Strawberry", icon: `${iconsExternalUrl}/OSMO.svg` },
       { value: "watermelon", label: "Watermelon" }
     ]
   } // default value
@@ -52,7 +53,7 @@ export const WithAssetItem: Story = {
         value: "nolus",
         label: "Nolus",
         abbreviation: "NLS",
-        icon: `${iconsExternalUrl}/osmosis-nls.svg`,
+        icon: `${iconsExternalUrl}/NLS.svg`,
         balance: "1.234",
         price: "$123"
       },
@@ -60,7 +61,7 @@ export const WithAssetItem: Story = {
         value: "osmosis",
         abbreviation: "OSMO",
         label: "Osmosis",
-        icon: `${iconsExternalUrl}/osmosis-osmo.svg`,
+        icon: `${iconsExternalUrl}/OSMO.svg`,
         balance: "1.234",
         price: "$123"
       },
@@ -68,7 +69,7 @@ export const WithAssetItem: Story = {
         value: "cosmos",
         abbreviation: "ATOM",
         label: "Cosmos",
-        icon: `${iconsExternalUrl}/osmosis-atom.svg`,
+        icon: `${iconsExternalUrl}/ATOM.svg`,
         balance: "1.234",
         price: "$123"
       },
@@ -76,7 +77,7 @@ export const WithAssetItem: Story = {
         value: "stOSMO",
         abbreviation: "stOSMO",
         label: "Stride Staked Osmo",
-        icon: `${iconsExternalUrl}/osmosis-stosmo.svg`,
+        icon: `${iconsExternalUrl}/ST_OSMO.svg`,
         balance: "1.234",
         price: "$123"
       },
@@ -84,7 +85,7 @@ export const WithAssetItem: Story = {
         value: "stATOM",
         abbreviation: "stATOM",
         label: "Stride Staked Atom",
-        icon: `${iconsExternalUrl}/osmosis-statom.svg`,
+        icon: `${iconsExternalUrl}/ST_ATOM.svg`,
         balance: "1.234",
         price: "$123"
       }
