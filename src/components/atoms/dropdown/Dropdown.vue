@@ -56,7 +56,7 @@
     <Teleport to="body">
       <AnimatePresence>
         <motion.div
-          v-show="isOpen"
+          v-if="isOpen"
           ref="elements"
           :style="{ top: `${position.y}px`, left: `${position.x}px` }"
           :class="[
@@ -118,9 +118,9 @@
               >{{ headline }}</span
             >
           </div>
-          <ul :id="`dropdown-list-${id}`" role="listbox" class="scroll-bar flex max-h-62.5 flex-col overflow-y-auto rounded-b-lg" @keydown="onListKeydown">
+          <ul :id="`dropdown-list-${id}`" role="listbox" class="scroll-bar flex max-h-62.5 flex-col gap-1 overflow-y-auto rounded-b-lg p-1" @keydown="onListKeydown">
             <template v-if="filteredItemTemplates.length > 0">
-              <div class="flex flex-col">
+              <div class="flex flex-col gap-1">
                 <component
                   :is="itemTemplate?.(option)"
                   v-for="option in filteredItemTemplates"
@@ -129,7 +129,7 @@
                     'bg-primary-default text-typography-static-light': selectedOption?.value === option.value,
                     'pointer-events-none': option.disabled
                   }"
-                  class="min-h-10 cursor-pointer hover:bg-primary-default hover:text-typography-static-light transition duration-150 ease-out"
+                  class="min-h-10 cursor-pointer hover:bg-primary-default hover:text-typography-static-light transition duration-150 ease-out rounded"
                   @click="selectOption(option)"
                 ></component>
               </div>
@@ -138,9 +138,9 @@
               <li
                 v-for="option in filteredOptions"
                 :key="option.value"
-                :class="{ 'bg-primary-default text-typography-static-light focus-visible:outline-neutral-bg-2!': selectedOption?.value === option.value }"
-                class="flex min-h-10 cursor-pointer items-center px-4 py-2 hover:bg-primary-default hover:text-typography-static-light transition duration-150 ease-out outline-transparent 
-                focus-visible:outline-2 focus-visible:outline-primary-default focus-visible:-outline-offset-4"
+                :class="{ 'bg-primary-default text-typography-static-light focus-visible:border-neutral-bg-2': selectedOption?.value === option.value }"
+                class="flex min-h-10 cursor-pointer items-center px-4 py-2 hover:bg-primary-default hover:text-typography-static-light transition duration-150 ease-out outline-transparent rounded border-2 border-transparent
+                focus-visible:outline-2 focus-visible:outline-primary-default"
                 role="option"
                 tabindex="-1"
                 @click="selectOption(option)"
@@ -163,7 +163,7 @@
 </template>
 
 <script generic="T extends DropdownOption" lang="ts" setup>
-import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch, type ComponentPublicInstance } from "vue";
+import { computed, inject, nextTick, onBeforeUnmount, onMounted, ref, watch, type ComponentPublicInstance } from "vue";
 import type { DropdownOption, DropdownProps } from "./types";
 import { Size } from "@/shared/utils/types";
 import { InputType } from "@/components/atoms/input/types";
@@ -177,6 +177,18 @@ import Button from "../button/Button.vue";
 const dropdownRef = ref<HTMLElement | null>(null);
 const elements = ref(null as ComponentPublicInstance | null);
 const elementsEl = computed(() => elements.value?.$el as HTMLElement | undefined);
+
+const registerSafeElement = inject<((el: HTMLElement) => void) | null>("registerSafeElement", null);
+const unregisterSafeElement = inject<((el: HTMLElement) => void) | null>("unregisterSafeElement", null);
+
+watch(elementsEl, (newEl, oldEl) => {
+  if (oldEl) unregisterSafeElement?.(oldEl);
+  if (newEl) registerSafeElement?.(newEl);
+});
+
+onBeforeUnmount(() => {
+  if (elementsEl.value) unregisterSafeElement?.(elementsEl.value);
+});
 
 const isOpen = ref(false);
 const selectedOption = ref<DropdownOption | null>(null);
@@ -213,14 +225,20 @@ const toggleDropdown = () => {
       setPosition();
       requestAnimationFrame(() => {
         const list = document.getElementById(`dropdown-list-${props.id}`);
-        (list?.querySelector('li') as HTMLElement | null)?.focus();
+        const items = Array.from(list?.querySelectorAll('li') ?? []) as HTMLElement[];
+        const selectedIndex = selectedOption.value
+          ? filteredOptions.value.findIndex(o => o.value === selectedOption.value?.value)
+          : -1;
+        (items[selectedIndex] ?? items[0])?.focus();
       })
     });
     window.addEventListener("scroll", setPosition);
     document.getElementById("dialog-scroll")?.addEventListener("scroll", setPosition);
+    window.addEventListener("pointerdown", handleClickOutside);
   } else {
     window.removeEventListener("scroll", setPosition);
     document.getElementById("dialog-scroll")?.removeEventListener("scroll", setPosition);
+    window.removeEventListener("pointerdown", handleClickOutside);
   }
 };
 
@@ -233,11 +251,14 @@ function onListKeydown(e: KeyboardEvent) {
 
   if (e.key === 'ArrowDown') {
     e.preventDefault();
-    items[(index + 1) % items.length]?.focus();
+    items[Math.min(index + 1, items.length - 1)]?.focus();
   } else if (e.key === 'ArrowUp') {
     e.preventDefault();
-    items[(index - 1 + items.length) % items.length]?.focus();
+    items[Math.max(index - 1, 0)]?.focus();
   } else if (e.key === 'Escape') {
+    document.addEventListener('keyup', (ev: KeyboardEvent) => {
+      if (ev.key === 'Escape') ev.stopPropagation();
+    }, { capture: true, once: true });
     isOpen.value = false;
     dropdownRef.value?.querySelector('button')?.focus();
   } else if (e.key === 'Enter' || e.key === ' ') {
@@ -272,6 +293,10 @@ const selectOption = (option: T) => {
   }
 
   isOpen.value = false;
+  window.removeEventListener("scroll", setPosition);
+  document.getElementById("dialog-scroll")?.removeEventListener("scroll", setPosition);
+  window.removeEventListener("pointerdown", handleClickOutside);
+  setTimeout(() => dropdownRef.value?.querySelector<HTMLElement>('button')?.focus(), 0);
 };
 
 onMounted(() => {
@@ -335,23 +360,19 @@ const filteredItemTemplates = computed(() => {
   return [];
 });
 
-// Close dropdown when clicking outside
-const handleClickOutside = (event: MouseEvent) => {
-  if (elementsEl.value && (elementsEl.value == event.target || elementsEl.value.contains(event.target as Node))) {
-    return;
-  }
-  if (dropdownRef.value && !dropdownRef.value.contains(event.target as Node)) {
-    isOpen.value = false;
-  }
+// Close dropdown when clicking/tapping outside
+const handleClickOutside = (event: PointerEvent) => {
+  if (!isOpen.value) return;
+  if (elementsEl.value && elementsEl.value.contains(event.target as Node)) return;
+  if (dropdownRef.value && dropdownRef.value.contains(event.target as Node)) return;
+  isOpen.value = false;
+  window.removeEventListener("pointerdown", handleClickOutside);
 };
-
-// Listen for clicks outside the dropdown
-window.addEventListener("click", handleClickOutside);
 
 // Cleanup event listener on component unmount
 const cleanup = () => {
   window.removeEventListener("scroll", setPosition);
-  window.removeEventListener("click", handleClickOutside);
+  window.removeEventListener("pointerdown", handleClickOutside);
   document.getElementById("dialog-scroll")?.removeEventListener("scroll", setPosition);
 };
 

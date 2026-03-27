@@ -4,14 +4,13 @@
     severity="tertiary"
     icon="table-options"
     size="medium"
-    :class="isOpen ? 'active' : ''"
-    @click="isOpen = !isOpen"
+    :class="tableSettingsPopoverRef?.isOpen ? 'active' : ''"
+    @click="tableSettingsPopoverRef?.toggle()"
   />
   <Popover
-    v-if="isOpen"
+    ref="tableSettingsPopoverRef"
     position="bottom-right"
     :parent="popoverParent"
-    @close="isOpen = !isOpen"
     class="md:w-[17rem]"
     :fullscreen-on-mobile="false"
   >
@@ -45,6 +44,7 @@ enum Subscription {
   unsubscribed = "unsubscribed"
 }
 
+const tableSettingsPopoverRef = ref<InstanceType<typeof Popover> | null>(null);
 const props = defineProps<TableSettingsProps>();
 const emit = defineEmits<{
     (e: "togle-value", value: boolean): void;
@@ -52,7 +52,6 @@ const emit = defineEmits<{
 }>();
 
 const popoverParent = ref();
-const isOpen = ref(false);
 
 function onHideValuesChange() {
     props.hideValues!.value = !props.hideValues!.value;
