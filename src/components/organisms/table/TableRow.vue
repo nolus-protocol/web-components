@@ -49,7 +49,7 @@
               { '!justify-center': item.variant === 'center' }
             ]"
           >
-            <component :is="item.component" />
+            <component :is="item.component" v-bind="item.componentProps ?? {}" />
             <template v-if="item.url">
               <a
                 :href="item.url"

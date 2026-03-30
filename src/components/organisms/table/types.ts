@@ -37,6 +37,7 @@ export interface TableRowItem {
   variant?: "right" | "center" | "left";
   value?: string;
   component?: Component;
+  componentProps?: Record<string, unknown>;
   subValue?: string;
   textClass?: string;
   subValueClass?: string;
