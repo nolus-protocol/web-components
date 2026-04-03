@@ -82,14 +82,16 @@
     </div>
     <div class="relative mt-4 flex justify-between">
       <span
-        class="cursor-pointer select-none text-14 text-typography-secondary"
+        class="cursor-pointer select-none text-14 text-typography-link"
+        role="button"
         @click="onClickLeftLabel?.()"
       >
         {{ labelLeft }}
       </span>
       <span
         v-if="labelMid && midPosition"
-        class="absolute cursor-pointer select-none text-14 text-typography-secondary"
+        class="absolute cursor-pointer select-none text-14 text-typography-link"
+        role="button"
         :style="[
           {
             top: `-64px`,
@@ -101,7 +103,8 @@
         {{ labelMid }}
       </span>
       <span
-        class="cursor-pointer select-none text-14 text-typography-secondary"
+        class="cursor-pointer select-none text-14 text-typography-link"
+        role="button"
         @click="onClickRightLabel?.()"
       >
         {{ labelRight }}

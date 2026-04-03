@@ -137,6 +137,7 @@ function backButtonClicked() {
 
 const show = () => {
   isOpen.value = true;
+  document.documentElement.style.overflow = "hidden";
 };
 
 const close = () => {
@@ -144,13 +145,7 @@ const close = () => {
     return;
   }
   isOpen.value = false;
-
-  if (document.body.style.top) {
-    const scroll = Math.abs(parseInt(document.body.style.top));
-    window.scroll({ top: scroll });
-    document.body.style.removeProperty("top");
-    document.body.style.removeProperty("position");
-  }
+  document.documentElement.style.overflow = "";
   setTimeout(() => {
     emit("close-dialog");
   }, transitionDuration);
