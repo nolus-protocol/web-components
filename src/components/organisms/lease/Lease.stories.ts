@@ -40,15 +40,15 @@ export const Opening: Story = {
     },
     debt: {
       title: "Debt",
-      class: "mt-1 h-5 bg-neutral-100 rounded-md text-transparent"
+      class: "mt-1 h-5 bg-neutral-bg-3 rounded-md text-transparent"
     },
     interest: {
       title: "Interest",
-      class: "mt-1 h-5 bg-neutral-100 rounded-md text-transparent"
+      class: "mt-1 h-5 bg-neutral-bg-3 rounded-md text-transparent"
     },
     interestDue: {
       title: "Due",
-      class: "mt-1 h-5 bg-neutral-100 rounded-md text-transparent"
+      class: "mt-1 h-5 bg-neutral-bg-3 rounded-md text-transparent"
     },
     actionButtons: {
       repay: { label: "Repay" },
