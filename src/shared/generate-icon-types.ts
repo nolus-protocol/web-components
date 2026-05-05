@@ -24,7 +24,7 @@ fs.readdir(directoryPath, (err, files) => {
       process.exit(1);
     }
 
-    const iconNamesRegex = /export const iconNames = \[[^\]]+\] as const;/;
+    const iconNamesRegex = /export const iconNames = \[[^\]]+\] as const;\n*/;
     let newData;
 
     if (iconNamesRegex.test(data)) {

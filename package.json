@@ -22,15 +22,20 @@
     "./theme.css": "./src/assets/styles/theme.css",
     "./dist/*": "./dist/*"
   },
+  "engines": {
+    "node": ">=22"
+  },
   "scripts": {
     "dev": "vite",
+    "prebuild": "npm run generate-icon-types",
     "build": "run-p \"build-only {@}\" --",
     "preview": "vite preview",
     "build-only": "vite build",
+    "typecheck": "vue-tsc --noEmit -p tsconfig.app.json",
     "format": "prettier --write src/",
     "storybook": "storybook dev -p 6006",
     "storybook-docs": "storybook --docs --no-manager-cache",
-    "build-storybook": "storybook build -o ./dist",
+    "build-storybook": "storybook build -o ./storybook-static",
     "build-storybook-docs": "storybook build --docs",
     "prepare": "husky && npm run build",
     "generate-icon-types": "npx tsx src/shared/generate-icon-types.ts"
@@ -64,7 +69,8 @@
     "typescript": "~5.8.3",
     "vite": "^7.1.12",
     "vite-plugin-dts": "4.3.0",
-    "vite-svg-loader": "^5.1.0"
+    "vite-svg-loader": "^5.1.0",
+    "vue-tsc": "^2.2.0"
   },
   "dependencies": {
     "motion-v": "^1.9.0"
