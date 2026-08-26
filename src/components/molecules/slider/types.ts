@@ -8,6 +8,7 @@ export interface RangeProps {
   maxPosition: number;
   disabled?: boolean;
   value?: number;
+  tooltipContent?: string;
   onClickRightLabel?: Function;
   onClickLeftLabel?: Function;
   onClickMidLabel?: Function;

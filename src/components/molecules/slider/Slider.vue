@@ -67,7 +67,7 @@
         </div>
       </div>
       <div ref="buttonWrapper" class="absolute top-1/2 z-2 -translate-y-1/2">
-        <Tooltip ref="buttonTooltip" :content="`${Math.round(leasePercent)}%`" position="top" :rotate-value="rotateValue" :force-visible="dragStart">
+        <Tooltip ref="buttonTooltip" :content="tooltipText" position="top" :rotate-value="rotateValue" :force-visible="dragStart">
           <button
             ref="button"
             class="flex h-10 w-10 items-center justify-center gap-0.5 rounded-full border-2 border-neutral-bg-2 bg-primary-default cursor-pointer origin-center hover:bg-primary-hover active:bg-primary-active active:scale-[115%] transition duration-75 ease-out"
@@ -131,6 +131,20 @@ const props = withDefaults(defineProps<RangeProps>(), {
 });
 
 const emits = defineEmits(["onDrag"]);
+
+// Tooltip renders its content through v-html, so the consumer-supplied text is
+// entity-escaped here: the new prop must not open an HTML sink to callers.
+const tooltipText = computed(() => {
+  if (props.tooltipContent === undefined) {
+    return `${Math.round(leasePercent.value)}%`;
+  }
+  return props.tooltipContent
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+});
 const defaultPosition = 100;
 const percentPosition = computed(() => (props.positions ? 100 / props.positions : 1));
 

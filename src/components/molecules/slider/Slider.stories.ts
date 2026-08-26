@@ -49,6 +49,15 @@ export const Primary: Story = {
 };
 
 /** A handle placed by the consumer rather than by dragging: it must stay put when pressed. */
+export const FormattedTooltip: Story = {
+  args: {
+    minPosition: 0,
+    maxPosition: 100,
+    value: 42,
+    tooltipContent: "3.1\u00d7"
+  }
+};
+
 export const Positioned: Story = {
   render: (args) => ({
     components: { Slider },
