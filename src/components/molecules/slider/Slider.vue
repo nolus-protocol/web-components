@@ -19,8 +19,15 @@
                 width: containerWidth + 'px'
               }
             ]"
-            class="flex h-full px-1"
+            class="relative flex h-full px-1"
           >
+            <span
+              v-for="m in markers ?? []"
+              :key="`marker-filled-${m}`"
+              class="absolute top-1/2 h-[4px] w-[4px] -translate-y-1/2 rounded-full bg-white"
+              :style="{ left: `calc(${m}% - 2px)` }"
+            >
+            </span>
             <span
               v-for="index in positions_data"
               :key="index"
@@ -46,6 +53,13 @@
         <div class="relative flex w-full">
           <div class="absolute flex h-full w-full px-1">
             <span
+              v-for="m in markers ?? []"
+              :key="`marker-${m}`"
+              class="absolute top-1/2 h-[4px] w-[4px] -translate-y-1/2 rounded-full bg-neutral-bg-4"
+              :style="{ left: `calc(${m}% - 2px)` }"
+            >
+            </span>
+            <span
               v-for="index in positions_data"
               :key="index"
               :style="{ width: `calc(${midPosition ?? 100 / positions_data}%)` }"
@@ -67,7 +81,7 @@
         </div>
       </div>
       <div ref="buttonWrapper" class="absolute top-1/2 z-2 -translate-y-1/2">
-        <Tooltip ref="buttonTooltip" :content="`${Math.round(leasePercent)}%`" position="top" :rotate-value="rotateValue" :force-visible="dragStart">
+        <Tooltip ref="buttonTooltip" :content="tooltipText" position="top" :rotate-value="rotateValue" :force-visible="dragStart">
           <button
             ref="button"
             class="flex h-10 w-10 items-center justify-center gap-0.5 rounded-full border-2 border-neutral-bg-2 bg-primary-default cursor-pointer origin-center hover:bg-primary-hover active:bg-primary-active active:scale-[115%] transition duration-75 ease-out"
@@ -131,6 +145,20 @@ const props = withDefaults(defineProps<RangeProps>(), {
 });
 
 const emits = defineEmits(["onDrag"]);
+
+// Tooltip renders its content through v-html, so the consumer-supplied text is
+// entity-escaped here: the new prop must not open an HTML sink to callers.
+const tooltipText = computed(() => {
+  if (props.tooltipContent === undefined) {
+    return `${Math.round(leasePercent.value)}%`;
+  }
+  return props.tooltipContent
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+});
 const defaultPosition = 100;
 const percentPosition = computed(() => (props.positions ? 100 / props.positions : 1));
 
