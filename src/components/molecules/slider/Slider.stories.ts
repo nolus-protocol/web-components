@@ -47,3 +47,23 @@ export const Primary: Story = {
     value: undefined
   }
 };
+
+/** A handle placed by the consumer rather than by dragging: it must stay put when pressed. */
+export const Positioned: Story = {
+  render: (args) => ({
+    components: { Slider },
+    setup: () => ({ args }),
+    template: `<Slider v-bind="args" />`
+  }),
+  args: {
+    class: "w-[450px]",
+    labelLeft: "Min",
+    labelRight: "Max",
+    labelMid: "",
+    minPosition: 0,
+    midPosition: undefined,
+    maxPosition: 100,
+    disabled: false,
+    value: 33
+  }
+};

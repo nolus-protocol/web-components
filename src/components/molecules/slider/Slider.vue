@@ -195,6 +195,10 @@ function setPosition(position?: number) {
     wrapper.style.left = `calc( ${position != null ? position : defaultPosition}% - 18px )`;
   }
   position = position ?? defaultPosition;
+  // `release()` repaints the bar and the handle from `scalePercent`, which until here
+  // only the drag path seated. Without this, a handle placed from `value` snaps back to
+  // the last dragged position — `maxPosition` on a fresh mount — on the first press.
+  scalePercent = position;
 
   const diff = props.maxPosition - props.minPosition;
   const percent = (position * diff) / 100 + props.minPosition;
