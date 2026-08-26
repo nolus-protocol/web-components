@@ -28,26 +28,28 @@
               :style="{ left: `calc(${m}% - 2px)` }"
             >
             </span>
-            <span
-              v-for="index in positions_data"
-              :key="index"
-              class="test flex items-center"
-              :style="{ width: `calc(${midPosition ?? 100 / positions_data}%)` }"
-            >
-              <span class="h-[4px] w-[4px] rounded-full bg-white"> </span>
-            </span>
+            <template v-if="!markers">
+              <span
+                v-for="index in positions_data"
+                :key="index"
+                class="test flex items-center"
+                :style="{ width: `calc(${midPosition ?? 100 / positions_data}%)` }"
+              >
+                <span class="h-[4px] w-[4px] rounded-full bg-white"> </span>
+              </span>
 
-            <span
-              v-if="midPosition"
-              class="flex items-center"
-              :style="{ width: `calc(${100 - midPosition}%)` }"
-            >
-              <span class="h-[4px] w-[4px] rounded-full bg-white"> </span>
-            </span>
+              <span
+                v-if="midPosition"
+                class="flex items-center"
+                :style="{ width: `calc(${100 - midPosition}%)` }"
+              >
+                <span class="h-[4px] w-[4px] rounded-full bg-white"> </span>
+              </span>
 
-            <span class="flex items-center">
-              <span class="h-[4px] w-[4px] rounded-full bg-white"> </span>
-            </span>
+              <span class="flex items-center">
+                <span class="h-[4px] w-[4px] rounded-full bg-white"> </span>
+              </span>
+            </template>
           </div>
         </div>
         <div class="relative flex w-full">
@@ -59,24 +61,26 @@
               :style="{ left: `calc(${m}% - 2px)` }"
             >
             </span>
-            <span
-              v-for="index in positions_data"
-              :key="index"
-              :style="{ width: `calc(${midPosition ?? 100 / positions_data}%)` }"
-              class="flex items-center"
-            >
-              <span class="h-[4px] w-[4px] rounded-full bg-neutral-bg-4"> </span>
-            </span>
-            <span
-              v-if="midPosition"
-              class="flex items-center"
-              :style="{ width: `calc(${100 - midPosition}%)` }"
-            >
-              <span class="h-[4px] w-[4px] rounded-full bg-neutral-bg-4"> </span>
-            </span>
-            <span class="flex items-center">
-              <span class="h-[4px] w-[4px] rounded-full bg-neutral-bg-4"> </span>
-            </span>
+            <template v-if="!markers">
+              <span
+                v-for="index in positions_data"
+                :key="index"
+                :style="{ width: `calc(${midPosition ?? 100 / positions_data}%)` }"
+                class="flex items-center"
+              >
+                <span class="h-[4px] w-[4px] rounded-full bg-neutral-bg-4"> </span>
+              </span>
+              <span
+                v-if="midPosition"
+                class="flex items-center"
+                :style="{ width: `calc(${100 - midPosition}%)` }"
+              >
+                <span class="h-[4px] w-[4px] rounded-full bg-neutral-bg-4"> </span>
+              </span>
+              <span class="flex items-center">
+                <span class="h-[4px] w-[4px] rounded-full bg-neutral-bg-4"> </span>
+              </span>
+            </template>
           </div>
         </div>
       </div>
