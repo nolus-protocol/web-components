@@ -33,22 +33,46 @@ jobs:
 
           echo "version=${major}.${minor}.${next_patch}" >> "$GITHUB_OUTPUT"
 
-      - name: Update package.json version
-        run: npm version ${{ steps.next.outputs.version }} --no-git-tag-version
+      - name: Update package version
+        env:
+          VERSION: ${{ steps.next.outputs.version }}
+        run: npm version "$VERSION" --no-git-tag-version
 
-      - name: Commit version bump
+      # The default-branch ruleset requires every change to land through a pull
+      # request, so a direct push of the bump is rejected (this is what broke
+      # releases between May and August). The bump rides its own PR instead,
+      # squash-merged immediately: zero approvals are required, only the PR path.
+      # The squash subject must keep the "chore: release v" prefix — it is what
+      # the job-level guard matches to keep the merge push from re-triggering
+      # this workflow into a release loop.
+      - name: Land the version bump through a pull request
+        id: bump
+        env:
+          GH_TOKEN: ${{ secrets.RELEASE_PAT }}
+          VERSION: ${{ steps.next.outputs.version }}
         run: |
+          branch="release/v${VERSION}"
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add package.json
-          git commit -m "chore: release v${{ steps.next.outputs.version }}"
-          git push origin main
+          git checkout -b "$branch"
+          git add package.json package-lock.json
+          git commit -m "chore: release v${VERSION}"
+          git push origin "$branch"
+          pr_url=$(gh pr create --base main --head "$branch" \
+            --title "chore: release v${VERSION}" \
+            --body "Automated version bump for the v${VERSION} release.")
+          gh pr merge "$pr_url" --squash --delete-branch \
+            --subject "chore: release v${VERSION}" --body ""
+          merge_sha=$(gh pr view "$pr_url" --json mergeCommit --jq .mergeCommit.oid)
+          echo "merge_sha=${merge_sha}" >> "$GITHUB_OUTPUT"
 
       - name: Create GitHub release (creates the tag)
         env:
           GH_TOKEN: ${{ secrets.RELEASE_PAT }}
+          VERSION: ${{ steps.next.outputs.version }}
+          MERGE_SHA: ${{ steps.bump.outputs.merge_sha }}
         run: |
-          gh release create "v${{ steps.next.outputs.version }}" \
-            --target main \
-            --title "v${{ steps.next.outputs.version }}" \
+          gh release create "v${VERSION}" \
+            --target "$MERGE_SHA" \
+            --title "v${VERSION}" \
             --generate-notes
