@@ -54,7 +54,8 @@ export const FormattedTooltip: Story = {
     minPosition: 0,
     maxPosition: 100,
     value: 42,
-    tooltipContent: "3.1\u00d7"
+    tooltipContent: "3.1×",
+    markers: [0, 20, 46.7, 73.3, 100]
   }
 };
 

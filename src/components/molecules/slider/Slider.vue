@@ -19,8 +19,15 @@
                 width: containerWidth + 'px'
               }
             ]"
-            class="flex h-full px-1"
+            class="relative flex h-full px-1"
           >
+            <span
+              v-for="m in markers ?? []"
+              :key="`marker-filled-${m}`"
+              class="absolute top-1/2 h-[4px] w-[4px] -translate-y-1/2 rounded-full bg-white"
+              :style="{ left: `calc(${m}% - 2px)` }"
+            >
+            </span>
             <span
               v-for="index in positions_data"
               :key="index"
@@ -45,6 +52,13 @@
         </div>
         <div class="relative flex w-full">
           <div class="absolute flex h-full w-full px-1">
+            <span
+              v-for="m in markers ?? []"
+              :key="`marker-${m}`"
+              class="absolute top-1/2 h-[4px] w-[4px] -translate-y-1/2 rounded-full bg-neutral-bg-4"
+              :style="{ left: `calc(${m}% - 2px)` }"
+            >
+            </span>
             <span
               v-for="index in positions_data"
               :key="index"
