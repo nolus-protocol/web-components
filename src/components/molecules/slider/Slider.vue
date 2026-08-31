@@ -25,7 +25,7 @@
               v-for="m in markers ?? []"
               :key="`marker-filled-${m}`"
               class="absolute top-1/2 h-[4px] w-[4px] -translate-y-1/2 rounded-full bg-white"
-              :style="{ left: `calc(${m}% - 2px)` }"
+              :style="{ left: markerLeft(m) }"
             >
             </span>
             <template v-if="!markers">
@@ -58,7 +58,7 @@
               v-for="m in markers ?? []"
               :key="`marker-${m}`"
               class="absolute top-1/2 h-[4px] w-[4px] -translate-y-1/2 rounded-full bg-neutral-bg-4"
-              :style="{ left: `calc(${m}% - 2px)` }"
+              :style="{ left: markerLeft(m) }"
             >
             </span>
             <template v-if="!markers">
@@ -165,6 +165,14 @@ const tooltipText = computed(() => {
 });
 const defaultPosition = 100;
 const percentPosition = computed(() => (props.positions ? 100 / props.positions : 1));
+
+// The 12px track is rounded-full with overflow-hidden, so a dot centered at the
+// 0%/100% ends sits under the 6px end caps and gets clipped to a sliver. Clamp
+// only the end dots inward so every marker stays fully visible; interior dots
+// keep their exact percent position.
+function markerLeft(m: number) {
+  return `clamp(4px, calc(${m}% - 2px), calc(100% - 8px))`;
+}
 
 let position = defaultPosition;
 const dragStart = ref(false);
