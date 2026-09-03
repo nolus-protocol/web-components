@@ -6,7 +6,8 @@
         class="flex items-center justify-between gap-2"
         :class="headerClasses"
       >
-        <div class="flex items-center gap-2 flex-1 md:flex-none">
+        <div class="flex flex-1 items-center gap-2 md:flex-none">
+          <slot name="header"></slot>
           <Input
             v-if="searchable"
             id="dropdown-search"
@@ -18,7 +19,7 @@
           />
           <span
             v-if="size"
-            class="hidden md:block text-14 font-normal"
+            class="hidden text-14 font-normal md:block"
             >{{ size }}</span
           >
         </div>
@@ -49,7 +50,7 @@
                   { '!justify-start': column.variant === 'left' },
                   { '!justify-center': column.variant === 'center' },
                   i === 0 && scrollable
-                    ? 'sticky left-0 z-20 mr-[12px] bg-neutral-bg-2 after:absolute after:right-0 after:top-[-0.75rem] after:h-[calc(0.75rem+0.75rem+100%)] after:w-px after:bg-border-color md:after:bg-transparent'
+                    ? 'sticky left-0 z-20 mr-[12px] bg-neutral-bg-2 after:absolute after:top-[-0.75rem] after:right-0 after:h-[calc(0.75rem+0.75rem+100%)] after:w-px after:bg-border-color md:after:bg-transparent'
                     : ''
                 ]"
               >
@@ -58,11 +59,15 @@
                   v-if="column.tooltip"
                   v-bind="column.tooltip"
                 >
-                  <SvgIcon name="help" size="m" class="hover:fill-icon-secondary cursor-pointer transition duration-200 ease-in-out" />
+                  <SvgIcon
+                    name="help"
+                    size="m"
+                    class="cursor-pointer transition duration-200 ease-in-out hover:fill-icon-secondary"
+                  />
                 </Tooltip>
                 <SvgIcon
                   v-if="column.sortable"
-                  class="hover:fill-icon-secondary cursor-pointer transition duration-200 ease-in-out"
+                  class="cursor-pointer transition duration-200 ease-in-out hover:fill-icon-secondary"
                   name="arrow"
                 />
               </div>
@@ -85,7 +90,7 @@
 import { Input, SvgIcon, Tooltip } from "@/components";
 import { type TableProps } from "./types";
 import TableSettings from "./TableSettings.vue";
-import { computed } from "vue";
+import { computed, useSlots } from "vue";
 
 const props = withDefaults(defineProps<TableProps>(), {
   scrollable: true
@@ -97,8 +102,9 @@ const emit = defineEmits<{
   (e: "togle-value", value: boolean): void;
 }>();
 
+const slots = useSlots();
 const showAttributes = computed(() => {
-  return props.searchable || props.size || props.toggle || props.hideValues;
+  return props.searchable || props.size || props.toggle || props.hideValues || !!slots.header;
 });
 </script>
 

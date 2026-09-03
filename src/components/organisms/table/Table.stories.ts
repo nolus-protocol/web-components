@@ -203,3 +203,40 @@ export const EarningAssets: Story = {
     title: "Assets"
   } as TableProps & { assetsData: TableRowItemProps[] }
 };
+
+export const HeaderSlot: StoryObj<typeof meta> = {
+  render: (args) => ({
+    data() {
+      return { args };
+    },
+    components: { Table, TableRow },
+    template: `
+      <Table v-bind="args"
+          @togle-value="
+            (data) => {
+              console.info(data);
+          }"
+      >
+        <template v-slot:header>
+          <div class="flex flex-col">
+            <span class="text-14 font-normal text-typography-secondary">Total value</span>
+            <span class="text-24 font-semibold text-typography-default">$74.22</span>
+          </div>
+        </template>
+        <template v-slot:body>
+          <TableRow
+            v-for="(row, index) in args.historyData"
+            :key="index"
+            :items="row.items"
+          />
+        </template>
+      </Table>
+    `
+  }),
+  args: {
+    ...History.args,
+    searchable: false,
+    size: undefined,
+    hideValues: undefined
+  }
+};
