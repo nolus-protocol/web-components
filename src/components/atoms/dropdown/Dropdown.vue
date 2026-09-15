@@ -54,21 +54,16 @@
       />  
     </button>
     <Teleport to="body">
-      <AnimatePresence>
-        <motion.div
+      <Transition name="presence">
+        <div
           v-if="isOpen"
           ref="elements"
           :style="{ ...presenceLayerStyle, top: `${position.y}px`, left: `${position.x}px` }"
           :class="[
             'shadow-lg fixed z-9999 mt-2 min-w-48 max-w-full overflow-hidden rounded-lg border border-border-default bg-neutral-bg-2 text-typography-default shadow-lighter outline-0 focus-visible:bg-red-500',
             dropdownClassName,
-            itemTemplate ? 'min-w-81.25' : '',
-            isOpen ? '' : 'pointer-events-none opacity-0'
+            itemTemplate ? 'min-w-81.25' : ''
           ]"
-          :initial="{ opacity: 0, transform: 'translateY(4px) scale(0.98)' }"
-          :animate="{ opacity: 1, transform: 'translateY(0) scale(1)' }"
-          :exit="{ opacity: 0, transform: 'translateY(4px) scale(0.98)' }"
-          :transition="{ duration: 0.15, ease: 'easeOut' }"
         >
           <div
             v-if="dropdownLabel || searchable"
@@ -156,14 +151,14 @@
               </li>
             </template>
           </ul>
-        </motion.div>
-      </AnimatePresence>
+        </div>
+      </Transition>
     </Teleport>
   </div>
 </template>
 
 <script generic="T extends DropdownOption" lang="ts" setup>
-import { computed, inject, nextTick, onBeforeUnmount, onMounted, ref, watch, type ComponentPublicInstance } from "vue";
+import { computed, inject, nextTick, onBeforeUnmount, onMounted, ref, watch } from "vue";
 import type { DropdownOption, DropdownProps } from "./types";
 import { Size } from "@/shared/utils/types";
 import { presenceLayerStyle } from "@/shared/utils/presence-layer";
@@ -171,13 +166,12 @@ import { InputType } from "@/components/atoms/input/types";
 import Spinner from "../spinner/Spinner.vue";
 import Input from "../input/Input.vue";
 import FieldLabel from "../field-label/FieldLabel.vue";
-import { motion, AnimatePresence } from "motion-v";
 import SvgIcon from "../svg-icon/SvgIcon.vue";
 import Button from "../button/Button.vue";
 
 const dropdownRef = ref<HTMLElement | null>(null);
-const elements = ref(null as ComponentPublicInstance | null);
-const elementsEl = computed(() => elements.value?.$el as HTMLElement | undefined);
+const elements = ref(null as HTMLElement | null);
+const elementsEl = computed(() => elements.value ?? undefined);
 
 const registerSafeElement = inject<((el: HTMLElement) => void) | null>("registerSafeElement", null);
 const unregisterSafeElement = inject<((el: HTMLElement) => void) | null>("unregisterSafeElement", null);
@@ -384,13 +378,16 @@ emit("unmounted", cleanup);
 </script>
 
 <style lang="scss" scoped>
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.15s ease-in-out;
+.presence-enter-active,
+.presence-leave-active {
+  transition:
+    opacity 0.15s ease-out,
+    transform 0.15s ease-out;
 }
 
-.fade-enter-from,
-.fade-leave-to {
+.presence-enter-from,
+.presence-leave-to {
   opacity: 0;
+  transform: translateY(4px) scale(0.98);
 }
 </style>
