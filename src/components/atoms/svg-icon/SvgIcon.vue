@@ -1,5 +1,7 @@
 <template>
-  <IconComponent
+  <component
+    :is="IconComponent"
+    v-if="IconComponent"
     :class="[{ 'fill-icon-default text-icon-default': defaultColor }]"
     v-bind="svgAttributes"
     viewBox="0 0 24 24"
@@ -16,8 +18,27 @@ const props = withDefaults(defineProps<SvgProps>(), {
   defaultColor: true
 });
 
-const { loader } = createIconMap().get(props.name) ?? {};
-const IconComponent = loader ? defineAsyncComponent(loader) : null;
+const icons = createIconMap();
+const resolved = new Map<string, Component>();
+
+// Resolved off the live `name`, not once at setup: a consumer that swaps the
+// name on state (an eye that opens and shuts, a chevron that turns) gets the
+// new glyph. Each name's async component is built once, so switching back
+// reuses it instead of remounting a fresh loader.
+function iconComponent(name: string): Component | null {
+  const entry = icons.get(name);
+  if (!entry) {
+    return null;
+  }
+  let component = resolved.get(name);
+  if (!component) {
+    component = defineAsyncComponent(entry.loader);
+    resolved.set(name, component);
+  }
+  return component;
+}
+
+const IconComponent = computed(() => iconComponent(props.name));
 
 const svgAttributes = computed(() => {
   switch (props.size) {
