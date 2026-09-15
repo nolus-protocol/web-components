@@ -1,32 +1,21 @@
 <template>
   <Teleport to="body">
     <!-- Backdrop -->
-    <AnimatePresence>
-      <Motion
+    <Transition name="dialog-backdrop">
+      <div
         v-if="isOpen"
-        :initial="{ opacity: 0 }"
-        :animate="{ opacity: 1, transition: { duration: transitionDurationDecimal } }"
-        :exit="{ opacity: 0, transition: { duration: transitionDurationDecimal, ease: 'easeIn' } }"
         class="fixed inset-0 z-[9997] bg-neutral-bg-1/75"
         :style="presenceLayerStyle"
         @click="handleBackdropClick"
       />
-    </AnimatePresence>
+    </Transition>
     <!-- Dialog -->
-    <AnimatePresence>
-      <Motion
+    <Transition name="dialog-panel">
+      <div
         v-if="isOpen"
         role="dialog"
         aria-modal="true"
         :aria-label="title"
-        :initial="{ opacity: 0, scale: 0.97, y: 24 }"
-        :animate="{ opacity: 1, scale: 1, y: 0, transition: { duration: transitionDurationDecimal, ease: 'easeOut' } }"
-        :exit="{
-          opacity: 0,
-          scale: 0.98,
-          y: 24,
-          transition: { duration: transitionDurationDecimal * 0.8, ease: 'easeIn' }
-        }"
         :class="[
           'pointer-events-auto fixed inset-0 z-[9998] m-auto flex flex-col overscroll-contain bg-neutral-bg-2 shadow-larger md:rounded-xl md:border md:border-border-default',
           'h-[100dvh] max-h-[100dvh] w-full max-w-[100vw] md:h-[800px] md:min-h-0 md:max-w-[512px]',
@@ -82,14 +71,13 @@
             </div>
           </div>
         </template>
-      </Motion>
-    </AnimatePresence>
+      </div>
+    </Transition>
   </Teleport>
 </template>
 
 <script lang="ts" setup>
 import { onMounted, onUnmounted, provide, ref } from "vue";
-import { Motion, AnimatePresence } from "motion-v";
 import { presenceLayerStyle } from "@/shared/utils/presence-layer";
 import { Radio } from "@/components";
 import Button from "../../atoms/button/Button.vue";
@@ -173,3 +161,40 @@ defineExpose({
   close
 });
 </script>
+
+<style lang="scss" scoped>
+.dialog-backdrop-enter-active {
+  transition: opacity 0.2s ease-out;
+}
+
+.dialog-backdrop-leave-active {
+  transition: opacity 0.2s ease-in;
+}
+
+.dialog-backdrop-enter-from,
+.dialog-backdrop-leave-to {
+  opacity: 0;
+}
+
+.dialog-panel-enter-active {
+  transition:
+    opacity 0.2s ease-out,
+    transform 0.2s ease-out;
+}
+
+.dialog-panel-leave-active {
+  transition:
+    opacity 0.16s ease-in,
+    transform 0.16s ease-in;
+}
+
+.dialog-panel-enter-from {
+  opacity: 0;
+  transform: translateY(24px) scale(0.97);
+}
+
+.dialog-panel-leave-to {
+  opacity: 0;
+  transform: translateY(24px) scale(0.98);
+}
+</style>

@@ -8,39 +8,34 @@
     <slot></slot>
   </div>
   <Teleport to="body">
-    <AnimatePresence>
-    <motion.div
-      v-if="isVisible"
-      ref="tooltip"
-      :class="[
-        'relative z-9999 max-w-50 rounded bg-neutral-bg-inverted-2 px-2 py-1 text-xs text-typography-inverted',
-        { [`tooltip-cursor tooltip-cursor-${position}`]: position },
-        $attrs.class
-      ]"
-      :initial="{ opacity: 0, transform: 'translateY(4px) scale(0.98)' }"
-      :animate="{ opacity: 1, transform: 'translateY(0) scale(1)' }"
-      :exit="{ opacity: 0, transform: 'translateY(4px) scale(0.98)' }"
-      :transition="{ duration: 0.15, ease: 'easeOut' }"
-      :style="tooltipStyle"
-    >
-      <div v-html="content" />
-      <div :class="['arrow', `arrow-${position}`]" :style="arrowStyle" />
-    </motion.div>
-    </AnimatePresence>
+    <Transition name="presence">
+      <div
+        v-if="isVisible"
+        ref="tooltip"
+        :class="[
+          'relative z-9999 max-w-50 rounded bg-neutral-bg-inverted-2 px-2 py-1 text-xs text-typography-inverted',
+          { [`tooltip-cursor tooltip-cursor-${position}`]: position },
+          $attrs.class
+        ]"
+        :style="tooltipStyle"
+      >
+        <div v-html="content" />
+        <div :class="['arrow', `arrow-${position}`]" :style="arrowStyle" />
+      </div>
+    </Transition>
   </Teleport>
 </template>
 
 <script lang="ts" setup>
 import type { TooltipProps } from "./types";
-import { ref, watch, nextTick, onUnmounted, type ComponentPublicInstance } from "vue";
-import { motion, AnimatePresence } from "motion-v";
+import { ref, watch, nextTick, onUnmounted } from "vue";
 import { presenceLayerStyle } from "@/shared/utils/presence-layer";
 
 const props = withDefaults(defineProps<TooltipProps>(), {
   position: "top"
 });
 
-const tooltip = ref(null as ComponentPublicInstance | null);
+const tooltip = ref(null as HTMLElement | null);
 const target = ref(null as HTMLDivElement | null);
 const tooltipStyle = ref<Record<string, string>>({ ...presenceLayerStyle, position: "fixed", top: "-9999px", left: "-9999px" });
 const arrowStyle = ref<Record<string, string>>({});
@@ -51,7 +46,7 @@ watch(() => props.rotateValue, (mv) => {
   unsubscribeRotation = null;
   if (!mv) return;
   unsubscribeRotation = mv.on("change", (v) => {
-    const el = tooltip.value?.$el as HTMLElement | undefined;
+    const el = tooltip.value;
     if (el) {
       el.style.transformOrigin = "50% calc(100% + 10px)";
       el.style.rotate = `${v}deg`;
@@ -101,7 +96,7 @@ const calculateTooltipPosition = () => {
   if (!target.value || !tooltip.value) return;
 
   const rect = target.value.getBoundingClientRect();
-  const tooltipEl = tooltip.value?.$el as HTMLElement;
+  const tooltipEl = tooltip.value;
   const tooltipWidth = tooltipEl.offsetWidth;
   const tooltipHeight = tooltipEl.offsetHeight;
   const viewportWidth = window.innerWidth;
@@ -154,8 +149,17 @@ defineExpose({ recalculate: calculateTooltipPosition });
 </script>
 
 <style lang="scss" scoped>
-.tooltip-cursor {
+.presence-enter-active,
+.presence-leave-active {
+  transition:
+    opacity 0.15s ease-out,
+    transform 0.15s ease-out;
+}
+
+.presence-enter-from,
+.presence-leave-to {
   opacity: 0;
+  transform: translateY(4px) scale(0.98);
 }
 
 .arrow {

@@ -1,6 +1,6 @@
 <template>
-  <AnimatePresence>
-    <motion.div
+  <Transition name="presence-popover">
+    <div
       v-if="isOpen"
       ref="popover"
       @click.stop
@@ -12,14 +12,6 @@
         $attrs.class
       ]"
       :style="popoverStyle"
-      :initial="{ opacity: 0, scale: 0.98, y: 4 }"
-      :animate="{ opacity: 1, scale: 1, y: 0 }"
-      :exit="{
-        opacity: 0,
-        scale: 0.98,
-        y: 4,
-        transition: { duration: transitionDurationDecimal * 0.8, ease: 'easeIn' }
-      }"
     >
       <div
         class="flex items-center justify-between p-4"
@@ -53,21 +45,20 @@
       >
         <slot name="footer" />
       </div>
-    </motion.div>
-  </AnimatePresence>
+    </div>
+  </Transition>
 </template>
 
 <script lang="ts" setup>
-import { nextTick, onMounted, onUnmounted, ref, watch, provide, type ComponentPublicInstance } from "vue";
+import { nextTick, onMounted, onUnmounted, ref, watch, provide } from "vue";
 import type { PopoverProps } from "./types";
 import Button from "../../atoms/button/Button.vue";
-import { AnimatePresence, motion } from "motion-v";
 import { presenceLayerStyle } from "@/shared/utils/presence-layer";
 
 defineOptions({ inheritAttrs: false });
 
 const isOpen = ref(false);
-const popover = ref(null as ComponentPublicInstance | null);
+const popover = ref(null as HTMLElement | null);
 const popoverStyle = ref<Record<string, string>>({ ...presenceLayerStyle });
 const disable = ref(false);
 const transitionDuration = 150;
@@ -120,7 +111,7 @@ const getParentEl = (): HTMLElement | null => {
 
 const calculatePopoverPosition = () => {
   const parentEl = getParentEl();
-  const popEl = popover.value?.$el as HTMLElement | null;
+  const popEl = popover.value;
 
   if (!parentEl || !popEl) return;
 
@@ -187,7 +178,7 @@ const FOCUSABLE = 'a[href], button:not([disabled]), input:not([disabled]), selec
 let previouslyFocused: HTMLElement | null = null;
 
 const getFocusable = (): HTMLElement[] => {
-  const popEl = popover.value?.$el as HTMLElement | null;
+  const popEl = popover.value;
   if (!popEl) return [];
   return Array.from(popEl.querySelectorAll<HTMLElement>(FOCUSABLE));
 };
@@ -237,7 +228,7 @@ const toggle = () => {
 
 const handleClickOutside = (event: MouseEvent) => {
   const parentEl = getParentEl();
-  const popEl = popover.value?.$el as HTMLElement | null;
+  const popEl = popover.value;
   if (!parentEl || !popEl) return;
 
   const target = event.target as Node;
@@ -270,3 +261,23 @@ defineExpose({
   isOpen
 });
 </script>
+
+<style lang="scss" scoped>
+.presence-popover-enter-active {
+  transition:
+    opacity 0.15s ease-out,
+    transform 0.15s ease-out;
+}
+
+.presence-popover-leave-active {
+  transition:
+    opacity 0.12s ease-in,
+    transform 0.12s ease-in;
+}
+
+.presence-popover-enter-from,
+.presence-popover-leave-to {
+  opacity: 0;
+  transform: translateY(4px) scale(0.98);
+}
+</style>
