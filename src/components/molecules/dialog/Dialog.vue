@@ -8,6 +8,7 @@
         :animate="{ opacity: 1, transition: { duration: transitionDurationDecimal } }"
         :exit="{ opacity: 0, transition: { duration: transitionDurationDecimal, ease: 'easeIn' } }"
         class="fixed inset-0 z-[9997] bg-neutral-bg-1/75"
+        :style="presenceLayerStyle"
         @click="handleBackdropClick"
       />
     </AnimatePresence>
@@ -31,6 +32,7 @@
           'h-[100dvh] max-h-[100dvh] w-full max-w-[100vw] md:h-[800px] md:min-h-0 md:max-w-[512px]',
           classList
         ]"
+        :style="presenceLayerStyle"
       >
         <header class="flex items-center justify-between p-6">
           <h2 class="text-2xl font-semibold text-typography-default">{{ title }}</h2>
@@ -88,6 +90,7 @@
 <script lang="ts" setup>
 import { onMounted, onUnmounted, provide, ref } from "vue";
 import { Motion, AnimatePresence } from "motion-v";
+import { presenceLayerStyle } from "@/shared/utils/presence-layer";
 import { Radio } from "@/components";
 import Button from "../../atoms/button/Button.vue";
 
