@@ -58,7 +58,7 @@
         <motion.div
           v-if="isOpen"
           ref="elements"
-          :style="{ top: `${position.y}px`, left: `${position.x}px` }"
+          :style="{ ...presenceLayerStyle, top: `${position.y}px`, left: `${position.x}px` }"
           :class="[
             'shadow-lg fixed z-9999 mt-2 min-w-48 max-w-full overflow-hidden rounded-lg border border-border-default bg-neutral-bg-2 text-typography-default shadow-lighter outline-0 focus-visible:bg-red-500',
             dropdownClassName,
@@ -166,6 +166,7 @@
 import { computed, inject, nextTick, onBeforeUnmount, onMounted, ref, watch, type ComponentPublicInstance } from "vue";
 import type { DropdownOption, DropdownProps } from "./types";
 import { Size } from "@/shared/utils/types";
+import { presenceLayerStyle } from "@/shared/utils/presence-layer";
 import { InputType } from "@/components/atoms/input/types";
 import Spinner from "../spinner/Spinner.vue";
 import Input from "../input/Input.vue";

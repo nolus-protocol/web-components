@@ -34,6 +34,7 @@
 import type { TooltipProps } from "./types";
 import { ref, watch, nextTick, onUnmounted, type ComponentPublicInstance } from "vue";
 import { motion, AnimatePresence } from "motion-v";
+import { presenceLayerStyle } from "@/shared/utils/presence-layer";
 
 const props = withDefaults(defineProps<TooltipProps>(), {
   position: "top"
@@ -41,7 +42,7 @@ const props = withDefaults(defineProps<TooltipProps>(), {
 
 const tooltip = ref(null as ComponentPublicInstance | null);
 const target = ref(null as HTMLDivElement | null);
-const tooltipStyle = ref<Record<string, string>>({ position: "fixed", top: "-9999px", left: "-9999px" });
+const tooltipStyle = ref<Record<string, string>>({ ...presenceLayerStyle, position: "fixed", top: "-9999px", left: "-9999px" });
 const arrowStyle = ref<Record<string, string>>({});
 
 let unsubscribeRotation: (() => void) | null = null;
@@ -133,6 +134,7 @@ const calculateTooltipPosition = () => {
   }
 
   tooltipStyle.value = {
+    ...presenceLayerStyle,
     top: `${top!}px`,
     left: `${left!}px`,
     position: "fixed"

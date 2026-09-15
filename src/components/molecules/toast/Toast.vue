@@ -5,6 +5,7 @@
       :initial="{ opacity: 0, y: 8 }"
       :animate="{ opacity: 1, y: 0, transition: { type: 'spring', stiffness: 400, damping: 20 } }"
       :exit="{ opacity: 0, y: 8, transition: { type: 'spring', stiffness: 400, damping: 40 } }"
+      :style="presenceLayerStyle"
       :class="[classes]"
       class="relative flex items-center gap-2 justify-between rounded-xl py-2.5 ps-3 md:ps-5 pe-2 text-sm shadow-xl text-static-light"
     >
@@ -53,6 +54,7 @@
 <script lang="ts" setup>
 import { computed, onMounted, onUnmounted, ref } from "vue";
 import { Motion, AnimatePresence } from "motion-v";
+import { presenceLayerStyle } from "@/shared/utils/presence-layer";
 import { type IToast, ToastType } from "./types";
 import { Button } from "@/components";
 import SvgIcon from "@/components/atoms/svg-icon/SvgIcon.vue";

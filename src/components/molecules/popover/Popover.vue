@@ -62,12 +62,13 @@ import { nextTick, onMounted, onUnmounted, ref, watch, provide, type ComponentPu
 import type { PopoverProps } from "./types";
 import Button from "../../atoms/button/Button.vue";
 import { AnimatePresence, motion } from "motion-v";
+import { presenceLayerStyle } from "@/shared/utils/presence-layer";
 
 defineOptions({ inheritAttrs: false });
 
 const isOpen = ref(false);
 const popover = ref(null as ComponentPublicInstance | null);
-const popoverStyle = ref<Record<string, string>>({});
+const popoverStyle = ref<Record<string, string>>({ ...presenceLayerStyle });
 const disable = ref(false);
 const transitionDuration = 150;
 const transitionDurationDecimal = transitionDuration / 1000;
@@ -168,11 +169,13 @@ const calculatePopoverPosition = () => {
   if (window.innerWidth < 768 && props.fullscreenOnMobile) {
     document.body.style.overflow = "hidden";
     popoverStyle.value = {
+      ...presenceLayerStyle,
       top: `${props.top}px`,
       left: "0"
     };
   } else {
     popoverStyle.value = {
+      ...presenceLayerStyle,
       top: `${top}px`,
       left: `${left}px`
     };
@@ -210,7 +213,7 @@ const trapFocus = (event: KeyboardEvent) => {
 
 const show = () => {
   previouslyFocused = document.activeElement as HTMLElement;
-  popoverStyle.value = { visibility: "hidden" };
+  popoverStyle.value = { ...presenceLayerStyle, visibility: "hidden" };
   isOpen.value = true;
   emit("open");
   nextTick(() => {
