@@ -130,6 +130,8 @@ jobs:
       - build
     runs-on: ubuntu-24.04
     timeout-minutes: 10
+    # RELEASE_PAT is an environment secret: only jobs in the release environment, on main, can read it.
+    environment: release
 
     # Runs no third-party code: git, the GitHub CLI and the dependency-free release script only. The token is handed
     # to the steps that push, never persisted by checkout.
