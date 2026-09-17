@@ -193,7 +193,7 @@ jobs:
 
       # Keeps package.json on main in step with the latest release. The release above does not depend on it; this pull
       # request's own merge triggers a run that finds only this chore commit and releases nothing. The default-branch
-      # ruleset forbids direct pushes, hence the pull request; auto-merge lets it wait for required checks.
+      # ruleset forbids direct pushes, hence the pull request.
       - name: Record the version on main
         env:
           GH_TOKEN: ${{ secrets.RELEASE_PAT }}
@@ -210,4 +210,19 @@ jobs:
               --title "chore: release v${VERSION}" \
               --body "Records the v${VERSION} version on main.")
           fi
-          gh pr merge "$pr_url" --auto --squash --delete-branch
+          # Auto-merge can only be enabled while something (a required check) is still pending; GitHub refuses it for a
+          # pull request that is already mergeable, so merge that one directly.
+          state=UNKNOWN
+          for _ in $(seq 1 12); do
+            state=$(gh pr view "$pr_url" --json mergeStateStatus --jq .mergeStateStatus)
+            [ "$state" != "UNKNOWN" ] && break
+            sleep 5
+          done
+          case "$state" in
+            CLEAN | HAS_HOOKS) gh pr merge "$pr_url" --squash --delete-branch ;;
+            BLOCKED | UNSTABLE) gh pr merge "$pr_url" --auto --squash --delete-branch ;;
+            *)
+              echo "::error::The version pull request ${pr_url} is ${state}; merge it by hand."
+              exit 1
+              ;;
+          esac
