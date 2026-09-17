@@ -34,6 +34,7 @@
     "typecheck": "vue-tsc --noEmit -p tsconfig.app.json",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
+    "test:scripts": "node --test \"scripts/**/*.test.mjs\"",
     "storybook": "storybook dev -p 6006",
     "storybook-docs": "storybook --docs --no-manager-cache",
     "build-storybook": "storybook build -o ./storybook-static",
