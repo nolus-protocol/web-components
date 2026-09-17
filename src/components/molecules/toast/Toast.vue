@@ -1,6 +1,7 @@
 <template>
   <Transition
     name="toast"
+    appear
     @after-leave="props.onClose?.()"
   >
     <div
