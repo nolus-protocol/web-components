@@ -37,17 +37,18 @@
           />
         </header>
         <template v-if="tabs?.length">
-          <div class="flex border-t border-border-color bg-border-color gap-px">
+          <div class="flex gap-px border-t border-border-color bg-border-color">
             <Radio
               v-for="(tab, index) in tabs"
               :id="`tab-${index}`"
               :key="index"
               ref="radioRefs"
               :class="[
-                { 
+                {
                   'border-transparent': index === activeTabIdx,
                   'border-border-default': index !== activeTabIdx,
-                  'bg-neutral-bg-2': activeTabIdx === index }
+                  'bg-neutral-bg-2': activeTabIdx === index
+                }
               ]"
               :disabled="tab.disabled"
               :label="tab.label"

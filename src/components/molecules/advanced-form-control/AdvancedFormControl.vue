@@ -84,26 +84,31 @@
       </span>
     </div>
     <AnimatePresence>
-    <Motion
-      v-if="errorMsg?.length"
-      :initial="{ opacity: 0, y: 4, overflow: 'hidden' }"
-      :animate="{ opacity: 1, y: 0, overflow: 'hidden', transition: { type: 'spring', stiffness: 400, damping: 20 } }"
-      :exit="{ opacity: 0, y: 4, overflow: 'hidden', transition: { type: 'spring', stiffness: 400, damping: 40 } }"
-      tag="div"
-      class="text-14 text-typography-error flex items-center gap-1"
-    >
-      <SvgIcon size="s" name="warning" class="fill-typography-error" />
-      <AnimatePresence mode="wait">
-        <Motion
-          :key="errorMsg"
-          :initial="{ opacity: 0, y: 4 }"
-          :animate="{ opacity: 1, y: 0, transition: { type: 'spring', stiffness: 400, damping: 20 } }"
-          :exit="{ opacity: 0, y: 4, transition: { type: 'spring', stiffness: 400, damping: 40 } }"
-          tag="span"
-        >{{ errorMsg }}</Motion>
-      </AnimatePresence>
-    </Motion>
-  </AnimatePresence>
+      <Motion
+        v-if="errorMsg?.length"
+        :initial="{ opacity: 0, y: 4, overflow: 'hidden' }"
+        :animate="{ opacity: 1, y: 0, overflow: 'hidden', transition: { type: 'spring', stiffness: 400, damping: 20 } }"
+        :exit="{ opacity: 0, y: 4, overflow: 'hidden', transition: { type: 'spring', stiffness: 400, damping: 40 } }"
+        tag="div"
+        class="flex items-center gap-1 text-14 text-typography-error"
+      >
+        <SvgIcon
+          size="s"
+          name="warning"
+          class="fill-typography-error"
+        />
+        <AnimatePresence mode="wait">
+          <Motion
+            :key="errorMsg"
+            :initial="{ opacity: 0, y: 4 }"
+            :animate="{ opacity: 1, y: 0, transition: { type: 'spring', stiffness: 400, damping: 20 } }"
+            :exit="{ opacity: 0, y: 4, transition: { type: 'spring', stiffness: 400, damping: 40 } }"
+            tag="span"
+            >{{ errorMsg }}</Motion
+          >
+        </AnimatePresence>
+      </Motion>
+    </AnimatePresence>
   </div>
 </template>
 

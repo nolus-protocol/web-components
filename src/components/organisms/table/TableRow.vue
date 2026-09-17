@@ -12,7 +12,7 @@
         { '!justify-start': item.variant === 'left' },
         { '!justify-center': item.variant === 'center' },
         index === 0 && scrollable
-          ? 'sticky left-0 z-20 mr-[12px] bg-neutral-bg-2 after:absolute after:right-0 after:top-[-0.75rem] after:h-[calc(0.75rem+0.75rem+100%)] after:w-px after:bg-border-color md:after:bg-transparent'
+          ? 'sticky left-0 z-20 mr-[12px] bg-neutral-bg-2 after:absolute after:top-[-0.75rem] after:right-0 after:h-[calc(0.75rem+0.75rem+100%)] after:w-px after:bg-border-color md:after:bg-transparent'
           : ''
       ]"
       @click="item.click?.()"
@@ -49,7 +49,10 @@
               { '!justify-center': item.variant === 'center' }
             ]"
           >
-            <component :is="item.component" v-bind="item.componentProps ?? {}" />
+            <component
+              :is="item.component"
+              v-bind="item.componentProps ?? {}"
+            />
             <template v-if="item.url">
               <a
                 :href="item.url"
