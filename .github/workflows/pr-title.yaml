@@ -1,0 +1,35 @@
+name: Pull request title
+
+# The merged pull request's title decides the release (see scripts/release.mjs), so it must parse before merge.
+on:
+  pull_request:
+    types:
+      - opened
+      - edited
+      - reopened
+      - synchronize
+
+permissions:
+  contents: read
+
+jobs:
+  title:
+    name: Conventional commit title
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version-file: .nvmrc
+
+      - name: Test the release script
+        run: npm run test:scripts
+
+      - name: Check the title and report the release it implies
+        env:
+          TITLE: ${{ github.event.pull_request.title }}
+          BODY: ${{ github.event.pull_request.body }}
+        run: node scripts/release.mjs check-title | tee -a "$GITHUB_STEP_SUMMARY"
