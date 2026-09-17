@@ -59,7 +59,11 @@ export function releaseLevel(change) {
   if (breaking || BREAKING_FOOTER.test(change.body ?? "")) {
     return "major";
   }
-  return LEVEL_BY_TYPE[type] ?? "none";
+  const level = LEVEL_BY_TYPE[type];
+  if (level === undefined) {
+    throw new TitleError(`"${type}" is not a known type.`);
+  }
+  return level;
 }
 
 /**

@@ -56,7 +56,7 @@ jobs:
           set -euo pipefail
           shopt -s inherit_errexit
           sha=$(git rev-parse HEAD)
-          previous=$(git tag --list 'v*.*.*' --sort=-v:refname | head -n 1)
+          previous=$(git tag --list 'v*.*.*' --sort=-v:refname | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' | head -n 1 || true)
           if [ -z "$previous" ]; then
             echo "::error::No v*.*.* release tag to count from."
             exit 1
@@ -145,20 +145,33 @@ jobs:
           node-version-file: .nvmrc
 
       # The tag goes on a version commit whose parent is exactly the commit the level was read from, so a pull request
-      # merged while this runs cannot slip into the release; the next run releases it.
+      # merged while this runs cannot slip into the release; the next run releases it. Each step below skips work a
+      # previous attempt of this job already finished, so a failed job can be re-run.
       - name: Commit the version on top of the released commit and push the tag
         env:
           GH_TOKEN: ${{ secrets.RELEASE_PAT }}
           VERSION: ${{ needs.plan.outputs.version }}
+          SHA: ${{ needs.plan.outputs.sha }}
         run: |
           set -euo pipefail
+          shopt -s inherit_errexit
+          gh auth setup-git
+          if git ls-remote --exit-code --tags origin "refs/tags/v${VERSION}" > /dev/null; then
+            git fetch --no-tags origin "refs/tags/v${VERSION}:refs/tags/v${VERSION}"
+            parent=$(git rev-parse "v${VERSION}^{commit}^")
+            if [ "$parent" != "$SHA" ]; then
+              echo "::error::Tag v${VERSION} already exists on ${parent}, not on the planned commit ${SHA}."
+              exit 1
+            fi
+            echo "Tag v${VERSION} was pushed by an earlier attempt; reusing it."
+            exit 0
+          fi
           npm version "$VERSION" --no-git-tag-version --ignore-scripts
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add package.json package-lock.json
           git commit -m "chore: release v${VERSION}"
           git tag -a "v${VERSION}" -m "v${VERSION}"
-          gh auth setup-git
           git push origin "refs/tags/v${VERSION}"
 
       - name: Publish the GitHub release
@@ -167,6 +180,11 @@ jobs:
           VERSION: ${{ needs.plan.outputs.version }}
           PREVIOUS: ${{ needs.plan.outputs.previous }}
         run: |
+          set -euo pipefail
+          if gh release view "v${VERSION}" > /dev/null 2>&1; then
+            echo "Release v${VERSION} was published by an earlier attempt."
+            exit 0
+          fi
           gh release create "v${VERSION}" \
             --verify-tag \
             --title "v${VERSION}" \
@@ -175,16 +193,21 @@ jobs:
 
       # Keeps package.json on main in step with the latest release. The release above does not depend on it; this pull
       # request's own merge triggers a run that finds only this chore commit and releases nothing. The default-branch
-      # ruleset forbids direct pushes, hence the pull request.
+      # ruleset forbids direct pushes, hence the pull request; auto-merge lets it wait for required checks.
       - name: Record the version on main
         env:
           GH_TOKEN: ${{ secrets.RELEASE_PAT }}
           VERSION: ${{ needs.plan.outputs.version }}
         run: |
           set -euo pipefail
+          shopt -s inherit_errexit
           branch="release/v${VERSION}"
-          git push origin "refs/tags/v${VERSION}^{commit}:refs/heads/${branch}"
-          pr_url=$(gh pr create --base main --head "$branch" \
-            --title "chore: release v${VERSION}" \
-            --body "Records the v${VERSION} version on main.")
-          gh pr merge "$pr_url" --squash --delete-branch
+          pr_url=$(gh pr list --head "$branch" --state all --json url --jq '.[0].url // empty')
+          if [ -z "$pr_url" ]; then
+            gh auth setup-git
+            git push origin "refs/tags/v${VERSION}^{commit}:refs/heads/${branch}"
+            pr_url=$(gh pr create --base main --head "$branch" \
+              --title "chore: release v${VERSION}" \
+              --body "Records the v${VERSION} version on main.")
+          fi
+          gh pr merge "$pr_url" --auto --squash --delete-branch
