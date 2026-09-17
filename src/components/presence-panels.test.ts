@@ -86,9 +86,10 @@ describe("presence panels", () => {
     expect(entering()).toEqual([{ transition: "presence-popover", layer: OWN_LAYER }]);
   });
 
-  it("keeps the toast on its own layer", () => {
+  it("enters the toast through a CSS transition on its own layer when it mounts", async () => {
     wrapper = mount(Toast, { ...realTransitions, props: { type: ToastType.success }, attachTo: document.body });
+    await nextTick();
 
-    expect((wrapper.element as HTMLElement).style.willChange).toBe(OWN_LAYER);
+    expect(entering()).toEqual([{ transition: "toast", layer: OWN_LAYER }]);
   });
 });
