@@ -180,6 +180,7 @@ function markerLeft(m: number) {
 const TILT_MAX_DEG = 25;
 const TILT_FULL_SPEED = 300;
 const TILT_SAMPLE_WINDOW_MS = 80;
+const MS_PER_SECOND = 1000;
 
 // The tooltip leans against the drag in proportion to the handle's speed, in track percent per second. Only the target
 // angle is computed here; Tooltip eases toward it with a CSS transition.
@@ -365,7 +366,7 @@ function setPercent(xPos: number, parentRect: DOMRect, draggableRect: DOMRect) {
 function leanTooltip(percent: number) {
   const time = performance.now();
   if (lastSample && time > lastSample.time && time - lastSample.time <= TILT_SAMPLE_WINDOW_MS) {
-    const speed = ((percent - lastSample.percent) / (time - lastSample.time)) * 1000;
+    const speed = ((percent - lastSample.percent) / (time - lastSample.time)) * MS_PER_SECOND;
     tilt.value = Math.max(-TILT_MAX_DEG, Math.min(TILT_MAX_DEG, (-speed / TILT_FULL_SPEED) * TILT_MAX_DEG));
   }
   lastSample = { percent, time };

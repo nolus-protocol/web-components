@@ -19,32 +19,28 @@ function mountWithError(errorMsg: string) {
   return wrapper;
 }
 
-const transitionClasses = (element: Element | undefined) =>
-  element ? [...element.classList].filter((name) => name.startsWith("error-")) : [];
+const message = (text: string) => (span: { text: () => string }) => span.text() === text;
 
 describe("AdvancedFormControl error message", () => {
   it("enters through a CSS transition when the control mounts with an error", async () => {
     const control = mountWithError("Insufficient balance");
     await nextTick();
 
-    const block = control.find(".text-typography-error");
-    expect(block.text()).toBe("Insufficient balance");
-    expect(transitionClasses(block.element)).toContain("error-enter-active");
+    expect(control.find(".error-enter-active").text()).toBe("Insufficient balance");
   });
 
   it("lets the old message leave before the new one enters", async () => {
     const control = mountWithError("Insufficient balance");
     await control.setProps({ errorMsg: "Amount exceeds the limit" });
 
-    const messages = control.findAll(".text-typography-error span").map((span) => span.element);
-    expect(messages.map((message) => message.textContent)).toEqual(["Insufficient balance"]);
-    expect(transitionClasses(messages[0])).toContain("error-leave-active");
+    expect(control.findAll("span").filter(message("Amount exceeds the limit"))).toHaveLength(0);
+    expect(control.find(".error-leave-active").text()).toBe("Insufficient balance");
   });
 
   it("leaves through a CSS transition when the error clears", async () => {
     const control = mountWithError("Insufficient balance");
     await control.setProps({ errorMsg: "" });
 
-    expect(transitionClasses(control.find(".text-typography-error").element)).toContain("error-leave-active");
+    expect(control.find(".error-leave-active").text()).toBe("Insufficient balance");
   });
 });
