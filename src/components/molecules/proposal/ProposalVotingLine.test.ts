@@ -6,33 +6,25 @@ import type { FinalTallyResult } from "./types";
 
 const labels = { yes_count: "Yes", abstain_count: "Abstain", no_count: "No", no_with_veto_count: "Veto" };
 
-function segments(voting: FinalTallyResult) {
-  const wrapper = mount(ProposalVotingLine, { props: { voting, labels } });
-  return wrapper.findAll(".relative").map((segment) => ({
-    label: segment.find("span").text(),
-    percent: segment.text().replace(segment.find("span").text(), "").trim(),
-    coloured: segment.classes().some((name) => name.startsWith("bg-["))
-  }));
-}
+const rendered = (voting: FinalTallyResult) =>
+  mount(ProposalVotingLine, { props: { voting, labels } }).text().replace(/\s+/g, " ");
 
 describe("ProposalVotingLine", () => {
-  it("draws one coloured segment per non-zero tally, last tally first", () => {
-    expect(segments({ yes_count: "60", abstain_count: "0", no_count: "30", no_with_veto_count: "10" })).toEqual([
-      { label: "Veto", percent: "10.00%", coloured: true },
-      { label: "No", percent: "30.00%", coloured: true },
-      { label: "Yes", percent: "60.00%", coloured: true }
-    ]);
+  it("shows one segment per non-zero tally with its share, last tally first", () => {
+    expect(rendered({ yes_count: "60", abstain_count: "0", no_count: "30", no_with_veto_count: "10" })).toBe(
+      "Veto 10.00% No 30.00% Yes 60.00%"
+    );
   });
 
   it("skips a tally key it has no colour for instead of failing to render", () => {
     const withUnknownKey = {
-      yes_count: "50",
+      yes_count: "40",
       abstain_count: "0",
-      no_count: "50",
+      no_count: "40",
       no_with_veto_count: "0",
-      spam_count: "10"
+      spam_count: "20"
     };
 
-    expect(segments(withUnknownKey).map((segment) => segment.label)).toEqual(["No", "Yes"]);
+    expect(rendered(withUnknownKey)).toBe("No 40.00% Yes 40.00%");
   });
 });

@@ -18,14 +18,12 @@ afterEach(() => {
   document.body.innerHTML = "";
 });
 
-function panelState(element: Element | null | undefined) {
-  if (!(element instanceof HTMLElement)) {
-    return null;
-  }
-  return {
-    willChange: element.style.willChange,
-    entering: Array.from(element.classList).filter((name) => name.endsWith("-enter-active"))
-  };
+// What is entering right now, found by the transition classes themselves rather than by markup or styling.
+function entering() {
+  return Array.from(document.body.querySelectorAll<HTMLElement>("[class*='-enter-active']")).map((element) => ({
+    transition: [...element.classList].find((name) => name.endsWith("-enter-active"))?.replace(/-enter-active$/, ""),
+    layer: element.style.willChange
+  }));
 }
 
 describe("presence panels", () => {
@@ -42,11 +40,10 @@ describe("presence panels", () => {
       },
       attachTo: document.body
     });
-    await wrapper.get("#dropdown-btn-asset").trigger("click");
+    await wrapper.get("[role='combobox']").trigger("click");
     await nextTick();
 
-    const panel = document.getElementById("dropdown-list-asset")?.parentElement;
-    expect(panelState(panel)).toEqual({ willChange: OWN_LAYER, entering: ["presence-enter-active"] });
+    expect(entering()).toEqual([{ transition: "presence", layer: OWN_LAYER }]);
   });
 
   it("enters the tooltip through a CSS transition on its own layer", async () => {
@@ -59,10 +56,7 @@ describe("presence panels", () => {
     await wrapper.get("div").trigger("mouseenter");
     await nextTick();
 
-    expect(panelState(document.body.querySelector(".tooltip-cursor"))).toEqual({
-      willChange: OWN_LAYER,
-      entering: ["presence-enter-active"]
-    });
+    expect(entering()).toEqual([{ transition: "presence", layer: OWN_LAYER }]);
   });
 
   it("enters the dialog and its backdrop through CSS transitions on their own layers", async () => {
@@ -71,10 +65,9 @@ describe("presence panels", () => {
     dialog.vm.show();
     await nextTick();
 
-    const surfaces = Array.from(document.body.querySelectorAll(".fixed.inset-0")).map(panelState);
-    expect(surfaces).toEqual([
-      { willChange: OWN_LAYER, entering: ["dialog-backdrop-enter-active"] },
-      { willChange: OWN_LAYER, entering: ["dialog-panel-enter-active"] }
+    expect(entering()).toEqual([
+      { transition: "dialog-backdrop", layer: OWN_LAYER },
+      { transition: "dialog-panel", layer: OWN_LAYER }
     ]);
   });
 
@@ -90,16 +83,12 @@ describe("presence panels", () => {
     popover.vm.show();
     await nextTick();
 
-    expect(panelState(wrapper.find(".fixed").element)).toEqual({
-      willChange: OWN_LAYER,
-      entering: ["presence-popover-enter-active"]
-    });
+    expect(entering()).toEqual([{ transition: "presence-popover", layer: OWN_LAYER }]);
   });
 
-  it("keeps the toast on its own layer", async () => {
+  it("keeps the toast on its own layer", () => {
     wrapper = mount(Toast, { ...realTransitions, props: { type: ToastType.success }, attachTo: document.body });
-    await nextTick();
 
-    expect(panelState(wrapper.find(".relative").element)?.willChange).toBe(OWN_LAYER);
+    expect((wrapper.element as HTMLElement).style.willChange).toBe(OWN_LAYER);
   });
 });
