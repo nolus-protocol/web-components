@@ -465,3 +465,17 @@
   --shadow-field-heavy: 0px 8px 48px 0px rgba(7, 45, 99, 0.15);
   --shadow-field-normal: 0px 12px 32px 0px rgba(7, 45, 99, 0.06);
 }
+
+/* Tailwind v4's preflight gives buttons the default arrow cursor, which makes every button read as inert. The design
+   system shows the hand on anything clickable and not-allowed on anything disabled; a utility class still overrides it. */
+@layer base {
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]) {
+    cursor: pointer;
+  }
+
+  button:disabled,
+  [role="button"][aria-disabled="true"] {
+    cursor: not-allowed;
+  }
+}
