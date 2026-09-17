@@ -5,6 +5,9 @@ import { StepperVariant } from "./types";
 import { iconsExternalUrl } from "../../../shared/utils/types";
 import { h } from "vue";
 
+// Meta<typeof Stepper> types `component` as an options object, which a generic SFC's render function does not match.
+type StepperMeta = Omit<Meta<typeof Stepper>, "component"> & { component: typeof Stepper };
+
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories
 const meta = {
   title: "Components/Molecules/Stepper",
@@ -13,7 +16,7 @@ const meta = {
   args: {
     activeStep: 0
   } // default value
-} satisfies Meta<typeof Stepper>;
+} satisfies StepperMeta;
 
 export default meta;
 type Story = StoryObj<typeof meta>;

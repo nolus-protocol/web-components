@@ -7,7 +7,11 @@ const meta = {
   title: "Components/Atoms/Radio",
   component: Radio,
   argTypes: {},
-  args: {} // default value
+  args: {
+    id: "radio-1",
+    label: "Radio",
+    name: "radio"
+  } // default value
 } satisfies Meta<typeof Radio>;
 
 export default meta;
@@ -17,13 +21,7 @@ type Story = StoryObj<typeof meta>;
  * See https://storybook.js.org/docs/api/csf
  * to learn how to use render functions.
  */
-export const Primary: Story = {
-  args: {
-    id: "radio-1",
-    label: "Radio",
-    name: "radio"
-  }
-};
+export const Primary: Story = {};
 
 export const RadioGroup: Story = {
   render: () => ({

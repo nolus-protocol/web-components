@@ -10,7 +10,7 @@ const meta = {
   component: Popover,
   argTypes: {},
   args: {
-    parent: ""
+    parent: null
   } // default value
 } satisfies Meta<typeof Popover>;
 
