@@ -30,7 +30,17 @@ export default defineConfig(
       eqeqeq: ["error", "always", { null: "ignore" }],
       "prefer-const": "error",
       "no-var": "error",
-      "no-console": "error"
+      "no-console": "error",
+      // Animation is CSS only (nolus-protocol/webapp#617): a script-driven compositor animation cancelled at finish
+      // drops frames in Chromium-based browsers.
+      "no-restricted-imports": [
+        "error",
+        {
+          paths: ["motion-v", "motion", "framer-motion", "motion-plus-vue", "@vueuse/motion", "gsap", "animejs"].map(
+            (name) => ({ name, message: "Animate with a Vue <Transition> and CSS instead." })
+          )
+        }
+      ]
     }
   },
   {

@@ -38,7 +38,7 @@ export default defineConfig({
       formats: ["es"]
     },
     rollupOptions: {
-      external: ["vue", "motion-v"],
+      external: ["vue"],
       output: {
         preserveModules: true,
         assetFileNames: "assets/[name][extname]",
