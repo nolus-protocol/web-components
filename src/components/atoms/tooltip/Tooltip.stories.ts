@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/vue3";
+import { onMounted, ref } from "vue";
 
 import Tooltip from "./Tooltip.vue";
 import SvgIcon from "../svg-icon/SvgIcon.vue";
@@ -11,6 +12,9 @@ const meta = {
     position: {
       control: "select",
       options: ["top", "bottom", "left", "right"]
+    },
+    tilt: {
+      control: { type: "range", min: -25, max: 25, step: 1 }
     }
   },
   args: {} // default value
@@ -47,5 +51,30 @@ export const Default: Story = {
   args: {
     content: "150%",
     position: "top"
+  }
+};
+
+export const Tilted: Story = {
+  render: (args) => ({
+    components: { Tooltip, SvgIcon },
+    setup() {
+      const visible = ref(false);
+      onMounted(() => {
+        visible.value = true;
+      });
+      return { args, visible };
+    },
+    template: `
+      <div class="p-24">
+        <Tooltip :content="args.content" :position="args.position" :tilt="args.tilt" :force-visible="visible">
+          <SvgIcon name="info" />
+        </Tooltip>
+      </div>
+    `
+  }),
+  args: {
+    content: "150%",
+    position: "top",
+    tilt: 12
   }
 };

@@ -5,6 +5,17 @@ import vue from "eslint-plugin-vue";
 import globals from "globals";
 import tseslint from "typescript-eslint";
 
+const ANIMATION_LIBRARIES = [
+  "motion-v",
+  "motion",
+  "framer-motion",
+  "motion-plus-vue",
+  "@vueuse/motion",
+  "gsap",
+  "animejs"
+];
+const ANIMATION_MESSAGE = "Animate with a Vue <Transition> and CSS instead.";
+
 export default defineConfig(
   globalIgnores(["dist/", "storybook-static/", "coverage/", "docs/", ".claude/"]),
   {
@@ -30,7 +41,16 @@ export default defineConfig(
       eqeqeq: ["error", "always", { null: "ignore" }],
       "prefer-const": "error",
       "no-var": "error",
-      "no-console": "error"
+      "no-console": "error",
+      // Animation is CSS only: a script-driven compositor animation cancelled at finish drops frames in Chromium-based
+      // browsers.
+      "no-restricted-imports": [
+        "error",
+        {
+          paths: ANIMATION_LIBRARIES.map((name) => ({ name, message: ANIMATION_MESSAGE })),
+          patterns: [{ group: ANIMATION_LIBRARIES.map((name) => `${name}/*`), message: ANIMATION_MESSAGE }]
+        }
+      ]
     }
   },
   {

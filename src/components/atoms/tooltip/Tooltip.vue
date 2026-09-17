@@ -14,10 +14,10 @@
         ref="tooltip"
         :class="[
           'relative z-9999 max-w-50 rounded bg-neutral-bg-inverted-2 px-2 py-1 text-xs text-typography-inverted',
-          { [`tooltip-cursor tooltip-cursor-${position}`]: position },
+          { [`tooltip-cursor tooltip-cursor-${position}`]: position, 'tooltip-tilt': tilt !== undefined },
           $attrs.class
         ]"
-        :style="tooltipStyle"
+        :style="[tooltipStyle, tiltStyle]"
       >
         <!-- eslint-disable-next-line vue/no-v-html -- content is rendered as HTML by contract (TooltipProps.content): callers sanitize it -->
         <div v-html="content" />
@@ -32,7 +32,7 @@
 
 <script lang="ts" setup>
 import type { TooltipProps } from "./types";
-import { ref, watch, nextTick, onUnmounted } from "vue";
+import { computed, ref, watch, nextTick, onUnmounted } from "vue";
 import { presenceLayerStyle } from "@/shared/utils/presence-layer";
 
 const props = withDefaults(defineProps<TooltipProps>(), {
@@ -49,23 +49,7 @@ const tooltipStyle = ref<Record<string, string>>({
 });
 const arrowStyle = ref<Record<string, string>>({});
 
-let unsubscribeRotation: (() => void) | null = null;
-watch(
-  () => props.rotateValue,
-  (mv) => {
-    unsubscribeRotation?.();
-    unsubscribeRotation = null;
-    if (!mv) return;
-    unsubscribeRotation = mv.on("change", (v) => {
-      const el = tooltip.value;
-      if (el) {
-        el.style.transformOrigin = "50% calc(100% + 10px)";
-        el.style.rotate = `${v}deg`;
-      }
-    });
-  },
-  { immediate: true }
-);
+const tiltStyle = computed(() => (props.tilt === undefined ? {} : { rotate: `${props.tilt}deg` }));
 const isVisible = ref(false);
 const isHovered = ref(false);
 
@@ -114,7 +98,6 @@ watch(
   { flush: "sync" }
 );
 onUnmounted(() => {
-  unsubscribeRotation?.();
   if (hideTimeout) clearTimeout(hideTimeout);
 });
 
@@ -186,6 +169,32 @@ defineExpose({ recalculate: calculateTooltipPosition });
 .presence-leave-to {
   opacity: 0;
   transform: translateY(4px) scale(0.98);
+}
+
+// The tilt pivots 10px beyond the edge that faces the target, where calculateTooltipPosition places the target.
+.tooltip-tilt {
+  transition: rotate 0.3s ease-out;
+
+  &.tooltip-cursor-top {
+    transform-origin: 50% calc(100% + 10px);
+  }
+  &.tooltip-cursor-bottom {
+    transform-origin: 50% -10px;
+  }
+  &.tooltip-cursor-left {
+    transform-origin: calc(100% + 10px) 50%;
+  }
+  &.tooltip-cursor-right {
+    transform-origin: -10px 50%;
+  }
+
+  &.presence-enter-active,
+  &.presence-leave-active {
+    transition:
+      opacity 0.15s ease-out,
+      transform 0.15s ease-out,
+      rotate 0.15s ease-out;
+  }
 }
 
 .arrow {

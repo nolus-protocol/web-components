@@ -12,7 +12,7 @@ The package is **not published to npm**. Consume it via a GitHub git ref or tag:
 npm install nolus-protocol/web-components#v2.0.66
 ```
 
-`vue ^3.5.22` (peer) and `motion-v ^1.9.0` are required runtime peers — install them in the consuming app.
+`vue ^3.5.22` is the only runtime peer — install it in the consuming app. The library has no runtime dependencies of its own.
 
 ## Usage
 

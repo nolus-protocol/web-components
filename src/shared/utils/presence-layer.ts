@@ -1,5 +1,5 @@
 /**
- * Inline style for every panel `AnimatePresence` shows over the page: the
+ * Inline style for every panel the library shows over the page: the
  * dropdown list, the tooltip, the dialog and its backdrop, the popover, the
  * toast.
  *
