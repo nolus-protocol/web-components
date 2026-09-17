@@ -7,7 +7,7 @@
       v-if="showToast"
       :style="presenceLayerStyle"
       :class="[classes]"
-      class="relative flex items-center gap-2 justify-between rounded-xl py-2.5 ps-3 md:ps-5 pe-2 text-sm shadow-xl text-static-light"
+      class="relative flex items-center justify-between gap-2 rounded-xl py-2.5 ps-3 pe-2 text-sm text-static-light shadow-xl md:ps-5"
     >
       <div class="flex items-center gap-2 text-sm font-normal">
         <SvgIcon
@@ -21,9 +21,10 @@
       <div class="flex items-center gap-2">
         <Button
           class="button-tertiary-static-light"
-          :class="
-            { 'hover:text-success-emphasized!': props.type === ToastType.success, 'hover:text-error-emphasized!': props.type === ToastType.error }
-          "
+          :class="{
+            'hover:text-success-emphasized!': props.type === ToastType.success,
+            'hover:text-error-emphasized!': props.type === ToastType.error
+          }"
           label="Undo"
           severity="tertiary"
           size="small"
@@ -33,9 +34,10 @@
         />
         <Button
           class="button-tertiary-static-light"
-          :class="
-            { 'hover:text-success-emphasized!': props.type === ToastType.success, 'hover:text-error-emphasized!': props.type === ToastType.error }
-          "
+          :class="{
+            'hover:text-success-emphasized!': props.type === ToastType.success,
+            'hover:text-error-emphasized!': props.type === ToastType.error
+          }"
           severity="tertiary"
           size="small"
           @click="onCloseAlert"
@@ -84,9 +86,9 @@ const classes = computed(() => ({
 const defaultIcon = computed(() => {
   if (props.icon) return props.icon;
   return {
-    [ToastType.success]: 'check-solid',
-    [ToastType.error]: 'warning',
-    [ToastType.info]: 'info'
+    [ToastType.success]: "check-solid",
+    [ToastType.error]: "warning",
+    [ToastType.info]: "info"
   }[props.type];
 });
 

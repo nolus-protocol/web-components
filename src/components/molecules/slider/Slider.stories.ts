@@ -18,7 +18,7 @@ const meta = {
     disabled: { control: "boolean" },
     value: { control: "number" }
   },
-  args: {}, // default value
+  args: {} // default value
 } satisfies Meta<typeof Slider>;
 
 export default meta;

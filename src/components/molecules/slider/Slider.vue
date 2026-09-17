@@ -11,7 +11,7 @@
       <div class="relative flex h-[12px] w-full overflow-hidden rounded-full bg-neutral-bg-3">
         <div
           ref="background"
-          class="absolute left-0 top-0 z-[2] h-[12px] w-[15%] overflow-hidden bg-primary-default"
+          class="absolute top-0 left-0 z-[2] h-[12px] w-[15%] overflow-hidden bg-primary-default"
         >
           <div
             :style="[
@@ -84,11 +84,20 @@
           </div>
         </div>
       </div>
-      <div ref="buttonWrapper" class="absolute top-1/2 z-2 -translate-y-1/2">
-        <Tooltip ref="buttonTooltip" :content="tooltipText" position="top" :rotate-value="rotateValue" :force-visible="dragStart">
+      <div
+        ref="buttonWrapper"
+        class="absolute top-1/2 z-2 -translate-y-1/2"
+      >
+        <Tooltip
+          ref="buttonTooltip"
+          :content="tooltipText"
+          position="top"
+          :rotate-value="rotateValue"
+          :force-visible="dragStart"
+        >
           <button
             ref="button"
-            class="flex h-10 w-10 items-center justify-center gap-0.5 rounded-full border-2 border-neutral-bg-2 bg-primary-default cursor-pointer origin-center hover:bg-primary-hover active:bg-primary-active active:scale-[115%] transition duration-75 ease-out"
+            class="flex h-10 w-10 origin-center cursor-pointer items-center justify-center gap-0.5 rounded-full border-2 border-neutral-bg-2 bg-primary-default transition duration-75 ease-out hover:bg-primary-hover active:scale-[115%] active:bg-primary-active"
             draggable="true"
             type="button"
           >
@@ -100,7 +109,7 @@
     </div>
     <div class="relative mt-4 flex justify-between">
       <span
-        class="cursor-pointer select-none text-14 text-typography-link"
+        class="cursor-pointer text-14 text-typography-link select-none"
         role="button"
         @click="onClickLeftLabel?.()"
       >
@@ -108,7 +117,7 @@
       </span>
       <span
         v-if="labelMid && midPosition"
-        class="absolute cursor-pointer select-none text-14 text-typography-link"
+        class="absolute cursor-pointer text-14 text-typography-link select-none"
         role="button"
         :style="[
           {
@@ -121,7 +130,7 @@
         {{ labelMid }}
       </span>
       <span
-        class="cursor-pointer select-none text-14 text-typography-link"
+        class="cursor-pointer text-14 text-typography-link select-none"
         role="button"
         @click="onClickRightLabel?.()"
       >
@@ -418,5 +427,4 @@ function removeAnimations() {
 .triangle:after {
   transform: rotate(135deg) skewY(-45deg) scale(0.707, 1.414) translate(50%);
 }
-
 </style>

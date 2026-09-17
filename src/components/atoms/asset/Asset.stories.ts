@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/vue3";
-import { iconsExternalUrl} from "../../../shared/utils/types";
+import { iconsExternalUrl } from "../../../shared/utils/types";
 import Asset from "./Asset.vue";
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories

@@ -173,7 +173,8 @@ const calculatePopoverPosition = () => {
   }
 };
 
-const FOCUSABLE = 'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
+const FOCUSABLE =
+  'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
 let previouslyFocused: HTMLElement | null = null;
 
@@ -184,7 +185,7 @@ const getFocusable = (): HTMLElement[] => {
 };
 
 const trapFocus = (event: KeyboardEvent) => {
-  if (event.key !== 'Tab') return;
+  if (event.key !== "Tab") return;
   const focusable = getFocusable();
   if (!focusable.length) return;
   const first = focusable[0]!;
@@ -234,7 +235,7 @@ const handleClickOutside = (event: MouseEvent) => {
   const target = event.target as Node;
 
   const clickedInsideParent = parentEl.contains(target);
-  const clickedInsidePopover = popEl.contains(target) || [...safeElements].some(el => el.contains(target));
+  const clickedInsidePopover = popEl.contains(target) || [...safeElements].some((el) => el.contains(target));
 
   if (!clickedInsideParent && !clickedInsidePopover) {
     close();

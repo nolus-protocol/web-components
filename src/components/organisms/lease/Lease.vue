@@ -1,11 +1,11 @@
 <template>
   <div class="flex w-full flex-col border-[1px] border-border-color bg-neutral-bg-2 p-6 px-4 lg:rounded-xl lg:px-6">
     <div class="flex items-center justify-between">
-      <div class="flex gap-2 text-12 font-[600] uppercase text-typography-secondary">
+      <div class="flex gap-2 text-12 font-[600] text-typography-secondary uppercase">
         {{ title }}
         <div
           :class="[{ 'cursor-pointer': history?.click }]"
-          class="normal-case text-typography-link"
+          class="text-typography-link normal-case"
           @click="history?.click && history.click()"
         >
           {{ history?.value }}
@@ -58,7 +58,7 @@
                 'cursor-pointer': pnl.click
               }
             ]"
-            class="flex select-none items-center gap-1.5 rounded bg-neutral-bg-3 p-2 text-12 font-medium text-typography-secondary"
+            class="flex items-center gap-1.5 rounded bg-neutral-bg-3 p-2 text-12 font-medium text-typography-secondary select-none"
             @click="pnl.click && pnl.click()"
           >
             <template v-if="pnl.status === LeasePnlStatus.POSITIVE">

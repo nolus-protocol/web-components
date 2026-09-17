@@ -20,7 +20,10 @@
         :style="tooltipStyle"
       >
         <div v-html="content" />
-        <div :class="['arrow', `arrow-${position}`]" :style="arrowStyle" />
+        <div
+          :class="['arrow', `arrow-${position}`]"
+          :style="arrowStyle"
+        />
       </div>
     </Transition>
   </Teleport>
@@ -37,22 +40,31 @@ const props = withDefaults(defineProps<TooltipProps>(), {
 
 const tooltip = ref(null as HTMLElement | null);
 const target = ref(null as HTMLDivElement | null);
-const tooltipStyle = ref<Record<string, string>>({ ...presenceLayerStyle, position: "fixed", top: "-9999px", left: "-9999px" });
+const tooltipStyle = ref<Record<string, string>>({
+  ...presenceLayerStyle,
+  position: "fixed",
+  top: "-9999px",
+  left: "-9999px"
+});
 const arrowStyle = ref<Record<string, string>>({});
 
 let unsubscribeRotation: (() => void) | null = null;
-watch(() => props.rotateValue, (mv) => {
-  unsubscribeRotation?.();
-  unsubscribeRotation = null;
-  if (!mv) return;
-  unsubscribeRotation = mv.on("change", (v) => {
-    const el = tooltip.value;
-    if (el) {
-      el.style.transformOrigin = "50% calc(100% + 10px)";
-      el.style.rotate = `${v}deg`;
-    }
-  });
-}, { immediate: true });
+watch(
+  () => props.rotateValue,
+  (mv) => {
+    unsubscribeRotation?.();
+    unsubscribeRotation = null;
+    if (!mv) return;
+    unsubscribeRotation = mv.on("change", (v) => {
+      const el = tooltip.value;
+      if (el) {
+        el.style.transformOrigin = "50% calc(100% + 10px)";
+        el.style.rotate = `${v}deg`;
+      }
+    });
+  },
+  { immediate: true }
+);
 const isVisible = ref(false);
 const isHovered = ref(false);
 
@@ -62,7 +74,10 @@ let hideTimeout: ReturnType<typeof setTimeout> | null = null;
 
 const mouseenter = () => {
   isHovered.value = true;
-  if (hideTimeout) { clearTimeout(hideTimeout); hideTimeout = null; }
+  if (hideTimeout) {
+    clearTimeout(hideTimeout);
+    hideTimeout = null;
+  }
   isVisible.value = true;
   nextTick(() => requestAnimationFrame(calculateTooltipPosition));
 };
@@ -74,21 +89,33 @@ const mouseleave = () => {
   }
 };
 
-watch(() => props.forceVisible, (val) => {
-  if (val) {
-    if (hideTimeout) { clearTimeout(hideTimeout); hideTimeout = null; }
-    isVisible.value = true;
-    nextTick(() => requestAnimationFrame(calculateTooltipPosition));
-  } else {
-    if (hideTimeout) { clearTimeout(hideTimeout); hideTimeout = null; }
-    hideTimeout = setTimeout(() => { isVisible.value = false; hideTimeout = null; }, MIN_VISIBLE_MS);
-  }
-}, { flush: 'sync' });
+watch(
+  () => props.forceVisible,
+  (val) => {
+    if (val) {
+      if (hideTimeout) {
+        clearTimeout(hideTimeout);
+        hideTimeout = null;
+      }
+      isVisible.value = true;
+      nextTick(() => requestAnimationFrame(calculateTooltipPosition));
+    } else {
+      if (hideTimeout) {
+        clearTimeout(hideTimeout);
+        hideTimeout = null;
+      }
+      hideTimeout = setTimeout(() => {
+        isVisible.value = false;
+        hideTimeout = null;
+      }, MIN_VISIBLE_MS);
+    }
+  },
+  { flush: "sync" }
+);
 onUnmounted(() => {
   unsubscribeRotation?.();
   if (hideTimeout) clearTimeout(hideTimeout);
 });
-
 
 const calculateTooltipPosition = () => {
   const offset = 10; // Offset between the tooltip and the target element
@@ -107,9 +134,7 @@ const calculateTooltipPosition = () => {
   switch (props.position) {
     case "top":
     case "bottom":
-      top = props.position === "top"
-        ? rect.top - tooltipHeight - offset
-        : rect.bottom + offset;
+      top = props.position === "top" ? rect.top - tooltipHeight - offset : rect.bottom + offset;
       left = rect.left + rect.width / 2 - tooltipWidth / 2;
       left = Math.max(margin, Math.min(left, viewportWidth - tooltipWidth - margin));
 
@@ -169,9 +194,25 @@ defineExpose({ recalculate: calculateTooltipPosition });
   background-color: var(--color-neutral-bg-inverted-2);
   transform: rotate(45deg);
 
-  &-top    { bottom: -0.25rem; left: 50%; translate: -50% 0; }
-  &-bottom { top: -0.25rem;    left: 50%; translate: -50% 0; }
-  &-left   { right: -0.25rem; top: 50%;  translate: 0 -50%; }
-  &-right  { left: -0.25rem;  top: 50%;  translate: 0 -50%; }
+  &-top {
+    bottom: -0.25rem;
+    left: 50%;
+    translate: -50% 0;
+  }
+  &-bottom {
+    top: -0.25rem;
+    left: 50%;
+    translate: -50% 0;
+  }
+  &-left {
+    right: -0.25rem;
+    top: 50%;
+    translate: 0 -50%;
+  }
+  &-right {
+    left: -0.25rem;
+    top: 50%;
+    translate: 0 -50%;
+  }
 }
 </style>

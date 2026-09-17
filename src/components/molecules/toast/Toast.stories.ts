@@ -78,7 +78,12 @@ export const Error: Story = {
 export const Animated: Story = {
   render: (args) => ({
     data() {
-      return { args, show: false, remaining: args.timeout ?? 0, intervalId: null as ReturnType<typeof setInterval> | null };
+      return {
+        args,
+        show: false,
+        remaining: args.timeout ?? 0,
+        intervalId: null as ReturnType<typeof setInterval> | null
+      };
     },
     components: { Toast, Button },
     methods: {

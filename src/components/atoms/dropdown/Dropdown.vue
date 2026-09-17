@@ -4,21 +4,24 @@
     ref="dropdownRef"
     class="field-wrapper"
   >
-    <FieldLabel :label="label" :for-id="`dropdown-btn-${id}`" class="mb-1" />
+    <FieldLabel
+      :label="label"
+      :for-id="`dropdown-btn-${id}`"
+      class="mb-1"
+    />
     <button
       :id="`dropdown-btn-${id}`"
-      class="
-        flex h-10 gap-2 items-center rounded-md border border-border-dominant bg-neutral-bg-2 text-16 font-normal text-typography-default shadow-small
-        outline-transparent focus-visible:outline focus-visible:outline-border-focus focus-visible:border-border-focus
-        transition duration-150 ease-out
-      "
-      :class="[{
-        'px-2 py-1': props.size === Size.small,
-        'px-3 py-2': props.size === Size.medium,
+      class="flex h-10 items-center gap-2 rounded-md border border-border-dominant bg-neutral-bg-2 text-16 font-normal text-typography-default shadow-small outline-transparent transition duration-150 ease-out focus-visible:border-border-focus focus-visible:outline focus-visible:outline-border-focus"
+      :class="[
+        {
+          'px-2 py-1': props.size === Size.small,
+          'px-3 py-2': props.size === Size.medium,
 
-        'border-border-focus bg-secondary-active': isOpen,
-        'border-border-error! text-typography-error': error
-      }, $attrs.class]"
+          'border-border-focus bg-secondary-active': isOpen,
+          'border-border-error! text-typography-error': error
+        },
+        $attrs.class
+      ]"
       :disabled="disabled"
       role="combobox"
       :aria-expanded="isOpen"
@@ -51,7 +54,7 @@
         name="chevron-small-down"
         class="h-5 w-5 transition duration-150 ease-out"
         :class="error ? 'fill-icon-error' : 'fill-icon-default'"
-      />  
+      />
     </button>
     <Teleport to="body">
       <Transition name="presence">
@@ -60,7 +63,7 @@
           ref="elements"
           :style="{ ...presenceLayerStyle, top: `${position.y}px`, left: `${position.x}px` }"
           :class="[
-            'shadow-lg fixed z-9999 mt-2 min-w-48 max-w-full overflow-hidden rounded-lg border border-border-default bg-neutral-bg-2 text-typography-default shadow-lighter outline-0 focus-visible:bg-red-500',
+            'shadow-lighter fixed z-9999 mt-2 max-w-full min-w-48 overflow-hidden rounded-lg border border-border-default bg-neutral-bg-2 text-typography-default shadow-lg outline-0 focus-visible:bg-red-500',
             dropdownClassName,
             itemTemplate ? 'min-w-81.25' : ''
           ]"
@@ -79,7 +82,7 @@
                 size="small"
                 severity="tertiary"
                 icon="close"
-                class="p-0 absolute top-2 right-2"
+                class="absolute top-2 right-2 p-0"
               />
             </div>
             <Input
@@ -113,7 +116,12 @@
               >{{ headline }}</span
             >
           </div>
-          <ul :id="`dropdown-list-${id}`" role="listbox" class="scroll-bar flex max-h-62.5 flex-col gap-1 overflow-y-auto rounded-b-lg p-1" @keydown="onListKeydown">
+          <ul
+            :id="`dropdown-list-${id}`"
+            role="listbox"
+            class="scroll-bar flex max-h-62.5 flex-col gap-1 overflow-y-auto rounded-b-lg p-1"
+            @keydown="onListKeydown"
+          >
             <template v-if="filteredItemTemplates.length > 0">
               <div class="flex flex-col gap-1">
                 <component
@@ -124,7 +132,7 @@
                     'bg-primary-default text-typography-static-light': selectedOption?.value === option.value,
                     'pointer-events-none': option.disabled
                   }"
-                  class="min-h-10 cursor-pointer hover:bg-primary-default hover:text-typography-static-light transition duration-150 ease-out rounded"
+                  class="min-h-10 cursor-pointer rounded transition duration-150 ease-out hover:bg-primary-default hover:text-typography-static-light"
                   @click="selectOption(option)"
                 ></component>
               </div>
@@ -133,9 +141,11 @@
               <li
                 v-for="option in filteredOptions"
                 :key="option.value"
-                :class="{ 'bg-primary-default text-typography-static-light focus-visible:border-neutral-bg-2': selectedOption?.value === option.value }"
-                class="flex min-h-10 cursor-pointer items-center px-4 py-2 hover:bg-primary-default hover:text-typography-static-light transition duration-150 ease-out outline-transparent rounded border-2 border-transparent
-                focus-visible:outline-2 focus-visible:outline-primary-default"
+                :class="{
+                  'bg-primary-default text-typography-static-light focus-visible:border-neutral-bg-2':
+                    selectedOption?.value === option.value
+                }"
+                class="flex min-h-10 cursor-pointer items-center rounded border-2 border-transparent px-4 py-2 outline-transparent transition duration-150 ease-out hover:bg-primary-default hover:text-typography-static-light focus-visible:outline-2 focus-visible:outline-primary-default"
                 role="option"
                 tabindex="-1"
                 @click="selectOption(option)"
@@ -220,12 +230,12 @@ const toggleDropdown = () => {
       setPosition();
       requestAnimationFrame(() => {
         const list = document.getElementById(`dropdown-list-${props.id}`);
-        const items = Array.from(list?.querySelectorAll('li') ?? []) as HTMLElement[];
+        const items = Array.from(list?.querySelectorAll("li") ?? []) as HTMLElement[];
         const selectedIndex = selectedOption.value
-          ? filteredOptions.value.findIndex(o => o.value === selectedOption.value?.value)
+          ? filteredOptions.value.findIndex((o) => o.value === selectedOption.value?.value)
           : -1;
         (items[selectedIndex] ?? items[0])?.focus();
-      })
+      });
     });
     window.addEventListener("scroll", setPosition);
     document.getElementById("dialog-scroll")?.addEventListener("scroll", setPosition);
@@ -240,23 +250,27 @@ const toggleDropdown = () => {
 function onListKeydown(e: KeyboardEvent) {
   const list = document.getElementById(`dropdown-list-${props.id}`);
   if (!list) return;
-  const items = Array.from(list.querySelectorAll('li')) as HTMLElement[];
+  const items = Array.from(list.querySelectorAll("li")) as HTMLElement[];
   const current = document.activeElement as HTMLElement;
   const index = items.indexOf(current);
 
-  if (e.key === 'ArrowDown') {
+  if (e.key === "ArrowDown") {
     e.preventDefault();
     items[Math.min(index + 1, items.length - 1)]?.focus();
-  } else if (e.key === 'ArrowUp') {
+  } else if (e.key === "ArrowUp") {
     e.preventDefault();
     items[Math.max(index - 1, 0)]?.focus();
-  } else if (e.key === 'Escape') {
-    document.addEventListener('keyup', (ev: KeyboardEvent) => {
-      if (ev.key === 'Escape') ev.stopPropagation();
-    }, { capture: true, once: true });
+  } else if (e.key === "Escape") {
+    document.addEventListener(
+      "keyup",
+      (ev: KeyboardEvent) => {
+        if (ev.key === "Escape") ev.stopPropagation();
+      },
+      { capture: true, once: true }
+    );
     isOpen.value = false;
-    dropdownRef.value?.querySelector('button')?.focus();
-  } else if (e.key === 'Enter' || e.key === ' ') {
+    dropdownRef.value?.querySelector("button")?.focus();
+  } else if (e.key === "Enter" || e.key === " ") {
     current.click();
   }
 }
@@ -291,7 +305,7 @@ const selectOption = (option: T) => {
   window.removeEventListener("scroll", setPosition);
   document.getElementById("dialog-scroll")?.removeEventListener("scroll", setPosition);
   window.removeEventListener("pointerdown", handleClickOutside);
-  setTimeout(() => dropdownRef.value?.querySelector<HTMLElement>('button')?.focus(), 0);
+  setTimeout(() => dropdownRef.value?.querySelector<HTMLElement>("button")?.focus(), 0);
 };
 
 onMounted(() => {

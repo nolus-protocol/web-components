@@ -1,12 +1,8 @@
 <template>
   <label
     :for="id"
-    class="
-      group
-      relative inline-flex select-none items-center gap-2 
-      text-16 font-normal text-typography-default
-    "
-    :class="disabled ? 'text-typography-disabled cursor-not-allowed' : 'cursor-pointer'"
+    class="group relative inline-flex items-center gap-2 text-16 font-normal text-typography-default select-none"
+    :class="disabled ? 'cursor-not-allowed text-typography-disabled' : 'cursor-pointer'"
   >
     <input
       :id="id"
@@ -17,31 +13,21 @@
       @input.stop
     />
     <span
-      :class="{'opacity-60': disabled}"
-      class="flex h-6 w-6 min-w-6 cursor-pointer appearance-none items-center justify-center rounded-md border-[1px] border-border-dominant bg-secondary-default transition-colors duration-200 ease-out
-      peer-checked:border-primary-default peer-checked:bg-primary-default
-      group-hover:bg-secondary-hover
-      outline-2 outline-offset-2 outline-transparent
-      peer-focus-visible:outline-typography-link
-      "
+      :class="{ 'opacity-60': disabled }"
+      class="flex h-6 w-6 min-w-6 cursor-pointer appearance-none items-center justify-center rounded-md border-[1px] border-border-dominant bg-secondary-default outline-2 outline-offset-2 outline-transparent transition-colors duration-200 ease-out group-hover:bg-secondary-hover peer-checked:border-primary-default peer-checked:bg-primary-default peer-focus-visible:outline-typography-link"
     >
-      <svg xmlns="http://www.w3.org/2000/svg" 
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 13 11"
-        width="12" height="12" 
+        width="12"
+        height="12"
       >
-        <path 
-          d="M1 7L5 10L12 0.25" 
-          fill="none" 
-          class="
-            stroke-2 stroke-typography-static-light
-            all duration-200 ease-out
-          " 
-          style="
-            stroke-linecap: round; 
-            stroke-linejoin: round; 
-            stroke-dasharray: 16 18;
-          " 
-          :style="{strokeDashoffset: !model ? 16 : 0}"
+        <path
+          d="M1 7L5 10L12 0.25"
+          fill="none"
+          class="all stroke-typography-static-light stroke-2 duration-200 ease-out"
+          style="stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 16 18"
+          :style="{ strokeDashoffset: !model ? 16 : 0 }"
         />
       </svg>
     </span>

@@ -7,11 +7,11 @@
     <div>
       <i
         v-if="type === AlertType.error"
-        class="icon icon-close bg-icon-error text-error-muted flex h-[32px] w-[32px] items-center justify-center rounded-full text-[22px] leading-none"
+        class="icon icon-close flex h-[32px] w-[32px] items-center justify-center rounded-full bg-icon-error text-[22px] leading-none text-error-muted"
       ></i>
       <i
         v-if="type === AlertType.success"
-        class="icon icon-success bg-icon-success text-success-muted flex h-[32px] w-[32px] items-center justify-center rounded-full text-[22px] leading-none"
+        class="icon icon-success flex h-[32px] w-[32px] items-center justify-center rounded-full bg-icon-success text-[22px] leading-none text-success-muted"
       ></i>
       <InformationCircle
         v-if="type === AlertType.info"
@@ -22,7 +22,7 @@
         class="fill-icon-warning"
       />
     </div>
-    <div class="text-typography-default flex flex-col text-left text-14 font-normal">
+    <div class="flex flex-col text-left text-14 font-normal text-typography-default">
       <span
         v-if="title"
         class="text-16 font-semibold"
@@ -32,7 +32,7 @@
     </div>
     <i
       v-if="showClose"
-      class="icon icon-close text-icon-default absolute right-2 top-2 cursor-pointer text-[22px] leading-none"
+      class="icon icon-close absolute top-2 right-2 cursor-pointer text-[22px] leading-none text-icon-default"
       @click="onCloseAlert"
     ></i>
   </div>
