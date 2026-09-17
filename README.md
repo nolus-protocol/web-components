@@ -60,10 +60,17 @@ src/assets/styles/
 
 ## Releases
 
-Patch versions are auto-published on every push to `main` by `.github/workflows/auto-release.yaml`. The workflow bumps `package.json`, commits, tags, and creates a GitHub Release. Consumers pin via tag.
+Every merge to `main` runs `.github/workflows/auto-release.yaml`. Pull requests are squash-merged with their title and description as the commit message, and the workflow releases the highest level called for by the commits merged since the last release:
 
-Minor / major bumps must be made manually (`npm version minor && git push`).
+| Pull request title                                          | Release |
+| ----------------------------------------------------------- | ------- |
+| `type!: …`, or a `BREAKING CHANGE:` line in the description | major   |
+| `feat: …`                                                   | minor   |
+| `fix`, `perf`, `refactor`, `revert`, `build`                | patch   |
+| `docs`, `ci`, `test`, `chore`, `style`                      | none    |
+
+It builds the merged code, commits the new version on top of it, tags that commit `vX.Y.Z` and publishes a GitHub Release; a `chore: release vX.Y.Z` pull request then records the version on `main`. Consumers pin via tag. To release by hand, run the workflow from the Actions tab and pick the level.
 
 ## Contributing
 
-PRs land on `main`. Conventional commit prefixes (`feat:`, `fix:`, `refactor:`, `chore:`, `docs:`, `test:`) are used but not enforced. Stories are the only behavioural test surface — add a story for any new component or new prop.
+Changes land on `main` through pull requests whose titles are conventional commits (`type(optional scope): description`, types as in the table above); a check fails any other title, because the title decides the release. Stories are the only behavioural test surface — add a story for any new component or new prop.

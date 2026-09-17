@@ -1,78 +1,213 @@
-name: Auto release
+name: Release
 
 on:
   push:
     branches:
       - main
+  workflow_dispatch:
+    inputs:
+      level:
+        description: Release level to cut from main, instead of reading it from the merged commits
+        required: true
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+
+# One release at a time. GitHub replaces a pending run with a newer one, which loses nothing: every run reads all
+# commits merged since the last release, not only the push that triggered it.
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+permissions:
+  contents: read
 
 jobs:
-  release:
-    name: Bump version and tag
-    runs-on: ubuntu-22.04
-    if: "!startsWith(github.event.head_commit.message, 'chore: release v')"
-    permissions:
-      contents: write
+  plan:
+    name: Decide the release
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    outputs:
+      level: ${{ steps.plan.outputs.level }}
+      version: ${{ steps.plan.outputs.version }}
+      previous: ${{ steps.plan.outputs.previous }}
+      sha: ${{ steps.plan.outputs.sha }}
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
         with:
+          ref: main
           fetch-depth: 0
-          token: ${{ secrets.RELEASE_PAT }}
+          persist-credentials: false
 
-      - name: Determine next version
-        id: next
-        run: |
-          current=$(node -p "require('./package.json').version")
-          IFS='.' read -r major minor patch <<< "$current"
-          next_patch=$((patch + 1))
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version-file: .nvmrc
 
-          # Skip past any tags that already exist
-          while git tag -l "v${major}.${minor}.${next_patch}" | grep -q .; do
-            next_patch=$((next_patch + 1))
-          done
-
-          echo "version=${major}.${minor}.${next_patch}" >> "$GITHUB_OUTPUT"
-
-      - name: Update package version
+      # Squash merges carry the pull request title and body (repository setting), so the level comes from git history,
+      # which nobody can edit after the merge.
+      - name: Read the level from the commits merged since the last release
+        id: plan
         env:
-          VERSION: ${{ steps.next.outputs.version }}
-        run: npm version "$VERSION" --no-git-tag-version
+          REQUESTED_LEVEL: ${{ inputs.level }}
+        run: |
+          set -euo pipefail
+          shopt -s inherit_errexit
+          sha=$(git rev-parse HEAD)
+          previous=$(git tag --list 'v*.*.*' --sort=-v:refname | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' | head -n 1 || true)
+          if [ -z "$previous" ]; then
+            echo "::error::No v*.*.* release tag to count from."
+            exit 1
+          fi
 
-      # The default-branch ruleset requires every change to land through a pull
-      # request, so a direct push of the bump is rejected (this is what broke
-      # releases between May and August). The bump rides its own PR instead,
-      # squash-merged immediately: zero approvals are required, only the PR path.
-      # The squash subject must keep the "chore: release v" prefix — it is what
-      # the job-level guard matches to keep the merge push from re-triggering
-      # this workflow into a release loop.
-      - name: Land the version bump through a pull request
-        id: bump
+          # Releases up to v2.0.75 tagged a version bump merged into main; later releases tag a bump commit made on
+          # top of the released commit, so the released commit is the tag's parent.
+          if git merge-base --is-ancestor "$previous" HEAD; then
+            released=$(git rev-parse "${previous}^{commit}")
+          else
+            released=$(git rev-parse "${previous}^{commit}^")
+          fi
+          if ! git merge-base --is-ancestor "$released" HEAD; then
+            echo "::error::The commit released as ${previous} (${released}) is not on main."
+            exit 1
+          fi
+
+          if [ -n "$REQUESTED_LEVEL" ]; then
+            level="$REQUESTED_LEVEL"
+          else
+            echo "Commits merged since ${previous}:"
+            level=$(git log --format='%B%x00' "${released}..HEAD" | node scripts/release.mjs level)
+          fi
+          echo "Release level: ${level}"
+
+          version=""
+          if [ "$level" != "none" ]; then
+            version=$(node scripts/release.mjs next-version "${previous#v}" "$level")
+            if git rev-parse -q --verify "refs/tags/v${version}" > /dev/null; then
+              echo "::error::Tag v${version} already exists."
+              exit 1
+            fi
+            echo "Next version: ${version}"
+          fi
+
+          {
+            echo "sha=${sha}"
+            echo "previous=${previous}"
+            echo "level=${level}"
+            echo "version=${version}"
+          } >> "$GITHUB_OUTPUT"
+
+  build:
+    name: Build the release candidate
+    needs: plan
+    if: needs.plan.outputs.level != 'none'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+
+    # No secrets in this job: it runs the whole dependency tree.
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+        with:
+          ref: ${{ needs.plan.outputs.sha }}
+          persist-credentials: false
+
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Install and build
+        run: |
+          npm ci
+          npm run build
+
+  release:
+    name: Tag and publish
+    needs:
+      - plan
+      - build
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+
+    # Runs no third-party code: git, the GitHub CLI and the dependency-free release script only. The token is handed
+    # to the steps that push, never persisted by checkout.
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+        with:
+          ref: ${{ needs.plan.outputs.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version-file: .nvmrc
+
+      # The tag goes on a version commit whose parent is exactly the commit the level was read from, so a pull request
+      # merged while this runs cannot slip into the release; the next run releases it. Each step below skips work a
+      # previous attempt of this job already finished, so a failed job can be re-run.
+      - name: Commit the version on top of the released commit and push the tag
         env:
           GH_TOKEN: ${{ secrets.RELEASE_PAT }}
-          VERSION: ${{ steps.next.outputs.version }}
+          VERSION: ${{ needs.plan.outputs.version }}
+          SHA: ${{ needs.plan.outputs.sha }}
         run: |
-          branch="release/v${VERSION}"
+          set -euo pipefail
+          shopt -s inherit_errexit
+          gh auth setup-git
+          if git ls-remote --exit-code --tags origin "refs/tags/v${VERSION}" > /dev/null; then
+            git fetch --no-tags origin "refs/tags/v${VERSION}:refs/tags/v${VERSION}"
+            parent=$(git rev-parse "v${VERSION}^{commit}^")
+            if [ "$parent" != "$SHA" ]; then
+              echo "::error::Tag v${VERSION} already exists on ${parent}, not on the planned commit ${SHA}."
+              exit 1
+            fi
+            echo "Tag v${VERSION} was pushed by an earlier attempt; reusing it."
+            exit 0
+          fi
+          npm version "$VERSION" --no-git-tag-version --ignore-scripts
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git checkout -b "$branch"
           git add package.json package-lock.json
           git commit -m "chore: release v${VERSION}"
-          git push origin "$branch"
-          pr_url=$(gh pr create --base main --head "$branch" \
-            --title "chore: release v${VERSION}" \
-            --body "Automated version bump for the v${VERSION} release.")
-          gh pr merge "$pr_url" --squash --delete-branch \
-            --subject "chore: release v${VERSION}" --body ""
-          merge_sha=$(gh pr view "$pr_url" --json mergeCommit --jq .mergeCommit.oid)
-          echo "merge_sha=${merge_sha}" >> "$GITHUB_OUTPUT"
+          git tag -a "v${VERSION}" -m "v${VERSION}"
+          git push origin "refs/tags/v${VERSION}"
 
-      - name: Create GitHub release (creates the tag)
+      - name: Publish the GitHub release
         env:
           GH_TOKEN: ${{ secrets.RELEASE_PAT }}
-          VERSION: ${{ steps.next.outputs.version }}
-          MERGE_SHA: ${{ steps.bump.outputs.merge_sha }}
+          VERSION: ${{ needs.plan.outputs.version }}
+          PREVIOUS: ${{ needs.plan.outputs.previous }}
         run: |
+          set -euo pipefail
+          if gh release view "v${VERSION}" > /dev/null 2>&1; then
+            echo "Release v${VERSION} was published by an earlier attempt."
+            exit 0
+          fi
           gh release create "v${VERSION}" \
-            --target "$MERGE_SHA" \
+            --verify-tag \
             --title "v${VERSION}" \
-            --generate-notes
+            --generate-notes \
+            --notes-start-tag "$PREVIOUS"
+
+      # Keeps package.json on main in step with the latest release. The release above does not depend on it; this pull
+      # request's own merge triggers a run that finds only this chore commit and releases nothing. The default-branch
+      # ruleset forbids direct pushes, hence the pull request; auto-merge lets it wait for required checks.
+      - name: Record the version on main
+        env:
+          GH_TOKEN: ${{ secrets.RELEASE_PAT }}
+          VERSION: ${{ needs.plan.outputs.version }}
+        run: |
+          set -euo pipefail
+          shopt -s inherit_errexit
+          branch="release/v${VERSION}"
+          pr_url=$(gh pr list --head "$branch" --state all --json url --jq '.[0].url // empty')
+          if [ -z "$pr_url" ]; then
+            gh auth setup-git
+            git push origin "refs/tags/v${VERSION}^{commit}:refs/heads/${branch}"
+            pr_url=$(gh pr create --base main --head "$branch" \
+              --title "chore: release v${VERSION}" \
+              --body "Records the v${VERSION} version on main.")
+          fi
+          gh pr merge "$pr_url" --auto --squash --delete-branch
