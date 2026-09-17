@@ -146,6 +146,10 @@ describe("nextVersion", () => {
 });
 
 describe("command line", () => {
+  /**
+   * @param {string[]} args
+   * @param {{ input?: string, env?: Record<string, string> }} [options]
+   */
   const run = (args, { input, env } = {}) =>
     execFileSync(process.execPath, [script, ...args], {
       input,
@@ -180,13 +184,11 @@ describe("command line", () => {
   it("explains what a valid title releases and fails an invalid one", () => {
     assert.equal(run(["check-title"], { env: { TITLE: "docs: readme" } }), "Merging this releases nothing.");
     assert.equal(run(["check-title"], { env: { TITLE: "feat: slot" } }), "Merging this releases a minor version.");
-    assert.throws(
-      () => run(["check-title"], { env: { TITLE: "Bump vite" } }),
-      (error) => {
-        assert.equal(error.status, 1);
-        assert.match(error.stderr, /not a conventional commit title/);
-        return true;
-      }
-    );
+    const invalid = spawnSync(process.execPath, [script, "check-title"], {
+      env: { ...process.env, TITLE: "Bump vite" },
+      encoding: "utf8"
+    });
+    assert.equal(invalid.status, 1);
+    assert.match(invalid.stderr, /not a conventional commit title/);
   });
 });

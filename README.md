@@ -34,15 +34,19 @@ npm run storybook   # http://localhost:6006
 Requires Node `>=22` (see `.nvmrc`).
 
 ```sh
-npm install         # also runs a full build via the prepare hook
-npm run dev         # local playground at index.html + src/App.vue
-npm run storybook   # component preview / docs
-npm run typecheck   # vue-tsc type check
-npm run build       # library bundle to dist/ (auto-runs icon codegen)
-npm run format      # prettier
+npm install          # also runs a full build via the prepare hook and installs the pre-commit hook
+npm run dev          # local playground at index.html + src/App.vue
+npm run storybook    # component preview / docs
+npm run typecheck    # vue-tsc on the library, the stories, and the build and release scripts
+npm run format       # prettier (format:check verifies)
+npm run lint         # eslint, zero warnings
+npm test             # vitest component tests and the release script tests
+npm run build        # library bundle to dist/ (auto-runs icon codegen)
 ```
 
-Adding or renaming an icon under `src/assets/icons/` triggers a regeneration of the `IconNames` literal type. The `prebuild` hook handles this automatically; for live editor feedback run `npm run generate-icon-types` manually.
+Every pull request runs the same typecheck, format check, lint, tests, build and Storybook build, fails if the build changed a committed file, and fails on high or critical `npm audit` advisories. The pre-commit hook runs the format check and lint.
+
+Adding or renaming an icon under `src/assets/icons/` regenerates `src/components/atoms/svg-icon/icon-names.ts`. The `prebuild` hook does it automatically; commit the regenerated file with the icon, or the pull request check fails.
 
 ## Architecture at a glance
 

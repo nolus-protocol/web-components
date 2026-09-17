@@ -1,0 +1,61 @@
+name: Validate pull request
+
+on:
+  pull_request:
+
+concurrency:
+  group: validate-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Typecheck, format, lint, test and build
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      # npm ci also runs prepare, which builds the library the way a consumer's install does.
+      - name: Install
+        run: npm ci
+
+      - name: Typecheck (library, stories, build and release scripts)
+        run: npm run typecheck
+
+      - name: Format
+        run: npm run format:check
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Test
+        run: npm test
+
+      - name: Build
+        run: npm run build
+
+      - name: The build leaves no uncommitted or new files
+        run: |
+          status=$(git status --porcelain)
+          if [ -n "$status" ]; then
+            echo "$status"
+            git diff
+            exit 1
+          fi
+
+      - name: Storybook builds
+        run: npm run build-storybook
+
+      - name: No known high or critical advisories
+        run: npm audit --audit-level=high
