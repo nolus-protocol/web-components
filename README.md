@@ -9,8 +9,10 @@ This is a **presentational** library: no stores, no fetch layer, no chain or wal
 The package is **not published to npm**. Consume it via a GitHub git ref or tag:
 
 ```sh
-npm install nolus-protocol/web-components#v2.0.66
+npm install nolus-protocol/web-components#vX.Y.Z
 ```
+
+Pin a release tag (see [Releases](#releases)) and commit `package.json` and the lockfile together: installing from a git ref builds the library on the consumer's side through the `prepare` script, and `npm ci` installs whatever commit the lockfile records.
 
 `vue ^3.5.22` is the only runtime peer — install it in the consuming app. The library has no runtime dependencies of its own.
 
@@ -18,10 +20,21 @@ npm install nolus-protocol/web-components#v2.0.66
 
 ```ts
 import { Button, Dialog, Table } from "web-components";
-import "web-components/theme.css";
 ```
 
-The library and the theme are separate imports — both are required. Apply the theme by adding `class="dark"` or `class="sync"` to `<html>` for dark mode (no JS toggle is provided).
+Styles are wired in the consuming app's Tailwind v4 stylesheet:
+
+```css
+@import "web-components/theme.css";
+@import "web-components/dist/assets/web-components.css" layer(components);
+@source "../node_modules/web-components/dist/**/*.js";
+```
+
+- `theme.css` holds the design tokens, the `dark` variant and base styles (clickable elements get the pointer cursor).
+- `dist/assets/web-components.css` holds the library's own styles (fonts, icons, component styles); the JavaScript entry does not import it.
+- The `@source` line lets the app's Tailwind generate the utility classes the components use; the library does not ship compiled utilities. Adjust the path to where `node_modules` sits relative to the stylesheet.
+
+Apply the theme by adding `class="dark"` or `class="sync"` to `<html>` for dark mode (no JS toggle is provided).
 
 Component documentation lives in **Storybook**:
 
