@@ -1,16 +1,22 @@
 <template>
   <div class="m-auto mt-20 flex h-full max-w-[1000px] flex-col gap-4 pb-20">
     <div class="text-typography-default">
-      <table class="text-xl w-half">
+      <table class="w-half text-xl">
         <tr>
           <td>Proportional numerals (default)</td>
           <td class="text-right">01234567890</td>
         </tr>
-        <tr style="font-feature-settings: 'tnum' 1;">
+        <tr style="font-feature-settings: &quot;tnum&quot; 1">
           <td>Tabular numerals</td>
           <td class="text-right">01234567890</td>
         </tr>
-        <tr style="font-feature-settings: 'tnum' 1, 'zero' 1;">
+        <tr
+          style="
+            font-feature-settings:
+              &quot;tnum&quot; 1,
+              &quot;zero&quot; 1;
+          "
+        >
           <td>Tabular numbers + slashed zero</td>
           <td class="text-right">01234567890</td>
         </tr>
@@ -24,11 +30,37 @@
       <p class="text-3xl font-bold">Title 3XL</p>
       <p class="text-2xl font-bold">Title 2XL</p>
       <p class="text-xl font-bold">Title XL</p>
-      <p class="text-xl my-3"><strong>Body text XL.</strong> Don't panic. The Hitchhiker's Guide to the Galaxy has this to say on the subject of towels: </p>
-      <p class="text-lg mb-3"><strong>Body text LG.</strong>"A towel, it says, is about the most massively useful thing an interstellar hitchhiker can have. Partly it has great practical value. You can wrap it around you for warmth as you bound across the cold moons of Jaglan Beta; you can lie on it on the brilliant marble-sanded beaches of Santraginus V, inhaling the heady sea vapors; you can sleep under it beneath the stars which shine so redly on the desert world of Kakrafoon; use it to sail a mini raft down the slow heavy River Moth; wet it for use in hand-to-hand-combat; wrap it round your head to ward off noxious fumes or avoid the gaze of the Ravenous Bugblatter Beast of Traal (a mindbogglingly stupid animal, it assumes that if you can't see it, it can't see you); you can wave your towel in emergencies as a distress signal, and of course dry yourself off with it if it still seems to be clean enough."</p>
-      <p class="text-base mb-3"><strong>Body text base.</strong> Here is what to do if you want to get a lift from a Vogon: forget it. They are one of the most unpleasant races in the Galaxy. Not actually evil, but bad-tempered, bureaucratic, officious and callous. They wouldn't even lift a finger to save their own grandmothers from the Ravenous Bugblatter Beast of Traal without orders—signed in triplicate, sent in, sent back, queried, lost, found, subjected to public inquiry, lost again, and finally buried in soft peat for three months and recycled as firelighters.</p>
-      <p class="text-sm mb-3"><strong>Body text SM.</strong> The best way to get a drink out of a Vogon is to stick your finger down his throat, and the best way to irritate him is to feed his grandmother to the Ravenous Bugblatter Beast of Traal. On no account should you allow a Vogon to read poetry at you.</p>
-      <p class="text-xs"><strong>Body text XS.</strong> The best way to get a drink out of a Vogon is to stick your finger down his throat, and the best way to irritate him is to feed his grandmother to the Ravenous Bugblatter Beast of Traal. On no account should you allow a Vogon to read poetry at you.</p>
+      <p class="my-3 text-xl">
+        <strong>Body text XL.</strong> Don't panic. The Hitchhiker's Guide to the Galaxy has this to say on the subject
+        of towels:
+      </p>
+      <p class="mb-3 text-lg">
+        <strong>Body text LG.</strong>"A towel, it says, is about the most massively useful thing an interstellar
+        hitchhiker can have. Partly it has great practical value. You can wrap it around you for warmth as you bound
+        across the cold moons of Jaglan Beta; you can lie on it on the brilliant marble-sanded beaches of Santraginus V,
+        inhaling the heady sea vapors; you can sleep under it beneath the stars which shine so redly on the desert world
+        of Kakrafoon; use it to sail a mini raft down the slow heavy River Moth; wet it for use in hand-to-hand-combat;
+        wrap it round your head to ward off noxious fumes or avoid the gaze of the Ravenous Bugblatter Beast of Traal (a
+        mindbogglingly stupid animal, it assumes that if you can't see it, it can't see you); you can wave your towel in
+        emergencies as a distress signal, and of course dry yourself off with it if it still seems to be clean enough."
+      </p>
+      <p class="mb-3 text-base">
+        <strong>Body text base.</strong> Here is what to do if you want to get a lift from a Vogon: forget it. They are
+        one of the most unpleasant races in the Galaxy. Not actually evil, but bad-tempered, bureaucratic, officious and
+        callous. They wouldn't even lift a finger to save their own grandmothers from the Ravenous Bugblatter Beast of
+        Traal without orders—signed in triplicate, sent in, sent back, queried, lost, found, subjected to public
+        inquiry, lost again, and finally buried in soft peat for three months and recycled as firelighters.
+      </p>
+      <p class="mb-3 text-sm">
+        <strong>Body text SM.</strong> The best way to get a drink out of a Vogon is to stick your finger down his
+        throat, and the best way to irritate him is to feed his grandmother to the Ravenous Bugblatter Beast of Traal.
+        On no account should you allow a Vogon to read poetry at you.
+      </p>
+      <p class="text-xs">
+        <strong>Body text XS.</strong> The best way to get a drink out of a Vogon is to stick your finger down his
+        throat, and the best way to irritate him is to feed his grandmother to the Ravenous Bugblatter Beast of Traal.
+        On no account should you allow a Vogon to read poetry at you.
+      </p>
     </div>
     <Button
       label="test"
