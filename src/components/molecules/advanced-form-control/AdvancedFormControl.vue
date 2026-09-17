@@ -83,32 +83,27 @@
         {{ calculatedBalance }}
       </span>
     </div>
-    <AnimatePresence>
-      <Motion
+    <Transition
+      name="error"
+      appear
+    >
+      <div
         v-if="errorMsg?.length"
-        :initial="{ opacity: 0, y: 4, overflow: 'hidden' }"
-        :animate="{ opacity: 1, y: 0, overflow: 'hidden', transition: { type: 'spring', stiffness: 400, damping: 20 } }"
-        :exit="{ opacity: 0, y: 4, overflow: 'hidden', transition: { type: 'spring', stiffness: 400, damping: 40 } }"
-        tag="div"
-        class="flex items-center gap-1 text-14 text-typography-error"
+        class="flex items-center gap-1 overflow-hidden text-14 text-typography-error"
       >
         <SvgIcon
           size="s"
           name="warning"
           class="fill-typography-error"
         />
-        <AnimatePresence mode="wait">
-          <Motion
-            :key="errorMsg"
-            :initial="{ opacity: 0, y: 4 }"
-            :animate="{ opacity: 1, y: 0, transition: { type: 'spring', stiffness: 400, damping: 20 } }"
-            :exit="{ opacity: 0, y: 4, transition: { type: 'spring', stiffness: 400, damping: 40 } }"
-            tag="span"
-            >{{ errorMsg }}</Motion
-          >
-        </AnimatePresence>
-      </Motion>
-    </AnimatePresence>
+        <Transition
+          name="error"
+          mode="out-in"
+        >
+          <span :key="errorMsg">{{ errorMsg }}</span>
+        </Transition>
+      </div>
+    </Transition>
   </div>
 </template>
 
@@ -117,7 +112,6 @@ import { onMounted, ref, watch } from "vue";
 import { Dropdown, Tooltip, SvgIcon } from "@/components";
 import type { AdvancedCurrencyFieldOption, AdvancedCurrencyFieldProps } from "./types";
 import { InputType, type DropdownOption } from "@/components/types";
-import { AnimatePresence, Motion } from "motion-v";
 
 const emit = defineEmits<{
   (e: "on-selected-currency", value: AdvancedCurrencyFieldOption): void;
@@ -266,4 +260,22 @@ const removeSpace = (n: string) => {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.error-enter-active {
+  transition:
+    opacity 0.25s cubic-bezier(0.22, 1.2, 0.36, 1),
+    transform 0.25s cubic-bezier(0.22, 1.2, 0.36, 1);
+}
+
+.error-leave-active {
+  transition:
+    opacity 0.2s ease-in,
+    transform 0.2s ease-in;
+}
+
+.error-enter-from,
+.error-leave-to {
+  opacity: 0;
+  transform: translateY(4px);
+}
+</style>
