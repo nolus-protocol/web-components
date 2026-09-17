@@ -92,7 +92,7 @@
           ref="buttonTooltip"
           :content="tooltipText"
           position="top"
-          :rotate-value="rotateValue"
+          :tilt="tilt"
           :force-visible="dragStart"
         >
           <button
@@ -144,12 +144,6 @@
 import { computed, nextTick, onMounted, onUnmounted, ref, watch, type ComponentPublicInstance } from "vue";
 import type { RangeProps } from "./types";
 import Tooltip from "@/components/atoms/tooltip/Tooltip.vue";
-import { useMotionValue, useVelocity, useSpring, useTransform } from "motion-v";
-
-const xPercent = useMotionValue(0);
-const xVelocity = useVelocity(xPercent);
-const smoothVelocity = useSpring(xVelocity, { damping: 30, stiffness: 200 });
-const rotateValue = useTransform(smoothVelocity, [-300, 300], [25, -25]);
 
 const props = withDefaults(defineProps<RangeProps>(), {
   minPosition: 25,
@@ -182,6 +176,16 @@ const percentPosition = computed(() => (props.positions ? 100 / props.positions 
 function markerLeft(m: number) {
   return `clamp(4px, calc(${m}% - 2px), calc(100% - 8px))`;
 }
+
+const TILT_MAX_DEG = 25;
+const TILT_FULL_SPEED = 300;
+const TILT_SAMPLE_WINDOW_MS = 80;
+
+// The tooltip leans against the drag in proportion to the handle's speed, in track percent per second. Only the target
+// angle is computed here; Tooltip eases toward it with a CSS transition.
+const tilt = ref(0);
+let lastSample: { percent: number; time: number } | null = null;
+let settleTimeout: ReturnType<typeof setTimeout> | null = null;
 
 let position = defaultPosition;
 const dragStart = ref(false);
@@ -218,6 +222,7 @@ onMounted(() => {
 });
 
 onUnmounted(() => {
+  if (settleTimeout) clearTimeout(settleTimeout);
   resizeObserver?.disconnect();
   window.removeEventListener("mousemove", onMouseMove);
   window.removeEventListener("mouseup", onMouseLeave);
@@ -266,6 +271,7 @@ function onMouseDown(event: MouseEvent | TouchEvent) {
   event.preventDefault();
 
   removeAnimations();
+  straightenTooltip();
 
   if (props.disabled) {
     return false;
@@ -348,7 +354,7 @@ function setPercent(xPos: number, parentRect: DOMRect, draggableRect: DOMRect) {
   }
   scalePercent = Math.round(scale * percentPosition.value);
   wrapperEl()!.style.left = `${x}px`;
-  xPercent.set(prc);
+  leanTooltip(prc);
   buttonTooltip.value?.recalculate();
 
   if (background.value) {
@@ -356,7 +362,26 @@ function setPercent(xPos: number, parentRect: DOMRect, draggableRect: DOMRect) {
   }
 }
 
+function leanTooltip(percent: number) {
+  const time = performance.now();
+  if (lastSample && time > lastSample.time && time - lastSample.time <= TILT_SAMPLE_WINDOW_MS) {
+    const speed = ((percent - lastSample.percent) / (time - lastSample.time)) * 1000;
+    tilt.value = Math.max(-TILT_MAX_DEG, Math.min(TILT_MAX_DEG, (-speed / TILT_FULL_SPEED) * TILT_MAX_DEG));
+  }
+  lastSample = { percent, time };
+  if (settleTimeout) clearTimeout(settleTimeout);
+  settleTimeout = setTimeout(straightenTooltip, TILT_SAMPLE_WINDOW_MS);
+}
+
+function straightenTooltip() {
+  if (settleTimeout) clearTimeout(settleTimeout);
+  settleTimeout = null;
+  lastSample = null;
+  tilt.value = 0;
+}
+
 function release() {
+  straightenTooltip();
   const element = background.value;
   const wrapper = wrapperEl();
   const snapTrackDuration = 400;
