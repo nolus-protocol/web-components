@@ -116,7 +116,7 @@ onUnmounted(() => {
 });
 
 function escapeClicked(event: KeyboardEvent) {
-  if (event.key == "Escape" && !disable.value && isOpen.value) {
+  if (event.key === "Escape" && !disable.value && isOpen.value) {
     close();
   }
 }

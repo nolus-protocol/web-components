@@ -74,8 +74,8 @@
         <div class="flex flex-col pb-4 text-16 text-typography-default">
           <span class="font-semibold">{{ step.label }}</span>
           <span
-            class="font-normal"
             v-if="step.token"
+            class="font-normal"
             >{{ step.token.balance }} {{ step.token.symbol }}</span
           >
           <component

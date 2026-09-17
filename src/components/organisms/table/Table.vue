@@ -14,7 +14,7 @@
             class="w-full md:w-96"
             type="search"
             v-bind="inputSearch"
-            @onSearchClear="emit('onSearchClear')"
+            @on-search-clear="emit('onSearchClear')"
             @input="(e) => emit('onInput', e)"
           />
           <span
@@ -26,7 +26,7 @@
         <TableSettings
           v-if="toggle || hideValues"
           :toggle="toggle"
-          :hideValues="hideValues"
+          :hide-values="hideValues"
           @togle-value="(data) => emit('togle-value', data)"
           @hide-value="(data) => emit('hide-value', data)"
         />
