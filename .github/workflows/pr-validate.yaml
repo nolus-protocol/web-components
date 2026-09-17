@@ -45,8 +45,14 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Generated files are committed
-        run: git diff --exit-code
+      - name: The build leaves no uncommitted or new files
+        run: |
+          status=$(git status --porcelain)
+          if [ -n "$status" ]; then
+            echo "$status"
+            git diff
+            exit 1
+          fi
 
       - name: Storybook builds
         run: npm run build-storybook
