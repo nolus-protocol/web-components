@@ -74,10 +74,10 @@
         inputmode="text"
         :class="inputClass"
         class="bg-transparent text-right text-32 font-semibold text-typography-default placeholder-typography-default focus:outline-hidden"
+        :type="type"
         @keydown="inputValue"
         @keyup="setValue()"
         @paste="onPaste"
-        :type="type"
       />
       <span class="text-right text-14 font-normal text-typography-secondary">
         {{ calculatedBalance }}
@@ -168,7 +168,7 @@ watch(
 
 const setValue = (stopEmit?: boolean) => {
   let value = removeSpace(removeComma(numberValue.value?.toString() ?? ""));
-  let numValue = Number(value);
+  const numValue = Number(value);
   numberValue.value = commify(value.toString());
 
   if (isNaN(numValue)) {
@@ -193,7 +193,7 @@ const setBalance = () => {
   const value = selectedToken?.value?.balance?.value || "";
   numberValue.value = removeSpace(commify(value));
 
-  let balance = removeSpace(removeComma(numberValue.value?.toString() ?? ""));
+  const balance = removeSpace(removeComma(numberValue.value?.toString() ?? ""));
 
   emit("input", balance);
 };
@@ -212,23 +212,23 @@ const inputValue = (event: KeyboardEvent) => {
   }
 
   if (props.positive) {
-    if (event.key == minus) {
+    if (event.key === minus) {
       event.preventDefault();
       return false;
     }
   }
 
-  if (charCode == space) {
+  if (charCode === space) {
     event.preventDefault();
     return false;
   }
 
-  if (charCode == minus && value.includes(minus)) {
+  if (charCode === minus && value.includes(minus)) {
     event.preventDefault();
     return false;
   }
 
-  if (charCode == dot && value?.includes(dot)) {
+  if (charCode === dot && value?.includes(dot)) {
     event.preventDefault();
     return false;
   }

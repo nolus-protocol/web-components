@@ -1,4 +1,4 @@
-import { Size, Type } from "@/shared/utils/types";
+import type { Size, Type } from "@/shared/utils/types";
 
 export type ButtonSize = keyof typeof Size;
 export type ButtonType = keyof typeof Type;
@@ -11,6 +11,6 @@ export interface ButtonProps {
   iconPosition?: "left" | "right";
   loading?: boolean;
   disabled?: boolean;
-  class?: string | string[] | any;
-  id?: any;
+  class?: unknown;
+  id?: string;
 }

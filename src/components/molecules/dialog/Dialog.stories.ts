@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/vue3";
 import { ref, onMounted } from "vue";
-import Dialog, { DialogProps } from "./Dialog.vue";
+import type { DialogProps } from "./types";
+import Dialog from "./Dialog.vue";
 import Button from "../../atoms/button/Button.vue";
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories
@@ -43,7 +44,7 @@ export const DialogReveal: Story = {
     title: "Dialog Title",
     showClose: true,
     classList: ""
-  } as DialogProps
+  } satisfies DialogProps
 };
 
 export const WithClose: Story = {
@@ -65,7 +66,7 @@ export const WithClose: Story = {
   args: {
     title: "Dialog Title",
     showClose: true
-  } as DialogProps
+  } satisfies DialogProps
 };
 
 export const WithTabs: Story = {
@@ -84,7 +85,7 @@ export const WithTabs: Story = {
           <template #tab-content-1>
             <p class="text-typography-default">Child Component 2</p>
           </template>
-          <template #tab-content-3>
+          <template #tab-content-2>
             <p class="text-typography-default">Child Component 3</p>
           </template>
       </Dialog>
@@ -94,8 +95,8 @@ export const WithTabs: Story = {
     title: "Dialog Title",
     showClose: true,
     classList: "!block opacity-100",
-    tabs: ["Long", "Short", "Other"]
-  } as DialogProps
+    tabs: [{ label: "Long" }, { label: "Short" }, { label: "Other" }]
+  } satisfies DialogProps
 };
 
 export const WithButtons: Story = {

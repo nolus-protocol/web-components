@@ -25,8 +25,8 @@
         <Toggle
           v-if="hideValues"
           v-bind="hideValues"
-          :label="hideValues.text"
           v-model="hideValues.value"
+          :label="hideValues.text"
           @input="onHideValuesChange"
         />
       </div>
@@ -36,13 +36,8 @@
 
 <script lang="ts" setup>
 import { ref } from "vue";
-import { Button, Popover, Toggle, SvgIcon } from "@/components";
+import { Button, Popover, Toggle } from "@/components";
 import { type TableSettingsProps } from "./types";
-
-enum Subscription {
-  subscribed = "subscribed",
-  unsubscribed = "unsubscribed"
-}
 
 const tableSettingsPopoverRef = ref<InstanceType<typeof Popover> | null>(null);
 const props = defineProps<TableSettingsProps>();

@@ -20,6 +20,7 @@
       </div>
       <div class="flex items-center gap-2">
         <Button
+          v-if="undoBtnProps"
           class="button-tertiary-static-light"
           :class="{
             'hover:text-success-emphasized!': props.type === ToastType.success,
@@ -29,7 +30,6 @@
           severity="tertiary"
           size="small"
           v-bind="undoBtnProps"
-          v-if="undoBtnProps"
           @click="onUndoClick"
         />
         <Button
@@ -63,8 +63,6 @@ import SvgIcon from "@/components/atoms/svg-icon/SvgIcon.vue";
 const props = defineProps<IToast>();
 
 const showToast = ref(true);
-const exitDuration = 400;
-
 let timer: ReturnType<typeof setTimeout> | null = null;
 
 onMounted(() => {

@@ -1,10 +1,15 @@
-import type { Meta, StoryObj } from "@storybook/vue3";
+import type { ComponentPropsAndSlots, Meta, StoryObj } from "@storybook/vue3";
 
 import Dropdown from "./Dropdown.vue";
 import { iconsExternalUrl, Size } from "../../../shared/utils/types";
 import { h } from "vue";
 import AssetItem from "../asset-list-item/AssetItem.vue";
 import type { AssetItemProps } from "../asset-list-item/types";
+import type { DropdownOption } from "./types";
+
+type AssetOption = DropdownOption & Pick<AssetItemProps, "abbreviation" | "balance" | "price">;
+// Meta<typeof Dropdown> types `component` as an options object, which a generic SFC's render function does not match.
+type DropdownMeta = Omit<Meta<typeof Dropdown>, "component"> & { component: typeof Dropdown };
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories
 const meta = {
@@ -31,10 +36,11 @@ const meta = {
       { value: "watermelon", label: "Watermelon" }
     ]
   } // default value
-} satisfies Meta<typeof Dropdown>;
+} satisfies DropdownMeta;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
+type AssetStory = StoryObj<ComponentPropsAndSlots<typeof Dropdown<AssetOption>>>;
 /*
  *👇 Render functions are a framework specific feature to allow you control on how the component renders.
  * See https://storybook.js.org/docs/api/csf
@@ -46,7 +52,7 @@ export const Default: Story = {
   }
 };
 
-export const WithAssetItem: Story = {
+export const WithAssetItem: AssetStory = {
   args: {
     options: [
       {
@@ -92,7 +98,7 @@ export const WithAssetItem: Story = {
     ],
     onSelect: () => {},
     itemsHeadline: ["Assets", "Your balance"],
-    itemTemplate: (item: any) => h<AssetItemProps>(AssetItem, { name: item.label, ...item }),
+    itemTemplate: (item?: AssetOption) => item && h<AssetItemProps>(AssetItem, { ...item, name: item.label }),
     searchable: true,
     dropdownLabel: "Select token"
   }

@@ -41,11 +41,13 @@
           :labels="labels"
         />
       </div>
+      <!-- eslint-disable vue/no-v-html -- summary is rendered as HTML by contract (ProposalProps.summary): callers sanitize it -->
       <div
         v-if="isHtml(summary)"
         class="prose prose-h1:mb-2 prose-h1:text-lg prose-h1:font-medium prose-h2:my-1 prose-h2:text-lg prose-h2:font-medium text-16 font-normal"
         v-html="summary"
       ></div>
+      <!-- eslint-enable vue/no-v-html -->
       <div
         v-else
         class="prose prose-h1:mb-2 prose-h1:text-lg prose-h1:font-medium prose-h2:my-1 prose-h2:text-lg prose-h2:font-medium text-16 font-normal"

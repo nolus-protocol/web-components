@@ -1,3 +1,5 @@
+import type { VNode } from "vue";
+
 type Step = {
   label: string;
   approval?: boolean;
@@ -9,8 +11,8 @@ export type MediumStep = {
     symbol: string;
     balance: string;
   };
-  tokenComponent?: () => any;
-  meta?: () => any;
+  tokenComponent?: () => VNode;
+  meta?: () => VNode;
 } & Step;
 
 export enum StepperVariant {

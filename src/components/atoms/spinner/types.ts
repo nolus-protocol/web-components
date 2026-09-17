@@ -1,4 +1,4 @@
-import { Type } from "@/shared/utils/types";
+import type { Type } from "@/shared/utils/types";
 
 export interface SpinnerProps {
   width?: string;

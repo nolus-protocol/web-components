@@ -186,7 +186,7 @@ function markerLeft(m: number) {
 let position = defaultPosition;
 const dragStart = ref(false);
 let scalePercent = props.maxPosition;
-let leasePercent = ref(0);
+const leasePercent = ref(0);
 
 const button = ref<HTMLButtonElement>();
 const buttonWrapper = ref<HTMLDivElement>();
@@ -298,7 +298,7 @@ function onMouseDown(event: MouseEvent | TouchEvent) {
   }
 
   if (draggableRect) {
-    if (event.target != buttonEl()) {
+    if (event.target !== buttonEl()) {
       position = draggableRect.width / 2;
       setPercent(xPos, parentRect!, draggableRect);
       dragStart.value = true;

@@ -12,8 +12,8 @@
       class="relative"
     >
       <input
-        v-model="inputValue"
         :id="`input-${id}`"
+        v-model="inputValue"
         :class="['peer w-full', 'px-9.5 pr-7', classes, inputClass]"
         :disabled="disabled"
         :placeholder="placeholder"
@@ -43,8 +43,8 @@
     </div>
     <input
       v-else
-      v-model="inputValue"
       :id="`input-${id}`"
+      v-model="inputValue"
       :class="[classes, inputClass]"
       :disabled="disabled"
       :placeholder="placeholder"

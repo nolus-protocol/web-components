@@ -78,11 +78,11 @@
             >
               <span class="flex-1 font-semibold">{{ dropdownLabel }}</span>
               <Button
-                @click="isOpen = !isOpen"
                 size="small"
                 severity="tertiary"
                 icon="close"
                 class="absolute top-2 right-2 p-0"
+                @click="isOpen = !isOpen"
               />
             </div>
             <Input
@@ -169,7 +169,7 @@
 
 <script generic="T extends DropdownOption" lang="ts" setup>
 import { computed, inject, nextTick, onBeforeUnmount, onMounted, ref, watch } from "vue";
-import type { DropdownOption, DropdownProps } from "./types";
+import type { DropdownItemRender, DropdownOption, DropdownProps } from "./types";
 import { Size } from "@/shared/utils/types";
 import { presenceLayerStyle } from "@/shared/utils/presence-layer";
 import { InputType } from "@/components/atoms/input/types";
@@ -207,7 +207,7 @@ const props = withDefaults(
       selected?: T;
       onSelect: (option: T) => void;
       itemsHeadline?: string[];
-      itemTemplate?: (option?: T) => any;
+      itemTemplate?: (option?: T) => DropdownItemRender;
     }
   >(),
   {
@@ -281,7 +281,7 @@ function setPosition() {
     const elementsRect = elementsEl.value.getBoundingClientRect();
 
     let x = rect.left;
-    let y = rect.top + rect.height;
+    const y = rect.top + rect.height;
     if (props.position === "right") {
       x = rect.right - elementsRect.width;
     }

@@ -3,7 +3,6 @@
     <div
       v-if="isOpen"
       ref="popover"
-      @click.stop
       :class="[
         'fixed z-9997 flex flex-col overflow-y-hidden bg-neutral-bg-2 shadow-larger',
         fullscreenOnMobile
@@ -12,10 +11,11 @@
         $attrs.class
       ]"
       :style="popoverStyle"
+      @click.stop
     >
       <div
-        class="flex items-center justify-between p-4"
         v-if="title"
+        class="flex items-center justify-between p-4"
       >
         <span class="flex w-full justify-between text-24 font-semibold text-typography-default">
           {{ title }}
@@ -61,8 +61,6 @@ const isOpen = ref(false);
 const popover = ref(null as HTMLElement | null);
 const popoverStyle = ref<Record<string, string>>({ ...presenceLayerStyle });
 const disable = ref(false);
-const transitionDuration = 150;
-const transitionDurationDecimal = transitionDuration / 1000;
 
 const props = withDefaults(defineProps<PopoverProps>(), {
   showClose: false,
@@ -99,12 +97,9 @@ function backButtonClicked() {
 }
 
 const getParentEl = (): HTMLElement | null => {
-  const parent = props.parent as any;
-  if (!parent) return null;
-
-  if (parent.$el) return parent.$el as HTMLElement;
-
+  const parent = props.parent;
   if (parent instanceof HTMLElement) return parent;
+  if (parent?.$el instanceof HTMLElement) return parent.$el;
 
   return null;
 };
@@ -224,7 +219,11 @@ const close = () => {
 };
 
 const toggle = () => {
-  isOpen.value ? close() : show();
+  if (isOpen.value) {
+    close();
+  } else {
+    show();
+  }
 };
 
 const handleClickOutside = (event: MouseEvent) => {

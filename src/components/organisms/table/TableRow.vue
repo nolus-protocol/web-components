@@ -110,13 +110,9 @@ withDefaults(defineProps<TableRowItemProps>(), {
   scrollable: true
 });
 
-const emit = defineEmits<{
+defineEmits<{
   (e: "button-click", data: { items: TableRowItem[] }): void;
 }>();
-
-function isComponent(value: any): boolean {
-  return value && (typeof value === "object" || typeof value === "function") && value.__isVue;
-}
 </script>
 
 <style lang="scss" scoped></style>

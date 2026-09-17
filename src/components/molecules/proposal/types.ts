@@ -10,6 +10,7 @@ export enum ProposalStatus {
 interface ProposalBase {
   id: string;
   title: string;
+  /** Rendered as HTML when it contains markup. Sanitize it first: proposal text is written by untrusted authors. */
   summary: string;
   voted: boolean;
   readMoreButtonText: string;

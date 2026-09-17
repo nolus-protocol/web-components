@@ -4,7 +4,7 @@ import { h } from "vue";
 import Table from "./Table.vue";
 import TableRow from "./TableRow.vue";
 import Button from "../../atoms/button/Button.vue";
-import { TableProps, TableRowItemProps } from "./types";
+import type { TableProps, TableRowItemProps } from "./types";
 import type { LabelProps } from "../../atoms/label/types";
 import { Label } from "../../index";
 
@@ -15,9 +15,9 @@ const meta = {
   parameters: {},
   args: {
     columns: [
-      { label: "Column 1", tooltip: "Column 1 tooltip" },
+      { label: "Column 1", tooltip: { content: "Column 1 tooltip" } },
       { label: "Column 2" },
-      { label: "Column 3", tooltip: "Column 3 tooltip" }
+      { label: "Column 3", tooltip: { content: "Column 3 tooltip" } }
     ]
   } // default value
 } satisfies Meta<typeof Table>;
@@ -72,7 +72,7 @@ export const History: StoryObj<typeof meta> = {
       id: "1",
       value: true
     },
-    historyData: Array.from({ length: 10 }).map((n, i) => ({
+    historyData: Array.from({ length: 10 }, () => ({
       items: [
         {
           value: `Collect tokens from lease position nolus1...kwjklf`,
@@ -118,7 +118,7 @@ export const Asset: Story = {
       { label: "Balance" },
       { label: "Yield", tooltip: { position: "top", content: "Yield tooltip" } }
     ],
-    assetsData: Array.from({ length: 10 }).map((n, i) => ({
+    assetsData: Array.from({ length: 10 }, () => ({
       items: [
         {
           value: "Cosmos",
@@ -179,7 +179,7 @@ export const EarningAssets: Story = {
       { label: "Yield", tooltip: { content: "Deposit tooltip" } },
       { label: "Availability", tooltip: { content: "Deposit tooltip" } }
     ],
-    assetsData: Array.from({ length: 10 }).map((n, i) => ({
+    assetsData: Array.from({ length: 10 }, () => ({
       items: [
         {
           value: "Stride Stacked ATOM",

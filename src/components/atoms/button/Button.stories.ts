@@ -1,7 +1,11 @@
-import type { Meta, StoryObj } from "@storybook/vue3";
+import type { ComponentPropsAndSlots, Meta, StoryObj } from "@storybook/vue3";
+import type { ButtonHTMLAttributes } from "vue";
 
 import Button from "./Button.vue";
 import { Size, Type } from "@/shared/utils/types";
+
+// Button declares no emits: a click listener falls through to the native <button>, so it is an arg beside the props.
+type ButtonArgs = ComponentPropsAndSlots<typeof Button> & Pick<ButtonHTMLAttributes, "onClick">;
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories
 const meta = {
@@ -18,7 +22,7 @@ const meta = {
     size: Size.large,
     severity: Type.primary
   } // default value
-} satisfies Meta<typeof Button>;
+} satisfies Meta<ButtonArgs>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;

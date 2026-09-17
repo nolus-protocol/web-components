@@ -19,6 +19,7 @@
         ]"
         :style="tooltipStyle"
       >
+        <!-- eslint-disable-next-line vue/no-v-html -- content is rendered as HTML by contract (TooltipProps.content): callers sanitize it -->
         <div v-html="content" />
         <div
           :class="['arrow', `arrow-${position}`]"

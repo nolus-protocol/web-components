@@ -15,7 +15,7 @@
         size="s"
         name="info"
         :class="[`label-${variant}`]"
-        :defaultColor="false"
+        :default-color="false"
       />
     </Tooltip>
   </div>
@@ -26,7 +26,7 @@ import type { LabelProps } from "@/components/atoms/label/types";
 import { Tooltip } from "@/components";
 import SvgIcon from "../svg-icon/SvgIcon.vue";
 
-const props = defineProps<LabelProps>();
+defineProps<LabelProps>();
 </script>
 
 <style lang="scss" scoped>

@@ -87,7 +87,7 @@
       :show-close="true"
       :type="AlertType.warning"
     >
-      <template v-slot:content>
+      <template #content>
         <span>Alert content</span>
       </template>
     </Alert>
@@ -103,7 +103,7 @@
       :show-close="true"
       :type="AlertType.error"
     >
-      <template v-slot:content>
+      <template #content>
         <span>Alert content</span>
       </template>
     </Alert>
@@ -126,7 +126,6 @@
       label="Test Input"
       type="search"
       @input="(e) => {}"
-      @on-search-clear=""
     />
 
     <Proposal
@@ -134,14 +133,13 @@
       :status="ProposalStatus.PROPOSAL_STATUS_VOTING_PERIOD"
       :tally="{ yes_count: '100', abstain_count: '50', no_count: '25', no_with_veto_count: '10' }"
       :voted="false"
-      quorum="60%"
+      quorum="60"
       read-more-button-text="Read more"
       summary="This proposal aims to introduce several new assets to the Oracle swap tree of the Neutron axlUSDC protocol. Neutron axlUSDC protocol. Neutron axlUSDC protoc..."
       title="Test"
-      turnout="75%"
-      voteButtonText="Vote now"
+      turnout="75"
+      vote-button-text="Vote now"
       voting_end_time="24-05-2024"
-      @actionButton="(e) => {}"
       :labels="{
         yes_count: `Yes`,
         abstain_count: 'Abstain',
@@ -151,10 +149,11 @@
         quorumLabel: 'quorumLabel',
         votingEndsLabel: 'votingEndsLabel'
       }"
+      @action-button="(e) => {}"
     />
 
     <Table :columns="columns">
-      <template v-slot:body>
+      <template #body>
         <TableRow
           v-for="(row, index) in historyData"
           :key="index"
@@ -164,12 +163,12 @@
     </Table>
 
     <Table :columns="assetsColumns">
-      <template v-slot:body>
+      <template #body>
         <TableRow
           v-for="(row, index) in assetsData"
           :key="index"
           :items="row.items"
-          :rowButton="row.rowButton"
+          :row-button="row.rowButton"
           @button-click="() => {}"
         />
       </template>
@@ -261,8 +260,8 @@
       ref="dialogRef"
       :tabs="[{ label: '1' }, { label: '2' }, { label: '3' }]"
       title="Test"
-      showClose
-      :activeTabIndex="Number(0)"
+      show-close
+      :active-tab-index="Number(0)"
     >
       <template #tab-content-0>
         <p class="text-typography-default">Child Component 1</p>
@@ -539,44 +538,9 @@ const options2: OptionsProps[] = [
   }
 ];
 
-const options = [
-  {
-    value: "apple",
-    label: "Apple",
-    icon: "https://raw.githubusercontent.com/nolus-protocol/webapp/main/src/config/currencies/icons/osmosis-usdc.svg",
-    price: "31231312"
-  },
-  {
-    value: "banana",
-    label: "Banana",
-    icon: "https://raw.githubusercontent.com/nolus-protocol/webapp/main/src/config/currencies/icons/osmosis-usdc.svg"
-  },
-  {
-    value: "orange",
-    label: "Orange",
-    icon: "https://raw.githubusercontent.com/nolus-protocol/webapp/main/src/config/currencies/icons/osmosis-usdc.svg"
-  },
-  {
-    value: "grape",
-    label: "Grape",
-    icon: "https://raw.githubusercontent.com/nolus-protocol/webapp/main/src/config/currencies/icons/osmosis-usdc.svg"
-  },
-  {
-    value: "strawberry",
-    label: "Strawberry",
-    icon: "https://raw.githubusercontent.com/nolus-protocol/webapp/main/src/config/currencies/icons/osmosis-usdc.svg"
-  },
-  { value: "watermelon", label: "Watermelon" },
-  { value: "watermelon", label: "Watermelon" },
-  { value: "watermelon", label: "Watermelon" },
-  { value: "watermelon", label: "Watermelon" }
-];
-
 const leaseProps: LeaseProps = {
   history: {
-    click() {
-      console.info("clicked");
-    },
+    click() {},
     value: "#daeqw21e"
   },
   title: "Buy position",
@@ -603,9 +567,7 @@ const leaseProps: LeaseProps = {
     value: "FEB. 8, 2024"
   },
   pnl: {
-    click() {
-      console.info("clicked");
-    },
+    click() {},
     value: "-$20.00",
     status: LeasePnlStatus.POSITIVE
   }
