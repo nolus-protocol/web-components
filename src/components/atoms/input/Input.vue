@@ -3,7 +3,10 @@
     :id="`input-wrapper-${id}`"
     class="field-wrapper"
   >
-    <FieldLabel :label="label" :for-id="`input-${id}`" />
+    <FieldLabel
+      :label="label"
+      :for-id="`input-${id}`"
+    />
     <div
       v-if="type === InputType.search"
       class="relative"
@@ -11,12 +14,7 @@
       <input
         v-model="inputValue"
         :id="`input-${id}`"
-        :class="[
-          'w-full peer',
-          'px-9.5 pr-7',
-          classes,
-          inputClass
-        ]"
+        :class="['peer w-full', 'px-9.5 pr-7', classes, inputClass]"
         :disabled="disabled"
         :placeholder="placeholder"
         :type="type"
@@ -30,19 +28,15 @@
             'left-2': size === Size.medium
           }
         ]"
-        class="absolute top-[50%] translate-y-[-50%] text-icon-default pointer-events-none peer-focus:fill-icon-link transition duration-150 ease-out"
+        class="pointer-events-none absolute top-[50%] translate-y-[-50%] text-icon-default transition duration-150 ease-out peer-focus:fill-icon-link"
       />
       <span
         v-if="inputValue"
-        class="
-          absolute right-2 top-[50%] flex h-4.5 w-4.5 p-0.75 translate-y-[-50%] cursor-pointer items-center justify-center rounded-full bg-icon-default
-          hover:bg-icon-secondary
-          transition duration-150 ease-out
-        "
+        class="absolute top-[50%] right-2 flex h-4.5 w-4.5 translate-y-[-50%] cursor-pointer items-center justify-center rounded-full bg-icon-default p-0.75 transition duration-150 ease-out hover:bg-icon-secondary"
       >
         <SvgIcon
           name="close"
-          class="w-full h-full fill-neutral-bg-2"
+          class="h-full w-full fill-neutral-bg-2"
           @click="onSearchClear"
         />
       </span>
@@ -77,19 +71,19 @@ const props = withDefaults(defineProps<InputProps>(), {
 // Create a ref for the input element
 const inputValue = ref(props.value);
 
-const classes = computed(() => ([
+const classes = computed(() => [
   "flex h-10 gap-2 items-center rounded-md border border-border-dominant bg-neutral-bg-2 text-16 font-normal text-typography-default shadow-small outline-transparent focus-visible:outline focus-visible:outline-border-focus focus-visible:border-border-focus transition duration-150 ease-out",
-  
+
   {
+    "px-2 py-1": props.size === Size.small,
+    "px-3 py-2": props.size === Size.medium,
 
-  "px-2 py-1": props.size === Size.small,
-  "px-3 py-2": props.size === Size.medium,
+    "border-border-success! text-typography-success": props.error,
+    "border-border-error! text-typography-error": props.error,
 
-  "border-border-success! text-typography-success": props.error,
-  "border-border-error! text-typography-error": props.error,
-
-  "": props.type === InputType.password
-}]));
+    "": props.type === InputType.password
+  }
+]);
 
 watch(
   () => props.value,

@@ -13,7 +13,7 @@ const meta = {
       options: ["top", "bottom", "left", "right"]
     }
   },
-  args: {}, // default value
+  args: {} // default value
 } satisfies Meta<typeof Tooltip>;
 
 export default meta;
