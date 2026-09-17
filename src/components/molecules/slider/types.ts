@@ -10,7 +10,7 @@ export interface RangeProps {
   value?: number;
   tooltipContent?: string;
   markers?: number[];
-  onClickRightLabel?: Function;
-  onClickLeftLabel?: Function;
-  onClickMidLabel?: Function;
+  onClickRightLabel?: () => void;
+  onClickLeftLabel?: () => void;
+  onClickMidLabel?: () => void;
 }

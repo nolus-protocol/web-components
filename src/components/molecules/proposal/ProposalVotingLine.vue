@@ -41,7 +41,9 @@ const props = defineProps({
 
 const showTooltips = ref(Array(Object.values(props.voting).length).fill(false));
 
-const colors: { [key: string]: any } = {
+type TallyKey = keyof FinalTallyResult;
+
+const colors: Record<TallyKey, { bg: string; before: string; text: string }> = {
   yes_count: {
     bg: "bg-[#1AB171]",
     before: "before:bg-[#1AB171]",
@@ -64,11 +66,16 @@ const colors: { [key: string]: any } = {
   }
 };
 
+const isTallyKey = (key: string): key is TallyKey => Object.prototype.hasOwnProperty.call(colors, key);
+
 const total = computed(() => Object.values(props.voting).reduce((acc, value) => acc + Number(value), 0));
 const result = computed(() =>
   Object.entries(props.voting)
     .reduce(
       (acc, [key, value]) => {
+        if (!isTallyKey(key)) {
+          return acc;
+        }
         acc.push({
           key,
           label: props.labels[key]!,
@@ -77,7 +84,7 @@ const result = computed(() =>
 
         return acc;
       },
-      [] as { key: string; label: string; percent: string }[]
+      [] as { key: TallyKey; label: string; percent: string }[]
     )
     .filter((item) => !!Number(item.percent))
     .reverse()

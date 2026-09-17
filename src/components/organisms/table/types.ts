@@ -46,7 +46,7 @@ export interface TableRowItem {
   button?: boolean;
   class?: string;
   url?: string;
-  click?: Function;
+  click?: () => void;
 }
 
 export interface TableRowItemProps {

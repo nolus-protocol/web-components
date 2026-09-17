@@ -1,4 +1,4 @@
-import type { DropdownOption } from "@/components/atoms/dropdown/types";
+import type { DropdownItemRender, DropdownOption } from "@/components/atoms/dropdown/types";
 import type { InputType } from "@/components/types";
 
 export interface AdvancedCurrencyFieldBalance {
@@ -39,5 +39,5 @@ export interface AdvancedCurrencyFieldProps<T extends DropdownOption> {
   isLoadingPicker?: boolean;
   searchable?: boolean;
   itemsHeadline?: string[];
-  itemTemplate?: (option?: T) => any;
+  itemTemplate?: (option?: T) => DropdownItemRender;
 }
