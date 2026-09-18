@@ -52,6 +52,8 @@ export const iconNames = [
   "money-hand",
   "more",
   "news",
+  "paper-plane",
+  "pencil",
   "plus",
   "refresh",
   "search",
