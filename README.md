@@ -57,7 +57,7 @@ npm test             # vitest component tests and the release script tests
 npm run build        # library bundle to dist/ (auto-runs icon codegen)
 ```
 
-Every pull request runs the same typecheck, format check, lint, tests, build and Storybook build, fails if the build changed a committed file, and fails on high or critical `npm audit` advisories. The pre-commit hook runs the format check and lint.
+Every pull request runs the same typecheck, format check, lint, tests, build and Storybook build, fails if the build changed a committed file, and fails on any `npm audit` advisory, whatever its severity. The pre-commit hook runs the format check and lint.
 
 Adding or renaming an icon under `src/assets/icons/` regenerates `src/components/atoms/svg-icon/icon-names.ts`. The `prebuild` hook does it automatically; commit the regenerated file with the icon, or the pull request check fails.
 

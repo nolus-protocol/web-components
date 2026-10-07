@@ -57,5 +57,5 @@ jobs:
       - name: Storybook builds
         run: npm run build-storybook
 
-      - name: No known high or critical advisories
-        run: npm audit --audit-level=high
+      - name: No known advisories
+        run: npm audit
