@@ -4,9 +4,12 @@
       <div
         v-if="showAttributes"
         class="flex items-center justify-between gap-2"
-        :class="headerClasses"
+        :class="[{ 'flex-wrap gap-y-4 md:justify-end': $slots['header-actions'] }, headerClasses]"
       >
-        <div class="flex flex-1 items-center gap-2 md:flex-none">
+        <div
+          class="flex flex-1 items-center gap-2 md:flex-none"
+          :class="{ 'md:mr-auto': $slots['header-actions'] }"
+        >
           <slot name="header"></slot>
           <Input
             v-if="searchable"
@@ -22,6 +25,12 @@
             class="hidden text-14 font-normal md:block"
             >{{ size }}</span
           >
+        </div>
+        <div
+          v-if="$slots['header-actions']"
+          class="order-last grid w-full auto-cols-fr grid-flow-col gap-2 md:order-none md:ml-auto md:flex md:w-auto"
+        >
+          <slot name="header-actions"></slot>
         </div>
         <TableSettings
           v-if="toggle || hideValues"
@@ -104,7 +113,9 @@ const emit = defineEmits<{
 
 const slots = useSlots();
 const showAttributes = computed(() => {
-  return props.searchable || props.size || props.toggle || props.hideValues || !!slots.header;
+  return (
+    props.searchable || props.size || props.toggle || props.hideValues || !!slots.header || !!slots["header-actions"]
+  );
 });
 </script>
 

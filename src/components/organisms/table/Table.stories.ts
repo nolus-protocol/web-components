@@ -240,3 +240,44 @@ export const HeaderSlot: StoryObj<typeof meta> = {
     hideValues: undefined
   }
 };
+
+export const HeaderActions: StoryObj<typeof meta> = {
+  render: (args) => ({
+    data() {
+      return { args };
+    },
+    components: { Table, TableRow, Button },
+    template: `
+      <Table v-bind="args"
+          @togle-value="
+            (data) => {
+              console.info(data);
+          }"
+      >
+        <template v-slot:header-actions>
+          <Button
+            label="Deposit"
+            severity="primary"
+            size="large"
+          />
+          <Button
+            label="Withdraw"
+            severity="secondary"
+            size="large"
+          />
+        </template>
+        <template v-slot:body>
+          <TableRow
+            v-for="(row, index) in args.historyData"
+            :key="index"
+            :items="row.items"
+          />
+        </template>
+      </Table>
+    `
+  }),
+  args: {
+    ...History.args,
+    hideValues: undefined
+  }
+};
