@@ -22,7 +22,7 @@
           />
           <span
             v-if="size"
-            class="hidden text-14 font-normal md:block"
+            class="hidden text-14 font-normal text-typography-secondary md:block"
             >{{ size }}</span
           >
         </div>
@@ -45,16 +45,25 @@
       <div :class="tableWrapperClasses">
         <slot></slot>
         <div class="scroll-bar overflow-auto">
-          <div :class="['flex flex-col', tableClasses]">
+          <div
+            :class="[
+              'flex flex-col',
+              {
+                '[&>.table-body-row+.table-body-row]:border-t [&>.table-body-row+.table-body-row]:border-border-color':
+                  columns && columns.length > 0
+              },
+              tableClasses
+            ]"
+          >
             <div
               v-if="columns && columns.length > 0"
-              :class="['flex border-b-[1px] border-border-color py-3', columnsClasses]"
+              :class="['flex gap-x-6 border-b-[1px] border-border-color py-3', columnsClasses]"
             >
               <div
                 v-for="(column, i) in columns"
                 :key="column.label"
                 :class="[
-                  'flex flex-1 items-center justify-end gap-0.5 text-14 font-normal text-typography-default',
+                  'flex flex-1 items-center justify-end gap-0.5 text-14 font-normal text-typography-secondary',
                   column.class,
                   { '!justify-start': column.variant === 'left' },
                   { '!justify-center': column.variant === 'center' },
