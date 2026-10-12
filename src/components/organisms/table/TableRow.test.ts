@@ -1,11 +1,19 @@
 import { mount, type VueWrapper } from "@vue/test-utils";
-import { describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it } from "vitest";
 
 import TableRow from "./TableRow.vue";
 import type { TableRowItem } from "./types";
 
+let wrapper: VueWrapper | null = null;
+
+afterEach(() => {
+  wrapper?.unmount();
+  wrapper = null;
+});
+
 function mountRow(item: TableRowItem) {
-  return mount(TableRow, { props: { items: [{ value: "Cosmos", subValue: "ATOM", ...item }] } });
+  wrapper = mount(TableRow, { props: { items: [{ value: "Cosmos", subValue: "ATOM", ...item }] } });
+  return wrapper;
 }
 
 function subValueOf(row: VueWrapper) {
