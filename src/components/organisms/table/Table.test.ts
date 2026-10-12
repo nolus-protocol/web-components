@@ -120,7 +120,7 @@ describe("Table without header actions", () => {
   <div>
     <div class="flex items-center justify-between gap-2 px-6">
       <div class="flex flex-1 items-center gap-2 md:flex-none"><span>Total value</span>
-        <input-stub id="dropdown-search" size="medium" type="search" error="false" disabled="false" valid="false" class="w-full md:w-96"></input-stub><span class="hidden text-14 font-normal md:block">3 assets</span>
+        <input-stub id="dropdown-search" size="medium" type="search" error="false" disabled="false" valid="false" class="w-full md:w-96"></input-stub><span class="hidden text-14 font-normal text-typography-secondary md:block">3 assets</span>
       </div>
       <!--v-if-->
       <table-settings-stub toggle="[object Object]" hidevalues="[object Object]"></table-settings-stub>
@@ -155,5 +155,60 @@ describe("Table without header actions", () => {
     </div>
   </div>
 </div>`);
+  });
+});
+
+describe("Table body", () => {
+  const columns = [{ label: "Asset" }, { label: "Balance" }];
+  const dividers = [
+    "[&>.table-body-row+.table-body-row]:border-t",
+    "[&>.table-body-row+.table-body-row]:border-border-color"
+  ];
+
+  function elementByText(table: VueWrapper, text: string) {
+    const element = table.findAll("div").find((candidate) => candidate.text() === text);
+    if (!element) {
+      throw new Error(`no element with text ${text}`);
+    }
+    return element.element;
+  }
+
+  function bodyOf(table: VueWrapper) {
+    const body = table.get("span.row").element.parentElement;
+    if (!body) {
+      throw new Error("body row is not inside the table body");
+    }
+    return body;
+  }
+
+  const body = { body: () => h("span", { class: "row" }, "Row") };
+
+  it("greys the column labels", () => {
+    const label = elementByText(mountTable({ columns }), "Asset");
+
+    expect(label.classList).toContain("text-typography-secondary");
+    expect(label.classList).not.toContain("text-typography-default");
+  });
+
+  it("puts 24px between the column labels", () => {
+    const header = elementByText(mountTable({ columns }), "Asset").parentElement;
+
+    expect(header?.classList).toContain("gap-x-6");
+  });
+
+  it("draws a line between body rows when the table has columns", () => {
+    const classes = Array.from(bodyOf(mountTable({ columns }, body)).classList);
+
+    expect(classes).toEqual(expect.arrayContaining(dividers));
+  });
+
+  it("draws no line between body rows when the table has no columns", () => {
+    for (const props of [{ columns: [] }, {}]) {
+      const classes = Array.from(bodyOf(mountTable(props, body)).classList);
+      wrapper?.unmount();
+      wrapper = null;
+
+      expect(classes).toEqual(["flex", "flex-col"]);
+    }
   });
 });

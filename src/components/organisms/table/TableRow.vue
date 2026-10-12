@@ -1,7 +1,7 @@
 <template>
   <div
     :class="[{ 'table-row-actions relative': rowButton }]"
-    class="flex flex-wrap py-3"
+    class="table-body-row flex flex-wrap gap-x-6 py-3"
   >
     <div
       v-for="(item, index) in items"
@@ -79,8 +79,8 @@
           <div
             v-if="item.subValue"
             :class="[
-              'flex flex-1 text-12 font-normal',
-              item.subValueClass,
+              'flex flex-1 text-14 font-normal',
+              item.subValueClass || 'text-typography-secondary',
               { '!justify-end': item.variant === 'right' },
               { '!justify-center': item.variant === 'center' }
             ]"

@@ -129,7 +129,12 @@ export const Asset: Story = {
         },
         { value: "$43.23" },
         { value: "5.123", subValue: "$42.32" },
-        { value: "5.96%", subValue: "+15.00% NLS", class: "text-typography-success" }
+        {
+          value: "5.96%",
+          subValue: "+15.00% NLS",
+          class: "text-typography-success",
+          subValueClass: "text-typography-success"
+        }
       ]
     })),
     searchable: true,
@@ -192,7 +197,8 @@ export const EarningAssets: Story = {
         {
           value: "0.10%",
           subValue: "+4.00% NLS",
-          class: "text-typography-success"
+          class: "text-typography-success",
+          subValueClass: "text-typography-success"
         },
         {
           component: h<LabelProps>(Label, { value: "Complete", variant: "success" })
