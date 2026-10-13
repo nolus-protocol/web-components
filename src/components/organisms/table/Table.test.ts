@@ -160,10 +160,6 @@ describe("Table without header actions", () => {
 
 describe("Table body", () => {
   const columns = [{ label: "Asset" }, { label: "Balance" }];
-  const dividers = [
-    "[&>.table-body-row+.table-body-row]:border-t",
-    "[&>.table-body-row+.table-body-row]:border-border-color"
-  ];
 
   function elementByText(table: VueWrapper, text: string) {
     const element = table.findAll("div").find((candidate) => candidate.text() === text);
@@ -196,19 +192,23 @@ describe("Table body", () => {
     expect(header?.classList).toContain("gap-x-6");
   });
 
-  it("draws a line between body rows when the table has columns", () => {
-    const classes = Array.from(bodyOf(mountTable({ columns }, body)).classList);
+  it("keeps the line under the column labels", () => {
+    const header = elementByText(mountTable({ columns }), "Asset").parentElement;
 
-    expect(classes).toEqual(expect.arrayContaining(dividers));
+    expect(header?.classList).toContain("border-b-[1px]");
+    expect(header?.classList).toContain("border-border-color");
   });
 
-  it("draws no line between body rows when the table has no columns", () => {
-    for (const props of [{ columns: [] }, {}]) {
-      const classes = Array.from(bodyOf(mountTable(props, body)).classList);
+  it("draws no line between body rows, with or without columns", () => {
+    for (const props of [{ columns }, { columns: [] }, {}]) {
+      const table = mountTable(props, body);
+      const classes = Array.from(bodyOf(table).classList);
+      const html = table.html();
       wrapper?.unmount();
       wrapper = null;
 
       expect(classes).toEqual(["flex", "flex-col"]);
+      expect(html).not.toContain("table-body-row");
     }
   });
 });

@@ -25,10 +25,10 @@ function subValueOf(row: VueWrapper) {
 }
 
 describe("TableRow", () => {
-  it("marks its root as a body row and puts 24px between its cells", () => {
+  it("carries no body-row marker and puts 24px between its cells", () => {
     const classes = mountRow({}).element.classList;
 
-    expect(classes).toContain("table-body-row");
+    expect(classes).not.toContain("table-body-row");
     expect(classes).toContain("gap-x-6");
   });
 

@@ -1,7 +1,7 @@
 <template>
   <div
     :class="[{ 'table-row-actions relative': rowButton }]"
-    class="table-body-row flex flex-wrap gap-x-6 py-3"
+    class="flex flex-wrap gap-x-6 py-3"
   >
     <div
       v-for="(item, index) in items"
