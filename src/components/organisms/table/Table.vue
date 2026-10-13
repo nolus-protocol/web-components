@@ -45,16 +45,7 @@
       <div :class="tableWrapperClasses">
         <slot></slot>
         <div class="scroll-bar overflow-auto">
-          <div
-            :class="[
-              'flex flex-col',
-              {
-                '[&>.table-body-row+.table-body-row]:border-t [&>.table-body-row+.table-body-row]:border-border-color':
-                  columns && columns.length > 0
-              },
-              tableClasses
-            ]"
-          >
+          <div :class="['flex flex-col', tableClasses]">
             <div
               v-if="columns && columns.length > 0"
               :class="['flex gap-x-6 border-b-[1px] border-border-color py-3', columnsClasses]"
