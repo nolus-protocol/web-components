@@ -1,6 +1,7 @@
 <template>
   <div
     ref="target"
+    data-tooltip-trigger
     class="flex w-fit flex-col items-center text-typography-default"
     @mouseleave="mouseleave"
     @mouseenter="mouseenter"

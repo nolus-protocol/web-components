@@ -4,6 +4,7 @@
       v-if="label && !labelAdvanced"
       :for="id"
       class="flex items-center gap-1 text-16 font-semibold text-typography-default"
+      @click="ignoreTooltipClick"
     >
       {{ label }}
       <Tooltip
@@ -35,6 +36,7 @@
         v-if="labelAdvanced"
         :for="id"
         class="flex items-center gap-1 text-16 font-semibold text-typography-default"
+        @click="ignoreTooltipClick"
       >
         <slot name="label"></slot>
         <Tooltip
@@ -76,6 +78,8 @@
         class="bg-transparent text-right text-32 font-semibold text-typography-default placeholder-typography-default focus:outline-hidden"
         :type="type"
         @keydown="inputValue"
+        @beforeinput="holdInsertion"
+        @input="checkInput"
         @keyup="setValue()"
         @paste="onPaste"
       />
@@ -121,7 +125,11 @@ const emit = defineEmits<{
 const dot = ".";
 const minus = "-";
 const comma = ",";
-const space = "Space";
+const space = " ";
+const spaceCode = "Space";
+const insertText = "insertText";
+const plainText = "text/plain";
+const tooltipTrigger = "[data-tooltip-trigger]";
 const allowed = ["Delete", "Backspace", "ArrowLeft", "ArrowRight", "-", ".", "Enter", "Tab", "Control", "End", "Home"];
 const numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 
@@ -131,6 +139,7 @@ const props = withDefaults(defineProps<AdvancedCurrencyFieldProps<DropdownOption
 });
 
 const numberValue = ref(props.value);
+let lastValidDisplay = numberValue.value ?? "";
 const selectedToken = ref<AdvancedCurrencyFieldOption | undefined>(props.selectedCurrencyOption);
 
 onMounted(() => {
@@ -164,6 +173,7 @@ const setValue = (stopEmit?: boolean) => {
   let value = removeSpace(removeComma(numberValue.value?.toString() ?? ""));
   const numValue = Number(value);
   numberValue.value = commify(value.toString());
+  lastValidDisplay = numberValue.value;
 
   if (isNaN(numValue)) {
     return false;
@@ -186,10 +196,21 @@ const setBalance = () => {
   }
   const value = selectedToken?.value?.balance?.value || "";
   numberValue.value = removeSpace(commify(value));
+  lastValidDisplay = numberValue.value;
 
   const balance = removeSpace(removeComma(numberValue.value?.toString() ?? ""));
 
   emit("input", balance);
+};
+
+// A tap on a help icon inside the label would otherwise focus the input and raise the soft keyboard over the tooltip.
+const ignoreTooltipClick = (event: MouseEvent) => {
+  const label = event.currentTarget;
+  const trigger = event.target instanceof Element ? event.target.closest(tooltipTrigger) : null;
+
+  if (label instanceof HTMLElement && trigger && label.contains(trigger)) {
+    event.preventDefault();
+  }
 };
 
 const onUpdateCurrency = (value: AdvancedCurrencyFieldOption) => {
@@ -212,7 +233,7 @@ const inputValue = (event: KeyboardEvent) => {
     }
   }
 
-  if (charCode === space) {
+  if (charCode === space || event.code === spaceCode) {
     event.preventDefault();
     return false;
   }
@@ -238,6 +259,58 @@ const inputValue = (event: KeyboardEvent) => {
 
   event.preventDefault();
   return false;
+};
+
+const insertions = [insertText, "insertFromPaste", "insertFromDrop", "insertReplacementText"];
+const thousandsGroups = /^-?\d{1,3}(,\d{3})+(\.\d*)?$/;
+
+const fitsGrammar = (text: string) => (props.positive ? /^\d*(?:\.\d*)?$/ : /^-?\d*(?:\.\d*)?$/).test(text);
+
+const normalizePaste = (text: string) => {
+  const trimmed = text.trim();
+  return thousandsGroups.test(trimmed) ? removeComma(trimmed) : trimmed;
+};
+
+// The browser inserts nothing that would leave the grammar; commas in the inserted text count against it unless they are thousands groups.
+const holdInsertion = (event: InputEvent) => {
+  const input = event.target;
+  if (!insertions.includes(event.inputType) || !(input instanceof HTMLInputElement)) {
+    return;
+  }
+  const text = event.data ?? event.dataTransfer?.getData(plainText) ?? "";
+  const inserted = event.inputType === insertText ? text : normalizePaste(text);
+  const current = input.value;
+  const start = input.selectionStart ?? current.length;
+  const end = input.selectionEnd ?? current.length;
+  const next = removeComma(current.slice(0, start)) + inserted + removeComma(current.slice(end));
+
+  if (!fitsGrammar(next)) {
+    event.preventDefault();
+    return;
+  }
+
+  if (inserted !== text) {
+    event.preventDefault();
+    numberValue.value = next;
+    setValue();
+  }
+};
+
+// Composition and keyboards without key identity insert without a cancelable beforeinput, so their result is checked once it lands.
+const checkInput = (event: Event) => {
+  const input = event.target;
+  if ((event instanceof InputEvent && event.isComposing) || !(input instanceof HTMLInputElement)) {
+    return;
+  }
+
+  if (!fitsGrammar(removeComma(input.value))) {
+    input.value = lastValidDisplay;
+    numberValue.value = lastValidDisplay;
+    return;
+  }
+
+  numberValue.value = input.value;
+  setValue();
 };
 
 const commify = (n: string) => {
