@@ -4,6 +4,7 @@
       v-if="label && !labelAdvanced"
       :for="id"
       class="flex items-center gap-1 text-16 font-semibold text-typography-default"
+      @click="ignoreTooltipClick"
     >
       {{ label }}
       <Tooltip
@@ -35,6 +36,7 @@
         v-if="labelAdvanced"
         :for="id"
         class="flex items-center gap-1 text-16 font-semibold text-typography-default"
+        @click="ignoreTooltipClick"
       >
         <slot name="label"></slot>
         <Tooltip
@@ -195,6 +197,16 @@ const setBalance = () => {
   const balance = removeSpace(removeComma(numberValue.value?.toString() ?? ""));
 
   emit("input", balance);
+};
+
+// A tap on a help icon inside the label would otherwise focus the input and raise the soft keyboard over the tooltip.
+const ignoreTooltipClick = (event: MouseEvent) => {
+  const label = event.currentTarget as HTMLElement;
+  const trigger = event.target instanceof Element ? event.target.closest("[data-tooltip-trigger]") : null;
+
+  if (trigger && label.contains(trigger)) {
+    event.preventDefault();
+  }
 };
 
 const onUpdateCurrency = (value: AdvancedCurrencyFieldOption) => {

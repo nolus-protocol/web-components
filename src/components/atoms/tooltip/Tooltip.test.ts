@@ -49,3 +49,15 @@ describe("Tooltip tilt", () => {
     expect(element.classList.contains("tooltip-tilt")).toBe(false);
   });
 });
+
+describe("Tooltip trigger", () => {
+  it("carries the marker a surrounding label checks to ignore its clicks", () => {
+    wrapper = mount(Tooltip, {
+      props: { content: "hint" },
+      slots: { default: "<span>i</span>" },
+      attachTo: document.body
+    });
+
+    expect(wrapper.get("span").element.closest("[data-tooltip-trigger]")).not.toBeNull();
+  });
+});
