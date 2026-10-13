@@ -126,6 +126,10 @@ const dot = ".";
 const minus = "-";
 const comma = ",";
 const space = " ";
+const spaceCode = "Space";
+const insertText = "insertText";
+const plainText = "text/plain";
+const tooltipTrigger = "[data-tooltip-trigger]";
 const allowed = ["Delete", "Backspace", "ArrowLeft", "ArrowRight", "-", ".", "Enter", "Tab", "Control", "End", "Home"];
 const numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 
@@ -201,10 +205,10 @@ const setBalance = () => {
 
 // A tap on a help icon inside the label would otherwise focus the input and raise the soft keyboard over the tooltip.
 const ignoreTooltipClick = (event: MouseEvent) => {
-  const label = event.currentTarget as HTMLElement;
-  const trigger = event.target instanceof Element ? event.target.closest("[data-tooltip-trigger]") : null;
+  const label = event.currentTarget;
+  const trigger = event.target instanceof Element ? event.target.closest(tooltipTrigger) : null;
 
-  if (trigger && label.contains(trigger)) {
+  if (label instanceof HTMLElement && trigger && label.contains(trigger)) {
     event.preventDefault();
   }
 };
@@ -229,7 +233,7 @@ const inputValue = (event: KeyboardEvent) => {
     }
   }
 
-  if (charCode === space || event.code === "Space") {
+  if (charCode === space || event.code === spaceCode) {
     event.preventDefault();
     return false;
   }
@@ -257,10 +261,10 @@ const inputValue = (event: KeyboardEvent) => {
   return false;
 };
 
-const insertions = ["insertText", "insertFromPaste", "insertFromDrop", "insertReplacementText"];
+const insertions = [insertText, "insertFromPaste", "insertFromDrop", "insertReplacementText"];
 const thousandsGroups = /^-?\d{1,3}(,\d{3})+(\.\d*)?$/;
 
-const fitsGrammar = (text: string) => (props.positive ? /^\d*\.?\d*$/ : /^-?\d*\.?\d*$/).test(text);
+const fitsGrammar = (text: string) => (props.positive ? /^\d*(?:\.\d*)?$/ : /^-?\d*(?:\.\d*)?$/).test(text);
 
 const normalizePaste = (text: string) => {
   const trimmed = text.trim();
@@ -269,12 +273,12 @@ const normalizePaste = (text: string) => {
 
 // The browser inserts nothing that would leave the grammar; commas in the inserted text count against it unless they are thousands groups.
 const holdInsertion = (event: InputEvent) => {
-  if (!insertions.includes(event.inputType)) {
+  const input = event.target;
+  if (!insertions.includes(event.inputType) || !(input instanceof HTMLInputElement)) {
     return;
   }
-  const input = event.target as HTMLInputElement;
-  const text = event.data ?? event.dataTransfer?.getData("text/plain") ?? "";
-  const inserted = event.inputType === "insertText" ? text : normalizePaste(text);
+  const text = event.data ?? event.dataTransfer?.getData(plainText) ?? "";
+  const inserted = event.inputType === insertText ? text : normalizePaste(text);
   const current = input.value;
   const start = input.selectionStart ?? current.length;
   const end = input.selectionEnd ?? current.length;
@@ -294,10 +298,10 @@ const holdInsertion = (event: InputEvent) => {
 
 // Composition and keyboards without key identity insert without a cancelable beforeinput, so their result is checked once it lands.
 const checkInput = (event: Event) => {
-  if ((event as InputEvent).isComposing) {
+  const input = event.target;
+  if ((event instanceof InputEvent && event.isComposing) || !(input instanceof HTMLInputElement)) {
     return;
   }
-  const input = event.target as HTMLInputElement;
 
   if (!fitsGrammar(removeComma(input.value))) {
     input.value = lastValidDisplay;
