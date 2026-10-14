@@ -84,6 +84,8 @@ onUnmounted(() => {
   document.removeEventListener("keyup", escapeClicked);
   window.removeEventListener("popstate", backButtonClicked);
   window.removeEventListener("pointerdown", handleClickOutside);
+  document.removeEventListener("keydown", trapFocus);
+  releaseBodyScroll();
 });
 
 function escapeClicked(event: KeyboardEvent) {
@@ -153,7 +155,7 @@ const calculatePopoverPosition = () => {
   }
 
   if (window.innerWidth < 768 && props.fullscreenOnMobile) {
-    document.body.style.overflow = "hidden";
+    lockBodyScroll();
     popoverStyle.value = {
       ...presenceLayerStyle,
       top: `${props.top}px`,
@@ -166,6 +168,20 @@ const calculatePopoverPosition = () => {
       left: `${left}px`
     };
   }
+};
+
+let holdsBodyScroll = false;
+
+const lockBodyScroll = () => {
+  if (document.body.style.overflow === "hidden") return;
+  document.body.style.overflow = "hidden";
+  holdsBodyScroll = true;
+};
+
+const releaseBodyScroll = () => {
+  if (!holdsBodyScroll) return;
+  document.body.style.removeProperty("overflow");
+  holdsBodyScroll = false;
 };
 
 const FOCUSABLE =
@@ -211,8 +227,9 @@ const show = () => {
 };
 
 const close = () => {
+  if (!isOpen.value) return;
   isOpen.value = false;
-  document.body.style.removeProperty("overflow");
+  releaseBodyScroll();
   document.removeEventListener("keydown", trapFocus);
   previouslyFocused?.focus();
   emit("close");
