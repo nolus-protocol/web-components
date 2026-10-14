@@ -183,3 +183,116 @@ describe("Popover unmount while open", () => {
     expect(removed).toHaveBeenCalledWith("keydown", trap);
   });
 });
+
+describe("Popover show", () => {
+  it("does nothing when it is already open", async () => {
+    const { popover, trigger, panelButton } = mountPopover();
+    trigger.focus();
+    popover.vm.show();
+    await settle();
+    expect(document.activeElement).toBe(panelButton("First"));
+
+    popover.vm.show();
+    await settle();
+
+    expect(popover.emitted("open")).toHaveLength(1);
+    expect((popover.element as HTMLElement).style.visibility).toBe("");
+    popover.vm.close();
+    expect(document.activeElement).toBe(trigger);
+  });
+});
+
+describe("Popover focus", () => {
+  function recordFocus() {
+    const calls: { target: HTMLElement; visibility: string }[] = [];
+    const focus = HTMLElement.prototype.focus;
+    vi.spyOn(HTMLElement.prototype, "focus").mockImplementation(function (this: HTMLElement, options) {
+      calls.push({ target: this, visibility: getComputedStyle(this).visibility });
+      focus.call(this, options);
+    });
+    return calls;
+  }
+
+  it("focuses the first focusable once the panel is visible and a frame has passed", async () => {
+    const { popover, trigger, panelButton } = mountPopover();
+    trigger.focus();
+    const calls = recordFocus();
+
+    popover.vm.show();
+    await flushPromises();
+    expect(calls).toEqual([]);
+    await settle();
+
+    expect(calls.map(({ target, visibility }) => ({ target, visibility }))).toEqual([
+      { target: panelButton("First"), visibility: "visible" }
+    ]);
+    expect(document.activeElement).toBe(panelButton("First"));
+  });
+
+  it("moves no focus when shown with focus off", async () => {
+    const { popover, trigger } = mountPopover();
+    trigger.focus();
+    const calls = recordFocus();
+
+    popover.vm.show({ focus: false });
+    await settle();
+
+    expect(calls).toEqual([]);
+    expect(document.activeElement).toBe(trigger);
+  });
+
+  it("passes the focus option through toggle", async () => {
+    const { popover, trigger } = mountPopover();
+    trigger.focus();
+    const calls = recordFocus();
+
+    popover.vm.toggle({ focus: false });
+    await settle();
+
+    expect(popover.vm.isOpen).toBe(true);
+    expect(calls).toEqual([]);
+    expect(document.activeElement).toBe(trigger);
+  });
+
+  it("focuses nothing in the panel when it closes before focus lands", async () => {
+    const { popover, trigger } = mountPopover();
+    trigger.focus();
+    const calls = recordFocus();
+
+    popover.vm.show();
+    await flushPromises();
+    const opened = popover.element as HTMLElement;
+    popover.vm.close();
+    await settle();
+
+    expect(calls.filter(({ target }) => opened.contains(target))).toEqual([]);
+    expect(document.activeElement).toBe(trigger);
+  });
+});
+
+describe("Popover close focus", () => {
+  it("returns focus to the element focused before it opened when focus is inside", async () => {
+    const { popover, trigger, panelButton } = mountPopover();
+    trigger.focus();
+    popover.vm.show();
+    await settle();
+    panelButton("Second").focus();
+
+    popover.vm.close();
+
+    expect(document.activeElement).toBe(trigger);
+  });
+
+  it("leaves focus where it is when focus is outside the panel", async () => {
+    const { popover, trigger } = mountPopover();
+    trigger.focus();
+    popover.vm.show();
+    await settle();
+    const elsewhere = button("Elsewhere");
+    elsewhere.focus();
+
+    popover.vm.close();
+
+    expect(document.activeElement).toBe(elsewhere);
+  });
+});
