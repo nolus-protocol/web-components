@@ -1,5 +1,6 @@
 import { flushPromises, mount } from "@vue/test-utils";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { defineComponent, h, inject, onMounted } from "vue";
 
 import Popover from "./Popover.vue";
 import type { PopoverProps } from "./types";
@@ -254,6 +255,21 @@ describe("Popover focus", () => {
     expect(document.activeElement).toBe(trigger);
   });
 
+  it("moves no focus for a show that a close superseded before its position pass", async () => {
+    const { popover, trigger } = mountPopover();
+    trigger.focus();
+    const calls = recordFocus();
+
+    popover.vm.show();
+    popover.vm.close();
+    await flushPromises();
+    popover.vm.show({ focus: false });
+    await settle();
+
+    expect(calls).toEqual([]);
+    expect(document.activeElement).toBe(trigger);
+  });
+
   it("focuses nothing in the panel when it closes before focus lands", async () => {
     const { popover, trigger } = mountPopover();
     trigger.focus();
@@ -279,6 +295,36 @@ describe("Popover close focus", () => {
     panelButton("Second").focus();
 
     popover.vm.close();
+
+    expect(document.activeElement).toBe(trigger);
+  });
+
+  it("returns focus to the element focused before it opened when focus is in a registered safe element", async () => {
+    const SafeList = defineComponent({
+      setup() {
+        const register = inject<(element: HTMLElement) => void>("registerSafeElement");
+        onMounted(() => register?.(button("Option")));
+        return () => h("button", "First");
+      }
+    });
+    const trigger = button("Trigger");
+    const popover = mount(Popover, {
+      global: { stubs: { transition: false } },
+      props: { parent: trigger, position: "bottom" },
+      slots: { content: SafeList },
+      attachTo: document.body
+    });
+    unmount = () => popover.unmount();
+    trigger.focus();
+    popover.vm.show();
+    await settle();
+    const option = Array.from(document.body.querySelectorAll("button")).find(
+      (element) => element.textContent === "Option"
+    );
+    option?.focus();
+    expect(document.activeElement).toBe(option);
+
+    goBack();
 
     expect(document.activeElement).toBe(trigger);
   });

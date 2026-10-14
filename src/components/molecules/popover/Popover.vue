@@ -221,6 +221,7 @@ interface ShowOptions {
 }
 
 let focusFrame = 0;
+let openId = 0;
 
 // A focusable with its own transition (the Button's `transition: all`) keeps the inherited `visibility: hidden` until
 // a frame has passed, and a browser ignores focus() on it until then.
@@ -232,13 +233,14 @@ const focusFirstOnceVisible = () => {
 
 const show = ({ focus = true }: ShowOptions = {}) => {
   if (isOpen.value) return;
+  const id = ++openId;
   previouslyFocused = document.activeElement as HTMLElement;
   popoverStyle.value = { ...presenceLayerStyle, visibility: "hidden" };
   isOpen.value = true;
   emit("open");
   nextTick(() => {
     calculatePopoverPosition();
-    if (focus) {
+    if (focus && id === openId) {
       focusFirstOnceVisible();
     }
   });
@@ -247,7 +249,8 @@ const show = ({ focus = true }: ShowOptions = {}) => {
 
 const close = () => {
   if (!isOpen.value) return;
-  const focusInside = popover.value?.contains(document.activeElement) ?? false;
+  const focusInside = [popover.value, ...safeElements].some((element) => element?.contains(document.activeElement));
+  openId++;
   isOpen.value = false;
   cancelAnimationFrame(focusFrame);
   releaseBodyScroll();
