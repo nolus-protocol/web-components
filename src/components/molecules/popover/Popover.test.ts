@@ -296,3 +296,43 @@ describe("Popover close focus", () => {
     expect(document.activeElement).toBe(elsewhere);
   });
 });
+
+describe("Popover phone sheet height", () => {
+  it("caps the sheet's height inline at the viewport below its top", async () => {
+    vi.stubGlobal("innerWidth", PHONE_WIDTH);
+    const { popover } = mountPopover({ top: 30 });
+    popover.vm.show();
+    await settle();
+    const root = popover.element as HTMLElement;
+
+    expect({ top: root.style.top, maxHeight: root.style.maxHeight }).toEqual({
+      top: "30px",
+      maxHeight: "calc(100% - 30px)"
+    });
+  });
+
+  it("keeps the default top of 65", async () => {
+    vi.stubGlobal("innerWidth", PHONE_WIDTH);
+    const { popover } = mountPopover();
+    popover.vm.show();
+    await settle();
+    const root = popover.element as HTMLElement;
+
+    expect({ top: root.style.top, maxHeight: root.style.maxHeight }).toEqual({
+      top: "65px",
+      maxHeight: "calc(100% - 65px)"
+    });
+  });
+
+  it("keeps the class cap from 768 and sets no inline cap on an anchored popover", async () => {
+    vi.stubGlobal("innerWidth", DESKTOP_WIDTH);
+    const { popover } = mountPopover({ top: 30 });
+    popover.vm.show();
+    await settle();
+    const root = popover.element as HTMLElement;
+
+    expect(root.style.maxHeight).toBe("");
+    expect(root.classList.contains("md:max-h-[calc(100%-65px)]")).toBe(true);
+    expect(root.classList.contains("max-h-[calc(100%-65px)]")).toBe(false);
+  });
+});

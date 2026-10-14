@@ -6,7 +6,7 @@
       :class="[
         'fixed z-9997 flex flex-col overflow-y-hidden bg-neutral-bg-2 shadow-larger',
         fullscreenOnMobile
-          ? 'h-screen max-h-[calc(100%-65px)] w-full md:h-fit md:max-w-lg md:rounded-xl md:border md:border-border-default'
+          ? 'h-screen w-full md:h-fit md:max-h-[calc(100%-65px)] md:max-w-lg md:rounded-xl md:border md:border-border-default'
           : 'h-fit max-w-lg rounded-xl border border-border-default',
         $attrs.class
       ]"
@@ -160,7 +160,8 @@ const calculatePopoverPosition = () => {
     popoverStyle.value = {
       ...presenceLayerStyle,
       top: `${props.top}px`,
-      left: "0"
+      left: "0",
+      maxHeight: `calc(100% - ${props.top}px)`
     };
   } else {
     popoverStyle.value = {
