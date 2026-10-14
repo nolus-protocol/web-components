@@ -7,6 +7,7 @@
         :class="[{ 'flex-wrap gap-y-4 md:justify-end': $slots['header-actions'] }, headerClasses]"
       >
         <div
+          v-if="$slots.header || searchable || size"
           class="flex flex-1 items-center gap-2 md:flex-none"
           :class="{ 'md:mr-auto': $slots['header-actions'] }"
         >
