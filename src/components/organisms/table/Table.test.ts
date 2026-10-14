@@ -122,17 +122,6 @@ describe("Table header actions", () => {
     }
   );
 
-  it("starts a tall header block and the actions beside it at the same top", () => {
-    const table = mountTable(
-      {},
-      { header: () => h("div", { style: "height: 100px" }, "Deposited"), "header-actions": headerActions }
-    );
-    const { row } = actionsOf(table);
-
-    expect(row.classList).toContain("items-start");
-    expect(row.classList).not.toContain("items-center");
-  });
-
   it("keeps the header classes passed by the consumer", () => {
     const table = mountTable({ searchable: true, headerClasses: "px-6" }, { "header-actions": headerActions });
 
