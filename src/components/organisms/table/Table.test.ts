@@ -72,7 +72,7 @@ describe("Table header actions", () => {
     const searchGroup = Array.from(row.children).find((child) => child.contains(search));
 
     expect(Array.from(row.classList).sort()).toEqual(
-      ["flex", "items-center", "justify-between", "gap-2", "flex-wrap", "gap-y-4", "md:justify-end"].sort()
+      ["flex", "items-start", "justify-between", "gap-2", "flex-wrap", "gap-y-4", "md:justify-end"].sort()
     );
     expect(Array.from(searchGroup?.classList ?? []).sort()).toEqual(
       ["flex", "flex-1", "items-center", "gap-2", "md:flex-none", "md:mr-auto"].sort()
@@ -130,7 +130,7 @@ describe("Table header actions", () => {
 });
 
 describe("Table without header actions", () => {
-  it("renders the same markup as before the header-actions slot existed", () => {
+  it("renders the markup from before the header-actions slot existed, with the row's groups aligned to the top", () => {
     wrapper = mount(Table, {
       props: {
         searchable: true,
@@ -143,11 +143,12 @@ describe("Table without header actions", () => {
       global: { stubs: { Input: true, TableSettings: true } }
     });
 
-    // Markup captured before the slot existed. The <!--v-if--> before the settings is the slot wrapper's
-    // v-if placeholder: a comment node, invisible to CSS and layout, and the only node the slot adds.
+    // Markup captured before the slot existed, except the row's items-start (its groups start at its top).
+    // The <!--v-if--> before the settings is the slot wrapper's v-if placeholder: a comment node, invisible
+    // to CSS and layout, and the only node the slot adds.
     expect(wrapper.html()).toBe(`<div class="flex flex-col gap-y-6">
   <div>
-    <div class="flex items-center justify-between gap-2 px-6">
+    <div class="flex items-start justify-between gap-2 px-6">
       <div class="flex flex-1 items-center gap-2 md:flex-none"><span>Total value</span>
         <input-stub id="dropdown-search" size="medium" type="search" error="false" disabled="false" valid="false" class="w-full md:w-96"></input-stub><span class="hidden text-14 font-normal text-typography-secondary md:block">3 assets</span>
       </div>

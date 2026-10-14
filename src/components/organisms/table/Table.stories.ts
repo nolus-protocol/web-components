@@ -260,6 +260,13 @@ export const HeaderActions: StoryObj<typeof meta> = {
               console.info(data);
           }"
       >
+        <template v-slot:header>
+          <div class="flex flex-col gap-1">
+            <span class="text-14 font-normal text-typography-secondary">Deposited</span>
+            <span class="text-40 font-semibold text-typography-default">$12,430.50</span>
+            <span class="text-14 font-normal text-typography-secondary">Earning 8.4% APR</span>
+          </div>
+        </template>
         <template v-slot:header-actions>
           <Button
             label="Deposit"

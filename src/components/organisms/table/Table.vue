@@ -3,7 +3,7 @@
     <div v-if="showAttributes">
       <div
         v-if="showAttributes"
-        class="flex items-center justify-between gap-2"
+        class="flex items-start justify-between gap-2"
         :class="[{ 'flex-wrap gap-y-4 md:justify-end': $slots['header-actions'] }, headerClasses]"
       >
         <div
