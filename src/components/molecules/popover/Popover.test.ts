@@ -1,6 +1,6 @@
 import { flushPromises, mount } from "@vue/test-utils";
-import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { defineComponent, h, inject, onMounted } from "vue";
+import { afterEach, describe, expect, it, vi } from "vitest";
+import { defineComponent, h, inject, nextTick, onMounted } from "vue";
 
 import Popover from "./Popover.vue";
 import type { PopoverProps } from "./types";
@@ -10,23 +10,12 @@ const DESKTOP_WIDTH = 1024;
 
 let unmount: (() => void) | null = null;
 
-beforeEach(() => {
-  vi.useFakeTimers({ toFake: ["requestAnimationFrame", "cancelAnimationFrame"] });
-});
-
 afterEach(() => {
   unmount?.();
   unmount = null;
   document.body.innerHTML = "";
   document.body.removeAttribute("style");
-  vi.useRealTimers();
 });
-
-async function settle() {
-  await flushPromises();
-  vi.advanceTimersToNextFrame();
-  vi.advanceTimersToNextFrame();
-}
 
 function button(label: string) {
   const element = document.createElement("button");
@@ -71,9 +60,9 @@ describe("Popover close while closed", () => {
     const { popover, trigger } = mountPopover();
     trigger.focus();
     popover.vm.show();
-    await settle();
+    await flushPromises();
     popover.vm.close();
-    await settle();
+    await flushPromises();
     const elsewhere = button("Elsewhere");
     elsewhere.focus();
     document.body.style.overflow = "hidden";
@@ -81,7 +70,7 @@ describe("Popover close while closed", () => {
     pressEscape();
     goBack();
     popover.vm.close();
-    await settle();
+    await flushPromises();
 
     expect(document.activeElement).toBe(elsewhere);
     expect(bodyOverflow()).toBe("hidden");
@@ -95,7 +84,7 @@ describe("Popover body scroll lock", () => {
     const { popover } = mountPopover();
     document.body.style.overflow = "hidden";
     popover.vm.show();
-    await settle();
+    await flushPromises();
 
     popover.vm.close();
 
@@ -107,7 +96,7 @@ describe("Popover body scroll lock", () => {
     const { popover } = mountPopover();
     document.body.style.overflow = "hidden";
     popover.vm.show();
-    await settle();
+    await flushPromises();
 
     popover.unmount();
     unmount = null;
@@ -119,7 +108,7 @@ describe("Popover body scroll lock", () => {
     vi.stubGlobal("innerWidth", DESKTOP_WIDTH);
     const { popover } = mountPopover();
     popover.vm.show();
-    await settle();
+    await flushPromises();
     document.body.style.overflow = "hidden";
 
     popover.vm.close();
@@ -131,7 +120,7 @@ describe("Popover body scroll lock", () => {
     vi.stubGlobal("innerWidth", PHONE_WIDTH);
     const { popover } = mountPopover();
     popover.vm.show();
-    await settle();
+    await flushPromises();
     expect(bodyOverflow()).toBe("hidden");
 
     popover.vm.close();
@@ -143,7 +132,7 @@ describe("Popover body scroll lock", () => {
     vi.stubGlobal("innerWidth", PHONE_WIDTH);
     const { popover } = mountPopover();
     popover.vm.show();
-    await settle();
+    await flushPromises();
     expect(bodyOverflow()).toBe("hidden");
 
     popover.unmount();
@@ -157,7 +146,7 @@ describe("Popover body scroll lock", () => {
     const { popover } = mountPopover();
     document.body.style.overflow = "hidden";
     popover.vm.show();
-    await settle();
+    await flushPromises();
     document.body.style.removeProperty("overflow");
 
     window.dispatchEvent(new Event("scroll"));
@@ -173,7 +162,7 @@ describe("Popover unmount while open", () => {
     const { popover } = mountPopover();
     const added = vi.spyOn(document, "addEventListener");
     popover.vm.show();
-    await settle();
+    await flushPromises();
     const trap = added.mock.calls.find(([type]) => type === "keydown")?.[1];
     expect(trap).toBeTypeOf("function");
     const removed = vi.spyOn(document, "removeEventListener");
@@ -190,11 +179,11 @@ describe("Popover show", () => {
     const { popover, trigger, panelButton } = mountPopover();
     trigger.focus();
     popover.vm.show();
-    await settle();
+    await flushPromises();
     expect(document.activeElement).toBe(panelButton("First"));
 
     popover.vm.show();
-    await settle();
+    await flushPromises();
 
     expect(popover.emitted("open")).toHaveLength(1);
     expect((popover.element as HTMLElement).style.visibility).toBe("");
@@ -214,15 +203,22 @@ describe("Popover focus", () => {
     return calls;
   }
 
-  it("focuses the first focusable once the panel is visible and a frame has passed", async () => {
+  it("never hides the panel while it positions it", async () => {
+    const { popover } = mountPopover();
+
+    popover.vm.show();
+    await nextTick();
+
+    expect((popover.element as HTMLElement).style.visibility).toBe("");
+  });
+
+  it("focuses the first focusable once the position pass has been committed, without waiting for a frame", async () => {
     const { popover, trigger, panelButton } = mountPopover();
     trigger.focus();
     const calls = recordFocus();
 
     popover.vm.show();
     await flushPromises();
-    expect(calls).toEqual([]);
-    await settle();
 
     expect(calls.map(({ target, visibility }) => ({ target, visibility }))).toEqual([
       { target: panelButton("First"), visibility: "visible" }
@@ -236,7 +232,7 @@ describe("Popover focus", () => {
     const calls = recordFocus();
 
     popover.vm.show({ focus: false });
-    await settle();
+    await flushPromises();
 
     expect(calls).toEqual([]);
     expect(document.activeElement).toBe(trigger);
@@ -248,7 +244,7 @@ describe("Popover focus", () => {
     const calls = recordFocus();
 
     popover.vm.toggle({ focus: false });
-    await settle();
+    await flushPromises();
 
     expect(popover.vm.isOpen).toBe(true);
     expect(calls).toEqual([]);
@@ -264,7 +260,7 @@ describe("Popover focus", () => {
     popover.vm.close();
     await flushPromises();
     popover.vm.show({ focus: false });
-    await settle();
+    await flushPromises();
 
     expect(calls).toEqual([]);
     expect(document.activeElement).toBe(trigger);
@@ -276,10 +272,10 @@ describe("Popover focus", () => {
     const calls = recordFocus();
 
     popover.vm.show();
-    await flushPromises();
+    await nextTick();
     const opened = popover.element as HTMLElement;
     popover.vm.close();
-    await settle();
+    await flushPromises();
 
     expect(calls.filter(({ target }) => opened.contains(target))).toEqual([]);
     expect(document.activeElement).toBe(trigger);
@@ -291,7 +287,7 @@ describe("Popover close focus", () => {
     const { popover, trigger, panelButton } = mountPopover();
     trigger.focus();
     popover.vm.show();
-    await settle();
+    await flushPromises();
     panelButton("Second").focus();
 
     popover.vm.close();
@@ -317,7 +313,7 @@ describe("Popover close focus", () => {
     unmount = () => popover.unmount();
     trigger.focus();
     popover.vm.show();
-    await settle();
+    await flushPromises();
     const option = Array.from(document.body.querySelectorAll("button")).find(
       (element) => element.textContent === "Option"
     );
@@ -333,7 +329,7 @@ describe("Popover close focus", () => {
     const { popover, trigger } = mountPopover();
     trigger.focus();
     popover.vm.show();
-    await settle();
+    await flushPromises();
     const elsewhere = button("Elsewhere");
     elsewhere.focus();
 
@@ -348,7 +344,7 @@ describe("Popover phone sheet height", () => {
     vi.stubGlobal("innerWidth", PHONE_WIDTH);
     const { popover } = mountPopover({ top: 30 });
     popover.vm.show();
-    await settle();
+    await flushPromises();
     const root = popover.element as HTMLElement;
 
     expect({ top: root.style.top, maxHeight: root.style.maxHeight }).toEqual({
@@ -361,7 +357,7 @@ describe("Popover phone sheet height", () => {
     vi.stubGlobal("innerWidth", PHONE_WIDTH);
     const { popover } = mountPopover();
     popover.vm.show();
-    await settle();
+    await flushPromises();
     const root = popover.element as HTMLElement;
 
     expect({ top: root.style.top, maxHeight: root.style.maxHeight }).toEqual({
@@ -374,7 +370,7 @@ describe("Popover phone sheet height", () => {
     vi.stubGlobal("innerWidth", DESKTOP_WIDTH);
     const { popover } = mountPopover({ top: 30 });
     popover.vm.show();
-    await settle();
+    await flushPromises();
     const root = popover.element as HTMLElement;
 
     expect(root.style.maxHeight).toBe("");

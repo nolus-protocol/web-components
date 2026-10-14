@@ -85,7 +85,6 @@ onUnmounted(() => {
   window.removeEventListener("popstate", backButtonClicked);
   window.removeEventListener("pointerdown", handleClickOutside);
   document.removeEventListener("keydown", trapFocus);
-  cancelAnimationFrame(focusFrame);
   releaseBodyScroll();
 });
 
@@ -220,28 +219,25 @@ interface ShowOptions {
   focus?: boolean;
 }
 
-let focusFrame = 0;
 let openId = 0;
 
-// A focusable with its own transition (the Button's `transition: all`) keeps the inherited `visibility: hidden` until
-// a frame has passed, and a browser ignores focus() on it until then.
-const focusFirstOnceVisible = () => {
-  focusFrame = requestAnimationFrame(() => {
-    focusFrame = requestAnimationFrame(() => getFocusable()[0]?.focus());
-  });
-};
-
+// No `visibility: hidden` while positioning: the position pass commits before the first paint, which the enter
+// transition starts at opacity 0, and a hidden ancestor keeps a focusable with its own transition (the Button's
+// `transition: all`) unfocusable for an unpredictable number of frames.
 const show = ({ focus = true }: ShowOptions = {}) => {
   if (isOpen.value) return;
   const id = ++openId;
   previouslyFocused = document.activeElement as HTMLElement;
-  popoverStyle.value = { ...presenceLayerStyle, visibility: "hidden" };
   isOpen.value = true;
   emit("open");
   nextTick(() => {
     calculatePopoverPosition();
-    if (focus && id === openId) {
-      focusFirstOnceVisible();
+    if (focus) {
+      nextTick(() => {
+        if (id === openId) {
+          getFocusable()[0]?.focus();
+        }
+      });
     }
   });
   document.addEventListener("keydown", trapFocus);
@@ -252,7 +248,6 @@ const close = () => {
   const focusInside = [popover.value, ...safeElements].some((element) => element?.contains(document.activeElement));
   openId++;
   isOpen.value = false;
-  cancelAnimationFrame(focusFrame);
   releaseBodyScroll();
   document.removeEventListener("keydown", trapFocus);
   if (focusInside) {
