@@ -93,6 +93,35 @@ describe("Table header actions", () => {
     );
   });
 
+  it.each([
+    ["no size", {}],
+    ["an empty size", { size: "" }]
+  ])("renders no left group when the actions are the header's only content (%s)", (_, props: TableProps) => {
+    const { actions, row } = actionsOf(mountTable(props, { "header-actions": headerActions }));
+
+    expect(Array.from(row.children)).toEqual([actions]);
+  });
+
+  it.each([
+    ["the search", { searchable: true }, {}, (group: Element) => group.querySelector('input[type="search"]')],
+    ["the size", { size: "3 assets" }, {}, (group: Element) => (group.textContent === "3 assets" ? group : null)],
+    [
+      "the header slot",
+      {},
+      { header: () => h("span", "Total value") },
+      (group: Element) => (group.textContent === "Total value" ? group : null)
+    ]
+  ])(
+    "keeps the left group before the actions when it holds %s",
+    (_, props: TableProps, slots: Record<string, () => unknown>, content: (group: Element) => Element | null) => {
+      const { actions, row } = actionsOf(mountTable(props, { ...slots, "header-actions": headerActions }));
+      const [group, ...rest] = Array.from(row.children);
+
+      expect(rest).toEqual([actions]);
+      expect(group && content(group)).toBeTruthy();
+    }
+  );
+
   it("keeps the header classes passed by the consumer", () => {
     const table = mountTable({ searchable: true, headerClasses: "px-6" }, { "header-actions": headerActions });
 
