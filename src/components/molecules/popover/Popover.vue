@@ -6,7 +6,7 @@
       :class="[
         'fixed z-9997 flex flex-col overflow-y-hidden bg-neutral-bg-2 shadow-larger',
         fullscreenOnMobile
-          ? 'h-screen max-h-[calc(100%-65px)] w-full md:h-fit md:max-w-lg md:rounded-xl md:border md:border-border-default'
+          ? 'h-screen w-full md:h-fit md:max-h-[calc(100%-65px)] md:max-w-lg md:rounded-xl md:border md:border-border-default'
           : 'h-fit max-w-lg rounded-xl border border-border-default',
         $attrs.class
       ]"
@@ -84,6 +84,9 @@ onUnmounted(() => {
   document.removeEventListener("keyup", escapeClicked);
   window.removeEventListener("popstate", backButtonClicked);
   window.removeEventListener("pointerdown", handleClickOutside);
+  document.removeEventListener("keydown", trapFocus);
+  cancelAnimationFrame(focusFrame);
+  releaseBodyScroll();
 });
 
 function escapeClicked(event: KeyboardEvent) {
@@ -153,11 +156,12 @@ const calculatePopoverPosition = () => {
   }
 
   if (window.innerWidth < 768 && props.fullscreenOnMobile) {
-    document.body.style.overflow = "hidden";
+    lockBodyScroll();
     popoverStyle.value = {
       ...presenceLayerStyle,
       top: `${props.top}px`,
-      left: "0"
+      left: "0",
+      maxHeight: `calc(100% - ${props.top}px)`
     };
   } else {
     popoverStyle.value = {
@@ -166,6 +170,20 @@ const calculatePopoverPosition = () => {
       left: `${left}px`
     };
   }
+};
+
+let holdsBodyScroll = false;
+
+const lockBodyScroll = () => {
+  if (document.body.style.overflow === "hidden") return;
+  document.body.style.overflow = "hidden";
+  holdsBodyScroll = true;
+};
+
+const releaseBodyScroll = () => {
+  if (!holdsBodyScroll) return;
+  document.body.style.removeProperty("overflow");
+  holdsBodyScroll = false;
 };
 
 const FOCUSABLE =
@@ -198,31 +216,57 @@ const trapFocus = (event: KeyboardEvent) => {
   }
 };
 
-const show = () => {
+interface ShowOptions {
+  focus?: boolean;
+}
+
+let focusFrame = 0;
+let openId = 0;
+
+// A focusable with its own transition (the Button's `transition: all`) keeps the inherited `visibility: hidden` until
+// a frame has passed, and a browser ignores focus() on it until then.
+const focusFirstOnceVisible = () => {
+  focusFrame = requestAnimationFrame(() => {
+    focusFrame = requestAnimationFrame(() => getFocusable()[0]?.focus());
+  });
+};
+
+const show = ({ focus = true }: ShowOptions = {}) => {
+  if (isOpen.value) return;
+  const id = ++openId;
   previouslyFocused = document.activeElement as HTMLElement;
   popoverStyle.value = { ...presenceLayerStyle, visibility: "hidden" };
   isOpen.value = true;
   emit("open");
   nextTick(() => {
     calculatePopoverPosition();
-    getFocusable()[0]?.focus();
+    if (focus && id === openId) {
+      focusFirstOnceVisible();
+    }
   });
   document.addEventListener("keydown", trapFocus);
 };
 
 const close = () => {
+  if (!isOpen.value) return;
+  const focusInside = [popover.value, ...safeElements].some((element) => element?.contains(document.activeElement));
+  openId++;
   isOpen.value = false;
-  document.body.style.removeProperty("overflow");
+  cancelAnimationFrame(focusFrame);
+  releaseBodyScroll();
   document.removeEventListener("keydown", trapFocus);
-  previouslyFocused?.focus();
+  if (focusInside) {
+    previouslyFocused?.focus();
+  }
+  previouslyFocused = null;
   emit("close");
 };
 
-const toggle = () => {
+const toggle = (options?: ShowOptions) => {
   if (isOpen.value) {
     close();
   } else {
-    show();
+    show(options);
   }
 };
 
