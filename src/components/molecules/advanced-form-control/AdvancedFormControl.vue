@@ -32,9 +32,9 @@
         :placeholder="pickerPlacehodler"
         class="min-w-[135px]"
       />
-      <div
+      <LabelGroup
         v-if="labelAdvanced"
-        :class="$slots['label-actions'] ? 'mr-3 flex flex-1 flex-wrap items-center gap-x-3 gap-y-2' : 'contents'"
+        :grouped="!!$slots['label-actions']"
       >
         <label
           :for="id"
@@ -58,7 +58,7 @@
         >
           <slot name="label-actions"></slot>
         </div>
-      </div>
+      </LabelGroup>
       <div
         v-if="!hideBalance"
         class="flex flex-col gap-2 text-14 font-normal text-typography-default md:flex-row"
@@ -122,7 +122,7 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref, watch } from "vue";
+import { h, onMounted, ref, watch, type FunctionalComponent } from "vue";
 import { Dropdown, Tooltip, SvgIcon } from "@/components";
 import type { AdvancedCurrencyFieldOption, AdvancedCurrencyFieldProps } from "./types";
 import { InputType, type DropdownOption } from "@/components/types";
@@ -142,6 +142,13 @@ const plainText = "text/plain";
 const tooltipTrigger = "[data-tooltip-trigger]";
 const allowed = ["Delete", "Backspace", "ArrowLeft", "ArrowRight", "-", ".", "Enter", "Tab", "Control", "End", "Home"];
 const numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+
+// Without actions the label stays a direct child of the label line, as consumers read it there.
+const LabelGroup: FunctionalComponent<{ grouped: boolean }> = (groupProps, { slots }) =>
+  groupProps.grouped
+    ? h("div", { class: "mr-3 flex flex-1 flex-wrap items-center gap-x-3 gap-y-2" }, slots.default?.())
+    : slots.default?.();
+LabelGroup.props = ["grouped"];
 
 const props = withDefaults(defineProps<AdvancedCurrencyFieldProps<DropdownOption>>(), {
   hideBalance: false,
