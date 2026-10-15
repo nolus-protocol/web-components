@@ -35,6 +35,7 @@
       <LabelGroup
         v-if="labelAdvanced"
         :grouped="!!$slots['label-actions']"
+        :ends-line="balanceRow"
       >
         <label
           :for="id"
@@ -60,7 +61,7 @@
         </div>
       </LabelGroup>
       <div
-        v-if="!hideBalance"
+        v-if="!hideBalance && !balanceRow"
         class="flex flex-col gap-2 text-14 font-normal text-typography-default md:flex-row"
       >
         <span v-if="balanceLabel">{{ balanceLabel }}</span>
@@ -69,11 +70,22 @@
           class="cursor-pointer text-typography-link"
           @click="setBalance"
         >
-          {{
-            selectedToken?.balance?.customLabel ?? `${selectedToken?.balance?.value} ${selectedToken?.balance?.ticker}`
-          }}
+          {{ balanceAmount }}
         </span>
       </div>
+    </div>
+    <div
+      v-if="!hideBalance && balanceRow"
+      class="flex justify-end gap-2 text-14 font-normal text-typography-default"
+    >
+      <span v-if="balanceLabel">{{ balanceLabel }}</span>
+      <span
+        v-if="selectedToken?.balance"
+        class="cursor-pointer text-typography-link"
+        @click="setBalance"
+      >
+        {{ balanceAmount }}
+      </span>
     </div>
     <div class="flex flex-col">
       <input
@@ -122,7 +134,7 @@
 </template>
 
 <script lang="ts" setup>
-import { h, onMounted, ref, watch, type FunctionalComponent } from "vue";
+import { computed, h, onMounted, ref, watch, type FunctionalComponent } from "vue";
 import { Dropdown, Tooltip, SvgIcon } from "@/components";
 import type { AdvancedCurrencyFieldOption, AdvancedCurrencyFieldProps } from "./types";
 import { InputType, type DropdownOption } from "@/components/types";
@@ -144,20 +156,35 @@ const allowed = ["Delete", "Backspace", "ArrowLeft", "ArrowRight", "-", ".", "En
 const numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 
 // Without actions the label stays a direct child of the label line, as consumers read it there.
-const LabelGroup: FunctionalComponent<{ grouped: boolean }> = (groupProps, { slots }) =>
+const LabelGroup: FunctionalComponent<{ grouped: boolean; endsLine: boolean }> = (groupProps, { slots }) =>
   groupProps.grouped
-    ? h("div", { class: "mr-3 flex flex-1 flex-wrap items-center gap-x-3 gap-y-2" }, slots.default?.())
+    ? h(
+        "div",
+        {
+          class: groupProps.endsLine
+            ? "flex flex-1 flex-wrap items-center gap-x-3 gap-y-2"
+            : "mr-3 flex flex-1 flex-wrap items-center gap-x-3 gap-y-2"
+        },
+        slots.default?.()
+      )
     : slots.default?.();
-LabelGroup.props = ["grouped"];
+LabelGroup.props = ["grouped", "endsLine"];
 
 const props = withDefaults(defineProps<AdvancedCurrencyFieldProps<DropdownOption>>(), {
   hideBalance: false,
+  balanceRow: false,
   type: InputType.text
 });
 
 const numberValue = ref(props.value);
 let lastValidDisplay = numberValue.value ?? "";
 const selectedToken = ref<AdvancedCurrencyFieldOption | undefined>(props.selectedCurrencyOption);
+
+const balanceAmount = computed(
+  () =>
+    selectedToken.value?.balance?.customLabel ??
+    `${selectedToken.value?.balance?.value} ${selectedToken.value?.balance?.ticker}`
+);
 
 onMounted(() => {
   setValue(true);

@@ -22,6 +22,7 @@ export interface AdvancedCurrencyFieldProps<T extends DropdownOption> {
   balanceLabel?: string;
   calculatedBalance?: string;
   hideBalance?: boolean;
+  balanceRow?: boolean;
   tooltip?: string;
   selectedCurrencyOption?: AdvancedCurrencyFieldOption;
   currencyOptions: AdvancedCurrencyFieldOption[];

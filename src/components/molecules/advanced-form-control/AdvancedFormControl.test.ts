@@ -57,6 +57,8 @@ type FieldProps = {
   labelAdvanced?: boolean;
   balanceLabel?: string;
   hideBalance?: boolean;
+  balanceRow?: boolean;
+  errorMsg?: string;
   selectedCurrencyOption?: AdvancedCurrencyFieldOption;
 };
 
@@ -64,7 +66,8 @@ function mountField(props: FieldProps = {}, slots: Record<string, () => VNode[]>
   wrapper = mount(AdvancedFormControl, {
     props: { id: "amount", currencyOptions: [], placeholder: "0", ...props },
     slots,
-    attachTo: document.body
+    attachTo: document.body,
+    global: { stubs: { transition: false } }
   });
   return wrapper;
 }
@@ -357,5 +360,145 @@ describe("AdvancedFormControl label line without actions", () => {
     const label = fieldLabel();
 
     expect([...label.parentElement!.children]).toEqual([wrapper!.findComponent(Dropdown).element, label]);
+  });
+
+  it.each([undefined, false])(
+    "keeps the root to the label line and the amount block with balanceRow %j",
+    (balanceRow) => {
+      mountField(
+        { labelAdvanced: true, balanceRow, balanceLabel: "Balance", selectedCurrencyOption: usdc },
+        { label: collateral }
+      );
+
+      expect(rootChildren()).toEqual([fieldLabel().parentElement, amountBlock()]);
+    }
+  );
+
+  it.each([undefined, false])("adds only the error block to the root with balanceRow %j", (balanceRow) => {
+    mountField(
+      { labelAdvanced: true, balanceRow, balanceLabel: "Balance", selectedCurrencyOption: usdc, errorMsg: "Too much" },
+      { label: collateral }
+    );
+    const error = textNode("Too much").element.parentElement;
+
+    expect(rootChildren()).toEqual([fieldLabel().parentElement, amountBlock(), error]);
+  });
+
+  it.each([undefined, false])(
+    "keeps the line to the picker, the label group and the balance with actions and balanceRow %j",
+    (balanceRow) => {
+      mountField(
+        { labelAdvanced: true, balanceRow, balanceLabel: "Balance", selectedCurrencyOption: usdc },
+        { label: collateral, "label-actions": chips }
+      );
+      const group = fieldLabel().parentElement!;
+      const line = group.parentElement!;
+      const balance = textNode("2500 USDC").element.parentElement;
+
+      expect([...line.children]).toEqual([wrapper!.findComponent(Dropdown).element, group, balance]);
+      expect(rootChildren()).toEqual([line, amountBlock()]);
+    }
+  );
+});
+
+function rootChildren() {
+  return [...wrapper!.element.children];
+}
+
+function amountBlock() {
+  return field().parentElement;
+}
+
+describe("AdvancedFormControl balance row", () => {
+  it("moves the balance off the label line to its own row before the amount", () => {
+    mountField(
+      { labelAdvanced: true, balanceRow: true, balanceLabel: "Balance", selectedCurrencyOption: usdc },
+      { label: collateral, "label-actions": chips }
+    );
+    const label = fieldLabel();
+    const group = wrapper!.get("[role='group']").element;
+    const line = label.parentElement!.parentElement!;
+    const row = line.nextElementSibling!;
+
+    expect(line.contains(label)).toBe(true);
+    expect(line.contains(group)).toBe(true);
+    expect(line.textContent).not.toContain("Balance");
+    expect(line.textContent).not.toContain("2500 USDC");
+    expect([...row.children].map((span) => span.textContent?.trim())).toEqual(["Balance", "2500 USDC"]);
+    expect(row.nextElementSibling).toBe(amountBlock());
+    expect(rootChildren()).toEqual([line, row, amountBlock()]);
+  });
+
+  it("fills the field from the amount on the balance row and keeps the label as the input's name", async () => {
+    mountField(
+      { labelAdvanced: true, balanceRow: true, balanceLabel: "Balance", selectedCurrencyOption: usdc },
+      { label: collateral, "label-actions": chips }
+    );
+    await textNode("2500 USDC").trigger("click");
+
+    expect(emitted()).toEqual(["2500"]);
+    expect(field().value).toBe("2,500");
+    expect(computeAccessibleName(field())).toBe("Collateral");
+  });
+
+  it("drops the label group's trailing margin only on the balance row", () => {
+    const groupClasses = (props: FieldProps) => {
+      mountField(
+        { labelAdvanced: true, selectedCurrencyOption: usdc, ...props },
+        { label: collateral, "label-actions": chips }
+      );
+      const classes = [...fieldLabel().parentElement!.classList];
+      wrapper!.unmount();
+      wrapper = null;
+      return classes;
+    };
+
+    expect(groupClasses({ balanceRow: true })).not.toContain("mr-3");
+    expect(groupClasses({})).toContain("mr-3");
+    expect(groupClasses({ balanceRow: false })).toContain("mr-3");
+    expect(groupClasses({ hideBalance: true })).toContain("mr-3");
+  });
+
+  it("leaves the picker and the label alone on the line without actions", () => {
+    mountField(
+      { labelAdvanced: true, balanceRow: true, balanceLabel: "Balance", selectedCurrencyOption: usdc },
+      { label: collateral }
+    );
+    const label = fieldLabel();
+    const line = label.parentElement!;
+    const row = line.nextElementSibling!;
+
+    expect([...line.children]).toEqual([wrapper!.findComponent(Dropdown).element, label]);
+    expect(row.textContent).toContain("Balance");
+    expect(row.textContent).toContain("2500 USDC");
+    expect(row.nextElementSibling).toBe(amountBlock());
+  });
+
+  it("renders no balance anywhere when the balance is hidden", () => {
+    mountField(
+      {
+        labelAdvanced: true,
+        balanceRow: true,
+        hideBalance: true,
+        balanceLabel: "Balance",
+        selectedCurrencyOption: usdc
+      },
+      { label: collateral, "label-actions": chips }
+    );
+
+    expect(wrapper!.text()).not.toContain("Balance");
+    expect(wrapper!.text()).not.toContain("2500");
+    expect(rootChildren()).toEqual([fieldLabel().parentElement!.parentElement, amountBlock()]);
+  });
+
+  it("puts the balance row under the picker line outside labelAdvanced", () => {
+    mountField({ label: "Amount", balanceRow: true, balanceLabel: "Balance", selectedCurrencyOption: usdc });
+    const picker = wrapper!.findComponent(Dropdown).element;
+    const line = picker.parentElement!;
+    const row = line.nextElementSibling!;
+
+    expect([...line.children]).toEqual([picker]);
+    expect([...row.children].map((span) => span.textContent?.trim())).toEqual(["Balance", "2500 USDC"]);
+    expect(row.nextElementSibling).toBe(amountBlock());
   });
 });
