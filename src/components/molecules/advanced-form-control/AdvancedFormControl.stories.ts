@@ -6,7 +6,8 @@ import type { AssetItemProps } from "../../atoms/asset-list-item/types";
 import type { DropdownOption } from "../../atoms/dropdown/types";
 import type { AdvancedCurrencyFieldOption } from "./types";
 import AssetItem from "../../atoms/asset-list-item/AssetItem.vue";
-import { h } from "vue";
+import Button from "../../atoms/button/Button.vue";
+import { h, ref } from "vue";
 
 type AssetOption = AdvancedCurrencyFieldOption & Pick<AssetItemProps, "abbreviation" | "price">;
 
@@ -67,5 +68,52 @@ export const WithError: Story = {
     class: "w-[400px]",
     isError: true,
     errorMsg: "Some error text"
+  }
+};
+
+const collaterals = ["USDC", "SOL", "ATOM"];
+
+export const LabelActions: Story = {
+  render: (args) => ({
+    components: { AdvancedFormControl, Button },
+    setup() {
+      const picked = ref(collaterals[0]);
+      return { args, collaterals, picked };
+    },
+    template: `
+      <AdvancedFormControl v-bind="args">
+        <template #label>Collateral</template>
+        <template #label-actions>
+          <div
+            role="group"
+            aria-label="Collateral"
+            class="flex flex-wrap gap-2"
+          >
+            <Button
+              v-for="ticker in collaterals"
+              :key="ticker"
+              :label="ticker"
+              severity="tertiary"
+              size="medium"
+              :class="{ active: ticker === picked }"
+              :aria-pressed="ticker === picked ? 'true' : 'false'"
+              @click="picked = ticker"
+            />
+          </div>
+        </template>
+      </AdvancedFormControl>
+    `
+  }),
+  args: {
+    class: "w-[400px]",
+    labelAdvanced: true,
+    label: undefined,
+    tooltip: undefined,
+    balanceLabel: "Balance",
+    selectedCurrencyOption: {
+      value: "usdc",
+      label: "USDC",
+      balance: { value: "2500", ticker: "USDC", customLabel: "2,500.00" }
+    }
   }
 };

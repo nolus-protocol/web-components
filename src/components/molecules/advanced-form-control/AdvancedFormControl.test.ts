@@ -1,9 +1,11 @@
 import { mount, type VueWrapper } from "@vue/test-utils";
+import { computeAccessibleName } from "dom-accessibility-api";
 import { afterEach, describe, expect, it } from "vitest";
 import { h, nextTick, type VNode } from "vue";
 
 import Tooltip from "../../atoms/tooltip/Tooltip.vue";
 import AdvancedFormControl from "./AdvancedFormControl.vue";
+import type { AdvancedCurrencyFieldOption } from "./types";
 
 let wrapper: VueWrapper | null = null;
 
@@ -46,7 +48,15 @@ describe("AdvancedFormControl error message", () => {
   });
 });
 
-type FieldProps = { positive?: boolean; value?: string; tooltip?: string; label?: string; labelAdvanced?: boolean };
+type FieldProps = {
+  positive?: boolean;
+  value?: string;
+  tooltip?: string;
+  label?: string;
+  labelAdvanced?: boolean;
+  balanceLabel?: string;
+  selectedCurrencyOption?: AdvancedCurrencyFieldOption;
+};
 
 function mountField(props: FieldProps = {}, slots: Record<string, () => VNode[]> = {}) {
   wrapper = mount(AdvancedFormControl, {
@@ -229,5 +239,98 @@ describe("AdvancedFormControl label", () => {
 
     expect(clicks()).toBe(0);
     expect(document.body.textContent).toContain("Help text");
+  });
+});
+
+const collateral = () => [h("span", "Collateral")];
+
+const chips = () => [
+  h("div", { role: "group", "aria-label": "Collateral" }, [
+    h("button", { type: "button", class: "active", "aria-pressed": "true" }, "USDC"),
+    h("button", { type: "button", "aria-pressed": "false" }, "SOL")
+  ])
+];
+
+const usdc: AdvancedCurrencyFieldOption = {
+  value: "usdc",
+  label: "USDC",
+  balance: { value: "2500", ticker: "USDC" }
+};
+
+function fieldLabel() {
+  return wrapper!.get("label[for='amount']").element;
+}
+
+function chip(text: string) {
+  const button = wrapper!.findAll("button").find((node) => node.text() === text);
+  if (!button) {
+    throw new Error(`no button reads ${text}`);
+  }
+  return button;
+}
+
+describe("AdvancedFormControl label actions", () => {
+  it("renders the actions beside the label on the label line, outside the label", () => {
+    mountField(
+      { labelAdvanced: true, balanceLabel: "Balance", selectedCurrencyOption: usdc },
+      { label: collateral, "label-actions": chips }
+    );
+    const label = fieldLabel();
+    const group = wrapper!.get("[role='group']").element;
+    const balance = textNode("2500 USDC").element;
+    let line = label.parentElement;
+    while (line && !line.contains(balance)) {
+      line = line.parentElement;
+    }
+
+    expect(label.contains(group)).toBe(false);
+    expect(label.compareDocumentPosition(group) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(label.nextElementSibling?.contains(group)).toBe(true);
+    expect(line?.contains(group)).toBe(true);
+    expect(line?.contains(field())).toBe(false);
+  });
+
+  it("does not render the actions without labelAdvanced", () => {
+    mountField({ label: "Amount" }, { "label-actions": chips });
+
+    expect(wrapper!.find("[role='group']").exists()).toBe(false);
+    expect(wrapper!.text()).not.toContain("USDC");
+  });
+
+  it("keeps the label text as the input's accessible name", () => {
+    mountField({ labelAdvanced: true }, { label: collateral, "label-actions": chips });
+
+    expect(computeAccessibleName(field())).toBe("Collateral");
+  });
+
+  it("keeps a click on an action away from the label and the input", async () => {
+    mountField({ labelAdvanced: true }, { label: collateral, "label-actions": chips });
+    const clicks = countInputClicks();
+    let labelClicks = 0;
+    fieldLabel().addEventListener("click", () => {
+      labelClicks += 1;
+    });
+    await chip("SOL").trigger("click");
+
+    expect(labelClicks).toBe(0);
+    expect(clicks()).toBe(0);
+    expect(document.activeElement).not.toBe(field());
+  });
+
+  it("keeps the label, its tooltip and the balance of a field without actions", async () => {
+    mountField(
+      { labelAdvanced: true, tooltip: "Help text", balanceLabel: "Balance", selectedCurrencyOption: usdc },
+      { label: collateral }
+    );
+    const label = fieldLabel();
+
+    expect(label.textContent).toContain("Collateral");
+    expect(label.querySelector("[data-tooltip-trigger]")).not.toBeNull();
+    expect(computeAccessibleName(field())).toContain("Collateral");
+
+    await textNode("2500 USDC").trigger("click");
+
+    expect(emitted()).toEqual(["2500"]);
+    expect(field().value).toBe("2,500");
   });
 });

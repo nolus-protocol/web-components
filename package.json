@@ -61,6 +61,7 @@
     "@vue/language-core": "^3.3.12",
     "@vue/test-utils": "^2.5.1",
     "@vue/tsconfig": "^0.8.1",
+    "dom-accessibility-api": "^0.6.3",
     "eslint": "^10.10.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-vue": "^10.11.0",
