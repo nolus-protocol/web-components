@@ -3,6 +3,7 @@ import { computeAccessibleName } from "dom-accessibility-api";
 import { afterEach, describe, expect, it } from "vitest";
 import { h, nextTick, type VNode } from "vue";
 
+import Dropdown from "../../atoms/dropdown/Dropdown.vue";
 import Tooltip from "../../atoms/tooltip/Tooltip.vue";
 import AdvancedFormControl from "./AdvancedFormControl.vue";
 import type { AdvancedCurrencyFieldOption } from "./types";
@@ -55,6 +56,7 @@ type FieldProps = {
   label?: string;
   labelAdvanced?: boolean;
   balanceLabel?: string;
+  hideBalance?: boolean;
   selectedCurrencyOption?: AdvancedCurrencyFieldOption;
 };
 
@@ -332,5 +334,28 @@ describe("AdvancedFormControl label actions", () => {
 
     expect(emitted()).toEqual(["2500"]);
     expect(field().value).toBe("2,500");
+  });
+});
+
+describe("AdvancedFormControl label line without actions", () => {
+  it("keeps the label a direct child of the line, between the picker and the balance", () => {
+    mountField(
+      { labelAdvanced: true, tooltip: "Help text", balanceLabel: "Balance", selectedCurrencyOption: usdc },
+      { label: collateral }
+    );
+    const label = fieldLabel();
+    const balance = textNode("2500 USDC").element.parentElement;
+    const line = label.parentElement!;
+
+    expect([...line.children]).toEqual([wrapper!.findComponent(Dropdown).element, label, balance]);
+    expect(line.lastElementChild).toBe(balance);
+    expect(line.lastElementChild?.textContent).toContain("2500 USDC");
+  });
+
+  it("keeps the label the line's last child when the balance is hidden", () => {
+    mountField({ labelAdvanced: true, hideBalance: true }, { label: collateral });
+    const label = fieldLabel();
+
+    expect([...label.parentElement!.children]).toEqual([wrapper!.findComponent(Dropdown).element, label]);
   });
 });
