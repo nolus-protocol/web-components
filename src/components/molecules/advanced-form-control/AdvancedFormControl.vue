@@ -32,23 +32,33 @@
         :placeholder="pickerPlacehodler"
         class="min-w-[135px]"
       />
-      <label
+      <div
         v-if="labelAdvanced"
-        :for="id"
-        class="flex items-center gap-1 text-16 font-semibold text-typography-default"
-        @click="ignoreTooltipClick"
+        :class="$slots['label-actions'] ? 'mr-3 flex flex-1 flex-wrap items-center gap-x-3 gap-y-2' : 'contents'"
       >
-        <slot name="label"></slot>
-        <Tooltip
-          v-if="tooltip && tooltip.length > 0"
-          :content="tooltip"
+        <label
+          :for="id"
+          class="flex items-center gap-1 text-16 font-semibold text-typography-default"
+          @click="ignoreTooltipClick"
         >
-          <span
-            class="mb-1 flex h-4 w-4 items-center justify-center rounded-full bg-icon-default text-10 text-typography-inverted"
-            >?</span
+          <slot name="label"></slot>
+          <Tooltip
+            v-if="tooltip && tooltip.length > 0"
+            :content="tooltip"
           >
-        </Tooltip>
-      </label>
+            <span
+              class="mb-1 flex h-4 w-4 items-center justify-center rounded-full bg-icon-default text-10 text-typography-inverted"
+              >?</span
+            >
+          </Tooltip>
+        </label>
+        <div
+          v-if="$slots['label-actions']"
+          class="max-w-full"
+        >
+          <slot name="label-actions"></slot>
+        </div>
+      </div>
       <div
         v-if="!hideBalance"
         class="flex flex-col gap-2 text-14 font-normal text-typography-default md:flex-row"
