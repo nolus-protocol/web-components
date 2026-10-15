@@ -117,3 +117,11 @@ export const LabelActions: Story = {
     }
   }
 };
+
+export const BalanceRow: Story = {
+  render: LabelActions.render,
+  args: {
+    ...LabelActions.args,
+    balanceRow: true
+  }
+};
