@@ -71,6 +71,14 @@ export const WithError: Story = {
   }
 };
 
+export const WithLongError: Story = {
+  args: {
+    class: "w-[320px]",
+    isError: true,
+    errorMsg: "Enter at least 40 USDC: the position size is below the protocol minimum for this market"
+  }
+};
+
 const collaterals = ["USDC", "SOL", "ATOM"];
 
 export const LabelActions: Story = {
