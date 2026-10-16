@@ -144,3 +144,38 @@ export const WithButtons: Story = {
     classList: "!block opacity-100"
   }
 };
+
+export const StickyFooter: Story = {
+  render: (args) => ({
+    setup() {
+      const dialogRef = ref<InstanceType<typeof Dialog> | null>(null);
+      const rows = Array.from({ length: 40 }, (_, index) => `Activity row ${index + 1}`);
+      onMounted(() => dialogRef.value?.show());
+      return { args, dialogRef, rows };
+    },
+    components: { Dialog, Button },
+    template: `
+      <Dialog v-bind="args" ref="dialogRef">
+          <template #content>
+            <ul class="flex flex-col gap-3 px-6 pb-6 text-typography-default">
+              <li v-for="row in rows" :key="row">{{ row }}</li>
+            </ul>
+          </template>
+          <template #footer>
+            <Button
+              class="w-full"
+              label="Download CSV"
+              severity="primary"
+              size="large"
+            />
+          </template>
+      </Dialog>
+    `
+  }),
+  args: {
+    title: "Export",
+    showClose: true,
+    stickyFooter: true,
+    classList: "md:h-fit"
+  } satisfies DialogProps
+};
