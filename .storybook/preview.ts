@@ -2,7 +2,7 @@ import type { Preview } from "@storybook/vue3";
 import { withThemeByClassName } from "@storybook/addon-themes";
 
 import "../src/assets/styles/theme.css";
-import "../src/assets/styles/index.scss";
+import "./preview.scss";
 
 const customViewports = {
   iphone14: {

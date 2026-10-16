@@ -1,0 +1,7 @@
+@use "sass:meta";
+
+// The webapp layers this stylesheet under Tailwind's utilities; loaded unlayered it would win,
+// and `.field-wrapper { display: flex }` would show the picker `hidden` takes off a labelAdvanced field.
+@layer components {
+  @include meta.load-css("../src/assets/styles/index.scss");
+}
