@@ -10,12 +10,12 @@
       :class="[classes]"
       class="relative flex items-center justify-between gap-2 rounded-xl py-2.5 ps-3 pe-2 text-sm text-static-light shadow-xl md:ps-5"
     >
-      <div class="flex items-center gap-2 text-sm font-normal">
+      <div class="flex items-start gap-2 text-sm font-normal">
         <SvgIcon
           :default-color="false"
           :name="props.icon || defaultIcon"
-          size="s"
-          class="shrink-0"
+          size="xs"
+          class="mt-0.5 shrink-0"
         />
         <slot></slot>
       </div>

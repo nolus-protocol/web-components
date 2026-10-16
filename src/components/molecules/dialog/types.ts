@@ -5,4 +5,5 @@ export interface DialogProps {
   showClose?: boolean;
   disableClose?: boolean;
   classList?: string;
+  stickyFooter?: boolean;
 }

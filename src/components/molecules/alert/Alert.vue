@@ -2,24 +2,17 @@
   <div
     v-if="showAlert"
     :class="[classes]"
-    class="relative flex items-center gap-4 rounded-xl p-3"
+    class="relative flex items-start gap-2 rounded-xl p-3"
   >
-    <div>
-      <i
-        v-if="type === AlertType.error"
-        class="icon icon-close flex h-[32px] w-[32px] items-center justify-center rounded-full bg-icon-error text-[22px] leading-none text-error-muted"
-      ></i>
-      <i
-        v-if="type === AlertType.success"
-        class="icon icon-success flex h-[32px] w-[32px] items-center justify-center rounded-full bg-icon-success text-[22px] leading-none text-success-muted"
-      ></i>
-      <InformationCircle
-        v-if="type === AlertType.info"
-        class="fill-icon-link"
-      />
-      <InformationTriangle
-        v-if="type === AlertType.warning"
-        class="fill-icon-warning"
+    <div
+      :class="[title ? 'h-5.5' : 'h-5']"
+      class="flex shrink-0 items-center"
+    >
+      <SvgIcon
+        :name="icon.name"
+        :size="title ? 'm' : 'xs'"
+        :default-color="false"
+        :class="[icon.tone]"
       />
     </div>
     <div class="flex flex-col text-left text-14 font-normal text-typography-default">
@@ -40,9 +33,9 @@
 
 <script lang="ts" setup>
 import { computed, ref } from "vue";
+import SvgIcon from "@/components/atoms/svg-icon/SvgIcon.vue";
+import type { IconNames } from "@/components/atoms/svg-icon/types";
 import { AlertType, type IAlert } from "./types";
-import InformationCircle from "../../../assets/icons/information-circle.svg";
-import InformationTriangle from "../../../assets/icons/information-triangle.svg";
 
 const props = defineProps<IAlert>();
 
@@ -54,6 +47,15 @@ const classes = computed(() => ({
   "bg-success-muted": props.type === AlertType.success,
   "bg-info-muted": props.type === AlertType.info
 }));
+
+const icons: Readonly<Record<AlertType, Readonly<{ name: IconNames; tone: string }>>> = {
+  [AlertType.error]: { name: "circle-x", tone: "fill-icon-error" },
+  [AlertType.success]: { name: "check-solid", tone: "fill-icon-success" },
+  [AlertType.info]: { name: "info", tone: "fill-icon-link" },
+  [AlertType.warning]: { name: "warning", tone: "fill-typography-warning" }
+};
+
+const icon = computed(() => icons[props.type]);
 
 const onCloseAlert = () => {
   if (props.onClose) {

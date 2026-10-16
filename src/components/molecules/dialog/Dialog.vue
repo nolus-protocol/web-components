@@ -66,6 +66,7 @@
             <slot name="content" />
             <div
               v-if="$slots.footer"
+              :class="{ 'max-md:sticky max-md:bottom-0 max-md:bg-neutral-bg-2': stickyFooter }"
               class="border-t border-border-default p-6"
             >
               <slot name="footer" />

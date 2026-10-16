@@ -98,3 +98,79 @@ export const Success: Story = {
     title: "Success title"
   }
 };
+
+export const UntitledWarning: Story = {
+  render: (args) => ({
+    data() {
+      return { args };
+    },
+    components: { Alert },
+    template: `
+      <Alert v-bind="args">
+        <template v-slot:content>
+          You will be prompted for a second signature after the first transaction is finalized.
+        </template>
+      </Alert>
+    `
+  }),
+  args: {
+    type: AlertType.warning
+  }
+};
+
+export const UntitledError: Story = {
+  render: (args) => ({
+    data() {
+      return { args };
+    },
+    components: { Alert },
+    template: `
+      <Alert v-bind="args">
+        <template v-slot:content>
+          You will be prompted for a second signature after the first transaction is finalized.
+        </template>
+      </Alert>
+    `
+  }),
+  args: {
+    type: AlertType.error
+  }
+};
+
+export const UntitledInfo: Story = {
+  render: (args) => ({
+    data() {
+      return { args };
+    },
+    components: { Alert },
+    template: `
+      <Alert v-bind="args">
+        <template v-slot:content>
+          You will be prompted for a second signature after the first transaction is finalized.
+        </template>
+      </Alert>
+    `
+  }),
+  args: {
+    type: AlertType.info
+  }
+};
+
+export const UntitledSuccess: Story = {
+  render: (args) => ({
+    data() {
+      return { args };
+    },
+    components: { Alert },
+    template: `
+      <Alert v-bind="args">
+        <template v-slot:content>
+          You will be prompted for a second signature after the first transaction is finalized.
+        </template>
+      </Alert>
+    `
+  }),
+  args: {
+    type: AlertType.success
+  }
+};

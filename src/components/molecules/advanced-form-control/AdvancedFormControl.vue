@@ -115,12 +115,13 @@
     >
       <div
         v-if="errorMsg?.length"
-        class="flex items-center gap-1 overflow-hidden text-14 text-typography-error"
+        class="flex items-start gap-2 overflow-hidden text-14 text-typography-error"
       >
         <SvgIcon
-          size="s"
+          size="xs"
           name="warning"
-          class="fill-typography-error"
+          :default-color="false"
+          class="mt-0.5 shrink-0 fill-typography-error"
         />
         <Transition
           name="error"

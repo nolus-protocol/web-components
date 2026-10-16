@@ -1,9 +1,10 @@
 import { mount, type VueWrapper } from "@vue/test-utils";
 import { computeAccessibleName } from "dom-accessibility-api";
-import { afterEach, describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import { h, nextTick, type VNode } from "vue";
 
 import Dropdown from "../../atoms/dropdown/Dropdown.vue";
+import SvgIcon from "../../atoms/svg-icon/SvgIcon.vue";
 import Tooltip from "../../atoms/tooltip/Tooltip.vue";
 import AdvancedFormControl from "./AdvancedFormControl.vue";
 import type { AdvancedCurrencyFieldOption } from "./types";
@@ -46,6 +47,38 @@ describe("AdvancedFormControl error message", () => {
     await control.setProps({ errorMsg: "" });
 
     expect(control.find(".error-leave-active").text()).toBe("Insufficient balance");
+  });
+});
+
+describe("AdvancedFormControl error row", () => {
+  it("draws a 16px warning icon in the error tone on the message's first line", async () => {
+    const control = mountWithError("Insufficient balance");
+    const row = control.findAll("span").find(message("Insufficient balance"))!.element.parentElement;
+    const icon = control.findAllComponents(SvgIcon).find((candidate) => candidate.element.parentNode === row)!;
+    const svg = await vi.waitFor(() => icon.get("svg").element);
+
+    expect(icon.props()).toMatchObject({ name: "warning", size: "xs", defaultColor: false });
+    expect(svg.getAttribute("width")).toBe("16");
+    expect([...svg.classList]).toEqual(expect.arrayContaining(["fill-typography-error", "mt-0.5", "shrink-0"]));
+    expect(svg.classList).not.toContain("fill-icon-default");
+    expect(svg.parentElement).toBe(row);
+  });
+
+  it("aligns the row to its top with 8px between the icon and the message", () => {
+    const control = mountWithError("Insufficient balance");
+    const row = control.findAll("span").find(message("Insufficient balance"))!.element.parentElement!;
+
+    expect([...row.classList]).toEqual(expect.arrayContaining(["items-start", "gap-2"]));
+    expect(row.classList).not.toContain("items-center");
+  });
+
+  it("keeps the message a direct child of the only element in the error tone", () => {
+    const control = mountWithError("Insufficient balance");
+    const toned = control.findAll(".text-typography-error");
+
+    expect(toned).toHaveLength(1);
+    expect(toned[0]!.element.tagName).toBe("DIV");
+    expect(toned[0]!.findAll(":scope > span").filter(message("Insufficient balance"))).toHaveLength(1);
   });
 });
 
