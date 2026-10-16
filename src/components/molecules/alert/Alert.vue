@@ -33,9 +33,9 @@
 
 <script lang="ts" setup>
 import { computed, ref } from "vue";
-import { AlertType, type IAlert } from "./types";
 import SvgIcon from "@/components/atoms/svg-icon/SvgIcon.vue";
 import type { IconNames } from "@/components/atoms/svg-icon/types";
+import { AlertType, type IAlert } from "./types";
 
 const props = defineProps<IAlert>();
 
@@ -48,7 +48,7 @@ const classes = computed(() => ({
   "bg-info-muted": props.type === AlertType.info
 }));
 
-const icons: Record<AlertType, { name: IconNames; tone: string }> = {
+const icons: Readonly<Record<AlertType, Readonly<{ name: IconNames; tone: string }>>> = {
   [AlertType.error]: { name: "circle-x", tone: "fill-icon-error" },
   [AlertType.success]: { name: "check-solid", tone: "fill-icon-success" },
   [AlertType.info]: { name: "info", tone: "fill-icon-link" },

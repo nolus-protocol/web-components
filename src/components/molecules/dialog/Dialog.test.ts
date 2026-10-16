@@ -15,7 +15,7 @@ afterEach(() => {
 
 const STICKY = ["max-md:sticky", "max-md:bottom-0", "max-md:bg-neutral-bg-2"];
 
-async function openFooter(stickyFooter?: boolean) {
+async function openFooter({ stickyFooter }: { stickyFooter?: boolean }) {
   wrapper = mount(Dialog, {
     props: { title: "Export", stickyFooter },
     slots: { content: "<p>Rows</p>", footer: "<button>Download CSV</button>" },
@@ -29,14 +29,14 @@ async function openFooter(stickyFooter?: boolean) {
 
 describe("Dialog footer", () => {
   it("stays at the bottom of the phone sheet, opaque, with stickyFooter", async () => {
-    const footer = await openFooter(true);
+    const footer = await openFooter({ stickyFooter: true });
 
     expect([...footer.classList]).toEqual(expect.arrayContaining(STICKY));
     expect(footer.parentElement!.lastElementChild).toBe(footer);
   });
 
   it.each([undefined, false])("scrolls with the content when stickyFooter is %j", async (stickyFooter) => {
-    const footer = await openFooter(stickyFooter);
+    const footer = await openFooter({ stickyFooter });
 
     expect([...footer.classList].filter((name) => STICKY.includes(name))).toEqual([]);
     expect([...footer.classList]).toEqual(["border-t", "border-border-default", "p-6"]);

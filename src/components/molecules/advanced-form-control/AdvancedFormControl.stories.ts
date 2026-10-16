@@ -73,7 +73,7 @@ export const WithError: Story = {
 
 export const WithLongError: Story = {
   args: {
-    class: "w-[320px]",
+    class: "w-80",
     isError: true,
     errorMsg: "Enter at least 40 USDC: the position size is below the protocol minimum for this market"
   }

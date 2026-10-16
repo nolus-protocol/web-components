@@ -1,7 +1,7 @@
 import { mount, type VueWrapper } from "@vue/test-utils";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
-import SvgIcon from "../../atoms/svg-icon/SvgIcon.vue";
+import SvgIcon from "@/components/atoms/svg-icon/SvgIcon.vue";
 import Alert from "./Alert.vue";
 import { AlertType } from "./types";
 

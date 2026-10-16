@@ -1,8 +1,8 @@
 import { mount, type VueWrapper } from "@vue/test-utils";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
-import SvgIcon from "../../atoms/svg-icon/SvgIcon.vue";
-import type { IconNames } from "../../atoms/svg-icon/types";
+import SvgIcon from "@/components/atoms/svg-icon/SvgIcon.vue";
+import type { IconNames } from "@/components/atoms/svg-icon/types";
 import Toast from "./Toast.vue";
 import { ToastType } from "./types";
 
@@ -20,7 +20,6 @@ function mountToast(type: ToastType, icon?: IconNames) {
   return wrapper;
 }
 
-// The row holding the message text, and the icon drawn in it.
 async function messageRow(toast: VueWrapper) {
   const row = toast
     .findAll("div")
