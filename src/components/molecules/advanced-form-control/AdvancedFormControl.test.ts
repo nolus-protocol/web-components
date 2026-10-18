@@ -341,6 +341,17 @@ describe("AdvancedFormControl label actions", () => {
     expect(computeAccessibleName(field())).toBe("Collateral");
   });
 
+  it("does not activate the input when the label beside the actions is clicked", async () => {
+    mountField({ labelAdvanced: true }, { label: collateral, "label-actions": chips });
+    const clicks = countInputClicks();
+    await textNode("Collateral").trigger("click");
+    await wrapper!.get("label[for='amount']").trigger("click");
+
+    expect(clicks()).toBe(0);
+    expect(document.activeElement).not.toBe(field());
+    expect(computeAccessibleName(field())).toBe("Collateral");
+  });
+
   it("keeps a click on an action away from the label and the input", async () => {
     mountField({ labelAdvanced: true }, { label: collateral, "label-actions": chips });
     const clicks = countInputClicks();
