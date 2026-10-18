@@ -40,7 +40,7 @@
         <label
           :for="id"
           class="flex items-center gap-1 text-16 font-semibold text-typography-default"
-          @click="ignoreTooltipClick"
+          @click="onAdvancedLabelClick"
         >
           <slot name="label"></slot>
           <Tooltip
@@ -135,7 +135,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, h, onMounted, ref, watch, type FunctionalComponent } from "vue";
+import { computed, h, onMounted, ref, useSlots, watch, type FunctionalComponent } from "vue";
 import { Dropdown, Tooltip, SvgIcon } from "@/components";
 import type { AdvancedCurrencyFieldOption, AdvancedCurrencyFieldProps } from "./types";
 import { InputType, type DropdownOption } from "@/components/types";
@@ -176,6 +176,7 @@ const props = withDefaults(defineProps<AdvancedCurrencyFieldProps<DropdownOption
   balanceRow: false,
   type: InputType.text
 });
+const slots = useSlots();
 
 const numberValue = ref(props.value);
 let lastValidDisplay = numberValue.value ?? "";
@@ -256,6 +257,15 @@ const ignoreTooltipClick = (event: MouseEvent) => {
   if (label instanceof HTMLElement && trigger && label.contains(trigger)) {
     event.preventDefault();
   }
+};
+
+// Beside its actions the label is no tap target: a tap aimed at a button that lands on the label would raise the soft keyboard.
+const onAdvancedLabelClick = (event: MouseEvent) => {
+  if (slots["label-actions"]) {
+    event.preventDefault();
+    return;
+  }
+  ignoreTooltipClick(event);
 };
 
 const onUpdateCurrency = (value: AdvancedCurrencyFieldOption) => {
