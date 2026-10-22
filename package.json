@@ -1,6 +1,6 @@
 {
   "name": "web-components",
-  "version": "4.8.1",
+  "version": "4.9.0",
   "private": false,
   "sideEffects": [
     "*.vue",
