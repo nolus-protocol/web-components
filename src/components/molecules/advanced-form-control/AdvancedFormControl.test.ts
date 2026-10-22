@@ -92,6 +92,8 @@ type FieldProps = {
   hideBalance?: boolean;
   balanceRow?: boolean;
   errorMsg?: string;
+  calculatedBalance?: string;
+  disabledInputField?: boolean;
   selectedCurrencyOption?: AdvancedCurrencyFieldOption;
 };
 
@@ -544,5 +546,38 @@ describe("AdvancedFormControl balance row", () => {
     expect([...line.children]).toEqual([picker]);
     expect([...row.children].map((span) => span.textContent?.trim())).toEqual(["Balance", "2500 USDC"]);
     expect(row.nextElementSibling).toBe(amountBlock());
+  });
+});
+
+describe("AdvancedFormControl amount block", () => {
+  it("focuses the input when the USD line under it is clicked", async () => {
+    mountField({ calculatedBalance: "$2,500.00" });
+    await textNode("$2,500.00").trigger("click");
+
+    expect(document.activeElement).toBe(field());
+  });
+
+  it("focuses the input when the block around it is clicked", async () => {
+    mountField({ calculatedBalance: "$2,500.00" });
+    await wrapper!.get("input").element.parentElement!.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+
+    expect(document.activeElement).toBe(field());
+  });
+
+  it("does nothing on a click on the USD line while the input is disabled", async () => {
+    mountField({ calculatedBalance: "$2,500.00", disabledInputField: true });
+    const focus = vi.spyOn(field(), "focus");
+    await textNode("$2,500.00").trigger("click");
+
+    expect(focus).not.toHaveBeenCalled();
+    expect(document.activeElement).not.toBe(field());
+  });
+
+  it("leaves a click on the input itself to the browser", async () => {
+    mountField({ calculatedBalance: "$2,500.00" });
+    const focus = vi.spyOn(field(), "focus");
+    await wrapper!.get("input").trigger("click");
+
+    expect(focus).not.toHaveBeenCalled();
   });
 });
