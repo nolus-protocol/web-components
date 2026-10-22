@@ -17,7 +17,7 @@
         >
       </Tooltip>
     </label>
-    <div class="flex items-center justify-between">
+    <div class="flex flex-wrap items-center justify-between gap-y-2">
       <Dropdown
         :id="id"
         :class="{ hidden: labelAdvanced }"
@@ -55,19 +55,19 @@
         </label>
         <div
           v-if="$slots['label-actions']"
-          class="max-w-full"
+          class="relative z-1 max-w-full"
         >
           <slot name="label-actions"></slot>
         </div>
       </LabelGroup>
       <div
         v-if="!hideBalance && !balanceRow"
-        class="flex flex-col gap-2 text-14 font-normal text-typography-default md:flex-row"
+        class="ml-auto flex gap-2 text-14 font-normal whitespace-nowrap text-typography-default"
       >
         <span v-if="balanceLabel">{{ balanceLabel }}</span>
         <span
           v-if="selectedToken?.balance"
-          class="cursor-pointer text-typography-link"
+          class="relative cursor-pointer text-typography-link before:absolute before:inset-x-[min(0px,calc(50%-22px))] before:inset-y-[calc(50%-22px)] before:content-['']"
           @click="setBalance"
         >
           {{ balanceAmount }}
@@ -81,15 +81,20 @@
       <span v-if="balanceLabel">{{ balanceLabel }}</span>
       <span
         v-if="selectedToken?.balance"
-        class="cursor-pointer text-typography-link"
+        class="relative cursor-pointer text-typography-link before:absolute before:inset-x-[min(0px,calc(50%-22px))] before:inset-y-[calc(50%-22px)] before:content-['']"
         @click="setBalance"
       >
         {{ balanceAmount }}
       </span>
     </div>
-    <div class="flex flex-col">
+    <div
+      class="relative flex flex-col"
+      :class="{ 'cursor-text': !disabledInputField }"
+      @click="focusAmount"
+    >
       <input
         :id="id"
+        ref="amountInput"
         v-model="numberValue"
         :disabled="disabledInputField"
         :name="name"
@@ -135,7 +140,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, h, onMounted, ref, useSlots, watch, type FunctionalComponent } from "vue";
+import { computed, h, onMounted, ref, useSlots, useTemplateRef, watch, type FunctionalComponent } from "vue";
 import { Dropdown, Tooltip, SvgIcon } from "@/components";
 import type { AdvancedCurrencyFieldOption, AdvancedCurrencyFieldProps } from "./types";
 import { InputType, type DropdownOption } from "@/components/types";
@@ -177,6 +182,7 @@ const props = withDefaults(defineProps<AdvancedCurrencyFieldProps<DropdownOption
   type: InputType.text
 });
 const slots = useSlots();
+const amountInput = useTemplateRef<HTMLInputElement>("amountInput");
 
 const numberValue = ref(props.value);
 let lastValidDisplay = numberValue.value ?? "";
@@ -266,6 +272,15 @@ const onAdvancedLabelClick = (event: MouseEvent) => {
     return;
   }
   ignoreTooltipClick(event);
+};
+
+// A click on the input itself is left to the browser, so the caret lands where the tap did.
+const focusAmount = (event: MouseEvent) => {
+  const input = amountInput.value;
+  if (!input || props.disabledInputField || event.target === input) {
+    return;
+  }
+  input.focus();
 };
 
 const onUpdateCurrency = (value: AdvancedCurrencyFieldOption) => {
