@@ -35,6 +35,14 @@ export const Info: Story = {
   }
 };
 
+export const WithCloseLabel: Story = {
+  ...Info,
+  args: {
+    ...Info.args,
+    closeLabel: "Fermer"
+  }
+};
+
 export const Success: Story = {
   render: (args) => ({
     data() {

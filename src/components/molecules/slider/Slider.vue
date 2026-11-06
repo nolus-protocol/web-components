@@ -100,6 +100,7 @@
             class="flex h-10 w-10 origin-center cursor-pointer items-center justify-center gap-0.5 rounded-full border-2 border-neutral-bg-2 bg-primary-default transition duration-75 ease-out hover:bg-primary-hover active:scale-[115%] active:bg-primary-active"
             draggable="true"
             type="button"
+            :aria-label="thumbLabel"
           >
             <span class="triangle triangle-right bg-white"></span>
             <span class="triangle triangle-left bg-white"></span>
@@ -148,7 +149,8 @@ import Tooltip from "@/components/atoms/tooltip/Tooltip.vue";
 const props = withDefaults(defineProps<RangeProps>(), {
   minPosition: 25,
   maxPosition: 150,
-  disabled: false
+  disabled: false,
+  thumbLabel: "Adjust value"
 });
 
 const emits = defineEmits(["onDrag"]);

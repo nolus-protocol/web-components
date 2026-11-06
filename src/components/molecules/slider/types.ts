@@ -9,6 +9,8 @@ export interface RangeProps {
   disabled?: boolean;
   value?: number;
   tooltipContent?: string;
+  /** Accessible name of the thumb; defaults to "Adjust value", so pass the translated text. */
+  thumbLabel?: string;
   markers?: number[];
   onClickRightLabel?: () => void;
   onClickLeftLabel?: () => void;
