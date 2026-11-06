@@ -28,6 +28,7 @@
           icon="close"
           size="small"
           class="!p-2.5 text-icon-default"
+          :aria-label="closeLabel"
           @click="close"
         />
       </div>
@@ -64,6 +65,7 @@ const disable = ref(false);
 
 const props = withDefaults(defineProps<PopoverProps>(), {
   showClose: false,
+  closeLabel: "Close",
   position: "bottom",
   top: 65,
   fullscreenOnMobile: true

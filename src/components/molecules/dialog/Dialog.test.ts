@@ -1,4 +1,5 @@
 import { mount, type VueWrapper } from "@vue/test-utils";
+import { computeAccessibleName, getRole } from "dom-accessibility-api";
 import { afterEach, describe, expect, it } from "vitest";
 import { nextTick } from "vue";
 
@@ -27,6 +28,12 @@ async function openFooter({ stickyFooter }: { stickyFooter?: boolean }) {
   return button!.parentElement!;
 }
 
+function buttonsNamed(name: string) {
+  return [...document.body.querySelectorAll("*")].filter(
+    (element) => getRole(element) === "button" && computeAccessibleName(element) === name
+  );
+}
+
 describe("Dialog footer", () => {
   it("stays at the bottom of the phone sheet, opaque, with stickyFooter", async () => {
     const footer = await openFooter({ stickyFooter: true });
@@ -40,5 +47,21 @@ describe("Dialog footer", () => {
 
     expect([...footer.classList].filter((name) => STICKY.includes(name))).toEqual([]);
     expect([...footer.classList]).toEqual(["border-t", "border-border-default", "p-6"]);
+  });
+});
+
+describe("Dialog close button", () => {
+  it.each([
+    { closeLabel: undefined, name: "Close" },
+    { closeLabel: "Fermer", name: "Fermer" }
+  ])("is the native button named $name when closeLabel is $closeLabel", async ({ closeLabel, name }) => {
+    wrapper = mount(Dialog, {
+      props: { title: "Export", showClose: true, closeLabel },
+      attachTo: document.body
+    });
+    (wrapper.vm as unknown as { show: () => void }).show();
+    await nextTick();
+
+    expect(buttonsNamed(name).map((element) => element.tagName)).toEqual(["BUTTON"]);
   });
 });
