@@ -1,4 +1,5 @@
 import { mount, type VueWrapper } from "@vue/test-utils";
+import { computeAccessibleName, getRole } from "dom-accessibility-api";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { nextTick } from "vue";
 
@@ -47,6 +48,12 @@ async function moveTo(clientX: number, afterMs: number) {
 
 async function grabHandle(clientX: number) {
   await wrapper?.get("button[draggable]").trigger("mousedown", { clientX });
+}
+
+function buttonsNamed(name: string) {
+  return [...document.body.querySelectorAll("*")].filter(
+    (element) => getRole(element) === "button" && computeAccessibleName(element) === name
+  );
 }
 
 describe("Slider tooltip tilt", () => {
@@ -100,5 +107,16 @@ describe("Slider tooltip tilt", () => {
     await nextTick();
 
     expect(tilt()).toBe(0);
+  });
+});
+
+describe("Slider thumb", () => {
+  it.each([
+    { thumbLabel: undefined, name: "Adjust value" },
+    { thumbLabel: "Repay amount", name: "Repay amount" }
+  ])("is the native button named $name when thumbLabel is $thumbLabel", async ({ thumbLabel, name }) => {
+    await wrapper?.setProps({ thumbLabel });
+
+    expect(buttonsNamed(name)).toEqual([wrapper?.get("button[draggable]").element]);
   });
 });

@@ -16,7 +16,8 @@ const meta = {
     midPosition: { control: "number" },
     maxPosition: { control: "number" },
     disabled: { control: "boolean" },
-    value: { control: "number" }
+    value: { control: "number" },
+    thumbLabel: { control: "text" }
   },
   args: {} // default value
 } satisfies Meta<typeof Slider>;
@@ -45,6 +46,14 @@ export const Primary: Story = {
     maxPosition: 150,
     disabled: false,
     value: undefined
+  }
+};
+
+export const WithThumbLabel: Story = {
+  ...Primary,
+  args: {
+    ...Primary.args,
+    thumbLabel: "Repay amount"
   }
 };
 

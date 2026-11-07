@@ -10,6 +10,8 @@ export enum ToastType {
 export interface IToast {
   type: ToastType;
   undoBtnProps?: ButtonProps;
+  /** Accessible name of the close button; defaults to "Close", so pass the translated text. */
+  closeLabel?: string;
   icon?: IconNames;
   timeout?: number;
   onClose?: () => void;

@@ -79,6 +79,14 @@ export const WithClose: Story = {
   }
 };
 
+export const WithCloseLabel: Story = {
+  ...WithClose,
+  args: {
+    ...WithClose.args,
+    closeLabel: "Fermer"
+  }
+};
+
 export const WithButtons: Story = {
   render: (args) => ({
     data() {

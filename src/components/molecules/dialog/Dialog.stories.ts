@@ -69,6 +69,14 @@ export const WithClose: Story = {
   } satisfies DialogProps
 };
 
+export const WithCloseLabel: Story = {
+  ...WithClose,
+  args: {
+    ...WithClose.args,
+    closeLabel: "Fermer"
+  } satisfies DialogProps
+};
+
 export const WithTabs: Story = {
   render: (args) => ({
     setup() {

@@ -1,4 +1,5 @@
 import { mount, type VueWrapper } from "@vue/test-utils";
+import { computeAccessibleName, getRole } from "dom-accessibility-api";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
 import SvgIcon from "@/components/atoms/svg-icon/SvgIcon.vue";
@@ -31,6 +32,12 @@ async function messageRow(toast: VueWrapper) {
   return { row, icon, svg };
 }
 
+function buttonsNamed(name: string) {
+  return [...document.body.querySelectorAll("*")].filter(
+    (element) => getRole(element) === "button" && computeAccessibleName(element) === name
+  );
+}
+
 describe("Toast message row", () => {
   it.each([
     [ToastType.info, "info"],
@@ -55,5 +62,16 @@ describe("Toast message row", () => {
 
     expect([...row.classList]).toEqual(expect.arrayContaining(["items-start", "gap-2"]));
     expect(row.classList).not.toContain("items-center");
+  });
+});
+
+describe("Toast close button", () => {
+  it.each([
+    { closeLabel: undefined, name: "Close" },
+    { closeLabel: "Fermer", name: "Fermer" }
+  ])("is the native button named $name when closeLabel is $closeLabel", ({ closeLabel, name }) => {
+    wrapper = mount(Toast, { props: { type: ToastType.info, closeLabel }, attachTo: document.body });
+
+    expect(buttonsNamed(name).map((element) => element.tagName)).toEqual(["BUTTON"]);
   });
 });

@@ -41,6 +41,7 @@
           }"
           severity="tertiary"
           size="small"
+          :aria-label="closeLabel"
           @click="onCloseAlert"
         >
           <SvgIcon
@@ -61,7 +62,9 @@ import { type IToast, ToastType } from "./types";
 import { Button } from "@/components";
 import SvgIcon from "@/components/atoms/svg-icon/SvgIcon.vue";
 
-const props = defineProps<IToast>();
+const props = withDefaults(defineProps<IToast>(), {
+  closeLabel: "Close"
+});
 
 const showToast = ref(true);
 let timer: ReturnType<typeof setTimeout> | null = null;

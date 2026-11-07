@@ -32,7 +32,7 @@
             icon="close"
             size="small"
             class="!p-2.5 text-icon-default"
-            aria-label="Close"
+            :aria-label="closeLabel"
             @click="close"
           />
         </header>
@@ -91,7 +91,9 @@ const radioRefs = ref<InstanceType<typeof Radio>[]>([]);
 
 import type { DialogProps } from "./types";
 
-const props = withDefaults(defineProps<DialogProps>(), {});
+const props = withDefaults(defineProps<DialogProps>(), {
+  closeLabel: "Close"
+});
 
 const emit = defineEmits(["close-dialog", "change-tab"]);
 const disable = ref(false);

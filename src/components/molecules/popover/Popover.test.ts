@@ -1,4 +1,5 @@
 import { flushPromises, mount } from "@vue/test-utils";
+import { computeAccessibleName, getRole } from "dom-accessibility-api";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { defineComponent, h, inject, nextTick, onMounted } from "vue";
 
@@ -41,6 +42,12 @@ function mountPopover(props: Partial<PopoverProps> = {}) {
     return found.element;
   };
   return { popover, trigger, panelButton };
+}
+
+function buttonsNamed(name: string) {
+  return [...document.body.querySelectorAll("*")].filter(
+    (element) => getRole(element) === "button" && computeAccessibleName(element) === name
+  );
 }
 
 function pressEscape() {
@@ -376,5 +383,19 @@ describe("Popover phone sheet height", () => {
     expect(root.style.maxHeight).toBe("");
     expect(root.classList.contains("md:max-h-[calc(100%-65px)]")).toBe(true);
     expect(root.classList.contains("max-h-[calc(100%-65px)]")).toBe(false);
+  });
+});
+
+describe("Popover close button", () => {
+  it.each([
+    { closeLabel: undefined, name: "Close" },
+    { closeLabel: "Fermer", name: "Fermer" }
+  ])("is the native button named $name when closeLabel is $closeLabel", async ({ closeLabel, name }) => {
+    const { popover } = mountPopover({ title: "Account", showClose: true, closeLabel });
+
+    popover.vm.show();
+    await nextTick();
+
+    expect(buttonsNamed(name).map((element) => element.tagName)).toEqual(["BUTTON"]);
   });
 });
